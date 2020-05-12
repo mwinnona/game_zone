@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('category')->nullable();
             $table->float('price')->nullable();
             $table->string('image', 115)->nullable();
+            $table->date('release_date')->nullable();
             $table->boolean('status')->default(1);
             $table->string('token_product',115)->nullable();
             $table->timestamps();
