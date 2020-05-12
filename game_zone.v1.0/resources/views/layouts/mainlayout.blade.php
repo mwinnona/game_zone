@@ -48,7 +48,7 @@
 					</ul>
 					<ul class="header-links pull-right">
 						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-						<li><a href="#"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
+						<li><a href="{{url('/profile')}}"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
 					</ul>
 				</div>
 			</div>
@@ -244,7 +244,7 @@
 							<div class="footer">
 								<h3 class="footer-title">Servicios</h3>
 								<ul class="footer-links">
-									<li><a href="#">Mi cuenta</a></li>
+									<li><a href="{{url('/profile')}}">Mi cuenta</a></li>
 									<li><a href="#">Ver carrito</a></li>
 									<li><a href="#">Lista de deseos</a></li>
 									<li><a href="#">Seguir mi orden</a></li>
