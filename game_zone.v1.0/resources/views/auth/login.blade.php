@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
     
-                                <button type="submit" class="btn-rounded btn btn-primary btn-block mt-2">
+                                <button type="submit" class="btn-rounded btn primary-btn btn-block mt-2">
                                     {{ __('Login') }}
                                 </button>
                                     @if (Route::has('password.request'))
