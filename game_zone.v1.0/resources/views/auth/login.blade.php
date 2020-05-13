@@ -31,25 +31,23 @@
 
 </head>
 <body style="background-color: black" class="align-content-center">
-    <br>
-    <div class="container-fluid m-5 p-5">
-        <div class="auth-layout-wrap" style="background-image: url(images/bg-login.jpg)">
-            <div class="auth-content">
-                <div class="card center">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="p-4">
-                                <div class="header-logo">
-                                    <a href="#" class="logo">
-                                        <img src="./img/logo.png" alt="">
-                                    </a>
-                                </div>
-                                <h1 class="mb-3 text-18">{{ __('Login') }}</h1>
+	<div class="container-fluid m-5 p-5">
+		<br>
+		<div class="container-fluid col-lg-4 rounded" style="background-color: white">
+			<div class="col-lg-6 center-block">
+				<div class="header-logo">
+					<a href="#" class="logo">
+						<img src="./img/logo.png" alt="">
+					</a>
+				</div>
+			</div>
+                                
+                                
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <div class="form-group">
                                         <label for="email">{{ __('E-Mail Address') }}</label>
-                                        <input id="email" type="email" class="form-control form-control-rounded @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                        <input id="email" type="email" class="form-control form-control-rounded @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Ingresar email" autofocus>
                                         @if(isset($error))                      
                                             <span role="alert">
                                                 <strong>{{ $error}}</strong>
@@ -63,7 +61,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="password">{{ __('Password') }}</label>
-                                        <input id="password" type="password" class="form-control form-control-rounded  @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                        <input id="password" type="password" class="form-control form-control-rounded  @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Ingresar contraseña">
                                         
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
@@ -83,10 +81,11 @@
                                             </div>
                                         </div>
                                     </div>
-        
-                                    <button type="submit" class="btn-rounded btn primary-btn btn-block mt-2">
-                                        {{ __('Login') }}
-                                    </button>
+                                    
+                                    <div class="form-group">
+                                        <button type="submit" class="btn-rounded btn primary-btn btn-block mt-2">Iniciar Sesión</button>
+                                    </div>
+                                    
                                     
                                         @if (Route::has('password.request'))
                                             <a class="link" href="{{ route('password.request') }}">
@@ -98,14 +97,7 @@
                             
                             </div>
                         </div>
-                        <div class="col-md-6 text-center" style="background-size: cover;background-image: url(images/photo-long-3.jpg)">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                       
 </body>
 </html>
 <script src={{ asset("js/jquery.min.js")}}></script>
