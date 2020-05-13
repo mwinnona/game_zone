@@ -37,7 +37,7 @@
 			<div class="col-lg-6 center-block">
 				<div class="header-logo">
 					<a href="#" class="logo">
-						<img src="./img/logo.png" alt="">
+						<img src="{{ asset("img/logo_gz.png")}}" alt="">
 					</a>
 				</div>
 			</div>
@@ -92,6 +92,7 @@
                                                 {{ __('Forgot Your Password?') }}
                                             </a>
                                         @endif
+                                        <br>
                                         
                                 </form>
                             
