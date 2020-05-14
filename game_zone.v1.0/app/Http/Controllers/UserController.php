@@ -15,17 +15,17 @@ class UserController extends Controller
         $this->middleware('auth');
     }*/
 
-    public function show()
-    {   
-              
-        //$users = Auth::user()->first();
-         return view('users.user');
+    public function show(){ 
+        $users = User::where('id', Auth::user()->id)->first();  
+               
+         return view('users.user', ['users' => $users]);
                
     }
 
     public function createUser(Request $request){
         $token= new TokenController();
         $password = new TokenController();
+        $parameters=[];
         $tmp=[];
         $changes=0;
         if(!$request->name==null){
@@ -101,16 +101,22 @@ class UserController extends Controller
     public function updateUser(Request $request){
         $tmp=[];
         $changes=0;
+        $name = Auth::user()->name;
+        $lastname = Auth::user()->lastname;
         if(!$request->updateName==null){
-            $parameters['name'] = 'required|min:2|max:50';
+            if(!$name == $request->updateName){
+             $parameters['name'] = 'required|min:2|max:50';
             $tmp['name'] = $request->updateName;
-            $changes++;
+            $changes++;   
+            } 
         }
 
         if(!$request->updateLastname==null){
+            if(!$lastname == $request->updateLastname){
             $parameters['lastname'] = 'required|min:2|max:50';
             $tmp['lastname'] = $request->updateLastname;
             $changes++;
+            }
         }
 
         if($request->file('updatePhoto') != null){

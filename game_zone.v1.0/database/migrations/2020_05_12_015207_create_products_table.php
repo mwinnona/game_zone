@@ -18,8 +18,8 @@ class CreateProductsTable extends Migration
             $table->string('name', 115)->nullable();
             $table->string('description', 400)->nullable();
             $table->integer('type_product')->nullable();
-            $table->string('plataform')->nullable();
-            $table->string('gender')->nullable();
+            $table->integer('plataform')->nullable();
+            $table->integer('gender')->nullable();
             $table->float('price')->nullable();
             $table->string('image', 115)->nullable();
             $table->date('release_date')->nullable();
