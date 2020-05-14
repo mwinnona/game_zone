@@ -31,3 +31,8 @@ Auth::routes();
 
 //My account
 Route::get('/profile', 'UserController@show');
+
+
+//Product
+Route::get('/producto', 'ProductController@show');
+Route::post('/crear_producto', 'ProductController@createProduct');
