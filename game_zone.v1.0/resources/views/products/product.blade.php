@@ -206,11 +206,12 @@
 
                     <!-- store products -->
                     <div class="row">
+                        @for ($i=0;$i<count($products);$i++)
                         <!-- product -->
                         <div class="col-md-4 col-xs-6">
                             <div class="product">
                                 <div class="product-img">
-                                    <img src="./img/nioh_2_ps4.jpg" alt="">
+                                    <img src="{{$products[$i]['image']}}" alt="">
                                     <div class="product-label">
                                         <span class="sale">-30%</span>
                                         <span class="new">NEW</span>
@@ -218,8 +219,14 @@
                                 </div>
                                 <div class="product-body">
                                     <p class="product-category">Plataforma</p>
-                                    <h3 class="product-name"><a href="#">Play Station 4</a></h3>
-                                    <h4 class="product-price">$159.90 <del class="product-old-price">$990.00</del></h4>
+                                    @if ($products[$i]['platform']=='0')
+                                        <h3 class="product-name"><a href="#">Play Station 4</a></h3>
+                                    @elseif ($products[$i]['platform']=='1')
+                                        <h3 class="product-name"><a href="#">Xbox</a></h3>
+                                    @else 
+                                        <h3 class="product-name"><a href="#">Nintento Switch</a></h3>
+                                    @endif
+                                    <h4 class="product-price">S/. {{$products[$i]['price']}} <del class="product-old-price">$990.00</del></h4>
                                     <div class="product-rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -230,7 +237,7 @@
                                     <div class="product-btns">
                                         <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                                         <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                        <a class="quick-view" href='{{URL('/modificar_usuarios')}}/"+data.users[i]['token']+"'><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></a>
                                     </div>
                                 </div>
                                 <div class="add-to-cart">
@@ -239,93 +246,10 @@
                             </div>
                         </div>
                         <!-- /product -->
+                        @endfor
 
-                        <!-- product -->
-                        <div class="col-md-4 col-xs-6">
-                            <div class="product">
-                                <div class="product-img">
-                                    <img src="./img/mega_man_zero_zx_zero_1.jpg" alt="">
-                                    <div class="product-label">
-                                        <span class="new">NEW</span>
-                                    </div>
-                                </div>
-                                <div class="product-body">
-                                    <p class="product-category">Plataforma</p>
-                                    <h3 class="product-name"><a href="#">Play Station 4</a></h3>
-                                    <h4 class="product-price">$149.90 <del class="product-old-price">$990.00</del></h4>
-                                    <div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </div>
-                                    <div class="product-btns">
-                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /product -->
 
-                        <div class="clearfix visible-sm visible-xs"></div>
-
-                        <!-- product -->
-                        <div class="col-md-4 col-xs-6">
-                            <div class="product">
-                                <div class="product-img">
-                                    <img src="./img/fifa_20_xbox_one_1.jpg" alt="">
-                                </div>
-                                <div class="product-body">
-                                    <p class="product-category">Plataforma</p>
-                                    <h3 class="product-name"><a href="#">Xbox</a></h3>
-                                    <h4 class="product-price">S/.239.00 <del class="product-old-price">$990.00</del></h4>
-                                    <div class="product-rating">
-                                    </div>
-                                    <div class="product-btns">
-                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /product -->
-
-                        <div class="clearfix visible-lg visible-md"></div>
-
-                        <!-- product -->
-                        <div class="col-md-4 col-xs-6">
-                            <div class="product">
-                                <div class="product-img">
-                                    <img src="./img/naruto_to_boruto_shinobi_strikers_xbox_one.jpg" alt="">
-                                </div>
-                                <div class="product-body">
-                                    <p class="product-category">Plataforma</p>
-                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 class="product-price">S/.59.00 <del class="product-old-price">$990.00</del></h4>
-                                    <div class="product-rating">
-                                    </div>
-                                    <div class="product-btns">
-                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /product -->
+                       
 
                         
                     </div>
@@ -396,9 +320,11 @@
               </button>
               <h2 class="modal-title" id="exampleModalLabel">Detalles del Producto</h2>
             </div>
-            <div class="modal-body">
-                <!--Nuevo Producto-->
-                <form>
+            <form method ="POST" action ="{{url('/crear_producto')}}">
+                @csrf
+                <div class="modal-body">
+                    <!--Nuevo Producto-->
+                
                     <div class="container-fluid">
                         <div class="col-md-12">
                             <div class="product-details">
@@ -412,25 +338,25 @@
                                 </div>
                                 <div class="form-group ">
                                     <label for="name">Nombre Completo del Producto:</label>
-                                    <input class="input" type="text" id="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
+                                    <input class="input" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
                                 </div>
                                 <div class="form-group">
                                     <label for="descripcion">Descripción:</label>
-                                    <textarea class="input" type="text" id="descripcion" placeholder="Describe el producto"></textarea>
+                                    <textarea class="input" type="text" id="description" name="description" placeholder="Describe el producto"></textarea>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-md-4">
                                         <label for="release_Date">Fecha de Lanzamiento:</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input class="input" type="date" id="release_Date" placeholder="">
+                                        <input class="input" type="date" id="release_date" name="release_date" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label>
                                             Plataforma:
-                                            <select class="input-select-3">
+                                            <select class="input-select-3" name="platform">
                                                 <option value="0">Ps4</option>
                                                 <option value="1">Xbox</option>
                                                 <option value="2">Nint. Switch</option>
@@ -440,7 +366,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label>
                                             Género:
-                                            <select class="input-select-3">
+                                            <select class="input-select-3" name="gender">
                                                 <option value="0">Aventura</option>
                                                 <option value="1">Shooters</option>
                                                 <option value="2">Estrategia</option>
@@ -459,14 +385,14 @@
                                         <div class="qty-label">
                                             Stock:
                                             <div class="input-number">
-                                                <input type="number" value="0">
+                                                <input type="number" name="stock" value="10">
                                                 <span class="qty-up">+</span>
                                                 <span class="qty-down">-</span>
                                             </div>
                                         </div>
                                         <div class="qty-label">
                                             Tipo:
-                                            <select class="input-select-2">
+                                            <select class="input-select-2" name="type_product">
                                                 <option value="0">Físico</option>
                                                 <option value="1">Digital</option>
                                             </select>
@@ -476,24 +402,28 @@
                             </div>
                         </div>
                     </div>
-                </form>
-            <div class="modal-footer">
-                <div class="product-details centrar-interno">
-                    <div class="add-to-cart col-md-6">
-                        <button type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Close</button>
+                </div>
+                
+                <div class="modal-footer">
+                    <div class="product-details centrar-interno">
+                        <div class="add-to-cart col-md-6">
+                            <button type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Close</button>
+                        </div>
+                        <div class="add-to-cart col-md-6">
+                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-cloud-upload"></i>Save Changes</button>
+                        </div>
                     </div>
-                    <div class="add-to-cart col-md-6">
-                        <button type="button" class="add-to-cart-btn"><i class="fa fa-cloud-upload"></i>Save Changes</button>
-                    </div>
-                </div>>
-            </div>
+                </div>
+            </form>
 
 
 
           </div>
         </div>
     </div>
-      {{$products}}
+    
+
+    
 @endsection
 @section('plugin')
    

@@ -29,25 +29,25 @@ class UserController extends Controller
         $parameters=[];
         $tmp=[];
         $changes=0;
-        if(!$request->name==null){
+        if(!$request->name =null){
             $parameters['name'] = 'required|min:2|max:50';
             $tmp['name'] = $request->name;
             $changes++;
         }
 
-        if(!$request->lastname==null){
+        if(!$request->lastname =null){
             $parameters['lastname'] = 'required|min:2|max:50';
             $tmp['lastname'] = $request->lastname;
             $changes++;
         }
 
-        if(!$request->email==null){
+        if(!$request->email=null){
             $parameters['email'] = 'required|email';
             $tmp['email']=$request->email;
             $changes++;
         }
 
-        if(!$request->newPassword==null){
+        if(!$request->newPassword=null){
             if($request->newPassword == $request->confirmPassword){
                 $parameters['password'] = 'required|min:8|max:15';
                 $tmp['password']=$request->newPassword;
@@ -105,25 +105,25 @@ class UserController extends Controller
         $name = Auth::user()->name;
         $lastname = Auth::user()->lastname;
         if(!$request->updateName==null){
-            if(!$name == $request->updateName){
+            if(!$name = $request->updateName){
              $parameters['name'] = 'required|min:2|max:50';
             $tmp['name'] = $request->updateName;
             $changes++;   
             } 
         }
 
-        if(!$request->updateLastname==null){
-            if(!$lastname == $request->updateLastname){
+        if(!$request->updateLastname=null){
+            if(!$lastname = $request->updateLastname){
             $parameters['lastname'] = 'required|min:2|max:50';
             $tmp['lastname'] = $request->updateLastname;
             $changes++;
             }
         }
 
-        if($request->file('updatePhoto') != null){
+        /*if(!$request->file('updatePhoto') != null){
             $tmp['photo']=$request->file('updatePhoto');
             $parameters['photo']='mimes:jpeg,bmp,png,jpg';
-        }
+        }*/
 
         $messages = [
             'name.min' => 'El nombre debe tener como mínimo 2 caracteres.',
