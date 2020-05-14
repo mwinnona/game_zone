@@ -67,14 +67,14 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 10px;
 }
 
-a .link {
+a {
   color: #2B2D42;
   font-weight: 500;
   -webkit-transition: 0.2s color;
   transition: 0.2s color;
 }
 
-a:hover .link, a:focus .link {
+a:hover, a:focus {
   color: #D10024;
   text-decoration: none;
   outline: none;
@@ -85,28 +85,6 @@ ul, ol {
   padding: 0;
   list-style: none
 }
-
-.auth-layout-wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-size: cover; }
-  .auth-layout-wrap .auth-content {
-    max-width: 660px;
-    margin: auto; }
-
-  .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    border-radius: 0.25rem; }
 
 /*----------------------------*\
 	Buttons
@@ -211,6 +189,24 @@ textarea.input {
   height: 40px;
 }
 
+.input-select-2 {
+  padding: 0px 5px;
+  background: #FFF;
+  border: 1px solid #E4E7ED;
+  height: 40px;
+}
+.input-select-3 {
+  padding: 0px 3px;
+  background: #FFF;
+  border: 1px solid #E4E7ED;
+  height: 40px;
+}
+
+.centrar-interno {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
 /*-- checkbox & radio input --*/
 
 .input-radio, .input-checkbox {
@@ -511,6 +507,15 @@ textarea.input {
   border-radius: 0px 40px 40px 0px;
 }
 
+.search-btn-all {
+  height: 40px;
+  width: 100px;
+  background: #D10024;
+  color: #FFF;
+  font-weight: 700;
+  border: none;
+  border-radius: 0px 40px 40px 0px;
+}
 /*----------------------------*\
 	Cart
 \*----------------------------*/
@@ -2153,7 +2158,6 @@ textarea.input {
   margin: 15px 0px;
 }
 
-
 /*=========================================================
 	13 -> RESPONSIVE
 ===========================================================*/
@@ -2211,13 +2215,3 @@ textarea.input {
     margin-top: 10px;
   }
 }
-
-@media (min-width: 1024px) {
-  .auth-layout-wrap .auth-content {
-    min-width: 660px; } }
-
-@media (max-width: 767px) {
-  .auth-layout-wrap .auth-content {
-    padding: 15px; }
-  .auth-right {
-    padding: 80px 15px; } }
