@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +14,11 @@
 		
         <!-- Bootstrap -->
         <link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap2.min.css")}}>
-		<link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap.min.css")}}>
-
+        <link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap.min.css")}}>
+        
+        <!-- Plus Style -->
+        <link type="text/css" rel="stylesheet" href={{ asset("css/plus-style.css")}}>
+        
 		<!-- Slick -->
 		<link type="text/css" rel="stylesheet" href={{ asset("css/slick.css")}}>
 		<link type="text/css" rel="stylesheet" href={{ asset("css/slick-theme.css")}}>
@@ -33,8 +36,8 @@
 <body style="background-color: black" class="align-content-center">
 	<div class="container-fluid m-5 p-5">
 		<br>
-		<div class="container-fluid col-lg-4 rounded" style="background-color: white">
-			<div class="col-lg-6 center-block">
+		<div class="container-fluid col-md-pull-3 rounded centrar-interno" style="background-color: white">
+			<div class="col-lg-6 centrar-interno">
 				<div class="header-logo">
 					<a href="#" class="logo">
 						<img src="{{ asset("img/logo_gz.png")}}" alt="">
