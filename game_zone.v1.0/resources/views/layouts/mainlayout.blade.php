@@ -64,7 +64,7 @@
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="#" class="logo">
-									<img src="./img/logo.png" alt="">
+									<img src="./img/logo_gz.png" alt="">
 								</a>
 							</div>
 						</div>
@@ -171,12 +171,12 @@
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Hot Deals</a></li>
-						<li><a href="#">Categories</a></li>
-						<li><a href="#">Laptops</a></li>
-						<li><a href="#">Smartphones</a></li>
-						<li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li>
+						<li><a href="#">Hot Sale</a></li>
+						<li><a href="#">Plataforma</a></li>
+						<li><a href="#">Xbox</a></li>
+						<li><a href="#">PS4</a></li>
+						<li><a href="#">Nintento Switch</a></li>
+						<li><a href="#">Accessorios</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>

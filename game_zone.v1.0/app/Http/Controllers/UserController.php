@@ -16,9 +16,10 @@ class UserController extends Controller
     }*/
 
     public function show(){ 
-        $users = User::where('id', Auth::user()->id)->first();  
+        //$users = User::where('id', Auth::user()->id)->first();  
                
-         return view('users.user', ['users' => $users]);
+        //return view('users.user', ['users' => $users]);
+        return view('users.user');
                
     }
 
