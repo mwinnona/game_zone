@@ -216,11 +216,11 @@
 							<div class="footer">
 								<h3 class="footer-title">Categorias</h3>
 								<ul class="footer-links">
-									<li><a href="#">Hot deals</a></li>
-									<li><a href="#">Laptops</a></li>
-									<li><a href="#">Smartphones</a></li>
-									<li><a href="#">Cameras</a></li>
-									<li><a href="#">Accessories</a></li>
+									<li><a href="#">Hot Sale</a></li>
+									<li><a href="#">Play Station 4</a></li>
+									<li><a href="#">Xbox</a></li>
+									<li><a href="#">Nintento Switch</a></li>
+									<li><a href="#">Accesorios</a></li>
 								</ul>
 							</div>
 						</div>
