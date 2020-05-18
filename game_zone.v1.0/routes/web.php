@@ -36,3 +36,4 @@ Route::get('/profile', 'UserController@show');
 //Product
 Route::get('/producto', 'ProductController@show');
 Route::post('/crear_producto', 'ProductController@createProduct');
+Route::get('/verproducto/{token}', 'ProductController@examinateProduct');
