@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\TokenController;
 use App\Product;
 use Validator;
+
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function show()
-    {        
+    {      
+       
         $products=Product::all();
          return view('products.product', ['products' => $products]);       
     }
