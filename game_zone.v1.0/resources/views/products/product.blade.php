@@ -342,7 +342,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="descripcion">Descripción:</label>
-                                    <textarea class="input" type="text" id="description" name="description" placeholder="Describe el producto"></textarea>
+                                    <textarea class="form-control" type="text" id="description" name="description" placeholder="Describe el producto"></textarea>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-md-4">

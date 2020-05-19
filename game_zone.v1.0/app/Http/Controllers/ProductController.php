@@ -24,7 +24,7 @@ class ProductController extends Controller
         $tmp['name'] = $request->name;
    
         if(!$request->description=null){
-            $parameters['description'] = 'min:15|max:200';
+            $parameters['description'] = 'min:15|max:400';
             $tmp['description'] = $request->description;
         }
 
