@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\TokenController;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -17,9 +18,9 @@ class UserController extends Controller
 
     public function show(){ 
         //$users = User::where('id', Auth::user()->id)->first();  
-               
-        //return view('users.user', ['users' => $users]);
-        return view('users.user');
+        $data= DB::select('call Consult_User()');
+        dd($data);
+        return view('users.user', ['users' => $users]);
                
     }
 
