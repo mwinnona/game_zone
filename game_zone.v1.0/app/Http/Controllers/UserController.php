@@ -18,8 +18,8 @@ class UserController extends Controller
 
     public function show(){ 
         //$users = User::where('id', Auth::user()->id)->first();  
-        $data= DB::select('call Consult_User()');
-        dd($data);
+        $users= DB::select('call Consult_User()');
+        
         return view('users.user', ['users' => $users]);
                
     }
@@ -78,7 +78,9 @@ class UserController extends Controller
             ),200);
         }else{
             if ($changes >0) {
-                $user = new User;
+                $users= DB::select('call Add_User()');
+                return view('users.');
+                /*$user = new User;
                 $user->name = $request->name;
                 $user->lastname = $request->lastname;
                 $user->email = $request->email;
@@ -90,11 +92,12 @@ class UserController extends Controller
                 $user->save();
                 return response()->json(array(
                     'status' => 'ok',
-                    ), 200);
+                    ), 200);*/
             }else{
-                return response()->json(array(
+                /*return response()->json(array(
                     'status' => 'normal',
-                    ), 200);
+                    ), 200);*/
+                return view('users.');
             }
             
         }
@@ -152,8 +155,10 @@ class UserController extends Controller
                     $request->file('updatePhoto')->move('files/users/profiles/credits/', $name_file_credits);
                     $tmp['photo'] = $name_file;
 
-                    User::where('id', Auth::id())
-                        ->update([$tmp]);
+                    /*User::where('id', Auth::id())
+                        ->update([$tmp]);*/
+                    $users= DB::select('call Modify_User()');
+                    return view('users.');
                 }
             }
         }

@@ -12,13 +12,15 @@ class ProductController extends Controller
 {
     public function show()
     {      
-       
-        $products=Product::all();
+        //$products=Product::all();
+        $products= DB::select('call Consult_Product()');
          return view('products.product', ['products' => $products]);       
     }
 
     public function createProduct(Request $request){
         //crear producto No olvidar validar si es necesario.
+        $description= $request->description;
+       
         $token= new TokenController();
         $parameters=[];
         $tmp=[];
@@ -26,11 +28,11 @@ class ProductController extends Controller
         $parameters['name'] = 'required|min:2|max:115';
         $tmp['name'] = $request->name;
    
-        if(!$request->description=null){
+        if($description!=null){
             $parameters['description'] = 'min:15|max:400';
-            $tmp['description'] = $request->description;
+            $tmp['description'] = $description;
         }
-
+        
         $messages = [
             'name.min' => 'El nombre del producto debe tener como mínimo 2 caracteres.',
             'name.max' => 'El nombre del producto debe tener como máximo 115 caracteres.',
@@ -47,7 +49,7 @@ class ProductController extends Controller
                 'e_decription'=> $validar->errors()->first('description')
             ),200);
         }else{
-                $producto = new Product;
+                /*$producto = new Product;
                 $producto->name = $request->name;
                 $producto->description = $request->description;
                 $producto->type_product = $request->type_product;
@@ -61,7 +63,22 @@ class ProductController extends Controller
                 $producto->save();
                 return response()->json(array(
                     'status' => 'ok',
-                    ), 200);   
+                    ), 200);  */
+                    if ($request->file('image') != null) {
+                        $file = $request->file('image');
+                        $file_extension = $file->getClientOriginalExtension();
+                        $aux_file = new TokenController();
+                        $file_name      = $aux_file->randomString(15);
+                        $name_file= $file_name.'.'.$file_extension;
+                        $request->file('updatePhoto')->move('products/', $name_file);
+                        $tmp='products/'.$name_file;
+                    }
+                    $products= DB::select('call Add_Product($request->name,$description,$request->type_product,
+                    $request->plataform, $request->gender, $request->price, $tmp, $request->release_date,$request->status,
+                    $request->stock, $token->randomString(15))');
+                    dd($products);
+                    return view('products.');
+                 
         }
     }
 
@@ -142,14 +159,17 @@ class ProductController extends Controller
             ),200);
         }else{
             if ($changes >0) {
-                
+                /*
                 return response()->json(array(
                     'status' => 'ok',
-                    ), 200);
+                    ), 200);*/
+                $products= DB::select('call Modify_Product()');
+                return view('products.');
             }else{
-                return response()->json(array(
+                /*return response()->json(array(
                     'status' => 'normal',
-                    ), 200);
+                    ), 200);*/
+                return view('products.');
             }
             
         }
