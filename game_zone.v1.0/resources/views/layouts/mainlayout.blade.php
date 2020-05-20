@@ -80,7 +80,7 @@
 										<option value="1">Genero</option>
 									</select>
 									<input class="input" placeholder="Search here">
-									<button class="search-btn">Buscar</button>
+									<button class="search-btn"><a href="{{url('/producto')}}">Buscar</button>
 								</form>
 							</div>
 						</div>
@@ -172,7 +172,7 @@
 					<ul class="main-nav nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
 						<li><a href="#">Hot Sale</a></li>
-						<li><a href="#">Plataforma</a></li>
+						<li><a href="{{url('/producto')}}">Todos los Juegos</a></li>
 						<li><a href="#">Xbox</a></li>
 						<li><a href="#">PS4</a></li>
 						<li><a href="#">Nintento Switch</a></li>

@@ -400,17 +400,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row form-group">
+                                <label>Imagen:</label>
+                                <input type="file" id="image" name="image" maxlength="1000000" accept="image/*">
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="modal-footer">
                     <div class="product-details centrar-interno">
-                        <div class="add-to-cart col-md-6">
-                            <button type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Close</button>
+                        <div class="add-to-cart col-md-12">
+                            <button type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
                         </div>
                         <div class="add-to-cart col-md-6">
-                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-cloud-upload"></i>Save Changes</button>
+                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-cloud-upload"></i>Guardar Cambios</button>
                         </div>
                     </div>
                 </div>
