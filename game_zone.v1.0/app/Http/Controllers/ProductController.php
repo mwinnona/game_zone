@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function createProduct(Request $request){
        
         //crear producto No olvidar validar si es necesario.
-        $description= $request->description;
+        
        
         $token= new TokenController();
         $parameters=[];
@@ -28,10 +28,10 @@ class ProductController extends Controller
         
         $parameters['name'] = 'required|min:2|max:115';
         $tmp['name'] = $request->name;
-   
+        $description= $request->description;
         if($description!=null){
             
-            $parameters['description'] = 'min:2|max:400';
+            $parameters['description'] = 'required|min:2|max:400';
             $tmp['description'] = $description;
             
         }
@@ -110,9 +110,10 @@ class ProductController extends Controller
             $changes++;
         }
 
-        if(!$request->description = $producto_bd->description){
-            $parameters['description'] = 'required|min:15|max:200';
-            $tmp['description'] = $request->description;
+        $description= $request->description;
+        if($description!=null){
+            $parameters['description'] = 'required|min:2|max:400';
+            $tmp['description'] = $description;
             $changes++;
         }
 
@@ -128,36 +129,60 @@ class ProductController extends Controller
 
         $validar = Validator::make($tmp,$parameters,$messages); 
 
-        if(!$request->type_product = $producto_bd->type_product){
+        if(!$request->type_product == $producto_bd->type_product){
             $tmp['type_product'] = $request->type_product;
             $changes++;
+        }else{
+            $request->type_product = $producto_bd->type_product;
         }
 
-        if(!$request->plataform = $producto_bd->plataform){
+        if(!$request->plataform == $producto_bd->plataform){
             $tmp['plataform'] = $request->plataform;
             $changes++;
+        }else{
+            $request->plataform = $producto_bd->plataform;
         }
 
-        if(!$request->gender = $producto_bd->gender){
+        if(!$request->gender == $producto_bd->gender){
             $tmp['gender'] = $request->gender;
             $changes++;
+        }else{
+            $request->gender = $producto_bd->gender;
         }
 
-        if(!$request->status = $producto_bd->status){
+        if(!$request->status == $producto_bd->status){
             $tmp['status'] = $request->status;
             $changes++;
+        }else{
+            $request->status = $producto_bd->status;
         }
 
-        if(!$request->release_date = $producto_bd->release_date){
+        if(!$request->release_date == $producto_bd->release_date){
             $tmp['release_date'] = $request->release_date;
             $changes++;
+        }else{
+            $request->release_date = $producto_bd->release_date;
         }
 
-        if(!$request->price = $producto_bd->price){
+        if(!$request->price == $producto_bd->price){
             $tmp['price'] = $request->price;
             $changes++;
+        }else{
+            $request->price = $producto_bd->price;
         }
 
+        if (!$request->file('image') == null) {
+                        
+            $file = $request->file('image');
+            $file_extension = $file->getClientOriginalExtension();
+            $aux_file = new TokenController();
+            $file_name      = $aux_file->randomString(15);
+            $name_file= $file_name.'.'.$file_extension;
+            $request->file('image')->move('products/', $name_file);
+            $tmp_image='products/'.$name_file;
+        }else{
+            $tmp_image=$producto_bd->image;
+        }
         
         if($validar->fails() ){
             return response()->json(array(
@@ -171,7 +196,10 @@ class ProductController extends Controller
                 return response()->json(array(
                     'status' => 'ok',
                     ), 200);*/
-                $products= DB::select('call Modify_Product()');
+               
+                $data = DB::select("call Modify_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $description, $request->type_product,
+                    $request->platform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
+                    $request->stock));
                 return view('products.');
             }else{
                 /*return response()->json(array(
