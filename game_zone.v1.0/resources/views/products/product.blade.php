@@ -320,7 +320,7 @@
               </button>
               <h2 class="modal-title" id="exampleModalLabel">Detalles del Producto</h2>
             </div>
-            <form method ="POST" action ="{{url('/crear_producto')}}">
+            <form method ="POST" action ="{{url('/crear_producto')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <!--Nuevo Producto-->
@@ -338,73 +338,69 @@
                                     <textarea class="form-control" type="text" id="description" name="description" placeholder="Describe el producto"></textarea>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-md-4">
-                                        <label for="release_Date">Fecha de Lanzamiento:</label>
+                                    <div class="col-md-6">
+                                        <label for="price">Precio:</label>
+                                        <input class="input" type="number" id="price" name="price" value="99.9">
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-6"><label for="release_Date">Lanzamiento:</label>
                                         <input class="input" type="date" id="release_date" name="release_date" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label for="platform">Plataforma:</label>
+                                        <select class="input-select-3" name="platform" id="platform">
+                                            <option value="0">Ps4</option>
+                                            <option value="1">Xbox</option>
+                                            <option value="2">Nint. Switch</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6"><label for="gender">Género:</label>
+                                        <select class="input-select-3" name="gender" id="gender">
+                                            <option value="0">Aventura</option>
+                                            <option value="1">Shooters</option>
+                                            <option value="2">Estrategia</option>
+                                            <option value="3">Lucha</option>
+                                            <option value="4">RPG</option>
+                                            <option value="5">ARPG</option>
+                                            <option value="6">Plataformas</option>
+                                            <option value="7">Survival Horror</option>
+                                            <option value="8">Simulación</option>
+                                        </select>
                                     </div>
                                 </div>
                                 
                                 <div class="row form-group text-left">
                                     <div class="col-md-6">
-                                        <label>
-                                            Plataforma:
-                                            <select class="input-select-3" name="platform">
-                                                <option value="0">Ps4</option>
-                                                <option value="1">Xbox</option>
-                                                <option value="2">Nint. Switch</option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>
-                                            Género:
-                                            <select class="input-select-3" name="gender">
-                                                <option value="0">Aventura</option>
-                                                <option value="1">Shooters</option>
-                                                <option value="2">Estrategia</option>
-                                                <option value="3">Lucha</option>
-                                                <option value="4">RPG</option>
-                                                <option value="5">ARPG</option>
-                                                <option value="6">Plataformas</option>
-                                                <option value="7">Survival Horror</option>
-                                                <option value="8">Simulación</option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="add-to-cart">
-                                        <div class="col-md-6">
-                                            <div class="qty-label">
-                                                <label>Stock:
-                                                <div class="input-number">
-                                                    <input type="number" name="stock" value="10">
-                                                    <span class="qty-up">+</span>
-                                                    <span class="qty-down">-</span>
-                                                </div>
-                                                </label>
+                                        <div class="row">
+                                            <div class="col-md-4">  
+                                                <label for="stock">Stock:</label>
+                                            </div>
+                                            <div class="col-md-8">  
+                                                <input class="input" type="number" id="stock" name="stock" value="10">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="qty-label">
-                                                <label>Tipo:
-                                                    <select class="input-select-3 " name="type_product">
-                                                        <option value="0">Físico</option>
-                                                        <option value="1">Digital</option>
-                                                    </select>
-                                                </label>
-                                            </div>	
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-4">  
+                                            <label for="type_product">Tipo:</label>
+                                        </div>
+                                        <div class="col-md-8">  
+                                            <select class="input-select-3 " name="type_product" id="type_product">
+                                                <option value="0">Físico</option>
+                                                <option value="1">Digital</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+                                
+                                
+                                
                                 
                             </div>
                             <div class="row form-group">
-                                <label>Imagen:</label>
+                                <label for="image">Imagen:</label>
                                 <input type="file" id="image" name="image" maxlength="1000000" accept="image/*">
                             </div>
                         </div>

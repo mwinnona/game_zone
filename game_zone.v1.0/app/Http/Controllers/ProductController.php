@@ -18,6 +18,7 @@ class ProductController extends Controller
     }
 
     public function createProduct(Request $request){
+       
         //crear producto No olvidar validar si es necesario.
         $description= $request->description;
        
@@ -29,8 +30,10 @@ class ProductController extends Controller
         $tmp['name'] = $request->name;
    
         if($description!=null){
-            $parameters['description'] = 'min:15|max:400';
+            
+            $parameters['description'] = 'min:2|max:400';
             $tmp['description'] = $description;
+            
         }
         
         $messages = [
@@ -64,19 +67,23 @@ class ProductController extends Controller
                 return response()->json(array(
                     'status' => 'ok',
                     ), 200);  */
-                    if ($request->file('image') != null) {
+                   
+                    if (!$request->file('image') == null) {
+                        
                         $file = $request->file('image');
                         $file_extension = $file->getClientOriginalExtension();
                         $aux_file = new TokenController();
                         $file_name      = $aux_file->randomString(15);
                         $name_file= $file_name.'.'.$file_extension;
-                        $request->file('updatePhoto')->move('products/', $name_file);
-                        $tmp='products/'.$name_file;
+                        $request->file('image')->move('products/', $name_file);
+                        $tmp_image='products/'.$name_file;
                     }
-                    $products= DB::select('call Add_Product($request->name,$description,$request->type_product,
-                    $request->plataform, $request->gender, $request->price, $tmp, $request->release_date,$request->status,
-                    $request->stock, $token->randomString(15))');
-                    dd($products);
+                    $status=0;
+                    
+                    $data = DB::select("call Add_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $description, $request->type_product,
+                    $request->platform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
+                    $request->stock, $token->randomString(15)));
+                   
                     return view('products.');
                  
         }
