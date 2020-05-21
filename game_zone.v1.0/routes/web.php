@@ -30,10 +30,11 @@ Auth::routes();
 //Route::get('/home', 'HomeController@index')->name('home');
 
 //My account
+Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/profile', 'UserController@show');
 
 
 //Product
 Route::get('/producto', 'ProductController@show');
 Route::post('/crear_producto', 'ProductController@createProduct');
-Route::get('/verproducto/{token}', 'ProductController@examinateProduct');
+Route::get('/ver_producto/{token}', 'ProductController@examinateProduct');

@@ -49,6 +49,9 @@
 					<ul class="header-links pull-right">
 						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
 						<li><a href="{{url('/profile')}}"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
+						@if (isset(Auth::user()->id))
+							<li><a href="{{url('logout')}}"><i class="fa fa-user-o"></i> Logout</a></li>
+						@endif
 					</ul>
 				</div>
 			</div>

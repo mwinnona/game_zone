@@ -17,8 +17,9 @@ class UserController extends Controller
     }*/
 
     public function show(){ 
-        //$users = User::where('id', Auth::user()->id)->first();  
-        $users= DB::select('call Consult_User()');
+        
+        $users = User::where('id', Auth::user()->id)->first();  
+        //$users= DB::select('call Consult_User()');
         
         return view('users.user', ['users' => $users]);
                
@@ -30,25 +31,25 @@ class UserController extends Controller
         $parameters=[];
         $tmp=[];
         $changes=0;
-        if(!$request->name =null){
+        if(!$request->name ==null){
             $parameters['name'] = 'required|min:2|max:50';
             $tmp['name'] = $request->name;
             $changes++;
         }
 
-        if(!$request->lastname =null){
+        if(!$request->lastname ==null){
             $parameters['lastname'] = 'required|min:2|max:50';
             $tmp['lastname'] = $request->lastname;
             $changes++;
         }
 
-        if(!$request->email=null){
+        if(!$request->email==null){
             $parameters['email'] = 'required|email';
             $tmp['email']=$request->email;
             $changes++;
         }
 
-        if(!$request->newPassword=null){
+        if(!$request->newPassword==null){
             if($request->newPassword == $request->confirmPassword){
                 $parameters['password'] = 'required|min:8|max:15';
                 $tmp['password']=$request->newPassword;
@@ -78,7 +79,10 @@ class UserController extends Controller
             ),200);
         }else{
             if ($changes >0) {
-                $users= DB::select('call Add_User()');
+               $status=0;
+               $photo='users/default.png';
+                $data = DB::select("call Add_User(?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $request->lastname, $request->email,
+                 $status, $request->typeUser, Hash::make($request->newPassword), $photo, $token->randomString(15)));
                 return view('users.');
                 /*$user = new User;
                 $user->name = $request->name;
@@ -102,18 +106,24 @@ class UserController extends Controller
             
         }
     }
+    
+   
+
 
     public function updateUser(Request $request){
         $tmp=[];
         $changes=0;
-        $name = Auth::user()->name;
-        $lastname = Auth::user()->lastname;
+        $user_bd= User::where('token_user', Auth::user()->token_user)->first();
+        $name = $user_bd->name;
+        $lastname = $user_bd->lastname;
         if(!$request->updateName==null){
             if(!$name = $request->updateName){
              $parameters['name'] = 'required|min:2|max:50';
             $tmp['name'] = $request->updateName;
             $changes++;   
             } 
+        }else{
+            $request->updateName=$name;
         }
 
         if(!$request->updateLastname=null){
@@ -122,14 +132,28 @@ class UserController extends Controller
             $tmp['lastname'] = $request->updateLastname;
             $changes++;
             }
+        }else{
+            $request->updateLastname=$lastname ;
         }
 
+        if(!$request->email==null){
+            $parameters['email'] = 'required|email';
+            $tmp['email']=$request->email;
+            $changes++;
+        }else{
+            $request->email=$user_bd->email;
+        }
+
+       
         /*if(!$request->file('updatePhoto') != null){
             $tmp['photo']=$request->file('updatePhoto');
             $parameters['photo']='mimes:jpeg,bmp,png,jpg';
         }*/
 
         $messages = [
+            
+            'email.required' =>'El email es obligatorio.',
+            'email.email' =>'El correo no tiene el formato correcto.',
             'name.min' => 'El nombre debe tener como mínimo 2 caracteres.',
             'name.max' => 'El nombre debe tener como máximo 50 caracteres.',
             'name.required' => 'El nombre es obligatorio.'
@@ -152,14 +176,18 @@ class UserController extends Controller
                     $aux_file = new TokenController();
                     $file_name      = $aux_file->randomString(15);
                     $name_file= $file_name.'.'.$file_extension;
-                    $request->file('updatePhoto')->move('files/users/profiles/credits/', $name_file_credits);
+                    $request->file('updatePhoto')->move('files/users/profiles/credits/', $name_file);
                     $tmp['photo'] = $name_file;
 
                     /*User::where('id', Auth::id())
                         ->update([$tmp]);*/
-                    $users= DB::select('call Modify_User()');
-                    return view('users.');
+                    
+                }else{
+                    $request->updatePhoto=$user_bd->photo;
                 }
+                $users= DB::select('call Modify_User(?, ?, ?, ?, ?)', array($user_bd->token, $request->updateName, $request->updateLastname, $request->email, $request->updatePhoto));
+                
+                    return view('users.');
             }
         }
 

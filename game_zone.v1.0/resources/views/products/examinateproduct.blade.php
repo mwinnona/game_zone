@@ -12,7 +12,8 @@
 @endsection
 
 @section('content')
-    Aqui va el contenido del producto
+    Aqui va las caracteristicas del producto seleccionado {{$products}}
+    {{$products['name']}}
 @endsection
 @section('plugin')
    

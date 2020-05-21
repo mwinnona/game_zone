@@ -91,7 +91,7 @@ class ProductController extends Controller
     }
 
     public function examinateProduct($token){
-        $products = Product::where('token_product', $token)->first(); 
+        $product = Product::where('token_product', $token)->first(); 
 
         return view('products.examinateproduct', [
             'products' => $product
@@ -197,7 +197,7 @@ class ProductController extends Controller
                     'status' => 'ok',
                     ), 200);*/
                
-                $data = DB::select("call Modify_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $description, $request->type_product,
+                $data = DB::select("call Modify_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->token, $request->name, $description, $request->type_product,
                     $request->platform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
                     $request->stock));
                 return view('products.');

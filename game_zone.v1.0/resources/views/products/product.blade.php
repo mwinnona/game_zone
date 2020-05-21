@@ -237,7 +237,7 @@
                                     <div class="product-btns">
                                         <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                                         <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <a class="quick-view" href='{{URL('/modificar_usuarios')}}/"+data.users[i]['token']+"'><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></a>
+                                        <a class="quick-view" href="{{URL('/ver_producto/'.$products[$i]['token_product'])}}"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></a>
                                     </div>
                                 </div>
                                 <div class="add-to-cart">
