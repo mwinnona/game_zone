@@ -328,14 +328,7 @@
                     <div class="container-fluid">
                         <div class="col-md-12">
                             <div class="product-details">
-                                <div class="row form-group">
-                                    <div class="col-md-6">
-                                        <label for="id_product">Código de Producto:</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input class="input" type="text" id="id_product" placeholder="###############">
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group ">
                                     <label for="name">Nombre Completo del Producto:</label>
                                     <input class="input" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
@@ -352,8 +345,9 @@
                                         <input class="input" type="date" id="release_date" name="release_date" placeholder="">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                
+                                <div class="row form-group text-left">
+                                    <div class="col-md-6">
                                         <label>
                                             Plataforma:
                                             <select class="input-select-3" name="platform">
@@ -363,7 +357,7 @@
                                             </select>
                                         </label>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         <label>
                                             Género:
                                             <select class="input-select-3" name="gender">
@@ -379,26 +373,35 @@
                                             </select>
                                         </label>
                                     </div>
+                                    
                                 </div>
-                                <div class="centrar-interno">
+                                
+                                <div class="row">
                                     <div class="add-to-cart">
-                                        <div class="qty-label">
-                                            Stock:
-                                            <div class="input-number">
-                                                <input type="number" name="stock" value="10">
-                                                <span class="qty-up">+</span>
-                                                <span class="qty-down">-</span>
+                                        <div class="col-md-6">
+                                            <div class="qty-label">
+                                                <label>Stock:
+                                                <div class="input-number">
+                                                    <input type="number" name="stock" value="10">
+                                                    <span class="qty-up">+</span>
+                                                    <span class="qty-down">-</span>
+                                                </div>
+                                                </label>
                                             </div>
                                         </div>
-                                        <div class="qty-label">
-                                            Tipo:
-                                            <select class="input-select-2" name="type_product">
-                                                <option value="0">Físico</option>
-                                                <option value="1">Digital</option>
-                                            </select>
-                                        </div>	
+                                        <div class="col-md-6">
+                                            <div class="qty-label">
+                                                <label>Tipo:
+                                                    <select class="input-select-3 " name="type_product">
+                                                        <option value="0">Físico</option>
+                                                        <option value="1">Digital</option>
+                                                    </select>
+                                                </label>
+                                            </div>	
+                                        </div>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div class="row form-group">
                                 <label>Imagen:</label>
