@@ -2,3 +2,23 @@
 	margin:auto;
 	text-align:center;
 }
+
+.texto-xbox{
+	color: green;
+}
+
+.texto-playStation{
+	color: blue;
+}
+
+.texto-nintendo{
+	color: red;
+}
+
+.texto-normal-red{
+	color: #D10024;
+}
+
+.texto-normal-gray{
+	color: #8D99AE;
+}
