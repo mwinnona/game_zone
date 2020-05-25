@@ -12,8 +12,8 @@ class ProductController extends Controller
 {
     public function show()
     {      
-        $products=Product::all();
-        //$products= DB::select('call Consult_Product()');
+        //$products=Product::all();
+        $products= DB::select('call Consult_Product()');
          return view('products.product', ['products' => $products]);       
     }
 
