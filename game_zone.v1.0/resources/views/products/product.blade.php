@@ -318,7 +318,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-              <h2 class="modal-title" id="exampleModalLabel">Detalles del Producto</h2>
+              <h2 class="modal-title" id="exampleModalLabel">Agregar Producto</h2>
             </div>
             <form method ="POST" action ="{{url('/crear_producto')}}" enctype="multipart/form-data">
                 @csrf
@@ -328,7 +328,6 @@
                     <div class="container-fluid">
                         <div class="col-md-12">
                             <div class="product-details">
-                                
                                 <div class="form-group ">
                                     <label for="name">Nombre Completo del Producto:</label>
                                     <input class="form-control" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
@@ -370,38 +369,25 @@
                                         </select>
                                     </div>
                                 </div>
-                                
-                                <div class="row form-group text-left">
+
+                                <div class="row form-group">
                                     <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-4">  
-                                                <label for="stock">Stock:</label>
-                                            </div>
-                                            <div class="col-md-8">  
-                                                <input class="form-control" type="number" id="stock" name="stock" value="10">
-                                            </div>
-                                        </div>
+                                        <label for="stock">Stock:</label>
+                                        <input class="form-control" type="number" id="stock" name="price" value="10">
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="col-md-4">  
-                                            <label for="type_product">Tipo:</label>
-                                        </div>
-                                        <div class="col-md-8">  
-                                            <select class="form-control" name="type_product" id="type_product">
-                                                <option value="0">Físico</option>
-                                                <option value="1">Digital</option>
-                                            </select>
-                                        </div>
+                                    <div class="col-md-6"><label for="type_product">Tipo::</label>
+                                        <select class="form-control" name="type_product" id="type_product">
+                                            <option value="0">Físico</option>
+                                            <option value="1">Digital</option>
+                                        </select>
                                     </div>
                                 </div>
                                 
-                                
-                                
-                                
-                            </div>
-                            <div class="row form-group">
-                                <label for="image">Imagen:</label>
-                                <input type="file" id="image" name="image" maxlength="1000000" accept="image/*">
+                              
+                                <div class="form-group">
+                                    <label for="image">Imagen:</label>
+                                    <input type="file" id="image" name="image" maxlength="1000000" accept="image/*">
+                                </div>
                             </div>
                         </div>
                     </div>
