@@ -49,40 +49,27 @@ class ProductController extends Controller
                 'e_decription'=> $validar->errors()->first('description')
             ),200);
         }else{
-                /*$producto = new Product;
-                $producto->name = $request->name;
-                $producto->description = $request->description;
-                $producto->type_product = $request->type_product;
-                $producto->plataform = $request->plataform;
-                $producto->gender= $request->gender;
-                $producto->price = $request->price;
-                $producto->release_date = $request->release_date;
-                $producto->status= $request->status;
-                $producto->stock = $request->stock;
-                $producto->token_product=$token->randomString(15);
-                $producto->save();
-                return response()->json(array(
-                    'status' => 'ok',
-                    ), 200);  */
+    
                    
-                    if (!$request->file('image') == null) {
-                        
-                        $file = $request->file('image');
-                        $file_extension = $file->getClientOriginalExtension();
-                        $aux_file = new TokenController();
-                        $file_name      = $aux_file->randomString(15);
-                        $name_file= $file_name.'.'.$file_extension;
-                        $request->file('image')->move('products/', $name_file);
-                        $tmp_image='products/'.$name_file;
-                    }
-                    $status=0;
-                    
-                    $data = DB::select("call Add_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $description, $request->type_product,
-                    $request->platform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
-                    $request->stock, $token->randomString(15)));
+            if (!$request->file('image') == null) {
+                
+                $file = $request->file('image');
+                $file_extension = $file->getClientOriginalExtension();
+                $aux_file = new TokenController();
+                $file_name      = $aux_file->randomString(15);
+                $name_file= $file_name.'.'.$file_extension;
+                $request->file('image')->move('products/', $name_file);
+                $tmp_image='products/'.$name_file;
+            }
+            $status=0;
+            
+            $data = DB::select("call Add_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $description, $request->type_product,
+            $request->platform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
+            $request->stock, $token->randomString(15)));
+            
+                $products=Product::all();
+            return view('products.product', ['products' => $products]); 
                    
-                     $products=Product::all();
-                    return view('products.product', ['products' => $products]); 
                  
         }
     }
