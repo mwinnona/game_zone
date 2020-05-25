@@ -331,7 +331,7 @@
                                 
                                 <div class="form-group ">
                                     <label for="name">Nombre Completo del Producto:</label>
-                                    <input class="input" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
+                                    <input class="form-control" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
                                 </div>
                                 <div class="form-group">
                                     <label for="descripcion">Descripción:</label>
@@ -340,24 +340,24 @@
                                 <div class="row form-group">
                                     <div class="col-md-6">
                                         <label for="price">Precio:</label>
-                                        <input class="input" type="number" id="price" name="price" value="99.9">
+                                        <input class="form-control" type="number" id="price" name="price" value="99.9">
                                     </div>
                                     <div class="col-md-6"><label for="release_Date">Lanzamiento:</label>
-                                        <input class="input" type="date" id="release_date" name="release_date" placeholder="">
+                                        <input class="form-control" type="date" id="release_date" name="release_date" placeholder="">
                                     </div>
                                 </div>
 
                                 <div class="row form-group">
                                     <div class="col-md-6">
                                         <label for="platform">Plataforma:</label>
-                                        <select class="input-select-3" name="platform" id="platform">
+                                        <select class="form-control" name="platform" id="platform">
                                             <option value="0">Ps4</option>
                                             <option value="1">Xbox</option>
                                             <option value="2">Nint. Switch</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6"><label for="gender">Género:</label>
-                                        <select class="input-select-3" name="gender" id="gender">
+                                        <select class="form-control" name="gender" id="gender">
                                             <option value="0">Aventura</option>
                                             <option value="1">Shooters</option>
                                             <option value="2">Estrategia</option>
@@ -378,7 +378,7 @@
                                                 <label for="stock">Stock:</label>
                                             </div>
                                             <div class="col-md-8">  
-                                                <input class="input" type="number" id="stock" name="stock" value="10">
+                                                <input class="form-control" type="number" id="stock" name="stock" value="10">
                                             </div>
                                         </div>
                                     </div>
@@ -387,7 +387,7 @@
                                             <label for="type_product">Tipo:</label>
                                         </div>
                                         <div class="col-md-8">  
-                                            <select class="input-select-3 " name="type_product" id="type_product">
+                                            <select class="form-control" name="type_product" id="type_product">
                                                 <option value="0">Físico</option>
                                                 <option value="1">Digital</option>
                                             </select>
@@ -409,7 +409,7 @@
                 
                 <div class="modal-footer">
                     <div class="product-details centrar-interno">
-                        <div class="add-to-cart col-md-12">
+                        <div class="add-to-cart col-md-6">
                             <button type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
                         </div>
                         <div class="add-to-cart col-md-6">
