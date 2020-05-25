@@ -53,15 +53,15 @@
 					<div class="col-md-6 col-md-push-1">
 						<div class="product-details">
                             <!--Nombre del Producto-->
-							<h2 class="product-name" id="name" name="name">Aqui va el nombre del Prodcuto</h2>
+                        <h2 class="product-name" id="name" name="name">{{$products['name']}}</h2>
 							<div>
                                 <!--Precio del Producto-->
-                                <h3 class="product-price" id="price" name="price">$45.00 <del class="product-old-price">$60.00</del></h3>
+                                <h3 class="product-price" id="price" name="price">S/. {{$products['price']}} <del class="product-old-price">{{$products['price']}}</del></h3>
                                 <!--Producto en stock solo si tiene unidades >=1-->
 								<span class="product-available">In Stock</span>
                             </div>
                             <!--Descripción del Producto-->
-                            <p>Aqui va la descripcion del producto. Aqui va la descripcion del producto.Aqui va la descripcion del producto.Aqui va la descripcion del producto.</p>
+                            <p>{{$products['description']}}</p>
                             
                             <div class="product-options">
                                 <!--Aqui va la plataforma del producto-->
@@ -72,7 +72,14 @@
                                         </div>
                                         <!--cambiar el class="" a (texto-playStation, texto-xbox, texto-nintendo) segun la plataforma-->
                                         <div class="col-md-7">
-                                            <h4 class="texto-playStation" id="platform" name="platform">PS4</h4>
+                                            @if($products['plataform']==0)
+                                                <h4 class="texto-playStation" id="platform" name="platform">PS4</h4>
+                                            @elseif($products['plataform']==1)
+                                                <h4 class="texto-xbox" id="platform" name="platform">Xbox</h4>
+                                            @else
+                                                <h4 class="texto-nintendo" id="platform" name="platform">Nintento</h4>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +90,25 @@
                                             <label>Género: </label>
                                         </div>
                                         <div class="col-md-7">
-                                            <h4 class="texto-normal-gray" id="gender" namae="gender">RPG</h4>
+                                            @if($products['gender']==0)
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Aventura</h4>
+                                            @elseif($products['gender']==1)
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Estrategia</h4>
+                                            @elseif($products['gender']==2)
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Shooters</h4>
+                                            @elseif($products['gender']==3)
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Lucha</h4>
+                                            @elseif($products['gender']==4)
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">RPG</h4>
+                                            @elseif($products['gender']==5)
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">ARPG</h4>
+                                            @elseif($products['gender']==6)
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Plataformas</h4>
+                                            @elseif($products['gender']==7)
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Simulación</h4>
+                                            @else
+                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Survival Horror</h4>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +121,7 @@
                                         <label>Fecha de Lanzamiento: </label>
                                     </div>
                                     <div class="col-md-7">
-                                        <h4 class="texto-normal-gray" id="release_date" name="release_date">27/04/2018</h4>
+                                        <h4 class="texto-normal-gray" id="release_date" name="release_date">{{$products['release_date']}}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +133,7 @@
                                             <label>Stock: </label>
                                         </div>
                                         <div class="col-md-7">
-                                            <h4 class="texto-normal-red">99</h4>
+                                            <h4 class="texto-normal-red">{{$products['stock']}}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +144,11 @@
                                             <label>Tipo: </label>
                                         </div>
                                         <div class="col-md-7">
+                                            @if($products['type_product']==0)
                                             <h4 class="texto-normal-red" id="type_product" name="type_product">Físico</h4>
+                                            @else
+                                            <h4 class="texto-normal-red" id="type_product" name="type_product">Virtual</h4>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -150,9 +179,9 @@
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                  <h2 class="modal-title" id="exampleModalLabel">Detalles del Producto</h2>
+                  <h2 class="modal-title" id="exampleModalLabel">Modificar Producto</h2>
                 </div>
-                <form method ="POST" action ="{{url('/crear_producto')}}" enctype="multipart/form-data">
+                <form method ="POST" action ="{{url('/modificar_producto/'.$products['token_product'])}}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <!--Nuevo Producto-->
@@ -163,33 +192,33 @@
                                     
                                     <div class="form-group ">
                                         <label for="name">Nombre Completo del Producto:</label>
-                                        <input class="input" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
+                                        <input class="form-control" type="text" id="name" name="name" value="{{$products['name']}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="descripcion">Descripción:</label>
-                                        <textarea class="form-control" type="text" id="description" name="description" placeholder="Describe el producto"></textarea>
+                                        <textarea class="form-control" type="text" id="description" name="description" value="{{$products['description']}}"></textarea>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-6">
                                             <label for="price">Precio:</label>
-                                            <input class="input" type="number" id="price" name="price" value="99.9">
+                                            <input class="form-control" type="number" id="price" name="price" value="{{$products['price']}}">
                                         </div>
                                         <div class="col-md-6"><label for="release_Date">Lanzamiento:</label>
-                                            <input class="input" type="date" id="release_date" name="release_date" placeholder="">
+                                            <input class="form-control" type="date" id="release_date" name="release_date" value="{{$products['release_date']}}">
                                         </div>
                                     </div>
     
                                     <div class="row form-group">
                                         <div class="col-md-6">
                                             <label for="platform">Plataforma:</label>
-                                            <select class="input-select-3" name="platform" id="platform">
+                                            <select class="form-control" name="plataform" id="platform">
                                                 <option value="0">Ps4</option>
                                                 <option value="1">Xbox</option>
                                                 <option value="2">Nint. Switch</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6"><label for="gender">Género:</label>
-                                            <select class="input-select-3" name="gender" id="gender">
+                                            <select class="form-control" name="gender" id="gender">
                                                 <option value="0">Aventura</option>
                                                 <option value="1">Shooters</option>
                                                 <option value="2">Estrategia</option>
@@ -202,34 +231,25 @@
                                             </select>
                                         </div>
                                     </div>
-                                    
-                                    <div class="row form-group text-left">
+    
+                                    <div class="row form-group">
                                         <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-md-4">  
-                                                    <label for="stock">Stock:</label>
-                                                </div>
-                                                <div class="col-md-8">  
-                                                    <input class="input" type="number" id="stock" name="stock" value="10">
-                                                </div>
-                                            </div>
+                                            <label for="stock">Stock:</label>
+                                            <input class="form-control" type="number" id="stock" name="price" value="10">
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="col-md-4">  
-                                                <label for="type_product">Tipo:</label>
-                                            </div>
-                                            <div class="col-md-8">  
-                                                <select class="input-select-3 " name="type_product" id="type_product">
-                                                    <option value="0">Físico</option>
-                                                    <option value="1">Digital</option>
-                                                </select>
-                                            </div>
+                                        <div class="col-md-6"><label for="type_product">Tipo:</label>
+                                            <select class="form-control" name="type_product" id="type_product">
+                                                <option value="0">Físico</option>
+                                                <option value="1">Digital</option>
+                                            </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label for="image">Imagen:</label>
-                                    <input type="file" id="image" name="image" maxlength="1000000" accept="image/*">
+                                    
+                                  
+                                    <div class="form-group">
+                                        <label for="image">Imagen:</label>
+                                        <input type="file" id="image" name="image" maxlength="1000000" accept="image/*" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +257,7 @@
                     
                     <div class="modal-footer">
                         <div class="product-details centrar-interno">
-                            <div class="add-to-cart col-md-12">
+                            <div class="add-to-cart col-md-6">
                                 <button type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
                             </div>
                             <div class="add-to-cart col-md-6">

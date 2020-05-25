@@ -134,12 +134,9 @@ class ProductController extends Controller
             $request->gender = $producto_bd->gender;
         }
 
-        if(!$request->status == $producto_bd->status){
-            $tmp['status'] = $request->status;
-            $changes++;
-        }else{
-            $request->status = $producto_bd->status;
-        }
+        
+            $status = $producto_bd->status;
+        
 
         if(!$request->release_date == $producto_bd->release_date){
             $tmp['release_date'] = $request->release_date;

@@ -38,3 +38,4 @@ Route::get('/profile', 'UserController@show');
 Route::get('/producto', 'ProductController@show');
 Route::post('/crear_producto', 'ProductController@createProduct');
 Route::get('/ver_producto/{token}', 'ProductController@examinateProduct');
+Route::get('/modificar_producto/{token}', 'ProductController@examinateProduct');
