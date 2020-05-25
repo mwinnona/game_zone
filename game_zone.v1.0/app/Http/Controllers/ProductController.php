@@ -17,10 +17,7 @@ class ProductController extends Controller
          return view('products.product', ['products' => $products]);       
     }
 
-    public function createProduct(Request $request){
-       
-        //crear producto No olvidar validar si es necesario.
-        
+    public function createProduct(Request $request){     
        
         $token= new TokenController();
         $parameters=[];
