@@ -38,7 +38,7 @@
             <div class="container col-md-6 col-md-push-7">
                 <div class="product-details">
                     <div class="add-to-cart">
-                        <div class="centrar-interno">
+                        <div class="centrar-interno ">
                             <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal">
                                 <i class="fa fa-user-plus">
                                 </i>Registrar Usuario
