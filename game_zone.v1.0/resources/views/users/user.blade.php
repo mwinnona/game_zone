@@ -63,14 +63,14 @@
                 @for($i=0;$i<count($users);$i++)
               <tr>
                 <th class="text-center" scope="row"></th>
-                <td class="text-center" >{{$users[$i]['name']}} {{$users[$i]['lastname']}}</td>
-                <td class="text-center" >{{$users[$i]['email']}}</td>
-                @if($users[$i]['type_user']=='0')
+                <td class="text-center" >{{$users[$i]->name}} {{$users[$i]->lastname}}</td>
+                <td class="text-center" >{{$users[$i]->email}}</td>
+                @if($users[$i]->type_user=='0')
                 <td class="text-center" >Administrador</td>
-                @elseif($users[$i]['type_user']=='1')
+                @elseif($users[$i]->type_user=='1')
                 <td class="text-center" >Asistente</td>
                 @endif
-                @if($users[$i]['status']=='0')
+                @if($users[$i]->status=='0')
                 <td class="text-center" >ACTIVO</td>
                 @else
                 <td class="text-center" >INACTIVO</td>
