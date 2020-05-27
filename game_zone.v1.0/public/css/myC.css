@@ -22,3 +22,10 @@
 .texto-normal-gray{
 	color: #8D99AE;
 }
+
+.nav-vertical {
+	display: block; /* Convertimos los elementos a en elementos bloque para manipular el padding */
+	padding: 20px;
+	color: #fff;
+	text-decoration: none;
+  }

@@ -17,6 +17,14 @@
 		<!-- Bootstrap -->
 		<link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap.min.css")}}>
 
+		<!--
+		<link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap4.css")}}>
+		<link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap4.min.css")}}>
+		<link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap-grid4.css")}}>
+		<link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap-grid4.min.css")}}>
+		<link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap-reboot4.css")}}>
+		<link type="text/css" rel="stylesheet" href={{ asset("css/bootstrap.min.css")}}>-->
+		
 		<!-- Slick -->
 		<link type="text/css" rel="stylesheet" href={{ asset("css/slick.css")}}>
 		<link type="text/css" rel="stylesheet" href={{ asset("css/slick-theme.css")}}>

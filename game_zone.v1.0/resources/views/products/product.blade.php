@@ -9,6 +9,7 @@
    
 @endsection
 
+
 @section('content')
     <div class="section">
         <!-- container -->
@@ -52,10 +53,29 @@
                             
                         </div>
                     </div>
-                    <!-- /aside Widget -->
 
                     <!-- aside Widget -->
                     <div class="aside">
+                        <h3 class="aside-title">Versión</h3>
+                        <div class="checkbox-filter">
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="type-1">
+                                <label for="type-1">
+                                    <span></span>Físico<small></small>
+                                </label>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="type-2">
+                                <label for="type-2">
+                                    <span></span>Digital<small></small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /aside Widget -->
+
+                    <!-- aside Widget -->
+                    <!--<div class="aside">
                         <h3 class="aside-title">Price</h3>
                         <div class="price-filter">
                             <div id="price-slider"></div>
@@ -69,6 +89,38 @@
                                 <input id="price-max" type="number">
                                 <span class="qty-up">+</span>
                                 <span class="qty-down">-</span>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!-- /aside Widget -->
+
+                    <!-- aside Widget -->
+                    <div class="aside">
+                        <h3 class="aside-title">Precios</h3>
+                        <div class="checkbox-filter">
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="price-1">
+                                <label for="price-1">
+                                    <span></span>S/. 0.00 - S/. 9.99<small></small>
+                                </label>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="price-2">
+                                <label for="price-2">
+                                    <span></span>S/. 9.99 - S/. 19.99<small></small>
+                                </label>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="price-3">
+                                <label for="price-3">
+                                    <span></span>S/. 19.99 - S/. 59.99<small></small>
+                                </label>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="price-4">
+                                <label for="price-4">
+                                    <span></span>S/. 59.99 - S/. 99.99<small></small>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -127,24 +179,24 @@
                                 </label>
                             </div>
                             <div class="input-checkbox">
-                                <input type="checkbox" id="brand-6">
-                                <label for="brand-6">
+                                <input type="checkbox" id="brand-7">
+                                <label for="brand-7">
                                     <span></span>
                                     Plaataformas
                                     <small>(755)</small>
                                 </label>
                             </div>
                             <div class="input-checkbox">
-                                <input type="checkbox" id="brand-6">
-                                <label for="brand-6">
+                                <input type="checkbox" id="brand-8">
+                                <label for="brand-8">
                                     <span></span>
                                     Simulacion
                                     <small>(755)</small>
                                 </label>
                             </div>
                             <div class="input-checkbox">
-                                <input type="checkbox" id="brand-6">
-                                <label for="brand-6">
+                                <input type="checkbox" id="brand-9">
+                                <label for="brand-9">
                                     <span></span>
                                     Survival Horror
                                     <small>(755)</small>
@@ -189,7 +241,7 @@
                 <div id="store" class="col-md-9">
                     <!-- store top filter -->
                     <div class="row">
-                        <div class="container col-md-6 col-md-push-8">
+                        <div class="container col-md-6 col-md-push-7">
                             <div class="product-details">
                                 <div class="add-to-cart">
                                     <div class="centrar-interno">
@@ -206,8 +258,12 @@
 
                     <!-- store products -->
                     <div class="row">
+                        @if(count($products)==0)
+                        <h2>No se encontro ningun producto</h2>-
+                        @else
                         @for ($i=0;$i<count($products);$i++)
                         <!-- product -->
+                        @if($products[$i]['price']<=59.99 && $products[$i]['price']>=19.99)
                         <div class="col-md-4 col-xs-6">
                             <div class="product">
                                 <div class="product-img">
@@ -219,9 +275,9 @@
                                 </div>
                                 <div class="product-body">
                                     <p class="product-category">Plataforma</p>
-                                    @if ($products[$i]['platform']=='0')
+                                    @if ($products[$i]['plataform']=='0')
                                         <h3 class="product-name"><a href="#">Play Station 4</a></h3>
-                                    @elseif ($products[$i]['platform']=='1')
+                                    @elseif ($products[$i]['plataform']=='1')
                                         <h3 class="product-name"><a href="#">Xbox</a></h3>
                                     @else 
                                         <h3 class="product-name"><a href="#">Nintento Switch</a></h3>
@@ -234,6 +290,7 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                     </div>
+                                    <h3 class="product-name">{{$products[$i]['name']}}</h3>
                                     <div class="product-btns">
                                         <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                                         <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
@@ -245,11 +302,11 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /product -->
+                        @endif
                         @endfor
+                        @endif
 
-
-                       
+                       <!--<h2>No se encontro ningun producto</h2>-->
 
                         
                     </div>
@@ -373,7 +430,7 @@
                                 <div class="row form-group">
                                     <div class="col-md-6">
                                         <label for="stock">Stock:</label>
-                                        <input class="form-control" type="number" id="stock" name="price" value="10">
+                                        <input class="form-control" type="number" id="stock" name="stock" value="10">
                                     </div>
                                     <div class="col-md-6"><label for="type_product">Tipo::</label>
                                         <select class="form-control" name="type_product" id="type_product">
@@ -396,22 +453,41 @@
                 <div class="modal-footer">
                     <div class="product-details centrar-interno">
                         <div class="add-to-cart col-md-6">
-                            <button type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
+                            <button data-target="#mensaje" type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
                         </div>
                         <div class="add-to-cart col-md-6">
-                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-cloud-upload"></i>Guardar Cambios</button>
+                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-cloud-upload" ></i>Guardar Cambios</button>
                         </div>
                     </div>
                 </div>
             </form>
-
-
-
           </div>
         </div>
     </div>
     
-
+    <!-- Modal -->
+<!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Mensaje de Validación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          El producto ah sido añadido de manera exitosa
+        </div>
+        <div class="modal-footer centrar-interno">
+            <div class="product-details">
+                <div class="add-to-cart col-md-6">
+                    <button data-target="#mensaje" type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
     
 @endsection
 @section('plugin')

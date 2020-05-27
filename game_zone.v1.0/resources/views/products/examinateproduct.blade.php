@@ -24,7 +24,7 @@
 							<li><a href="#">Inicio</a></li>
                             <li><a href="#">Productos</a></li>
                             <!--Aca va el nombre del Producto-->
-							<li class="active">Nombre del Producto</li>
+							<li class="active">{{$products['name']}}</li>
 						</ul>
 					</div>
 				</div>
@@ -44,10 +44,10 @@
 					<div class="col-md-5 text-center">
 						<div id="product-main-img">
 							<div class="product-preview">
-								<img src="https://vignette.wikia.nocookie.net/godofwar/images/1/1b/Portada_God_of_War_%282018%29.jpg/revision/latest?cb=20170614100641&path-prefix=es" alt="">
+                                <img src={{URL::asset($products['image'])}} alt="">
                             </div>
 						</div>
-					</div>
+                    </div>
 
 					<!-- Product details -->
 					<div class="col-md-6 col-md-push-1">
@@ -73,11 +73,11 @@
                                         <!--cambiar el class="" a (texto-playStation, texto-xbox, texto-nintendo) segun la plataforma-->
                                         <div class="col-md-7">
                                             @if($products['plataform']==0)
-                                                <h4 class="texto-playStation" id="platform" name="platform">PS4</h4>
+                                                <h4 class="texto-playStation" id="plataform" name="plataform">PS4</h4>
                                             @elseif($products['plataform']==1)
-                                                <h4 class="texto-xbox" id="platform" name="platform">Xbox</h4>
+                                                <h4 class="texto-xbox" id="plataform" name="plataform">Xbox</h4>
                                             @else
-                                                <h4 class="texto-nintendo" id="platform" name="platform">Nintento</h4>
+                                                <h4 class="texto-nintendo" id="plataform" name="plataform">Nintento</h4>
                                             @endif
 
                                         </div>
@@ -91,23 +91,23 @@
                                         </div>
                                         <div class="col-md-7">
                                             @if($products['gender']==0)
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Aventura</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">Aventura</h4>
                                             @elseif($products['gender']==1)
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Estrategia</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">Estrategia</h4>
                                             @elseif($products['gender']==2)
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Shooters</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">Shooters</h4>
                                             @elseif($products['gender']==3)
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Lucha</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">Lucha</h4>
                                             @elseif($products['gender']==4)
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">RPG</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">RPG</h4>
                                             @elseif($products['gender']==5)
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">ARPG</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">ARPG</h4>
                                             @elseif($products['gender']==6)
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Plataformas</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">Plataformas</h4>
                                             @elseif($products['gender']==7)
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Simulación</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">Simulación</h4>
                                             @else
-                                                <h4 class="texto-normal-gray" id="gender" namae="gender">Survival Horror</h4>
+                                                <h4 class="texto-normal-gray" id="gender" name="gender">Survival Horror</h4>
                                             @endif
                                         </div>
                                     </div>
@@ -147,7 +147,7 @@
                                             @if($products['type_product']==0)
                                             <h4 class="texto-normal-red" id="type_product" name="type_product">Físico</h4>
                                             @else
-                                            <h4 class="texto-normal-red" id="type_product" name="type_product">Virtual</h4>
+                                            <h4 class="texto-normal-red" id="type_product" name="type_product">Digital</h4>
                                             @endif
                                         </div>
                                     </div>
@@ -266,15 +266,32 @@
                         </div>
                     </div>
                 </form>
-    
-    
-    
               </div>
             </div>
         </div>
-    
-    {{$products}}
-    {{$products['name']}}
+
+        <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Mensaje de Validación</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Existen campos vacíos, el producto no se ah modificado.
+                </div>
+                <div class="modal-footer centrar-interno">
+                    <div class="product-details">
+                        <div class="add-to-cart col-md-6">
+                            <button data-target="#mensaje" type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>-->
 @endsection
 @section('plugin')
    
