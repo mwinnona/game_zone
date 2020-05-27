@@ -62,7 +62,7 @@
             <tbody>
                 @for($i=0;$i<count($users);$i++)
               <tr>
-                <th class="text-center" scope="row">{{$i}}</th>
+                <th class="text-center" scope="row"></th>
                 <td class="text-center" >{{$users[$i]['name']}} {{$users[$i]['lastname']}}</td>
                 <td class="text-center" >{{$users[$i]['email']}}</td>
                 @if($users[$i]['type_user']=='0')
@@ -75,7 +75,7 @@
                 @else
                 <td class="text-center" >INACTIVO</td>
                 @endif
-                <th>
+                <!--<th>
                     <div class="product-details">
                         <div class="add-to-cart">
                             <div class="centrar-interno">
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                </th>
+                </th>-->
               </tr>
               @endfor
             </tbody>
