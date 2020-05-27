@@ -263,46 +263,46 @@
                         @else
                         @for ($i=0;$i<count($products);$i++)
                         <!-- product -->
-                        @if($products[$i]['price']<=59.99 && $products[$i]['price']>=19.99)
-                        <div class="col-md-4 col-xs-6">
-                            <div class="product">
-                                <div class="product-img">
-                                    <img src="{{$products[$i]['image']}}" alt="">
-                                    <div class="product-label">
-                                        <span class="sale">-30%</span>
-                                        <span class="new">NEW</span>
+                            @if($products[$i]['price']<=59.99 && $products[$i]['price']>=19.99)
+                            <div class="col-md-4 col-xs-6">
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{$products[$i]['image']}}" alt="">
+                                        <div class="product-label">
+                                            <span class="sale">-30%</span>
+                                            <span class="new">NEW</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product-body">
-                                    <p class="product-category">Plataforma</p>
-                                    @if ($products[$i]['plataform']=='0')
-                                        <h3 class="product-name"><a href="#">Play Station 4</a></h3>
-                                    @elseif ($products[$i]['plataform']=='1')
-                                        <h3 class="product-name"><a href="#">Xbox</a></h3>
-                                    @else 
-                                        <h3 class="product-name"><a href="#">Nintento Switch</a></h3>
-                                    @endif
-                                    <h4 class="product-price">S/. {{$products[$i]['price']}} <del class="product-old-price">$990.00</del></h4>
-                                    <div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                                    <div class="product-body">
+                                        <p class="product-category">Plataforma</p>
+                                        @if ($products[$i]['plataform']=='0')
+                                            <h3 class="product-name"><a href="#">Play Station 4</a></h3>
+                                        @elseif ($products[$i]['plataform']=='1')
+                                            <h3 class="product-name"><a href="#">Xbox</a></h3>
+                                        @else 
+                                            <h3 class="product-name"><a href="#">Nintento Switch</a></h3>
+                                        @endif
+                                        <h4 class="product-price">S/. {{$products[$i]['price']}} <del class="product-old-price">$990.00</del></h4>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <h3 class="product-name">{{$products[$i]['name']}}</h3>
+                                        <div class="product-btns">
+                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                            <a class="quick-view" href="{{URL('/ver_producto/'.$products[$i]['token_product'])}}"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></a>
+                                        </div>
                                     </div>
-                                    <h3 class="product-name">{{$products[$i]['name']}}</h3>
-                                    <div class="product-btns">
-                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <a class="quick-view" href="{{URL('/ver_producto/'.$products[$i]['token_product'])}}"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></a>
+                                    <div class="add-to-cart">
+                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                     </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                 </div>
                             </div>
-                        </div>
-                        @endif
+                            @endif
                         @endfor
                         @endif
 
