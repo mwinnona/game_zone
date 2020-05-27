@@ -263,7 +263,7 @@
                         @else
                         @for ($i=0;$i<count($products);$i++)
                         <!-- product -->
-                        @if($products[$i]['price']<=59.99 && $products[$i]['price']>=19.99)
+                        
                         <div class="col-md-4 col-xs-6">
                             <div class="product">
                                 <div class="product-img">
@@ -302,7 +302,7 @@
                                 </div>
                             </div>
                         </div>
-                        @endif
+                        
                         @endfor
                         @endif
 
