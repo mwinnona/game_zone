@@ -75,7 +75,7 @@
                 @else
                 <td class="text-center" >INACTIVO</td>
                 @endif
-                <!--<th>
+                <th>
                     <div class="product-details">
                         <div class="add-to-cart">
                             <div class="centrar-interno">
