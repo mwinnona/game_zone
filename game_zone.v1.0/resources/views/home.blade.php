@@ -10,7 +10,7 @@
 @section('style')
    
 @endsection
-
+dd
 @section('content')
     Hola mundooo
 @endsection
