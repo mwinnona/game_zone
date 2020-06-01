@@ -34,6 +34,7 @@ Auth::routes();
 //My account
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/profiles', 'UserController@show');
+Route::get('/profile', 'UserController@showAccount');
 
 
 //Product

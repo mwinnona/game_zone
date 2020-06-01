@@ -1,7 +1,7 @@
 
 
 @extends('layouts.mainlayout')
-@section('title', 'GAMEZONE - Mi cuenta') </title>
+@section('title', 'GAMEZONE - Trabajadores') </title>
 
 @section('css')
 @endsection
