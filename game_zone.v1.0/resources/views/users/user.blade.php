@@ -1,7 +1,7 @@
 
 
 @extends('layouts.mainlayout')
-@section('title', 'GAMEZONE - Mi cuenta') </title>
+@section('title', 'GAMEZONE - Trabajadores') </title>
 
 @section('css')
 @endsection
@@ -38,7 +38,7 @@
             <div class="container col-md-6 col-md-push-7">
                 <div class="product-details">
                     <div class="add-to-cart">
-                        <div class="centrar-interno">
+                        <div class="centrar-interno ">
                             <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal">
                                 <i class="fa fa-user-plus">
                                 </i>Registrar Usuario
@@ -63,19 +63,19 @@
                 @for($i=0;$i<count($users);$i++)
               <tr class="hover">
                 <th class="text-center" scope="row"></th>
-                <td class="text-center" >{{$users[$i]['name']}} {{$users[$i]['lastname']}}</td>
-                <td class="text-center" >{{$users[$i]['email']}}</td>
-                @if($users[$i]['type_user']=='0')
+                <td class="text-center" >{{$users[$i]->name}} {{$users[$i]->lastname}}</td>
+                <td class="text-center" >{{$users[$i]->email}}</td>
+                @if($users[$i]->type_user=='0')
                 <td class="text-center" >Administrador</td>
-                @elseif($users[$i]['type_user']=='1')
+                @elseif($users[$i]->type_user=='1')
                 <td class="text-center" >Asistente</td>
                 @endif
-                @if($users[$i]['status']=='0')
+                @if($users[$i]->status=='0')
                 <td class="text-center" >ACTIVO</td>
                 @else
                 <td class="text-center" >INACTIVO</td>
                 @endif
-                <!--<th>
+                <th>
                     <div class="product-details">
                         <div class="add-to-cart">
                             <div class="centrar-interno">

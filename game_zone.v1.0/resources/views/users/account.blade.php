@@ -1,7 +1,5 @@
 @extends('layouts.mainlayout')
-
-
-@section('title', 'GAMEZONE - INDEX') </title>
+@section('title', 'GAMEZONE - Mi cuenta') </title>
 
 @section('css')
 @endsection
@@ -10,9 +8,11 @@
 @section('style')
    
 @endsection
-dd
+
 @section('content')
-    Hola mundooo
+
+
+<!--SECTION-->
 @endsection
 @section('plugin')
    

@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+
+Route::get('/', 'ProductController@show');
 
 Route::get('/main', function () {
     return view('home');
@@ -31,8 +33,8 @@ Auth::routes();
 
 //My account
 Route::get('/logout', 'Auth\LoginController@logout');
-Route::get('/profile', 'UserController@show');
-Route::post('/crear_usuario', 'UserController@createUser');
+Route::get('/profiles', 'UserController@show');
+Route::get('/profile', 'UserController@showAccount');
 
 
 //Product

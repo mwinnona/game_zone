@@ -26,6 +26,14 @@ class UserController extends Controller
                
     }
 
+    public function showAccount(){
+        $users = User::where('id', Auth::user()->id)->first();  
+        //$users= DB::select('call Consult_User()');
+        
+        return view('users.account', ['users' => $users]);
+         
+    }
+
     public function createUser(Request $request){
         $token= new TokenController();
         //$password = new TokenController();
