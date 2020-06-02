@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\MySqlConnection::conection();
 
 class AddTableUser extends Migration
 {
@@ -14,15 +15,18 @@ class AddTableUser extends Migration
      */
     public function up()
     {
-        $sql = <<<FinSP
-            CREATE PROCEDURE C_Table_Users(
-
-            )
-            BEGIN
-                Select id, name, email, password from users;
-            END;
-            $$ LANGUAGE plpgsql;
-        FinSP;
+        $sql = "USE `game_zonedb`;
+        DROP procedure IF EXISTS `Consult_User`;
+        
+        DELIMITER $$
+        USE `game_zonedb`$$
+        CREATE DEFINER=`root`@`localhost` PROCEDURE `Consult_User`(
+        )
+        BEGIN
+            Select id, name, email, password from users;
+        END$$
+        
+        DELIMITER";
         DB::conection()->getPdo()->exec($sql);
     }
 
@@ -33,7 +37,7 @@ class AddTableUser extends Migration
      */
     public function down()
     {
-        $sql="DROP PROCEDURE IF EXISTS C_Table_Users();";
+        $sql="DROP PROCEDURE IF EXISTS Consult_Users();";
         DB::conection()->getPdo()->exec($sql);
     }
 }
