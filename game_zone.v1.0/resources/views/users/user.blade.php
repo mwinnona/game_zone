@@ -12,41 +12,25 @@
 @endsection
 
 @section('content')
-<!-- BREADCRUMB -->
-<div id="breadcrumb" class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li><a href="#">Inicio</a></li>
-                    <li><a href="#">Usuarios</a></li>
-                </ul>
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /BREADCRUMB -->
+
 
 <!--SECTION-->
 <div class="section">
     <div class="container">
         <div class="row">
-            <div class="container col-md-6 col-md-push-7">
-                <div class="product-details">
-                    <div class="add-to-cart">
-                        <div class="centrar-interno ">
-                            <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal">
-                                <i class="fa fa-user-plus">
-                                </i>Registrar Usuario
-                            </button>
+                <div class="col-12">
+                    <div class="product-details">
+                        <div class="add-to-cart">
+                            <div class="centrar-interno ">
+                                <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fa fa-user-plus">
+                                    </i>Registrar Usuario
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            
         </div>
         <table class="table table-bordered">
             <thead>
@@ -76,16 +60,10 @@
                 <td class="text-center" >INACTIVO</td>
                 @endif
                 <th>
-                    <div class="product-details">
-                        <div class="add-to-cart">
-                            <div class="centrar-interno">
-                                <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal2">
-                                    <i class="fa fa-user-plus">
-                                    </i>Administrar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    
+                        <a href="#"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
+                        <a href="#"><span><i class="fa fa-window-close-o" aria-hidden="true"></i></span></a>
+                    
                 </th>-->
               </tr>
               @endfor
@@ -133,11 +111,6 @@
                         <div class="form-group">
                             <label for="repeat_password">Repetir Contraseña:</label>
                             <input class="form-control" type="password" id="repeat_password" name="repeat_password" placeholder="Repita la contraseña">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="image">Fotocheck:</label>
-                            <input type="file" id="image" name="image" maxlength="1000000" accept="image/*">
                         </div>
                     </div>
                 </div>

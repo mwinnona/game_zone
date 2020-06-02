@@ -89,6 +89,8 @@ class UserController extends Controller
                 'e_lastname'=> $validar->errors()->first('lastname'),
                 'e_password' => $validar->errors()->first('password')
             ),200);
+
+            
         }else{
 
             if ($changes >0) {
