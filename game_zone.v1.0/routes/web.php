@@ -32,6 +32,7 @@ Auth::routes();
 //My account
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/profile', 'UserController@show');
+Route::post('/crear_usuario', 'UserController@createUser');
 
 
 //Product

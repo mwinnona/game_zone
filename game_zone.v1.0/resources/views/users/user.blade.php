@@ -61,7 +61,7 @@
             </thead>
             <tbody>
                 @for($i=0;$i<count($users);$i++)
-              <tr>
+              <tr class="hover">
                 <th class="text-center" scope="row"></th>
                 <td class="text-center" >{{$users[$i]['name']}} {{$users[$i]['lastname']}}</td>
                 <td class="text-center" >{{$users[$i]['email']}}</td>
@@ -143,7 +143,6 @@
                 </div>
             </div>
         </div>
-        </form>
         <div class="modal-footer">
             <div class="product-details centrar-interno">
                 <div class="add-to-cart col-md-6">
@@ -154,6 +153,7 @@
                 </div>
             </div>
         </div>
+       </form>
       </div>
     </div>
   </div>

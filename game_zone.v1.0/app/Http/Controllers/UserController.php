@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\TokenController;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
@@ -19,15 +20,15 @@ class UserController extends Controller
     public function show(){ 
         
         //$users = User::where('id', Auth::user()->id)->first();  
-        $users= DB::select('call Consult_User()');
-        
+        //$users= DB::select('call Consult_User()');
+        $users=User::all();
         return view('users.user', ['users' => $users]);
                
     }
 
     public function createUser(Request $request){
         $token= new TokenController();
-        $password = new TokenController();
+        //$password = new TokenController();
         $parameters=[];
         $tmp=[];
         $changes=0;
@@ -68,7 +69,8 @@ class UserController extends Controller
             'email.email' =>'El correo no tiene el formato correcto.',
         ];
 
-        $validar = Validator::make($tmp,$parameters,$messages);  
+        $validar = Validator::make($tmp,$parameters,$messages);
+
         if($validar->fails() ){
             return response()->json(array(
                 'status' => 'fail',
@@ -78,12 +80,15 @@ class UserController extends Controller
                 'e_password' => $validar->errors()->first('password')
             ),200);
         }else{
+
             if ($changes >0) {
+                $type_user=0;
                $status=0;
                $photo='users/default.png';
                 $data = DB::select("call Add_User(?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $request->lastname, $request->email,
-                 $status, $request->typeUser, Hash::make($request->newPassword), $photo, $token->randomString(15)));
-                return view('users.');
+                 $status, $type_user, Hash::make($request->newPassword), $photo, $token->randomString(15)));
+                return view('users.user');
+ 
                 /*$user = new User;
                 $user->name = $request->name;
                 $user->lastname = $request->lastname;

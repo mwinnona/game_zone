@@ -14,7 +14,7 @@ class ProductController extends Controller
     {      
         $products=Product::all();
         //$products= DB::select('call Consult_Product()');
-         return view('products.product', ['products' => $products]);       
+        return view('products.product', ['products' => $products]);       
     }
 
     public function createProduct(Request $request){     
