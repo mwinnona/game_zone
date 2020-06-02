@@ -20,8 +20,9 @@ class UserController extends Controller
     public function show(){ 
         
         //$users = User::where('id', Auth::user()->id)->first();  
-        //$users= DB::select('call Consult_User()');
-        $users=User::all();
+        $users= DB::select('call Consult_User()');
+       
+        //$users=User::all();
         return view('users.user', ['users' => $users]);
                
     }
@@ -80,6 +81,7 @@ class UserController extends Controller
         $validar = Validator::make($tmp,$parameters,$messages);
 
         if($validar->fails() ){
+            dd('here');
             return response()->json(array(
                 'status' => 'fail',
                 'e_email'=> $validar->errors()->first('email') ,
@@ -95,27 +97,9 @@ class UserController extends Controller
                $photo='users/default.png';
                 $data = DB::select("call Add_User(?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $request->lastname, $request->email,
                  $status, $type_user, Hash::make($request->newPassword), $photo, $token->randomString(15)));
-                return view('users.user');
- 
-                /*$user = new User;
-                $user->name = $request->name;
-                $user->lastname = $request->lastname;
-                $user->email = $request->email;
-                $user->status = 1;
-                $user->type_user=$request->typeUser;
-                $user->photo='default.png';
-                $user->password= Hash::make($request->newPassword);
-                $user->token_user=$token->randomString(15);
-                $user->save();
-                return response()->json(array(
-                    'status' => 'ok',
-                    ), 200);*/
-            }else{
-                /*return response()->json(array(
-                    'status' => 'normal',
-                    ), 200);*/
-                return view('users.');
             }
+            $users= DB::select('call Consult_User()');
+            return view('users.user', ['users' => $users]);
             
         }
     }

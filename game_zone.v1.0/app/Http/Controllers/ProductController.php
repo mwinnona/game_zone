@@ -16,7 +16,7 @@ class ProductController extends Controller
         $products= DB::select('call Consult_Product()');
          return view('products.product', ['products' => $products]);       
     }
-
+    
     public function createProduct(Request $request){     
        
         $token= new TokenController();
