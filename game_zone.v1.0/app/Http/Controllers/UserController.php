@@ -191,6 +191,14 @@ class UserController extends Controller
         }
 
     }
+
+    public function changeStatus($token){
+        $user = User::where('token_user', $token)->first(); 
+        return view('users.', [
+            'users' => $user
+            ]);
+
+    }
   
     
 }

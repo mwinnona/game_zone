@@ -60,10 +60,8 @@
                 <td class="text-center" >INACTIVO</td>
                 @endif
                 <th>
-                    
-                        <a href="#"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
-                        <a href="#"><span><i class="fa fa-window-close-o" aria-hidden="true"></i></span></a>
-                    
+                    <a href="{{URL('/examinar_user/'.$users[$i]->token_user)}}"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
+                    <a href="{{URL('/eliminar_user/'.$users[$i]->token_user)}}"><span><i class="fa fa-window-close-o" aria-hidden="true"></i></span></a>
                 </th>-->
               </tr>
               @endfor

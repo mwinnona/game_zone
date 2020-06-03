@@ -213,22 +213,84 @@
                                         <div class="col-md-6">
                                             <label for="platform">Plataforma:</label>
                                             <select class="form-control" name="plataform" id="platform">
+                                                @if($products['plataform']==0)
+                                                <option value="0" selected>Ps4</option>
+                                                @else 
                                                 <option value="0">Ps4</option>
+                                                @endif
+
+                                                @if($products['plataform']==1)
+                                                <option value="1" selected>Xbox</option>
+                                                @else 
                                                 <option value="1">Xbox</option>
+                                                @endif
+
+                                                @if($products['plataform']==2)
+                                                <option value="2" selected>Nint. Switch</option>
+                                                @else 
                                                 <option value="2">Nint. Switch</option>
+                                                @endif
+
                                             </select>
                                         </div>
                                         <div class="col-md-6"><label for="gender">Género:</label>
                                             <select class="form-control" name="gender" id="gender">
+
+                                                @if($products['gender']==0)
+                                                <option value="0" selected>Aventura</option>
+                                                @else 
                                                 <option value="0">Aventura</option>
+                                                @endif
+
+                                                @if($products['gender']==1)
+                                                <option value="1" selected>Shooters</option>
+                                                @else 
                                                 <option value="1">Shooters</option>
+                                                @endif
+
+
+                                                @if($products['gender']==2)
+                                                <option value="2" selected>Estrategia</option>
+                                                @else 
                                                 <option value="2">Estrategia</option>
+                                                @endif
+
+                                                @if($products['gender']==3)
+                                                <option value="3" selected>Lucha</option>
+                                                @else 
                                                 <option value="3">Lucha</option>
+                                                @endif
+
+                                                @if($products['gender']==4)
+                                                <option value="4" selected>RPG</option>
+                                                @else 
                                                 <option value="4">RPG</option>
+                                                @endif
+
+                                                @if($products['gender']==5)
+                                                <option value="5" selected>ARPG</option>
+                                                @else 
                                                 <option value="5">ARPG</option>
+                                                @endif
+
+                                                @if($products['gender']==6)
+                                                <option value="6" selected>Plataformas</option>
+                                                @else 
                                                 <option value="6">Plataformas</option>
+                                                @endif
+
+                                                @if($products['gender']==7)
+                                                <option value="7" selected>Survival Horror</option>
+                                                @else 
                                                 <option value="7">Survival Horror</option>
+                                                @endif
+
+                                                @if($products['gender']==8)
+                                                <option value="8" selected>Simulación</option>
+                                                @else 
                                                 <option value="8">Simulación</option>
+                                                @endif
+                               
                                             </select>
                                         </div>
                                     </div>
@@ -240,8 +302,17 @@
                                         </div>
                                         <div class="col-md-6"><label for="type_product">Tipo:</label>
                                             <select class="form-control" name="type_product" id="type_product">
+                                                @if($products['type_product']==0)
+                                                <option value="0" selected>Físico</option>
+                                                @else 
                                                 <option value="0">Físico</option>
+                                                @endif
+
+                                                @if($products['type_product']==1)
+                                                <option value="1" selected>Digital</option>
+                                                @else 
                                                 <option value="1">Digital</option>
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -295,5 +366,10 @@
           </div>-->
 @endsection
 @section('plugin')
+          <script>
+
+
+              
+          </script>
    
 @endsection

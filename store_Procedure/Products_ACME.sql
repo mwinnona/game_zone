@@ -85,3 +85,20 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+
+USE `game_zonebd`;
+DROP procedure IF EXISTS `Find_product`;
+
+DELIMITER $$
+USE `game_zonebd`$$
+CREATE PROCEDURE `Find_product` (
+	IN _token_user VARCHAR(115)
+)
+BEGIN
+	SELECT id, name, description, type_product, plataform, gender, price, image, release_date,
+    status, stock, token_product FROM game_zonebd.products where token_product = _token_user;
+END$$
+
+DELIMITER ;

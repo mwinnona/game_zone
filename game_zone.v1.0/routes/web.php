@@ -36,7 +36,8 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/profiles', 'UserController@show');
 Route::get('/profile', 'UserController@showAccount');
 Route::post('/crear_usuario', 'UserController@createUser');
-
+Route::get('/eliminar_user/{token}', 'UserController@changeStatus');
+Route::get('/examinar_user/{token}', 'UserController@updateUser');
 
 //Product
 Route::get('/producto', 'ProductController@show');
