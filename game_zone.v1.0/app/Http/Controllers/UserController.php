@@ -17,20 +17,14 @@ class UserController extends Controller
         $this->middleware('auth');
     }*/
 
-    public function show(){ 
-        
-        //$users = User::where('id', Auth::user()->id)->first();  
+    public function show(){  
         $users= DB::select('call Consult_User()');
-       
-        //$users=User::all();
         return view('users.user', ['users' => $users]);
                
     }
 
     public function showAccount(){
         $users = User::where('id', Auth::user()->id)->first();  
-        //$users= DB::select('call Consult_User()');
-        
         return view('users.account', ['users' => $users]);
          
     }
@@ -106,6 +100,10 @@ class UserController extends Controller
         }
     }
     
+    public function examinateUser($token){
+        $users = User::where('token_user', $token)->first();  
+        return view('users.account', ['users' => $users]);
+    }
    
 
 
@@ -193,10 +191,9 @@ class UserController extends Controller
     }
 
     public function changeStatus($token){
-        $user = User::where('token_user', $token)->first(); 
-        return view('users.', [
-            'users' => $user
-            ]);
+        $user = User::where('token_user', $token)->update(['status' => 1]); 
+        $users= DB::select('call Consult_User()');
+        return view('users.user', ['users' => $users]);
 
     }
   
