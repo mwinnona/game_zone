@@ -181,7 +181,7 @@
                   </button>
                   <h2 class="modal-title" id="exampleModalLabel">Modificar Producto</h2>
                 </div>
-                <form method ="POST" action ="{{url('/modificar_producto/'.$products['token_product'])}}" enctype="multipart/form-data">
+                <form method ="POST" action ="{{url('/modificar_producto')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <!--Nuevo Producto-->
@@ -191,6 +191,7 @@
                                 <div class="product-details">
                                     
                                     <div class="form-group ">
+                                        <input class="form-control" type="hidden" id="token" name="token" value="{{$products['token_product']}}">
                                         <label for="name">Nombre Completo del Producto:</label>
                                         <input class="form-control" type="text" id="name" name="name" value="{{$products['name']}}">
                                     </div>
@@ -235,7 +236,7 @@
                                     <div class="row form-group">
                                         <div class="col-md-6">
                                             <label for="stock">Stock:</label>
-                                            <input class="form-control" type="number" id="stock" name="price" value="10">
+                                            <input class="form-control" type="number" id="stock" name="price" value="{{$products['stock']}}">
                                         </div>
                                         <div class="col-md-6"><label for="type_product">Tipo:</label>
                                             <select class="form-control" name="type_product" id="type_product">

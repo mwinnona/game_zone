@@ -84,21 +84,23 @@ class ProductController extends Controller
     }
 
     public function updateProduct(Request $request){
+       
         $producto_bd = Product::where('token_product', $request->token)->first();  
+       
         $parameters=[];
         $tmp=[];
-        $changes=0;
-        if(!$request->name = $producto_bd->name){
+      
+        if($request->name != $producto_bd->name){
             $parameters['name'] = 'required|min:2|max:50';
             $tmp['name'] = $request->name;
             $changes++;
         }
 
+        
         $description= $request->description;
-        if($description!=null){
+        if($description != $producto_bd->description){
             $parameters['description'] = 'required|min:2|max:400';
             $tmp['description'] = $description;
-            $changes++;
         }
 
         $messages = [
@@ -115,39 +117,32 @@ class ProductController extends Controller
 
         if(!$request->type_product == $producto_bd->type_product){
             $tmp['type_product'] = $request->type_product;
-            $changes++;
         }else{
             $request->type_product = $producto_bd->type_product;
         }
 
         if(!$request->plataform == $producto_bd->plataform){
             $tmp['plataform'] = $request->plataform;
-            $changes++;
         }else{
             $request->plataform = $producto_bd->plataform;
         }
 
         if(!$request->gender == $producto_bd->gender){
             $tmp['gender'] = $request->gender;
-            $changes++;
         }else{
             $request->gender = $producto_bd->gender;
         }
 
-        
-            $status = $producto_bd->status;
-        
-
+        $status = $producto_bd->status;
+    
         if(!$request->release_date == $producto_bd->release_date){
             $tmp['release_date'] = $request->release_date;
-            $changes++;
         }else{
             $request->release_date = $producto_bd->release_date;
         }
 
         if(!$request->price == $producto_bd->price){
             $tmp['price'] = $request->price;
-            $changes++;
         }else{
             $request->price = $producto_bd->price;
         }
@@ -171,23 +166,13 @@ class ProductController extends Controller
                 'e_email'=> $validar->errors()->first('email') ,
                 'e_decription'=> $validar->errors()->first('description')
             ),200);
-        }else{
-            if ($changes >0) {
-                /*
-                return response()->json(array(
-                    'status' => 'ok',
-                    ), 200);*/
-               
+        }else{               
                 $data = DB::select("call Modify_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->token, $request->name, $description, $request->type_product,
                     $request->platform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
                     $request->stock));
+                dd('aqui');
                 return view('products.');
-            }else{
-                /*return response()->json(array(
-                    'status' => 'normal',
-                    ), 200);*/
-                return view('products.');
-            }
+            
             
         }
 
