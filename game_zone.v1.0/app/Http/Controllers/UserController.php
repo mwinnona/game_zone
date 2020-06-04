@@ -35,25 +35,25 @@ class UserController extends Controller
         $parameters=[];
         $tmp=[];
         $changes=0;
-        if(!$request->name ==null){
+        if($request->name !=null || $request->name==null){
             $parameters['name'] = 'required|min:2|max:50';
             $tmp['name'] = $request->name;
             $changes++;
         }
 
-        if(!$request->lastname ==null){
+        if($request->lastname !=null || $request->lastname ==null){
             $parameters['lastname'] = 'required|min:2|max:50';
             $tmp['lastname'] = $request->lastname;
             $changes++;
         }
 
-        if(!$request->email==null){
-            $parameters['email'] = 'required|email';
+        if($request->email!=null || $request->email==null){
+            $parameters['email'] = 'required|email|unique:users';
             $tmp['email']=$request->email;
             $changes++;
         }
 
-        if(!$request->newPassword==null){
+        if($request->newPassword!=null || $request->newPassword==null){
             if($request->newPassword == $request->confirmPassword){
                 $parameters['password'] = 'required|min:8|max:15';
                 $tmp['password']=$request->newPassword;
@@ -74,15 +74,13 @@ class UserController extends Controller
 
         $validar = Validator::make($tmp,$parameters,$messages);
 
-        if($validar->fails() ){
-            dd('here');
-            return response()->json(array(
-                'status' => 'fail',
-                'e_email'=> $validar->errors()->first('email') ,
-                'e_name'=> $validar->errors()->first('name'),
-                'e_lastname'=> $validar->errors()->first('lastname'),
-                'e_password' => $validar->errors()->first('password')
-            ),200);
+        if($validar->fails() ){     
+            return redirect () -> back () -> withInput () -> withErrors (['status' => 'fail',
+            'e_email'=> $validar->errors()->first('email') ,
+            'e_name'=> $validar->errors()->first('name'),
+            'e_lastname'=> $validar->errors()->first('lastname'),
+            'e_password' => $validar->errors()->first('password')]);
+
 
             
         }else{
@@ -191,7 +189,14 @@ class UserController extends Controller
     }
 
     public function changeStatus($token){
-        $user = User::where('token_user', $token)->update(['status' => 1]); 
+        $user_bd = User::where('token_user', $token)->first();
+        $status=0;
+        if($user_bd->status==1 || $user_bd->status=='1'){
+            $status=0;
+        }else{
+            $status=1;
+        }
+        $user = User::where('token_user', $token)->update(['status' => $status]); 
         $users= DB::select('call Consult_User()');
         return view('users.user', ['users' => $users]);
 

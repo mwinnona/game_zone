@@ -194,10 +194,20 @@
                                         <input class="form-control" type="hidden" id="token" name="token" value="{{$products['token_product']}}">
                                         <label for="name">Nombre Completo del Producto:</label>
                                         <input class="form-control" type="text" id="name" name="name" value="{{$products['name']}}">
+                                        @if($errors->first('e_name'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_name')}}
+                                        </span>                                           
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <label for="descripcion">Descripción:</label>
-                                        <textarea class="form-control" type="text" id="description" name="description" value="{{$products['description']}}"></textarea>
+                                        <textarea class="form-control" type="text" id="description" name="description" >{{$products['description']}}</textarea>
+                                        @if($errors->first('e_decription'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_decription')}}
+                                        </span>                                           
+                                        @endif
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-6">
@@ -212,7 +222,7 @@
                                     <div class="row form-group">
                                         <div class="col-md-6">
                                             <label for="platform">Plataforma:</label>
-                                            <select class="form-control" name="plataform" id="platform">
+                                            <select class="form-control" name="plataform" id="plataform">
                                                 @if($products['plataform']==0)
                                                 <option value="0" selected>Ps4</option>
                                                 @else 
@@ -298,7 +308,7 @@
                                     <div class="row form-group">
                                         <div class="col-md-6">
                                             <label for="stock">Stock:</label>
-                                            <input class="form-control" type="number" id="stock" name="price" value="{{$products['stock']}}">
+                                            <input class="form-control" type="number" id="stock" name="stock" value="{{$products['stock']}}">
                                         </div>
                                         <div class="col-md-6"><label for="type_product">Tipo:</label>
                                             <select class="form-control" name="type_product" id="type_product">
@@ -366,10 +376,10 @@
           </div>-->
 @endsection
 @section('plugin')
-          <script>
-
-
-              
-          </script>
+    <script>
+        @if($errors->first('status'))
+        $("#exampleModal").modal("show");
+        @endif
+    </script>
    
 @endsection

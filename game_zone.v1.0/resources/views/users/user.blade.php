@@ -54,14 +54,21 @@
                 @elseif($users[$i]->type_user=='1')
                 <td class="text-center" >Asistente</td>
                 @endif
-                @if($users[$i]->status=='0')
+                @if($users[$i]->status=='0' || $users[$i]->status==0)
                 <td class="text-center" >ACTIVO</td>
                 @else
                 <td class="text-center" >INACTIVO</td>
                 @endif
                 <th>
                     <a href="{{URL('/examinar_user/'.$users[$i]->token_user)}}"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
-                    <a href="{{URL('/eliminar_user/'.$users[$i]->token_user)}}"><span><i class="fa fa-window-close-o" aria-hidden="true"></i></span></a>
+                    <a href="{{URL('/eliminar_user/'.$users[$i]->token_user)}}">
+                        <span>
+                            @if($users[$i]->status=='0' || $users[$i]->status==0)
+                            <i class="fa fa-window-close-o" aria-hidden="true"></i>
+                            @else
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                            @endif
+                        </span></a>
                 </th>-->
               </tr>
               @endfor
@@ -90,25 +97,46 @@
                             <div class="col-md-6">
                                 <label for="name">Nombres:</label>
                                 <input class="form-control" type="text" id="name" name="name" placeholder="Nombres">
+                                @if($errors->first('e_name'))
+                                    <span class="text-danger"  >
+                                        {{ $errors->first('e_name')}}
+                                    </span>                                           
+                                @endif
                             </div>
                             <div class="col-md-6">
                                 <label for="lastname">Apellidos:</label>
                                 <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Apellidos">
+                                @if($errors->first('e_lastname'))
+                                    <span class="text-danger"  >
+                                        {{ $errors->first('e_lastname')}}
+                                    </span>                                           
+                                @endif
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email">E-mail:</label>
                             <input class="form-control" type="text" id="email" name="email" placeholder="Ingrese su E-mail">
                             <small id="emailHelp" class="form-text text-muted">No compartiremos su correo con nadie más.</small>
+                            @if($errors->first('e_name'))
+                                <span class="text-danger"  >
+                                    {{ $errors->first('e_email')}}
+                                </span>                                           
+                            @endif
                         </div>
                         <div class="form-group">
                             <label for="password">Contraseña:</label>
                             <input class="form-control" type="password" id="password" name="password" placeholder="Digíte su contraseña">
                             <small id="emailHelp" class="form-text text-muted">Use una combinación alfanumérica para que tu clave sea más segura.</small>
+                            
                         </div>
                         <div class="form-group">
                             <label for="repeat_password">Repetir Contraseña:</label>
-                            <input class="form-control" type="password" id="repeat_password" name="repeat_password" placeholder="Repita la contraseña">
+                            <input class="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita la contraseña">
+                            @if($errors->first('e_password'))
+                                <span class="text-danger"  >
+                                    {{ $errors->first('e_password')}}
+                                </span>                                           
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -179,5 +207,10 @@
 <!--SECTION-->
 @endsection
 @section('plugin')
+<script>
+    @if($errors->first('status'))
+    $("#exampleModal").modal("show");
+    @endif
+</script>
    
 @endsection

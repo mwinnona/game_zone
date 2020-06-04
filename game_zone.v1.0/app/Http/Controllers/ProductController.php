@@ -93,7 +93,7 @@ class ProductController extends Controller
         if($request->name != $producto_bd->name){
             $parameters['name'] = 'required|min:2|max:50';
             $tmp['name'] = $request->name;
-            $changes++;
+          
         }
 
         
@@ -161,17 +161,26 @@ class ProductController extends Controller
         }
         
         if($validar->fails() ){
-            return response()->json(array(
+            /*return response()->json(array(
                 'status' => 'fail',
                 'e_email'=> $validar->errors()->first('email') ,
                 'e_decription'=> $validar->errors()->first('description')
-            ),200);
-        }else{               
-                $data = DB::select("call Modify_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->token, $request->name, $description, $request->type_product,
-                    $request->platform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
-                    $request->stock));
-                dd('aqui');
-                return view('products.');
+            ),200);*/
+
+            return redirect () -> back () -> withInput () -> withErrors (['status' => 'fail',
+            'e_name'=> $validar->errors()->first('name') ,
+            'e_decription'=> $validar->errors()->first('description')]);
+
+        }else{    
+            dd($request->token, $request->name, $description, $request->type_product,
+            $request->plataform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
+            $request->stock);  
+                     
+            $data = DB::select("call Modify_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->token, $request->name, $description, $request->type_product,
+                $request->plataform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
+                $request->stock));
+            dd('aqui');
+            return view('products.');
             
             
         }
