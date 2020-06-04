@@ -45,3 +45,4 @@ Route::get('/producto', 'ProductController@show');
 Route::post('/crear_producto', 'ProductController@createProduct');
 Route::get('/ver_producto/{token}', 'ProductController@examinateProduct');
 Route::post('/modificar_producto', 'ProductController@updateProduct');
+Route::get('/eliminar_product/{token}', 'ProductController@changeStatus');

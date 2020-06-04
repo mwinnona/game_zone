@@ -83,6 +83,20 @@ class ProductController extends Controller
 
     }
 
+    public function changeStatus($token){
+        $product_bd = Product::where('token_product', $token)->first();
+        $status=0;
+        if($product_bd->status==1 || $product_bd->status=='1'){
+            $status=0;
+        }else{
+            $status=1;
+        }
+        $product = Product::where('token_product', $token)->update(['status' => $status]); 
+        $products= DB::select('call Consult_Product()');
+         return view('products.product', ['products' => $products]);   
+
+    }
+
     public function updateProduct(Request $request){
        
         $producto_bd = Product::where('token_product', $request->token)->first();  
