@@ -85,7 +85,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-              <h2 class="modal-title" id="exampleModalLabel">Registrar Producto</h2>
+              <h2 class="modal-title" id="exampleModalLabel">Registrar Usuario</h2>
         </div>
         <form method ="POST" action ="{{url('/crear_usuario')}}" enctype="multipart/form-data">
         @csrf
