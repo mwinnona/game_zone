@@ -186,9 +186,7 @@ class ProductController extends Controller
             'e_decription'=> $validar->errors()->first('description')]);
 
         }else{    
-            dd($request->token, $request->name, $description, $request->type_product,
-            $request->plataform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
-            $request->stock);  
+            
                      
             $data = DB::select("call Modify_Product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($request->token, $request->name, $description, $request->type_product,
                 $request->plataform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,

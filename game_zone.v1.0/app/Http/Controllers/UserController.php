@@ -157,12 +157,13 @@ class UserController extends Controller
 
         $validar = Validator::make($tmp,$parameters,$messages);  
         if($validar->fails() ){
-            return response()->json(array(
-                'status' => 'fail',
-                'e_name'=> $validar->errors()->first('name'),
-                'e_lastname'=> $validar->errors()->first('lastname'),
-                'e_photo'=> $validar->errors()->first('photo')
-            ),200);
+            
+
+            return redirect () -> back () -> withInput () -> withErrors (['status' => 'fail',
+            'e_name'=> $validar->errors()->first('name'),
+            'e_lastname'=> $validar->errors()->first('lastname'),
+            'e_photo'=> $validar->errors()->first('photo')]);
+
         }else{
             if ($changes >0) {
                 if ($request->file('updatePhoto') != null) {

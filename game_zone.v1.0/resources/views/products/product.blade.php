@@ -491,5 +491,27 @@
     
 @endsection
 @section('plugin')
+    <script>
+
+        $( document ).ready(function() {
+            alert('ready');
+        });
+
+        $(document).on(function(){
+            $.ajax({
+                url: '/producto',
+                type: 'POST'
+                dataType: 'JSON',
+                data: new FormData(),
+                data.append();
+                success:function(data){
+
+                },
+                error:function(xhr, desc, err){
+                    console.log('error');
+                }
+            });
+        });
+    </script>
    
 @endsection
