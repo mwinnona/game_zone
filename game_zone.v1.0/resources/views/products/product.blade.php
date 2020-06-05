@@ -494,16 +494,17 @@
     <script>
 
         $( document ).ready(function() {
-            alert('ready');
+           prueba();
         });
-
-        $(document).on(function(){
+        //var formData = new FormData();
+        //formData.append("username", "Groucho");
+        function prueba(){
+            $(document).on(function(){
             $.ajax({
                 url: '/producto',
-                type: 'POST'
+                method: "GET",
                 dataType: 'JSON',
                 data: new FormData(),
-                data.append();
                 success:function(data){
 
                 },
@@ -512,6 +513,8 @@
                 }
             });
         });
+        }
+        
     </script>
    
 @endsection

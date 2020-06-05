@@ -212,5 +212,30 @@
     $("#exampleModal").modal("show");
     @endif
 </script>
+<script>
+
+$('document').ready(function(){
+       prueba();
+    });
+    //var formData = new FormData();
+    //formData.append("username", "Groucho");
+    function prueba(){
+       
+        $.ajax({
+            url: '/producto',
+            method: "GET",
+            dataType: 'JSON',
+            data: new FormData(),
+            success:function(data){
+
+            },
+            error:function(xhr, desc, err){
+                console.log('error');
+            }
+        });
+
+    }
+    
+</script>
    
 @endsection
