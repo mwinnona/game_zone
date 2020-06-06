@@ -160,8 +160,7 @@ class UserController extends Controller
             return redirect () -> back () -> withInput () -> withErrors (['status' => 'fail',
             'e_email'=> $validar->errors()->first('email'),
             'e_name'=> $validar->errors()->first('name'),
-            'e_lastname'=> $validar->errors()->first('lastname'),
-            'e_lastname'=> $validar->errors()->first('lastname')
+            'e_lastname'=> $validar->errors()->first('lastname')]);
 
         }else{
             
@@ -181,9 +180,12 @@ class UserController extends Controller
                     $request->updatePhoto=$user_bd->photo;
                 }
                 
-                $users= DB::select('call Modify_User(?, ?, ?, ?, ?)', array($request->token, $request->updateName, $request->updateLastname, $request->email, $request->updatePhoto));
-                dd('Aqui');
-                    return view('users.');
+                //$users= DB::select('call Modify_User(?, ?, ?, ?, ?)', array($request->token, $request->updateName, $request->updateLastname, $request->email, $request->updatePhoto));
+                User::where('token_user', $request->token)
+                        ->update(['name'=>$request->updateName, 'lastname' =>$request->updateLastname, 'email'=>$request->email, 'photo' =>$request->updatePhoto]);
+                $users = User::where('token_user', $request->token)->first();  
+                return view('users.account', ['users' => $users]);
+                    
             
         }
 
