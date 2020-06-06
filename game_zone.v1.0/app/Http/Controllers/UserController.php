@@ -107,34 +107,31 @@ class UserController extends Controller
 
     public function updateUser(Request $request){
         $tmp=[];
-        $changes=0;
-        $user_bd= User::where('token_user', Auth::user()->token_user)->first();
+        $user_bd= User::where('token_user', $request->token)->first();
+        
         $name = $user_bd->name;
         $lastname = $user_bd->lastname;
-        if(!$request->updateName==null){
+        if($request->updateName!=null){
             if(!$name = $request->updateName){
              $parameters['name'] = 'required|min:2|max:50';
-            $tmp['name'] = $request->updateName;
-            $changes++;   
+            $tmp['name'] = $request->updateName;  
             } 
         }else{
             $request->updateName=$name;
         }
 
-        if(!$request->updateLastname=null){
+        if($request->updateLastname!=null){
             if(!$lastname = $request->updateLastname){
             $parameters['lastname'] = 'required|min:2|max:50';
             $tmp['lastname'] = $request->updateLastname;
-            $changes++;
             }
         }else{
             $request->updateLastname=$lastname ;
         }
 
-        if(!$request->email==null){
+        if($request->email!=null){
             $parameters['email'] = 'required|email';
             $tmp['email']=$request->email;
-            $changes++;
         }else{
             $request->email=$user_bd->email;
         }
@@ -151,21 +148,23 @@ class UserController extends Controller
             'email.email' =>'El correo no tiene el formato correcto.',
             'name.min' => 'El nombre debe tener como mínimo 2 caracteres.',
             'name.max' => 'El nombre debe tener como máximo 50 caracteres.',
-            'name.required' => 'El nombre es obligatorio.'
-            
+            'name.required' => 'El nombre es obligatorio.',
+            'lastname.min' => 'El apellido debe tener como mínimo 2 caracteres.',
+            'lastname.max' => 'El apellido debe tener como máximo 50 caracteres.',
+            'lastname.required' => 'El apellido es obligatorio.'
+   
         ];
 
         $validar = Validator::make($tmp,$parameters,$messages);  
         if($validar->fails() ){
-            
-
             return redirect () -> back () -> withInput () -> withErrors (['status' => 'fail',
+            'e_email'=> $validar->errors()->first('email'),
             'e_name'=> $validar->errors()->first('name'),
             'e_lastname'=> $validar->errors()->first('lastname'),
-            'e_photo'=> $validar->errors()->first('photo')]);
+            'e_lastname'=> $validar->errors()->first('lastname')
 
         }else{
-            if ($changes >0) {
+            
                 if ($request->file('updatePhoto') != null) {
                     $file = $request->file('updatePhoto');
                     $file_extension = $file->getClientOriginalExtension();
@@ -181,10 +180,11 @@ class UserController extends Controller
                 }else{
                     $request->updatePhoto=$user_bd->photo;
                 }
-                $users= DB::select('call Modify_User(?, ?, ?, ?, ?)', array($user_bd->token, $request->updateName, $request->updateLastname, $request->email, $request->updatePhoto));
                 
+                $users= DB::select('call Modify_User(?, ?, ?, ?, ?)', array($request->token, $request->updateName, $request->updateLastname, $request->email, $request->updatePhoto));
+                dd('Aqui');
                     return view('users.');
-            }
+            
         }
 
     }
