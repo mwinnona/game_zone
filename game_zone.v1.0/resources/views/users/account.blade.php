@@ -12,11 +12,13 @@
 @section('content')
 <div class="section">
     <!-- container -->
+    
     <form method ="POST" action ="{{url('/actualizar_user')}}" enctype="multipart/form-data">
         @csrf
         <div class="container">
             <!-- row -->
             <input class="form-control" type="hidden" id="token" name="token" value="{{$users['token_user']}}">
+            
             <div class="row">
                 <div class="col-lg-4">
                     <img src={{URL::asset($users['photo'])}} alt="">
@@ -26,6 +28,15 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
+                    <div class="row">
+                       <div class="col-4">
+                        <label class="switch" >
+                            <input type="checkbox" id="prueba">
+                            <span class="slider round" ></span>
+                          </label>
+                        </div>
+                        <div class="col"> <h5>Editar</h5></div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group ">
