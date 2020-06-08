@@ -499,20 +499,19 @@
         //var formData = new FormData();
         //formData.append("username", "Groucho");
         function prueba(){
-            $(document).on(function(){
+            
             $.ajax({
-                url: '/producto',
+                url: 'http://localhost/producto_ajax',
                 method: "GET",
-                dataType: 'JSON',
                 data: new FormData(),
                 success:function(data){
-
+                    console.log('we do it');
                 },
                 error:function(xhr, desc, err){
                     console.log('error');
                 }
             });
-        });
+        
         }
         
     </script>
