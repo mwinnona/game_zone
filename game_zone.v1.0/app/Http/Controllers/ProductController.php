@@ -202,8 +202,8 @@ class ProductController extends Controller
                 
                 Product::where('token_product', $request->token)
                 ->update(['name'=>$request->updateName, 'description' =>$description, 'type_product'=>$request->type_product, 'image' =>$tmp_image,
-                'plataform' => $request->plataform, 'gender'=> $request->gender, 'price' =>  $request->price, 'realease_date' =>$request->release_date,
-                'stock', $request->stock, 'status' => $status]);
+                'plataform' => $request->plataform, 'gender'=> $request->gender, 'price' =>  $request->price, 'release_date' =>$request->release_date,
+                'stock' => $request->stock, 'status' => $status]);
   
                 $product = Product::where('token_product', $token)->first(); 
 
