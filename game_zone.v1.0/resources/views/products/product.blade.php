@@ -491,29 +491,6 @@
     
 @endsection
 @section('plugin')
-    <script>
-
-        $( document ).ready(function() {
-           prueba();
-        });
-        //var formData = new FormData();
-        //formData.append("username", "Groucho");
-        function prueba(){
-            
-            $.ajax({
-                url: 'http://localhost/producto_ajax',
-                method: "GET",
-                data: new FormData(),
-                success:function(data){
-                    console.log('we do it');
-                },
-                error:function(xhr, desc, err){
-                    console.log('error');
-                }
-            });
-        
-        }
-        
-    </script>
+<script src={{ asset("js/products.js")}}></script>
    
 @endsection

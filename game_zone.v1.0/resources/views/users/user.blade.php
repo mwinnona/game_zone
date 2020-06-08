@@ -207,22 +207,20 @@
 <!--SECTION-->
 @endsection
 @section('plugin')
-<script>
-    @if($errors->first('status'))
-    $("#exampleModal").modal("show");
-    @endif
-</script>
-<script>
 
-$('document').ready(function(){
-       prueba();
+<script>
+    
+    $(document).ready(function(){
+       alert('hola');
     });
+
+
     //var formData = new FormData();
     //formData.append("username", "Groucho");
-    function prueba(){
+    function productos(){
        
         $.ajax({
-            url: '/producto',
+            url: '/producto_ajax',
             method: "GET",
             dataType: 'JSON',
             data: new FormData(),
@@ -235,6 +233,10 @@ $('document').ready(function(){
         });
 
     }
+
+    @if($errors->first('status'))
+    $("#exampleModal").modal("show");
+    @endif
     
 </script>
    

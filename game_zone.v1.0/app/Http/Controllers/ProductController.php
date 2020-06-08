@@ -19,9 +19,9 @@ class ProductController extends Controller
     }
 
     public function showAjax(){
-        dd('AQUI');
+        
         return \response()->json([
-            'staus' => 'success'
+            'status' => 'success'
         ]);
     }
     
