@@ -38,7 +38,8 @@
 		<div class="section">
             <!-- container -->
 			<div class="container">
-				<!-- row -->
+                <!-- row -->
+                
 				<div class="row">
 					<!-- Product main img (Imagenes y videos de ejemplo)-->
 					<div class="col-md-5 text-center">
@@ -51,6 +52,20 @@
 
 					<!-- Product details -->
 					<div class="col-md-6 col-md-push-1">
+                    @if (isset(Auth::user()->id))
+                        @if (Auth::user()->type_user==0)
+                            <div class="row">
+                                <div class="col-4">
+                                <label class="switch" >
+                                    <input type="checkbox" id="editarCheckboxProduct">
+                                    <span class="slider round" ></span>
+                                </label>
+                                </div>
+                                <div class="col"> <h5>Editar</h5></div>
+                            </div>
+                        @endif
+                    @endif
+
 						<div class="product-details">
                             <!--Nombre del Producto-->
                         <h2 class="product-name" id="name" name="name">{{$products['name']}}</h2>
@@ -157,7 +172,7 @@
                             <div class="col-md-12">
                                 <br>
                                 <div class="add-to-cart text-center">
-                                    <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal">
+                                    <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal" style="display:none" id="editarButton">
                                         <i class="fa fa-arrow-circle-o-right">
                                         </i>Editar Producto
                                     </button>
@@ -376,6 +391,7 @@
           </div>-->
 @endsection
 @section('plugin')
+    <script src={{ asset("js/products.js")}}></script>
     <script>
         @if($errors->first('status'))
         $("#exampleModal").modal("show");

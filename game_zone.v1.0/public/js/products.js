@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    editar=0;
+
+    $('#editarCheckboxProduct').val(0);
     c1=0;
     c2=0;
     c3=0;
@@ -44,6 +47,20 @@ $(document).ready(function(){
 
     producto();
  });
+
+ $( "#editarCheckboxProduct" ).change(function() {
+    if(editar==0){
+        $('#editarCheckboxProduct').val(1);
+        editar=1;
+        document.getElementById('editarButton').style.display = 'inline';
+        
+    }else{
+        $('#editarCheckboxProduct').val(0);
+        editar=0;
+        document.getElementById('editarButton').style.display = 'none';
+    }
+  });
+
 
  $( "#category-1" ).change(function() {
     if(c1==0){
@@ -236,14 +253,14 @@ $(document).ready(function(){
  
 
  function producto(){
-       
+    var data = new FormData(); 
+    data.append('gen_1', $('#brand-1').val());
     $.ajax({
-        
-        url: '/producto_ajax',
-        method: "GET",
-        data: new FormData(),
+        method: "post",
+        url: '{{url("buscar_producto")}}',
+        data: data,
         success:function(data){
-              
+            console.log('holi');
         },
         error:function(xhr, desc, err){
             console.log('error');

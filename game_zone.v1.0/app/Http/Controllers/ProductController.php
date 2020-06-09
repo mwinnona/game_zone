@@ -15,14 +15,91 @@ class ProductController extends Controller
         
         //$products=Product::all();
         $products= DB::select('call Consult_Product()');
-         return view('products.product', ['products' => $products]);       
+        return view('products.product', ['products' => $products]);       
     }
 
-    public function showAjax(){
-        
-        return \response()->json([
-            'status' => 'success'
-        ]);
+    public function showAjax(Request $request){
+        $categoria=array();
+        $i=0;
+        if(isset($request->cat_1)){
+            $plataforma[$i]=$request->cat_1;
+            $i++;
+        }
+
+        if(isset($request->cat_2)){
+            $plataforma[$i]=$request->cat_2;
+            $i++;
+        }
+
+        if(isset($request->cat_3)){
+            $plataforma[$i]=$request->cat_3;
+            $i++;
+        }
+
+        if(isset($request->cat_3)){
+            $plataforma[$i]=$request->cat_3;
+            $i++;
+        }
+
+        if(isset($request->type_1)){
+            $type[$i]=$request->type_1;
+            $i++;
+        }
+
+        if(isset($request->type_2)){
+            $type[$i]=$request->type_2;
+            $i++;
+        }
+
+        if(isset($request->gen_1)){
+            $gen[$i]=$request->gen_1;
+            $i++;
+        }
+
+        if(isset($request->gen_2)){
+            $gen[$i]=$request->gen_2;
+            $i++;
+        }
+
+        if(isset($request->gen_3)){
+            $gen[$i]=$request->gen_3;
+            $i++;
+        }
+
+        if(isset($request->gen_4)){
+            $gen[$i]=$request->gen_4;
+            $i++;
+        }
+
+        if(isset($request->gen_5)){
+            $gen[$i]=$request->gen_5;
+            $i++;
+        }
+
+        if(isset($request->gen_6)){
+            $gen[$i]=$request->gen_6;
+            $i++;
+        }
+
+        if(isset($request->gen_7)){
+            $gen[$i]=$request->gen_7;
+            $i++;
+        }
+
+        if(isset($request->gen_8)){
+            $gen[$i]=$request->gen_8;
+            $i++;
+        }
+
+        if(isset($request->gen_9)){
+            $gen[$i]=$request->gen_9;
+            $i++;
+        }
+
+        $product =Product::whereRaw('plataform', array($plataforma))
+        ->whereRaw('type_product', array($type))
+        ->whereRaw('gender', array($gen))->get();
+        return view('products.searchproduct', ['products' => $product]);       
     }
     
     public function createProduct(Request $request){     
