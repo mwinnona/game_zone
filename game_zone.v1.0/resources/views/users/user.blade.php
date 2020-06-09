@@ -96,6 +96,7 @@
                         <div class="row form-group">
                             <div class="col-md-6">
                                 <label for="name">Nombres:</label>
+                                <input class="form-control" type="hidden" id="type" name="type" placeholder="0" value="0">
                                 <input class="form-control" type="text" id="name" name="name" placeholder="Nombres">
                                 @if($errors->first('e_name'))
                                     <span class="text-danger"  >
@@ -211,7 +212,7 @@
 <script>
     
     $(document).ready(function(){
-       alert('hola');
+      
     });
 
 

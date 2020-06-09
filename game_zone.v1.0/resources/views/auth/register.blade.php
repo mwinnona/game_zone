@@ -48,44 +48,56 @@
                     </div>
                 </div>
                 <br>       
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-                        <div class="form-group">
-                            <label for="name" >{{ __('Name') }}</label>
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                <form method ="POST" action ="{{url('/crear_usuario')}}" enctype="multipart/form-data">
+                    @csrf
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <input class="form-control" type="hidden" id="type" name="type" placeholder="1" value="1">
+                                <label for="name" >{{ __('Name') }}</label>
+                                <input class="form-control" type="text" id="name" name="name" placeholder="Nombres">
+                                    @if($errors->first('e_name'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_name')}}
+                                        </span>                                           
+                                    @endif
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lastname">Apellidos:</label>
+                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Apellidos">
+                                @if($errors->first('e_lastname'))
+                                    <span class="text-danger"  >
+                                        {{ $errors->first('e_lastname')}}
+                                    </span>                                           
+                                @endif
+                            </div>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                         </div>
                         <div class="form-group">
                             <label for="email" >{{ __('E-Mail Address') }}</label>
 
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <input class="form-control" type="text" id="email" name="email" placeholder="Ingrese su E-mail">
+                            <small id="emailHelp" class="form-text text-muted">No compartiremos su correo con nadie más.</small>
+                            @if($errors->first('e_name'))
+                                <span class="text-danger"  >
+                                    {{ $errors->first('e_email')}}
+                                </span>                                           
+                            @endif
                         </div>
 
                         <div class="form-group">
                             <label for="password">{{ __('Password') }}</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <input class="form-control" type="password" id="password" name="password" placeholder="Digíte su contraseña">
+                            <small id="emailHelp" class="form-text text-muted">Use una combinación alfanumérica para que tu clave sea más segura.</small>
+                            
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            <input class="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita la contraseña">
+                            @if($errors->first('e_password'))
+                                <span class="text-danger"  >
+                                    {{ $errors->first('e_password')}}
+                                </span>                                           
+                            @endif
                         </div>
         
                         

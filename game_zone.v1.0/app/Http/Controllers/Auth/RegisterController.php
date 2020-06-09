@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\TokenController;
 
 class RegisterController extends Controller
 {
@@ -64,9 +65,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $aux = new TokenController();
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'token_user' => $aux->randomString(15),
             'password' => Hash::make($data['password']),
         ]);
     }

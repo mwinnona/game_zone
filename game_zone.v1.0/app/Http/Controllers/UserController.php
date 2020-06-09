@@ -30,6 +30,8 @@ class UserController extends Controller
     }
 
     public function createUser(Request $request){
+   
+        $type_user=0;
         $token= new TokenController();
         //$password = new TokenController();
         $parameters=[];
@@ -53,10 +55,10 @@ class UserController extends Controller
             $changes++;
         }
 
-        if($request->newPassword!=null || $request->newPassword==null){
-            if($request->newPassword == $request->confirmPassword){
+        if($request->password!=null || $request->password==null){
+            if($request->password == $request->confirmPassword){
                 $parameters['password'] = 'required|min:8|max:15';
-                $tmp['password']=$request->newPassword;
+                $tmp['password']=$request->password;
                 $changes++;
             }
         }
@@ -86,19 +88,31 @@ class UserController extends Controller
         }else{
 
             if ($changes >0) {
-                $type_user=0;
+                
+                if($request->type==0){
+                    $type_user=0;
+                }else{
+                    $type_user=1; 
+                }
                $status=0;
                $photo='users/default.png';
                 $data = DB::select("call Add_User(?, ?, ?, ?, ?, ?, ?, ?)", array($request->name, $request->lastname, $request->email,
-                 $status, $type_user, Hash::make($request->newPassword), $photo, $token->randomString(15)));
+                 $status, $type_user, Hash::make($request->password), $photo, $token->randomString(15)));
             }
             $users= DB::select('call Consult_User()');
-            return view('users.user', ['users' => $users]);
+            if($type_user==0){
+                return view('users.user', ['users' => $users]);
+            }else{
+                $aux =new ProductController();
+                return $aux->show();
+            }
+            
             
         }
     }
     
     public function examinateUser($token){
+        
         $users = User::where('token_user', $token)->first();  
         return view('users.account', ['users' => $users]);
     }
@@ -106,6 +120,7 @@ class UserController extends Controller
 
 
     public function updateUser(Request $request){
+        
         $tmp=[];
         $user_bd= User::where('token_user', $request->token)->first();
         
