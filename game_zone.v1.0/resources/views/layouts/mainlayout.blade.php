@@ -37,7 +37,7 @@
 
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href={{ asset("css/style.css")}}>
-		<link type="text/css" rel="stylesheet" href={{ asset("css/products.css")}}>
+		<link type="text/css" rel="stylesheet" href={{ asset("css/product.css")}}>
 		@yield('css')
         @yield('style')
         @yield('plugincss')

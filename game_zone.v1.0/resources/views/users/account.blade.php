@@ -31,7 +31,7 @@
                     <div class="row">
                        <div class="col-4">
                         <label class="switch" >
-                            <input type="checkbox" id="prueba">
+                            <input type="checkbox" id="editarCheckbox">
                             <span class="slider round" ></span>
                           </label>
                         </div>
@@ -80,7 +80,7 @@
                             <div class="col-md-12">
                                 <br>
                                 <div class="add-to-cart text-center">
-                                    <button type="submit" class="add-to-cart-btn">
+                                    <button type="submit" class="add-to-cart-btn" id="editarButton" style="display:none">
                                         <i class="fa fa-arrow-circle-o-right">
                                         </i>Editar Usuario
                                     </button>
@@ -100,5 +100,5 @@
 <!--SECTION-->
 @endsection
 @section('plugin')
-   
+    <script src={{ asset("js/users.js")}}></script>
 @endsection
