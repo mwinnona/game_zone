@@ -59,6 +59,9 @@
 						@if (isset(Auth::user()->id))
 							<li><a href="{{url('/profile')}}"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
 							<li><a href="{{url('logout')}}"><i class="fa fa-user-o"></i> Logout</a></li>
+						@else 
+						<li><a href="{{ route('login') }}"><i class="fa fa-user-o"></i> Login</a></li>
+						<li><a href="{{ route('register') }}"><i class="fa fa-user-o"></i> Registrar</a></li>
 						@endif
 					</ul>
 				</div>

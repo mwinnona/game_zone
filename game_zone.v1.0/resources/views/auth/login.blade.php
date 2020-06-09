@@ -90,11 +90,16 @@
                         <div class="form-group">
                             <button type="submit" class="btn-rounded btn primary-btn btn-block mt-2">Iniciar Sesión</button>
                         </div>
+                        <div class ="form-group text-center">
                             @if (Route::has('password.request'))
                                 <a class="link" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             @endif
+                        </div>
+                        <div class="form-group text-center">
+                            <a href="{{ route('register') }}">¿Aún no tienes una cuenta?</a>
+                        </div>
                             <br>
                     </form>                    
                 </div>
