@@ -205,7 +205,7 @@ class ProductController extends Controller
                 'plataform' => $request->plataform, 'gender'=> $request->gender, 'price' =>  $request->price, 'release_date' =>$request->release_date,
                 'stock' => $request->stock, 'status' => $status]);
   
-                $product = Product::where('token_product', $token)->first(); 
+                $product = Product::where('token_product', $request->token)->first(); 
 
                 return view('products.examinateproduct', [
                     'products' => $product
