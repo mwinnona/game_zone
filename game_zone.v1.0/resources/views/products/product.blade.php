@@ -184,7 +184,7 @@
                                     <input type="checkbox" id="brand-7" name="gen_7">
                                     <label for="brand-7">
                                         <span></span>
-                                        Plaataformas
+                                        Plataformas
                                         <small>(755)</small>
                                     </label>
                                 </div>
@@ -314,11 +314,12 @@
                                     </div>
                                 </div>
                                 <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    <a href="{{URL('/agregar_carrito/'.$products[$i]->token_product)}}">
+                                        <button type="submit"class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>add to cart</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        
                         @endfor
                         @endif
 
@@ -466,7 +467,7 @@
                     </div>
                 </div>
                 
-                <div class="modal-footer">
+                <div class="modal-footer">-->
                     <div class="product-details centrar-interno">
                         <div class="add-to-cart col-md-6">
                             <button data-target="#mensaje" type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>

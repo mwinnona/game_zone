@@ -69,7 +69,7 @@
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
                             @endif
                         </span></a>
-                </th>-->
+                </th>
               </tr>
               @endfor
             </tbody>

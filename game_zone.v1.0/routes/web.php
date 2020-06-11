@@ -47,3 +47,8 @@ Route::get('/ver_producto/{token}', 'ProductController@examinateProduct');
 Route::post('/modificar_producto', 'ProductController@updateProduct');
 Route::get('/eliminar_product/{token}', 'ProductController@changeStatus');
 Route::post('/buscar_producto', 'ProductController@showAjax');
+
+//Order
+Route::get('/carrito', 'ProductController@showCart');
+Route::get('/agregar_carrito/{token}', 'ProductController@addCart');
+Route::post('/realizar_pedido', 'ProductController@preOrder');

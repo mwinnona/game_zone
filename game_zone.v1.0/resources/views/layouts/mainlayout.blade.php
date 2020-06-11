@@ -111,10 +111,17 @@
 										<div class="qty">2</div>
 									</a>
 								</div>
+								<div>
+									<a href="{{URL('/carrito')}}">
+										<i class="fa fa-shopping-cart"></i>
+										<span>Carrito</span>
+										<div class="qty">2</div>
+									</a>
+								</div>
 								<!-- /Wishlist -->
 
 								<!-- Cart -->
-								<div class="dropdown">
+								<!--<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Mi carrito</span>
@@ -155,7 +162,7 @@
 											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
 										</div>
 									</div>
-								</div>
+								</div>-->
 								<!-- /Cart -->
 
 								<!-- Menu Toogle -->
