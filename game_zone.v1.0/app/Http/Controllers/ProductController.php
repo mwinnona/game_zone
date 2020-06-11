@@ -21,86 +21,116 @@ class ProductController extends Controller
     }
 
     public function showAjax(Request $request){
-        $categoria=array();
+        dd($request);
+        $plataforma=array();
+        $type=array();
+        $gen=array();
         $i=0;
         if(isset($request->cat_1)){
-            $plataforma[$i]=$request->cat_1;
+            $plataforma[$i]=0;
             $i++;
         }
 
         if(isset($request->cat_2)){
-            $plataforma[$i]=$request->cat_2;
+            $plataforma[$i]=1;
             $i++;
         }
 
         if(isset($request->cat_3)){
-            $plataforma[$i]=$request->cat_3;
+            $plataforma[$i]=2;
             $i++;
         }
 
         if(isset($request->cat_3)){
-            $plataforma[$i]=$request->cat_3;
+            $plataforma[$i]=3;
             $i++;
         }
 
         if(isset($request->type_1)){
-            $type[$i]=$request->type_1;
+            $type[$i]=0;
             $i++;
         }
 
         if(isset($request->type_2)){
-            $type[$i]=$request->type_2;
+            $type[$i]=1;
             $i++;
         }
 
         if(isset($request->gen_1)){
-            $gen[$i]=$request->gen_1;
+            $gen[$i]=0;
             $i++;
         }
 
         if(isset($request->gen_2)){
-            $gen[$i]=$request->gen_2;
+            $gen[$i]=1;
             $i++;
         }
 
         if(isset($request->gen_3)){
-            $gen[$i]=$request->gen_3;
+            $gen[$i]=2;
             $i++;
         }
 
         if(isset($request->gen_4)){
-            $gen[$i]=$request->gen_4;
+            $gen[$i]=3;
             $i++;
         }
 
         if(isset($request->gen_5)){
-            $gen[$i]=$request->gen_5;
+            $gen[$i]=4;
             $i++;
         }
 
         if(isset($request->gen_6)){
-            $gen[$i]=$request->gen_6;
+            $gen[$i]=5;
             $i++;
         }
 
         if(isset($request->gen_7)){
-            $gen[$i]=$request->gen_7;
+            $gen[$i]=6;
             $i++;
         }
 
         if(isset($request->gen_8)){
-            $gen[$i]=$request->gen_8;
+            $gen[$i]=7;
             $i++;
         }
 
         if(isset($request->gen_9)){
-            $gen[$i]=$request->gen_9;
+            $gen[$i]=8;
             $i++;
+        }
+
+        if ($plataforma==null) {
+            $plataforma[0]=0;
+            $plataforma[1]=1;
+            $plataforma[2]=2;
+        }
+
+        if ($type==null) {
+            $type[0]=0;
+            $type[1]=1;
+        }
+        
+        if ($gen==null) {
+            $gen[0]=0;
+            $gen[1]=1;
+            $gen[2]=2;
+
+            $gen[3]=3;
+            $gen[4]=4;
+            $gen[5]=5;
+
+            $gen[6]=6;
+            $gen[7]=7;
+            $gen[8]=8;
+            $gen[8]=8;
         }
 
         $product =Product::whereRaw('plataform', array($plataforma))
         ->whereRaw('type_product', array($type))
         ->whereRaw('gender', array($gen))->get();
+        dd($product);
         return view('products.searchproduct', ['products' => $product]);       
     }
     
