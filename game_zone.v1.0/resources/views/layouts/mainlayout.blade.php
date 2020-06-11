@@ -78,7 +78,7 @@
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="#" class="logo">
-									<img src="./img/logo_gz.png" alt="">
+									<img src={{URL::asset('./img/logo_gz.png')}} alt="">
 								</a>
 							</div>
 						</div>

@@ -49,7 +49,7 @@
                     <br>
                     <div class="col-md-2">
                         <!--Aquí van las imagenes del Producto-->
-                        <img src="{{$products[$j]->image}}" width="80" height="100">
+                        <img src={{URL::asset($products[$j]->image)}} width="80" height="100">
                     </div>
                     <div class="col-md-10">
                         <div class="row">

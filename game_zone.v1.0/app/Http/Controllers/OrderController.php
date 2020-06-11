@@ -40,8 +40,9 @@ class OrderController extends Controller
             $new_cart_product->save();
         }
 
-        $products2= DB::select('call Consult_Product()');
-        return view('products.product', ['products' => $products2]);
+        //$products2= DB::select('call Consult_Product()');
+        //return view('products.product', ['products' => $products2]);
+        return self::showCart();
     }
 
     function updateQuantity(Request $request){

@@ -229,7 +229,7 @@
 
                         <div class="product-widget">
                             <div class="product-img">
-                                <img src="./img/mega_man_zero_zx_zero_1.jpg" alt="">
+                                <img src={{URL::asset('./img/mega_man_zero_zx_zero_1.jpg')}} alt="">
                             </div>
                             <div class="product-body">
                                 <p class="product-category">Plataforma</p>
@@ -240,7 +240,7 @@
 
                         <div class="product-widget">
                             <div class="product-img">
-                                <img src="./img/nioh_2_ps4.jpg" alt="">
+                                <img src={{URL::asset('./img/nioh_2_ps4.jpg')}} alt="">
                             </div>
                             <div class="product-body">
                                 <p class="product-category">Plataforma</p>
@@ -283,7 +283,7 @@
                         <div class="col-md-4 col-xs-6">
                             <div class="product">
                                 <div class="product-img">
-                                    <img src="{{$products[$i]->image}}" alt="" width="100" height="350">
+                                    <img src={{URL::asset($products[$i]->image)}} alt="" width="100" height="350">
                                     <div class="product-label">
                                         <span class="sale">-30%</span>
                                         <span class="new">NEW</span>
