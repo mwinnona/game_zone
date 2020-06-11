@@ -43,6 +43,7 @@ class OrderController extends Controller
         //$products2= DB::select('call Consult_Product()');
         //return view('products.product', ['products' => $products2]);
         return self::showCart();
+        //return back();
     }
 
     function updateQuantity(Request $request){

@@ -23,7 +23,7 @@ class ProductController extends Controller
     }
 
     public function showAjax(Request $request){
-        dd($request);
+        
         $plataforma=array();
         $type=array();
         $gen=array();
@@ -132,8 +132,9 @@ class ProductController extends Controller
         $product =Product::whereRaw('plataform', array($plataforma))
         ->whereRaw('type_product', array($type))
         ->whereRaw('gender', array($gen))->get();
-        dd($product);
-        return view('products.searchproduct', ['products' => $product]);       
+       
+        //return view('products.searchproduct', ['products' => $product]);       
+        return view('products.product', ['products' => $product]);       
     }
     
     public function createProduct(Request $request){     
