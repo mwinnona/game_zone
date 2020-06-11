@@ -48,6 +48,46 @@
             <br>
             <h4>Quantity: {{$cart_products[$i]->quantity}}</h4>
             @endfor
+            <!-- Order Details -->
+					<div class="col-md-6 order-details">
+						<div class="section-title text-center">
+							<h3 class="title">Tu Pedido</h3>
+						</div>
+						<div class="order-summary">
+							<div class="order-col">
+								<div><strong>PRODUCTOS</strong></div>
+								<div><strong>TOTAL</strong></div>
+							</div>
+							<div class="order-products">
+								<!--Productos del pedido-->
+								<!--Aquí empieza el for para iterar los productos-->
+								<div class="order-col">
+									<!--Aquí va la cantidad elegida del producto-->
+									<div id="quantityProductOrder" name="quantityProductOrder">2</div>
+									<!--Aquí va el nombre del producto elegido-->
+									<div id="nameProductOrder" name="nameProductOrder">God Of War</div>
+									<!--Aquí va el precio total del producto(cantidad*precio)-->
+									<div id="priceProductOrder" name="priceProductOrder">$980.00</div>
+								</div>
+								<!--Fin del for-->
+							</div>
+							<div class="order-col">
+								<div><strong>TOTAL</strong></div>
+								<!--Aquí va el precio total del pedido-->
+								<div>
+									<strong class="order-total" id="priceOrder" name="priceOrder">$2940.00</strong>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-10 col-md-offset-1 product-details">
+							<div class="add-to-cart">
+								<button type="submit" class="add-to-cart-btn">
+									<i class="fa fa-shopping-cart"></i>Realizar Pedido
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- /Order Details -->
             <!-- Cart-->
         </div>
         <!-- /row -->

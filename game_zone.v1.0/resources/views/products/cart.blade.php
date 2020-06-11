@@ -96,7 +96,7 @@
                                             <!--Aquí va la cantidad del producto-->
                                             <div class="qty-label">
                                                 <div class="input-number">
-                                                    <input id="quantity" name="quantity" type="number" value="{{$cart_products[$i]->quantity}}"/><span class="qty-up">+</span>
+                                                    <input id="quantity[]" name="quantity[]" type="number" value="{{$cart_products[$i]->quantity}}"/><span class="qty-up">+</span>
                                                     <span class="qty-down">-</span>
                                                 </div>
                                             </div>
@@ -117,6 +117,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="{{$cart_products[$i]->id}}" id="escoger[]" name="escoger[]">
                                         <!--<label class="form-check-label" for="defaultCheck1"></label>-->
+                                        <input type="hidden" id="id_product[]" name="id_product[]" value="{{$cart_products[$i]->id}}">
                                       </div>
                                 </div>
                             </div>
@@ -156,5 +157,5 @@
 @endsection
 
 @section('plugin')
-<script src={{ asset("js/products.js")}}></script>   
+<script src={{ asset("js/products.js")}}></script>  
 @endsection

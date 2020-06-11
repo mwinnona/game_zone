@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\TokenController;
 use App\Product;
 use App\Cart_Product;
+use App\Order;
+use App\Product_Order;
 //use App\Http\Controllers\Auth;
 use Validator;
 
@@ -323,53 +325,6 @@ class ProductController extends Controller
             
         }
 
-    }
-
-    //Cart
-
-    public function showCart(){
-        $id_user = \Auth::user()->id;
-        $cart_products = Cart_Product::where('id_user', $id_user)->get();
-        $products = Product::all();
-        return view('products.cart', ['cart_products'=>$cart_products, 'products'=>$products]);
-    }
-
-    public function addCart($token){
-        $id_user = \Auth::user()->id;
-        $product = Product::where('token_product', $token)->first();
-        $id_product = $product->id;
-        $cart_product = Cart_Product::where('id_product', $id_product)->where('id_user', $id_user)->first();
-        if(isset($cart_product)){
-            $quantity = $cart_product->quantity + 1;
-            Cart_Product::where('id_product', $id_product)->where('id_user', $id_user)->update(['quantity'=>$quantity]);
-        }else{
-            $token = new TokenController();
-            $new_cart_product = new Cart_Product();
-            $new_cart_product->id_product = $product->id;
-            $new_cart_product->id_user = $id_user;
-            $new_cart_product->quantity = 1;
-            $new_cart_product->token_product_cart = $token->randomString(15);
-            $new_cart_product->save();
-        }
-
-        $products2= DB::select('call Consult_Product()');
-        return view('products.product', ['products' => $products2]);
-    }
-
-    public function preOrder(Request $request){
-        $id_user = \Auth::user()->id;
-        $chosse = $request->escoger;
-        $array = array();
-        for($i=0;$i<count($chosse);$i++){
-            $cart_products = Cart_Product::where('id_user', $id_user)->get();
-            for($j=0;$j<count($cart_products);$j++){
-                if($cart_products[$j]->id==$chosse[$i]){
-                    $array[$i] = $cart_products[$j];
-                    break;
-                }
-            } 
-        }
-        return view('products.order', ['cart_products' => $array]);
     }
 }
 
