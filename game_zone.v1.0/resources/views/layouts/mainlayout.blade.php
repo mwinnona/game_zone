@@ -87,14 +87,13 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form>
+								<form method ="POST" action ="{{url('/buscar_juego')}}" enctype="multipart/form-data">
+									@csrf
 									<select class="input-select">
-										<option value="0">Categorias</option>
-										<option value="1">Plataforma</option>
-										<option value="1">Genero</option>
+										<option value="0">Nombre</option>
 									</select>
-									<input class="input" placeholder="Search here">
-									<button class="search-btn"><a href="{{url('/producto')}}">Buscar</button>
+									<input class="input" name="gameName" placeholder="Escriba el nombre del juego">
+									<button type="submit" class="search-btn">Buscar</button>
 								</form>
 							</div>
 						</div>
@@ -196,9 +195,9 @@
 						<li class="active"><a href="#">Home</a></li>
 						<li><a href="#">Hot Sale</a></li>
 						<li><a href="{{url('/producto')}}">Todos los Juegos</a></li>
-						<li><a href="#">Xbox</a></li>
-						<li><a href="#">PS4</a></li>
-						<li><a href="#">Nintento Switch</a></li>
+						<li><a href="{{URL('/buscar/'.'1')}}">Xbox</a></li>
+						<li><a href="{{URL('/buscar/'.'0')}}">PS4</a></li>
+						<li><a href="{{URL('/buscar/'.'2')}}">Nintento Switch</a></li>
 						<li><a href="#">Accessorios</a></li>
 					</ul>
 					<!-- /NAV -->

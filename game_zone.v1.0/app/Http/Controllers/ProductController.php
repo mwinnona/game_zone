@@ -33,6 +33,7 @@ class ProductController extends Controller
             $i++;
         }
 
+
         if(isset($request->cat_2)){
             $plataforma[$i]=1;
             $i++;
@@ -43,18 +44,14 @@ class ProductController extends Controller
             $i++;
         }
 
-        if(isset($request->cat_3)){
-            $plataforma[$i]=3;
-            $i++;
-        }
 
         if(isset($request->type_1)){
-            $type[$i]=0;
+            $type[$i]=1;
             $i++;
         }
 
         if(isset($request->type_2)){
-            $type[$i]=1;
+            $type[$i]=0;
             $i++;
         }
 
@@ -110,8 +107,7 @@ class ProductController extends Controller
         }
 
         if ($type==null) {
-            $type[0]=0;
-            $type[1]=1;
+            $type[0]=1;
         }
         
         if ($gen==null) {
@@ -128,15 +124,39 @@ class ProductController extends Controller
             $gen[8]=8;
             $gen[8]=8;
         }
-
+        
+        
+        dd(array($plataforma));
         $product =Product::whereRaw('plataform', array($plataforma))
         ->whereRaw('type_product', array($type))
         ->whereRaw('gender', array($gen))->get();
+        dd($product);
        
         //return view('products.searchproduct', ['products' => $product]);       
         return view('products.product', ['products' => $product]);       
     }
-    
+    public function juegosxPlataforma($plataforma){
+        
+        if($plataforma==0 || $plataforma=='0'){
+            $products=Product::where('plataform', 0)->get();  
+        }else if($plataforma==1 || $plataforma=='1'){
+            $products=Product::where('plataform', 1)->get(); 
+            
+        }else if($plataforma==2 || $plataforma=='2'){
+            $products=Product::where('plataform', 2)->get();  
+        }else{
+            $products=Product::all();         
+        }
+       
+        return view('products.product', ['products' => $products]); 
+    }
+
+    public function juegosxNombre(Request $request){
+        $products=Product::where('name', 'LIKE', "%$request->gameName%")->get();
+        
+        return view('products.product', ['products' => $products]);
+    }
+
     public function createProduct(Request $request){     
        
         $token= new TokenController();

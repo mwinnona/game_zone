@@ -47,6 +47,8 @@ Route::get('/ver_producto/{token}', 'ProductController@examinateProduct');
 Route::post('/modificar_producto', 'ProductController@updateProduct');
 Route::get('/eliminar_product/{token}', 'ProductController@changeStatus');
 Route::post('/buscar_producto', 'ProductController@showAjax');
+Route::post('/buscar_juego', 'ProductController@juegosxNombre');
+Route::get('/buscar/{plataforma}', 'ProductController@juegosxPlataforma');
 
 //Order
 Route::get('/carrito', 'OrderController@showCart');
