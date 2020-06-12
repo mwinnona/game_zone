@@ -28,33 +28,36 @@ class ProductController extends Controller
         $type=array();
         $gen=array();
         $i=0;
-        if(isset($request->cat_1)&& $request->cat_1==1 ){
+        
+        if(isset($request->cat_1) && $request->cat_1==1 ){
             $plataforma[$i]=1;
             $i++;
         }
-
+        
         if(isset($request->cat_2) && $request->cat_2==1){
             $plataforma[$i]=2;
             $i++;
         }
+       
 
-        if(isset($request->cat_3)&& $request->cat_3==1){
+        if(isset($request->cat_3) && $request->cat_3==1){
             $plataforma[$i]=3;
             $i++;
         }
        
+        $product =Product::whereRAW('plataform =?', [$plataforma])->get();
 
-        if(isset($request->type_1)&& $request->type_1==1){
+        if(isset($request->type_1) && $request->type_1==1){
             $type[$i]=0;
             $i++;
         }
 
-        if(isset($request->type_2)&& $request->type_2==1){
+        if(isset($request->type_2) && $request->type_2==1){
             $type[$i]=1;
             $i++;
         }
 
-        if(isset($request->gen_1)&& $request->gen_1==1){
+        if(isset($request->gen_1) && $request->gen_1==1){
             $gen[$i]=1;
             $i++;
         }
@@ -64,37 +67,37 @@ class ProductController extends Controller
             $i++;
         }
 
-        if(isset($request->gen_3)&& $request->gen_3==1){
+        if(isset($request->gen_3)  && $request->gen_3==1){
             $gen[$i]=3;
             $i++;
         }
 
-        if(isset($request->gen_4)&&$request->gen_4==1 ){
+        if(isset($request->gen_4) &&$request->gen_4==1 ){
             $gen[$i]=4;
             $i++;
         }
 
-        if(isset($request->gen_5)&& $request->gen_5==1 ){
+        if(isset($request->gen_5)  && $request->gen_5==1 ){
             $gen[$i]=5;
             $i++;
         }
 
-        if(isset($request->gen_6)&& $request->gen_6==1){
+        if(isset($request->gen_6) && $request->gen_6==1){
             $gen[$i]=6;
             $i++;
         }
 
-        if(isset($request->gen_7)&& $request->gen_7==1){
+        if(isset($request->gen_7) && $request->gen_7==1){
             $gen[$i]=7;
             $i++;
         }
 
-        if(isset($request->gen_8)&& $request->gen_8==1 ){
+        if(isset($request->gen_8)  && $request->gen_8==1 ){
             $gen[$i]=8;
             $i++;
         }
 
-        if(isset($request->gen_9)&& $request->gen_9==1){
+        if(isset($request->gen_9) && $request->gen_9==1){
             $gen[$i]=9;
             $i++;
         }
