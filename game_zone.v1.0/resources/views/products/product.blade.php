@@ -314,7 +314,7 @@
                                     </div>
                                 </div>
                                 <div class="add-to-cart">
-                                    <a href="{{URL('/agregar_carrito/'.$products[$i]->token_product)}}">
+                                    <a href="{{URL('/agregar_carrito/'.$products[$i]->token_product)}}" onclick="return confirm('Estas seguro de eliminar');">
                                         <button type="submit"class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>add to cart</button>
                                     </a>
                                 </div>

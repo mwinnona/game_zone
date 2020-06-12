@@ -126,11 +126,11 @@ class ProductController extends Controller
         }
         
         
-        dd(array($plataforma));
+        //dd(array($plataforma));
         $product =Product::whereRaw('plataform', array($plataforma))
         ->whereRaw('type_product', array($type))
         ->whereRaw('gender', array($gen))->get();
-        dd($product);
+        //dd($product);
        
         //return view('products.searchproduct', ['products' => $product]);       
         return view('products.product', ['products' => $product]);       
@@ -138,14 +138,16 @@ class ProductController extends Controller
     public function juegosxPlataforma($plataforma){
         
         if($plataforma==0 || $plataforma=='0'){
-            $products=Product::where('plataform', 0)->get();  
+            $products=Product::where('plataform', 0)->get();
+
         }else if($plataforma==1 || $plataforma=='1'){
             $products=Product::where('plataform', 1)->get(); 
-            
+
         }else if($plataforma==2 || $plataforma=='2'){
-            $products=Product::where('plataform', 2)->get();  
+            $products=Product::where('plataform', 2)->get();
+
         }else{
-            $products=Product::all();         
+            $products=Product::all();    
         }
        
         return view('products.product', ['products' => $products]); 

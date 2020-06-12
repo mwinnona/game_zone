@@ -51,32 +51,34 @@ class OrderController extends Controller
         $quantitys = $request->quantity;
         $id_products = $request->id_product;
         for($i=0;$i<count($id_products);$i++){
-            $id_p = $id_products[$i];
-            $new_quantity = $quantitys[$i];
-            Cart_Product::where('id_product', $id_p)->where('id_user', $id)->update(['quantity'=>$new_quantity]);
+            $cartProducts = Cart_Product::where('id_user', $id)->get();
+            for($j=0;$j<count($cartProducts);$j++){
+                if($cartProducts[$j]->id_product==$id_products[$i]){
+                    $quantity = intval($quantitys[$i]);
+                    Cart_Product::where('id_user', $id)->where('id_product', $cartProducts[$j]->id_product)->update(['quantity'=>$quantity]);
+                }
+            }
         }
     }
 
     public function preOrder(Request $request){
         $id_user = \Auth::user()->id;
         self::updateQuantity($request);
-        dd('Holi Boli');
         $chosse = $request->escoger;
         if($chosse!=null){
-            $array = array();
+            $arrayCart = array();
             for($i=0;$i<count($chosse);$i++){
                 $cart_products = Cart_Product::where('id_user', $id_user)->get();
                  for($j=0;$j<count($cart_products);$j++){
                     if($cart_products[$j]->id==$chosse[$i]){
-                        $array[$i] = $cart_products[$j];
+                        $arrayCart[$i] = $cart_products[$j];
                         break;
                     }
                 } 
             }
-            
-            //return view('products.order', ['cart_products' => $array]);
-            $aux =new ProductController();
-            return $aux->show();
+            return view('products.order', ['cart_products' => $arrayCart]);
+        }else{
+            return redirect()->back()->with('alert', 'Escoje un juego para generar un pedido');
         }
     }
 }
