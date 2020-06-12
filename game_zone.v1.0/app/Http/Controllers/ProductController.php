@@ -157,17 +157,15 @@ class ProductController extends Controller
     }
     public function juegosxPlataforma($plataforma){
         
-        if($plataforma==0 || $plataforma=='0'){
-            $products=Product::where('plataform', 0)->get();
-
-        }else if($plataforma==1 || $plataforma=='1'){
-            $products=Product::where('plataform', 1)->get(); 
+        if($plataforma==1 || $plataforma=='1'){
+            $products=Product::where('plataform', 1)->get();
 
         }else if($plataforma==2 || $plataforma=='2'){
-            $products=Product::where('plataform', 2)->get();
+            $products=Product::where('plataform', 2)->get(); 
 
-        }else{
-            $products=Product::all();    
+        }else if($plataforma==3 || $plataforma=='3'){
+            $products=Product::where('plataform', 3)->get();
+
         }
        
         return view('products.product', ['products' => $products]); 
