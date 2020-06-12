@@ -11,6 +11,7 @@
 
 
 @section('content')
+
 <div id="breadcrumb" class="section">
     <!-- container -->
     <div class="container">
@@ -117,7 +118,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="{{$cart_products[$i]->id}}" id="escoger[]" name="escoger[]">
                                         <!--<label class="form-check-label" for="defaultCheck1"></label>-->
-                                        <input type="hidden" id="id_product[]" name="id_product[]" value="{{$cart_products[$i]->id}}">
+                                        <input type="hidden" id="id_product[]" name="id_product[]" value="{{$cart_products[$i]->id_product}}">
                                       </div>
                                 </div>
                             </div>
@@ -157,5 +158,12 @@
 @endsection
 
 @section('plugin')
-<script src={{ asset("js/products.js")}}></script>  
+<script src={{ asset("js/products.js")}}></script> 
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+        alert(msg);
+    }
+</script>
 @endsection
