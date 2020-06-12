@@ -24,115 +24,105 @@ class ProductController extends Controller
 
     public function showAjax(Request $request){
         
-        $plataforma=array();
-        $type=array();
-        $gen=array();
-        $i=0;
-        
         if(isset($request->cat_1) && $request->cat_1==1 ){
-            $plataforma[$i]=1;
-            $i++;
+            $plataforma1=1;
+        }else{
+            $plataforma1=null;
         }
         
         if(isset($request->cat_2) && $request->cat_2==1){
-            $plataforma[$i]=2;
-            $i++;
+            $plataforma2=2;
+        }else{
+            $plataforma2=null;
         }
-       
-
+  
         if(isset($request->cat_3) && $request->cat_3==1){
-            $plataforma[$i]=3;
-            $i++;
+            $plataforma3=3;
+        }else{
+            $plataforma3=null;
         }
-       
-        $product =Product::whereRAW('plataform =?', [$plataforma])->get();
 
         if(isset($request->type_1) && $request->type_1==1){
-            $type[$i]=0;
-            $i++;
+            $type1=0;
+        }else{
+            $type1=null;
         }
 
         if(isset($request->type_2) && $request->type_2==1){
-            $type[$i]=1;
-            $i++;
+            $type2=1;
+        }else{
+            $type2=null;
         }
 
         if(isset($request->gen_1) && $request->gen_1==1){
-            $gen[$i]=1;
-            $i++;
+            $gen1=1;
+        }else{
+            $gen1=null;
         }
 
         if(isset($request->gen_2) && $request->gen_2==1){
-            $gen[$i]=2;
-            $i++;
+            $gen2=2;
+        }else{
+            $gen2=null;
         }
 
         if(isset($request->gen_3)  && $request->gen_3==1){
-            $gen[$i]=3;
-            $i++;
+            $gen3=3;
+        }else{
+            $gen3=null;
         }
 
         if(isset($request->gen_4) &&$request->gen_4==1 ){
-            $gen[$i]=4;
-            $i++;
+            $gen4=4;
+        }else{
+            $gen4=null;
         }
 
         if(isset($request->gen_5)  && $request->gen_5==1 ){
-            $gen[$i]=5;
-            $i++;
+            $gen5=5;
+        }else{
+            $gen5=null;
         }
 
         if(isset($request->gen_6) && $request->gen_6==1){
-            $gen[$i]=6;
-            $i++;
+            $gen6=6;
+        }else{
+            $gen6=null;
         }
 
         if(isset($request->gen_7) && $request->gen_7==1){
-            $gen[$i]=7;
-            $i++;
+            $gen7=7;
+        }else{
+            $gen7=null; 
         }
 
         if(isset($request->gen_8)  && $request->gen_8==1 ){
-            $gen[$i]=8;
-            $i++;
+            $gen8=8;
+        }else{
+            $gen8=null;
         }
 
         if(isset($request->gen_9) && $request->gen_9==1){
-            $gen[$i]=9;
-            $i++;
+            $gen9=9;
+        }else{
+            $gen9=null;
         }
-
-        if ($plataforma==null) {
-            $plataforma[1]=1;
-            $plataforma[2]=2;
-            $plataforma[0]=3;
-        }
-
-        if ($type==null) {
-            $type[0]=0;
-        }
-        
-        if ($gen==null) {
-            
-            $gen[1]=1;
-            $gen[2]=2;
-
-            $gen[3]=3;
-            $gen[4]=4;
-            $gen[5]=5;
-
-            $gen[6]=6;
-            $gen[7]=7;
-            $gen[8]=8;
-            $gen[8]=8;
-            $gen[8]=9;
-        }
-        
-        
-        $product =Product::whereRaw('plataform', array($plataforma))
-        ->whereRaw('type_product', array($type))
-        ->whereRaw('gender', array($gen))->get();
-        dd($product);
+   
+        $product =Product::where('plataform', $plataforma1)
+        ->orWhere('plataform', $plataforma2)   
+        ->orWhere('plataform', $plataforma3)
+        ->where('type_product', $type1 )  
+        ->orWhere('type_product', $type2) 
+        ->where('gender', $gen1 )  
+        ->orWhere('gender', $gen2 )
+        ->orWhere('gender', $gen3 )  
+        ->orWhere('gender', $gen4 )
+        ->orWhere('gender', $gen5 )
+        ->orWhere('gender', $gen6 )
+        ->orWhere('gender', $gen7 )
+        ->orWhere('gender', $gen8 )
+        ->orWhere('gender', $gen9 )
+        ->get();
        
         //return view('products.searchproduct', ['products' => $product]);       
         return view('products.product', ['products' => $product]);       
