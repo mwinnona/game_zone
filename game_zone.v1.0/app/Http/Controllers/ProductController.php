@@ -24,113 +24,133 @@ class ProductController extends Controller
 
     public function showAjax(Request $request){
         
-        $plataforma=array();
-        $type=array();
-        $gen=array();
-        $i=0;
-        if(isset($request->cat_1)){
-            $plataforma[$i]=0;
-            $i++;
-        }
-
-
-        if(isset($request->cat_2)){
-            $plataforma[$i]=1;
-            $i++;
-        }
-
-        if(isset($request->cat_3)){
-            $plataforma[$i]=2;
-            $i++;
-        }
-
-
-        if(isset($request->type_1)){
-            $type[$i]=1;
-            $i++;
-        }
-
-        if(isset($request->type_2)){
-            $type[$i]=0;
-            $i++;
-        }
-
-        if(isset($request->gen_1)){
-            $gen[$i]=0;
-            $i++;
-        }
-
-        if(isset($request->gen_2)){
-            $gen[$i]=1;
-            $i++;
-        }
-
-        if(isset($request->gen_3)){
-            $gen[$i]=2;
-            $i++;
-        }
-
-        if(isset($request->gen_4)){
-            $gen[$i]=3;
-            $i++;
-        }
-
-        if(isset($request->gen_5)){
-            $gen[$i]=4;
-            $i++;
-        }
-
-        if(isset($request->gen_6)){
-            $gen[$i]=5;
-            $i++;
-        }
-
-        if(isset($request->gen_7)){
-            $gen[$i]=6;
-            $i++;
-        }
-
-        if(isset($request->gen_8)){
-            $gen[$i]=7;
-            $i++;
-        }
-
-        if(isset($request->gen_9)){
-            $gen[$i]=8;
-            $i++;
-        }
-
-        if ($plataforma==null) {
-            $plataforma[0]=0;
-            $plataforma[1]=1;
-            $plataforma[2]=2;
-        }
-
-        if ($type==null) {
-            $type[0]=1;
+        if(isset($request->cat_1) && $request->cat_1==1 ){
+            $plataforma1=1;
+        }else{
+            $plataforma1=null;
         }
         
-        if ($gen==null) {
-            $gen[0]=0;
-            $gen[1]=1;
-            $gen[2]=2;
-
-            $gen[3]=3;
-            $gen[4]=4;
-            $gen[5]=5;
-
-            $gen[6]=6;
-            $gen[7]=7;
-            $gen[8]=8;
-            $gen[8]=8;
+        if(isset($request->cat_2) && $request->cat_2==1){
+            $plataforma2=2;
+        }else{
+            $plataforma2=null;
         }
-        
-        
-        //dd(array($plataforma));
-        $product =Product::whereRaw('plataform', array($plataforma))
-        ->whereRaw('type_product', array($type))
-        ->whereRaw('gender', array($gen))->get();
-        //dd($product);
+  
+        if(isset($request->cat_3) && $request->cat_3==1){
+            $plataforma3=3;
+        }else{
+            $plataforma3=null;
+        }
+
+        if(isset($request->type_1) && $request->type_1==1){
+            $type1=0;
+        }else{
+            $type1=null;
+        }
+
+        if(isset($request->type_2) && $request->type_2==1){
+            $type2=1;
+        }else{
+            $type2=null;
+        }
+
+        if(isset($request->gen_1) && $request->gen_1==1){
+            $gen1=1;
+        }else{
+            $gen1=null;
+        }
+
+        if(isset($request->gen_2) && $request->gen_2==1){
+            $gen2=2;
+        }else{
+            $gen2=null;
+        }
+
+        if(isset($request->gen_3)  && $request->gen_3==1){
+            $gen3=3;
+        }else{
+            $gen3=null;
+        }
+
+        if(isset($request->gen_4) &&$request->gen_4==1 ){
+            $gen4=4;
+        }else{
+            $gen4=null;
+        }
+
+        if(isset($request->gen_5)  && $request->gen_5==1 ){
+            $gen5=5;
+        }else{
+            $gen5=null;
+        }
+
+        if(isset($request->gen_6) && $request->gen_6==1){
+            $gen6=6;
+        }else{
+            $gen6=null;
+        }
+
+        if(isset($request->gen_7) && $request->gen_7==1){
+            $gen7=7;
+        }else{
+            $gen7=null; 
+        }
+
+        if(isset($request->gen_8)  && $request->gen_8==1 ){
+            $gen8=8;
+        }else{
+            $gen8=null;
+        }
+
+        if(isset($request->gen_9) && $request->gen_9==1){
+            $gen9=9;
+        }else{
+            $gen9=null;
+        }
+
+        if(isset($request->price_1) && $request->price_1==1){
+            $p1=0; $p01=9.99;
+        }else{
+            $p1=null; $p01=null;
+        }
+
+        if(isset($request->price_2) && $request->price_2==1){
+            $p2=9.99; $p02=19.99;
+        }else{
+            $p2=null; $p02=null;
+        }
+
+        if(isset($request->price_3) && $request->price_3==1){
+            $p3=19.99; $p03=59.99;
+        }else{
+            $p3=null; $p03=null;
+        }
+
+        if(isset($request->price_4) && $request->price_4==1){
+            $p4=59.99; $p04=99.99;
+        }else{
+            $p4=null; $p04=null;
+        }
+   
+        $product =Product::where('plataform', $plataforma1)
+        ->orWhere('plataform', $plataforma2)   
+        ->orWhere('plataform', $plataforma3)
+        ->where('type_product', $type1 )  
+        ->orWhere('type_product', $type2) 
+        ->where('gender', $gen1 )  
+        ->orWhere('gender', $gen2 )
+        ->orWhere('gender', $gen3 )  
+        ->orWhere('gender', $gen4 )
+        ->orWhere('gender', $gen5 )
+        ->orWhere('gender', $gen6 )
+        ->orWhere('gender', $gen7 )
+        ->orWhere('gender', $gen8 )
+        ->orWhere('gender', $gen9 )
+        ->whereBetween('price', [$p1, $p01])
+        ->orWhereBetween('price', [$p2, $p02])
+        ->orWhereBetween('price', [$p3, $p03])
+        ->orWhereBetween('price', [$p4, $p04])
+        ->get();
        
         //return view('products.searchproduct', ['products' => $product]);       
         return view('products.product', ['products' => $product]);       
