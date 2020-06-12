@@ -291,9 +291,9 @@
                                 </div>
                                 <div class="product-body">
                                     <p class="product-category">Plataforma</p>
-                                    @if ($products[$i]->plataform=='0')
+                                    @if ($products[$i]->plataform=='1')
                                         <h3 class="product-name"><a href="#">Play Station 4</a></h3>
-                                    @elseif ($products[$i]->plataform=='1')
+                                    @elseif ($products[$i]->plataform=='2')
                                         <h3 class="product-name"><a href="#">Xbox</a></h3>
                                     @else 
                                         <h3 class="product-name"><a href="#">Nintento Switch</a></h3>
@@ -424,22 +424,22 @@
                                     <div class="col-md-6">
                                         <label for="platform">Plataforma:</label>
                                         <select class="form-control" name="platform" id="platform">
-                                            <option value="0">Ps4</option>
-                                            <option value="1">Xbox</option>
-                                            <option value="2">Nint. Switch</option>
+                                            <option value="1">Ps4</option>
+                                            <option value="2">Xbox</option>
+                                            <option value="3">Nint. Switch</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6"><label for="gender">Género:</label>
                                         <select class="form-control" name="gender" id="gender">
-                                            <option value="0">Aventura</option>
-                                            <option value="1">Shooters</option>
-                                            <option value="2">Estrategia</option>
-                                            <option value="3">Lucha</option>
-                                            <option value="4">RPG</option>
-                                            <option value="5">ARPG</option>
-                                            <option value="6">Plataformas</option>
-                                            <option value="7">Survival Horror</option>
-                                            <option value="8">Simulación</option>
+                                            <option value="1">Aventura</option>
+                                            <option value="2">Shooters</option>
+                                            <option value="3">Estrategia</option>
+                                            <option value="4">Lucha</option>
+                                            <option value="5">RPG</option>
+                                            <option value="6">ARPG</option>
+                                            <option value="7">Plataformas</option>
+                                            <option value="8">Survival Horror</option>
+                                            <option value="9">Simulación</option>
                                         </select>
                                     </div>
                                 </div>
@@ -451,8 +451,8 @@
                                     </div>
                                     <div class="col-md-6"><label for="type_product">Tipo::</label>
                                         <select class="form-control" name="type_product" id="type_product">
-                                            <option value="0">Físico</option>
-                                            <option value="1">Digital</option>
+                                            <option value="1">Físico</option>
+                                            <option value="0">Digital</option>
                                         </select>
                                     </div>
                                 </div>

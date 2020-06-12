@@ -74,7 +74,7 @@ $(document).ready(function(){
 
   $( "#category-2" ).change(function() {
     if(c2==0){
-        $('#category-2').val(2);
+        $('#category-2').val(1);
         c2=2;
     }else{
         $('#category-2').val(0);
@@ -84,7 +84,7 @@ $(document).ready(function(){
 
   $( "#category-3" ).change(function() {
     if(c3==0){
-        $('#category-3').val(3);
+        $('#category-3').val(1);
         c3=3;
     }else{
         $('#category-3').val(0);
@@ -104,7 +104,7 @@ $(document).ready(function(){
 
   $( "#type-2" ).change(function() {
     if(t1==0){
-        $('#type-2').val(2);
+        $('#type-2').val(1);
         t1=2;
     }else{
         $('#type-2').val(0);
@@ -166,7 +166,7 @@ $(document).ready(function(){
 
   $( "#brand-2" ).change(function() {
     if(g2==0){
-        $('#brand-2').val(2);
+        $('#brand-2').val(1);
         g2=2;
     }else{
         $('#brand-2').val(0);
@@ -176,7 +176,7 @@ $(document).ready(function(){
 
   $( "#brand-3" ).change(function() {
     if(g3==0){
-        $('#brand-3').val(3);
+        $('#brand-3').val(1);
         g3=3;
     }else{
         $('#brand-3').val(0);
@@ -186,7 +186,7 @@ $(document).ready(function(){
 
   $( "#brand-4" ).change(function() {
     if(g4==0){
-        $('#brand-4').val(4);
+        $('#brand-4').val(1);
         g4=4;
     }else{
         $('#brand-4').val(0);
@@ -196,7 +196,7 @@ $(document).ready(function(){
 
   $( "#brand-5" ).change(function() {
     if(g5==0){
-        $('#brand-5').val(5);
+        $('#brand-5').val(1);
         g5=5;
     }else{
         $('#brand-5').val(0);
@@ -206,7 +206,7 @@ $(document).ready(function(){
 
   $( "#brand-6" ).change(function() {
     if(g6==0){
-        $('#brand-6').val(6);
+        $('#brand-6').val(1);
         g6=6;
     }else{
         $('#brand-6').val(0);
@@ -216,7 +216,7 @@ $(document).ready(function(){
 
   $( "#brand-7" ).change(function() {
     if(g7==0){
-        $('#brand-7').val(7);
+        $('#brand-7').val(1);
         g7=7;
     }else{
         $('#brand-7').val(0);
@@ -227,7 +227,7 @@ $(document).ready(function(){
 
   $( "#brand-8" ).change(function() {
     if(g8==0){
-        $('#brand-8').val(8);
+        $('#brand-8').val(1);
         g8=8;
     }else{
         $('#brand-8').val(0);
@@ -237,7 +237,7 @@ $(document).ready(function(){
 
   $( "#brand-9" ).change(function() {
     if(g9==0){
-        $('#brand-9').val(9);
+        $('#brand-9').val(1);
         g9=9;
     }else{
         $('#brand-9').val(0);
