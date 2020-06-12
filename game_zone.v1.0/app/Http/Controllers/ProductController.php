@@ -107,6 +107,30 @@ class ProductController extends Controller
         }else{
             $gen9=null;
         }
+
+        if(isset($request->price_1) && $request->price_1==1){
+            $p1=0; $p01=9.99;
+        }else{
+            $p1=null; $p01=null;
+        }
+
+        if(isset($request->price_2) && $request->price_2==1){
+            $p2=9.99; $p02=19.99;
+        }else{
+            $p2=null; $p02=null;
+        }
+
+        if(isset($request->price_3) && $request->price_3==1){
+            $p3=19.99; $p03=59.99;
+        }else{
+            $p3=null; $p03=null;
+        }
+
+        if(isset($request->price_4) && $request->price_4==1){
+            $p4=59.99; $p04=99.99;
+        }else{
+            $p4=null; $p04=null;
+        }
    
         $product =Product::where('plataform', $plataforma1)
         ->orWhere('plataform', $plataforma2)   
@@ -122,6 +146,10 @@ class ProductController extends Controller
         ->orWhere('gender', $gen7 )
         ->orWhere('gender', $gen8 )
         ->orWhere('gender', $gen9 )
+        ->whereBetween('price', [$p1, $p01])
+        ->orWhereBetween('price', [$p2, $p02])
+        ->orWhereBetween('price', [$p3, $p03])
+        ->orWhereBetween('price', [$p4, $p04])
         ->get();
        
         //return view('products.searchproduct', ['products' => $product]);       
