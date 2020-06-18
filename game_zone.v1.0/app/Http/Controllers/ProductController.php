@@ -186,14 +186,15 @@ class ProductController extends Controller
         $parameters['name'] = 'required|min:2|max:115';
         $tmp['name'] = $request->name;
         $description= $request->description;
-        if($description!=null){
+       
             
             $parameters['description'] = 'required|min:2|max:400';
             $tmp['description'] = $description;
             
-        }
+        
         
         $messages = [
+            'name.required' => 'El nombre del producto es obligatorio.',
             'name.min' => 'El nombre del producto debe tener como mínimo 2 caracteres.',
             'name.max' => 'El nombre del producto debe tener como máximo 115 caracteres.',
             'description.min' => 'La descripcion del producto debe tener como mínimo 2 caracteres.',
@@ -203,11 +204,13 @@ class ProductController extends Controller
 
         $validar = Validator::make($tmp,$parameters,$messages);  
         if($validar->fails() ){
-            return response()->json(array(
-                'status' => 'fail',
-                'e_name'=> $validar->errors()->first('name') ,
-                'e_decription'=> $validar->errors()->first('description')
-            ),200);
+            
+
+            return redirect () -> back () -> withInput () -> withErrors (['status' => 'fail',
+            'e_name'=> $validar->errors()->first('name'),
+            'e_decription'=> $validar->errors()->first('description')]);
+
+
         }else{
     
                    

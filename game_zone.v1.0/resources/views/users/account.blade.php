@@ -82,7 +82,7 @@
                                 <div class="add-to-cart text-center">
                                     <button type="submit" class="add-to-cart-btn" id="editarButton" style="display:none">
                                         <i class="fa fa-arrow-circle-o-right">
-                                        </i>Editar Usuario
+                                        </i>Guadar cambios
                                     </button>
                                 </div>
                             </div>
@@ -101,4 +101,5 @@
 @endsection
 @section('plugin')
     <script src={{ asset("js/users.js")}}></script>
+  
 @endsection

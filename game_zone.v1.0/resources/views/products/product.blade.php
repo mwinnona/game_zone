@@ -405,10 +405,20 @@
                                 <div class="form-group ">
                                     <label for="name">Nombre Completo del Producto:</label>
                                     <input class="form-control" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
+                                    @if($errors->first('e_name'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_name')}}
+                                        </span>                                           
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <label for="descripcion">Descripción:</label>
                                     <textarea class="form-control" type="text" id="description" name="description" placeholder="Describe el producto"></textarea>
+                                    @if($errors->first('e_decription'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_decription')}}
+                                        </span>                                           
+                                    @endif
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-md-6">
@@ -509,5 +519,10 @@
 @endsection
 @section('plugin')
 <script src={{ asset("js/products.js")}}></script>
+<script>
+@if($errors->first('status'))
+    $("#exampleModal").modal("show");
+    @endif
+</script>
    
 @endsection

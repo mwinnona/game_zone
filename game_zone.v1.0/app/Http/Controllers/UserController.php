@@ -67,9 +67,6 @@ class UserController extends Controller
             'name.min' => 'El nombre debe tener como mínimo 2 caracteres.',
             'name.max' => 'El nombre debe tener como máximo 50 caracteres.',
             'name.required' => 'El nombre es obligatorio.',
-            'password.min' => 'La contraseña debe tener como mínimo 8 caracteres.',
-            'password.max' => 'La contraseña debe tener como máximo 15 caracteres.',
-            'password.required' => 'La contraseña es obligatorio.',
             'email.required' =>'El email es obligatorio.',
             'email.email' =>'El correo no tiene el formato correcto.',
         ];
@@ -83,8 +80,6 @@ class UserController extends Controller
             'e_lastname'=> $validar->errors()->first('lastname'),
             'e_password' => $validar->errors()->first('password')]);
 
-
-            
         }else{
 
             if ($changes >0) {
