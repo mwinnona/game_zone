@@ -526,7 +526,7 @@
         }
     }
     function reLogin(){
-        var r = confirm('nel perro, ¿Login?')
+        var r = confirm('No puedes añadir ningun juego al carrito sin antes iniciar sesión, ¿Quieres que te redirijamos al login?')
         if(r==true){
             window.location="{{URL::to('login')}}";
         }

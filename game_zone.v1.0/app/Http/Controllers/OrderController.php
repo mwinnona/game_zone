@@ -134,6 +134,9 @@ class OrderController extends Controller
                     $productOrder->id_order = $order->id;
                     $productOrder->token_order_product = $products[$j]->token_product;
                     $productOrder->save();
+                    //API de correos de Laravel:
+                    $receivers = Receiver::pluck('email', \Auth::user()->email);
+                    Mail::to($receivers)->send(new EmergencyCallReceived($call));
                     break;
                 }
             }
