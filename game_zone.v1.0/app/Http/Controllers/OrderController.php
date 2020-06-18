@@ -16,10 +16,15 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public function showCart(){
-        $id_user = \Auth::user()->id;
-        $cart_products = Cart_Product::where('id_user', $id_user)->get();
-        $products = Product::all();
-        return view('products.cart', ['cart_products'=>$cart_products, 'products'=>$products]);
+        if(isset(\Auth::user()->id)){
+            $id_user = \Auth::user()->id;
+            $cart_products = Cart_Product::where('id_user', $id_user)->get();
+            $products = Product::all();
+            return view('products.cart', ['cart_products'=>$cart_products, 'products'=>$products]);
+        }else{
+            //return redirect()->route('login')->with('alert', 'Escoje un juego para generar un pedido');
+            return redirect('login')->with('status', 'Para agregar juegos al carrito, primero necesita iniciar sesión');
+        }
     }
 
     public function addCart($token){
@@ -76,9 +81,85 @@ class OrderController extends Controller
                     }
                 } 
             }
-            return view('products.order', ['cart_products' => $arrayCart]);
+            $products = array();
+            $total_amount = 0;
+            for($k=0;$k<count($arrayCart);$k++){
+                $arrayProducts = Product::all();
+                for($f=0;$f<count($arrayProducts);$f++){
+                    if($arrayCart[$k]->id_product==$arrayProducts[$f]->id){
+                        //$subTotal = $arrayProducts[$f]->price*;
+                        $arrayProducts[$f]->stock = $arrayCart[$k]->quantity;
+                        $subTotal = $arrayProducts[$f]->stock*$arrayProducts[$f]->price;
+                        $total_amount = $total_amount + $subTotal;
+                        $arrayProducts[$f]->price = $subTotal;
+                        $products[$k] = $arrayProducts[$f];
+                        break;
+                    }
+                }
+            }
+            return view('products.order', ['products' => $products, 'total_amount'=> $total_amount]);
         }else{
             return redirect()->back()->with('alert', 'Escoje un juego para generar un pedido');
         }
+    }
+    
+
+    public function order(Request $request){
+        //Order
+        if($request->cardNumber==null){
+            return redirect('carrito')->with('alert', 'Debes ingresar un método de pago para realizar el pedido.');
+        }
+        $id_user = \Auth::user()->id;
+        $token = new TokenController();
+        $token_order = $token->randomString(15);
+        $date = date('Y-m-d');
+        $new_Order = new Order();
+        $new_Order->id_user = $id_user;
+        $new_Order->token_order = $token_order;
+        $new_Order->total_amount = $request->priceOrder;
+        $new_Order->date_realization = $date;
+        $new_Order->save();
+        //Porducts-Order
+        $order = Order::where('token_order', $token_order)->first();
+        $tokenProducts = $request->token;
+        $products = Product::all();
+        $quantitys = $request->quantity;
+        $subTotals = $request->subTotal;
+        for($i=0;$i<count($tokenProducts);$i++){
+            for($j=0;$j<count($products);$j++){
+                if($products[$j]->token_product==$tokenProducts[$i]){
+                    $productOrder = new Product_Order();
+                    $productOrder->quantity = $quantitys[$i];
+                    $productOrder->subtotal = $subTotals[$i];
+                    $productOrder->id_order = $order->id;
+                    $productOrder->token_order_product = $products[$j]->token_product;
+                    $productOrder->save();
+                    //API de correos de Laravel:
+                    $receivers = Receiver::pluck('email', \Auth::user()->email);
+                    Mail::to($receivers)->send(new EmergencyCallReceived($call));
+                    break;
+                }
+            }
+        }
+        return redirect('pedidos');
+    }
+
+    public function showOrders(){
+        $id_user = \Auth::user()->id;
+        $orders = Order::where('id_user', $id_user)->get();
+        $products = Product::all();
+        $orderProducts = array();
+        $iterator = 0;
+        for($i=0;$i<count($orders);$i++){
+            $productsAux = Product_Order::where('id_order', $orders[$i]->id)->get();
+            for($j=0;$j<count($productsAux);$j++){
+                //$orderProducts.push($productsAux[$j]);
+                $orderProducts[$iterator]=$productsAux[$j];
+                $iterator++;
+            }
+            //array_push($orderProducts, $productsAux);
+        }
+        //dd($orderProducts[0]->token_order_product);
+        return view('products.orders', ['orderProducts' => $orderProducts, 'orders'=> $orders, 'products'=>$products])->with('alert', 'El Pedido se ah realizado de manera exitosa.');;
     }
 }

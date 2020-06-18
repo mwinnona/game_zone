@@ -54,3 +54,5 @@ Route::get('/buscar/{plataforma}', 'ProductController@juegosxPlataforma');
 Route::get('/carrito', 'OrderController@showCart');
 Route::get('/agregar_carrito/{token}', 'OrderController@addCart');
 Route::post('/realizar_pedido', 'OrderController@preOrder');
+Route::post('/confirmar_pedido', 'OrderController@order');
+Route::get('/pedidos', 'OrderController@showOrders');

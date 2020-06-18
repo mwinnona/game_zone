@@ -219,7 +219,7 @@
                                         <label for="descripcion">Descripción:</label>
                                         <textarea class="form-control" type="text" id="description" name="description" >{{$products['description']}}</textarea>
                                         @if($errors->first('e_decription'))
-                                        <span class="text-danger"  >
+                                        <span class="text-danger">
                                             {{ $errors->first('e_decription')}}
                                         </span>                                           
                                         @endif

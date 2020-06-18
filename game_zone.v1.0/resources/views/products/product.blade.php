@@ -314,9 +314,15 @@
                                     </div>
                                 </div>
                                 <div class="add-to-cart">
-                                    <a href="{{URL('/agregar_carrito/'.$products[$i]->token_product)}}" onclick="return confirm('Estas seguro de eliminar');">
+                                    @if(isset(Auth::user()->id))
+                                    <a onclick="add()" href="{{URL('/agregar_carrito/'.$products[$i]->token_product)}}">
                                         <button type="submit"class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>add to cart</button>
                                     </a>
+                                    @else
+                                    <a onclick="reLogin()">
+                                        <button type="submit"class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>add to cart</button>
+                                    </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -459,7 +465,7 @@
                                         <label for="stock">Stock:</label>
                                         <input class="form-control" type="number" id="stock" name="stock" value="10">
                                     </div>
-                                    <div class="col-md-6"><label for="type_product">Tipo::</label>
+                                    <div class="col-md-6"><label for="type_product">Tipo:</label>
                                         <select class="form-control" name="type_product" id="type_product">
                                             <option value="1">Físico</option>
                                             <option value="0">Digital</option>
@@ -518,11 +524,28 @@
     
 @endsection
 @section('plugin')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
 <script src={{ asset("js/products.js")}}></script>
 <script>
 @if($errors->first('status'))
     $("#exampleModal").modal("show");
     @endif
-</script>
+
    
+    function add(){
+        var a = confirm('Hemos añadido el Juego al carrito, ¿Quieres ir al carrito?')
+        if(a==true){
+            window.location="{{URL::to('cart')}}"
+        }
+    }
+    function reLogin(){
+        var r = confirm('No puedes añadir ningun juego al carrito sin antes iniciar sesión, ¿Quieres que te redirijamos al login?')
+        if(r==true){
+            window.location="{{URL::to('login')}}";
+        }
+    }
+</script>
+
 @endsection

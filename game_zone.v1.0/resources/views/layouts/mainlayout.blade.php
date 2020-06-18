@@ -111,11 +111,19 @@
 									</a>
 								</div>
 								<div>
+									@if(isset(Auth::user()->id))
 									<a href="{{URL('/carrito')}}">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Carrito</span>
-										<div class="qty">2</div>
+									<div class="qty">3</div>
 									</a>
+									@else
+									<a onclick="log()" href="#">
+										<i class="fa fa-shopping-cart"></i>
+										<span>Carrito</span>
+										<div class="qty">0</div>
+									</a>
+									@endif
 								</div>
 								<!-- /Wishlist -->
 
@@ -321,5 +329,13 @@
 <script src={{ asset("js/jquery.zoom.min.js")}}></script>
 <script src={{ asset("js/main.js")}}></script>
 <script src={{ asset("js/popper.min.js")}}></script>
+<script>
+    function log(){
+        var a = confirm('Necesitas iniciar sesión para accder al carrito, ¿Te redirijimos al login?');
+        if(a==true){
+            window.location="{{URL::to('login')}}"
+        }
+    }
+</script>
 @yield('plugin')
 

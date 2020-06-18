@@ -35,6 +35,11 @@
 
 </head>
 <body style="background-color: black" class="align-content-center">
+    @if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
 	<div class="container-fluid m-5 p-5">
         <div class="row">
             <div class="container-fluid  col-lg-4 rounded " style="background-color: white">

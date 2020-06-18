@@ -18,8 +18,8 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
-                    <li><a href="#">INICIO</a></li>
-                    <li><a href="#">CARRITO DE COMPRAS</a></li>
+                    <li><a href="{{url('/producto')}}">INICIO</a></li>
+                    <li><a href="{{url('/carrito')}}">CARRITO DE COMPRAS</a></li>
                     <li class="active">Pedido</li>
                 </ul>
             </div>
@@ -37,18 +37,9 @@
         <!-- row -->
         <div class="row">
             <!-- Cart-->
-            <h1>Holi Boli</h1>
-            @for($i=0;$i<count($cart_products);$i++)
-            <br>
-            <h4>ID: {{$cart_products[$i]->id}}</h4>
-            <br>
-            <h4>ID Product: {{$cart_products[$i]->id_product}}</h4>
-            <br>
-            <h4>ID User: {{$cart_products[$i]->id_user}}</h4>
-            <br>
-            <h4>Quantity: {{$cart_products[$i]->quantity}}</h4>
-            @endfor
-            <!-- Order Details -->
+			<!-- Order Details -->
+			    <form method="POST" action="{{url('/confirmar_pedido')}}" enctype="multipart/form-data">
+			    @csrf
 					<div class="col-md-6 order-details">
 						<div class="section-title text-center">
 							<h3 class="title">Tu Pedido</h3>
@@ -61,33 +52,72 @@
 							<div class="order-products">
 								<!--Productos del pedido-->
 								<!--Aquí empieza el for para iterar los productos-->
+								@for($i=0;$i<count($products);$i++)
 								<div class="order-col">
 									<!--Aquí va la cantidad elegida del producto-->
-									<div id="quantityProductOrder" name="quantityProductOrder">2</div>
+									<input class="form-control" type="hidden" id="token[]" name="token[]" value="{{$products[$i]->token_product}}">
+									<div><h4 class="text-warning">{{$products[$i]->stock}}</h4></div>
+									<input class="form-control" type="hidden" id="quantity[]" name="quantity[]" value="{{$products[$i]->stock}}">
 									<!--Aquí va el nombre del producto elegido-->
-									<div id="nameProductOrder" name="nameProductOrder">God Of War</div>
+									<div>
+										<img src={{URL::asset($products[$i]->image)}} width="40" height="50">
+									</div>
+									<div><h4>{{$products[$i]->name}}</h4></div>
 									<!--Aquí va el precio total del producto(cantidad*precio)-->
-									<div id="priceProductOrder" name="priceProductOrder">$980.00</div>
+									<div><h4>S/. {{$products[$i]->price}}</h4></div>
+									<input class="form-control" type="hidden" id="subTotal[]" name="subTotal[]" value="{{$products[$i]->price}}">
 								</div>
+								@endfor
 								<!--Fin del for-->
 							</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
 								<!--Aquí va el precio total del pedido-->
 								<div>
-									<strong class="order-total" id="priceOrder" name="priceOrder">$2940.00</strong>
+									<strong class="order-total">S/.{{$total_amount}}</strong>
+									<input class="form-control" type="hidden" id="priceOrder" name="priceOrder" value="{{$total_amount}}">
 								</div>
-							</div>
-						</div>
-						<div class="col-md-10 col-md-offset-1 product-details">
-							<div class="add-to-cart">
-								<button type="submit" class="add-to-cart-btn">
-									<i class="fa fa-shopping-cart"></i>Realizar Pedido
-								</button>
 							</div>
 						</div>
 					</div>
 					<!-- /Order Details -->
+					<h3>Pago por Tarjeta de Crédito</h3>
+					<br>
+					<div class="col-md-6">
+						<div clas="form-group">
+							<label for="nameHolder">Nombre del Titular:</label>
+							<input class="form-control" type="text" id="nameHolder" name="nameHolder">
+						</div>
+						<br>
+						<div class="col-md-12">
+							<div class="row form-group">
+								<div class="col-md-6">
+									<i class="fa fa-credit-card-alt"></i>
+									<label for="cardNumber">Número de Tarjeta:</label>
+									<input class="form-control" type="text" id="cardNumber" name="cardNumber">
+								</div>
+								<div class="col-md-6">
+									<label for="fecha">Fecha de Vencimiento:</label>
+									<input type="month" name="fecha" id="fecha" class="form-control" value="2020-08">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row form-group">
+								<div class="col-md-3">
+									<i class="fa fa-credit-card-alt"></i>
+									<label for="cardNumber">CVC:</label>
+									<input class="form-control" type="text" id="cardNumber" name="cardNumber">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8 col-md-offset-2 product-details">
+							<div class="add-to-cart">
+								<button  type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Finalizar Pedido</button>
+							</div>
+						</div>
+					</div>
+				</form>
             <!-- Cart-->
         </div>
         <!-- /row -->
@@ -99,4 +129,11 @@
 
 @section('plugin')
 <script src={{ asset("js/products.js")}}></script>   
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+        alert(msg);
+    }
+</script>
 @endsection
