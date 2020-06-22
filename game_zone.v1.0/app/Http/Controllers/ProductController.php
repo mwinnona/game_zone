@@ -191,12 +191,16 @@ class ProductController extends Controller
         $description= $request->description;
        
             
-            $parameters['description'] = 'required|min:2|max:400';
-            $tmp['description'] = $description;
+        $parameters['description'] = 'required|min:2|max:400';
+        $tmp['description'] = $description;
+
+        $parameters['price'] = 'required';
+        $tmp['price'] = $request->price;
             
         
         
         $messages = [
+            'price.required' => 'El precio del producto es obligatorio.',
             'name.required' => 'El nombre del producto es obligatorio.',
             'name.min' => 'El nombre del producto debe tener como mínimo 2 caracteres.',
             'name.max' => 'El nombre del producto debe tener como máximo 115 caracteres.',
@@ -211,6 +215,7 @@ class ProductController extends Controller
 
             return redirect () -> back () -> withInput () -> withErrors (['status' => 'fail',
             'e_name'=> $validar->errors()->first('name'),
+            'e_price'=> $validar->errors()->first('price'),
             'e_decription'=> $validar->errors()->first('description')]);
 
 

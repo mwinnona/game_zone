@@ -410,7 +410,7 @@
                             <div class="product-details">
                                 <div class="form-group ">
                                     <label for="name">Nombre Completo del Producto:</label>
-                                    <input class="form-control" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018">
+                                    <input class="form-control" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018" value="{{ old('name') }}">
                                     @if($errors->first('e_name'))
                                         <span class="text-danger"  >
                                             {{ $errors->first('e_name')}}
@@ -419,7 +419,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="descripcion">Descripción:</label>
-                                    <textarea class="form-control" type="text" id="description" name="description" placeholder="Describe el producto"></textarea>
+                                    <textarea class="form-control" type="text" id="description" name="description" placeholder="Describe el producto" value="{{ old('description') }}"></textarea>
                                     @if($errors->first('e_decription'))
                                         <span class="text-danger"  >
                                             {{ $errors->first('e_decription')}}
@@ -429,10 +429,15 @@
                                 <div class="row form-group">
                                     <div class="col-md-6">
                                         <label for="price">Precio:</label>
-                                        <input class="form-control" type="number" id="price" name="price" value="99.9">
+                                        <input class="form-control" type="number" id="price" name="price" placeholder="49.90" value="{{ old('price') }}">
+                                        @if($errors->first('e_price'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_price')}}
+                                        </span>                                           
+                                    @endif
                                     </div>
                                     <div class="col-md-6"><label for="release_Date">Lanzamiento:</label>
-                                        <input class="form-control" type="date" id="release_date" name="release_date" placeholder="">
+                                        <input class="form-control" type="date" id="release_date" name="release_date" placeholder="" value="{{ old('release_date') }}">
                                     </div>
                                 </div>
 
@@ -529,12 +534,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
 <script src={{ asset("js/products.js")}}></script>
 <script>
-@if($errors->first('status'))
-    $("#exampleModal").modal("show");
-    @endif
-
-   
-    function add(){
+     function add(){
         var a = confirm('Hemos añadido el Juego al carrito, ¿Quieres ir al carrito?')
         if(a==true){
             window.location="{{URL::to('cart')}}"
@@ -546,6 +546,10 @@
             window.location="{{URL::to('login')}}";
         }
     }
+    
+    @if($errors->first('status'))
+        $("#exampleModal").modal("show");
+    @endif
 </script>
 
 @endsection

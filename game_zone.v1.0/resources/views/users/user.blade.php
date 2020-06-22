@@ -97,7 +97,7 @@
                             <div class="col-md-6">
                                 <label for="name">Nombres:</label>
                                 <input class="form-control" type="hidden" id="type" name="type" placeholder="0" value="0">
-                                <input class="form-control" type="text" id="name" name="name" placeholder="Nombres">
+                                <input class="form-control" type="text" id="name" name="name" placeholder="Nombres" value="{{ old('name') }}">
                                 @if($errors->first('e_name'))
                                     <span class="text-danger"  >
                                         {{ $errors->first('e_name')}}
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="lastname">Apellidos:</label>
-                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Apellidos">
+                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Apellidos" value="{{ old('lastname') }}">
                                 @if($errors->first('e_lastname'))
                                     <span class="text-danger"  >
                                         {{ $errors->first('e_lastname')}}
@@ -116,7 +116,7 @@
                         </div>
                         <div class="form-group">
                             <label for="email">E-mail:</label>
-                            <input class="form-control" type="text" id="email" name="email" placeholder="Ingrese su E-mail">
+                            <input class="form-control" type="text" id="email" name="email" placeholder="Ingrese su E-mail" value="{{ old('email') }}">
                             <small id="emailHelp" class="form-text text-muted">No compartiremos su correo con nadie más.</small>
                             @if($errors->first('e_name'))
                                 <span class="text-danger"  >
