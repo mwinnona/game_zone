@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Dompdf\Dompdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +57,8 @@ Route::get('/agregar_carrito/{token}', 'OrderController@addCart');
 Route::post('/realizar_pedido', 'OrderController@preOrder');
 Route::post('/confirmar_pedido', 'OrderController@order');
 Route::get('/pedidos', 'OrderController@showOrders');
+
+
+//pdf
+
+Route::get('/downloadproducts', 'PdfController@rankingProducts');
