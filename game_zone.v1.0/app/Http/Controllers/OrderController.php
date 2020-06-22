@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\ProductController;
+use App\Mail\MessageOrder;
 use App\Product;
 use App\Cart_Product;
 use App\Order;
@@ -11,6 +12,7 @@ use Validator;
 use App\User;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -106,9 +108,9 @@ class OrderController extends Controller
 
     public function order(Request $request){
         //Order
-        if($request->cardNumber==null){
+        /*if($request->cardNumber==null){
             return redirect('carrito')->with('alert', 'Debes ingresar un método de pago para realizar el pedido.');
-        }
+        }*/
         $id_user = \Auth::user()->id;
         $token = new TokenController();
         $token_order = $token->randomString(15);
@@ -134,13 +136,14 @@ class OrderController extends Controller
                     $productOrder->id_order = $order->id;
                     $productOrder->token_order_product = $products[$j]->token_product;
                     $productOrder->save();
-                    //API de correos de Laravel:
-                    $receivers = Receiver::pluck('email', \Auth::user());
-                    Mail::to($receivers)->send(new EmergencyCallReceived($call));
                     break;
                 }
             }
         }
+        $products_Order = Product_Order::where('id_order', $order->id)->get();
+
+        //API de correos de Laravel para correo de pedido realizado:
+        Mail::to(\Auth::user()->email)->send(new MessageOrder($order, $products_Order, $products, \Auth::user()->name));
         return redirect('pedidos');
     }
 

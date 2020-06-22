@@ -133,7 +133,7 @@
             <div class="col-md-3">
                 <div class="product-details">
                     <div class="add-to-cart centrar-interno">
-                        <a onclick="alert('No has seleccionado ningun juego.')"><button type="submit" class="add-to-cart-btn"><i class="fa fa-close"></i>Eliminar Seleccionados</button></a>
+                        <a onclick="alert('No has seleccionado ningun juego.')"><button class="add-to-cart-btn"><i class="fa fa-close"></i>Eliminar Seleccionados</button></a>
                     </div>
                 </div>
                 <div class="product-details">

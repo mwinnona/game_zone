@@ -6,10 +6,13 @@ use App\Product;
 use App\Cart_Product;
 use App\Order;
 use App\Product_Order;
+use App\User;
+use App\Mail\MessageDeal;
 //use App\Http\Controllers\Auth;
 use Validator;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -261,7 +264,6 @@ class ProductController extends Controller
     }
 
     public function updateProduct(Request $request){
-       
         $producto_bd = Product::where('token_product', $request->token)->first();  
        
         $parameters=[];
@@ -318,7 +320,7 @@ class ProductController extends Controller
             $request->release_date = $producto_bd->release_date;
         }
 
-        if(!$request->price == $producto_bd->price){
+        if($request->price != $producto_bd->price){
             $tmp['price'] = $request->price;
         }else{
             $request->price = $producto_bd->price;
@@ -355,11 +357,22 @@ class ProductController extends Controller
                // $request->plataform, $request->gender, $request->price, $tmp_image, $request->release_date, $status,
                 //$request->stock));
                 
+                $old_product = Product::where('token_product', $request->token)->first();
+                
                 Product::where('token_product', $request->token)
                 ->update(['name'=>$request->name, 'description' =>$description, 'type_product'=>$request->type_product, 'image' =>$tmp_image,
                 'plataform' => $request->plataform, 'gender'=> $request->gender, 'price' =>  $request->price, 'release_date' =>$request->release_date,
                 'stock' => $request->stock, 'status' => $status]);
-  
+                
+                // Mensaje de ofertas
+                if($request->price<$old_product->price){
+                    $cartProducts= Cart_Product::where('id_product', $old_product->id)->get();
+                    for($i=0;$i<count($cartProducts);$i++){
+                        $user = User::where('id', $cartProducts[$i]->id_user)->first();
+                        Mail::to($user->email)->send(new MessageDeal($old_product, $request->price, $user->name));
+                    }
+                }
+
                 $product = Product::where('token_product', $request->token)->first(); 
 
                 return view('products.examinateproduct', [

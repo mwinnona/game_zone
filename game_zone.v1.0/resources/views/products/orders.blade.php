@@ -55,15 +55,14 @@
                     <div class="col-md-10">
                         <div class="row">
                             @for($j=0;$j<count($orderProducts);$j++)
-                            @if($orderProducts[$j]->id_order==$orders[$i]->id)
-                            @for($k=0;$k<count($products);$k++)
-                            @if($products[$k]->token_product==$orderProducts[$j]->token_order_product)
-                            <img src={{URL::asset($products[$k]->image)}} width="80" height="100">
-                            @break
-                            @endif
-                            @endfor
-                            @break
-                            @endif
+                                @if($orderProducts[$j]->id_order==$orders[$i]->id)
+                                    @for($k=0;$k<count($products);$k++)
+                                        @if($products[$k]->token_product==$orderProducts[$j]->token_order_product)
+                                            <img src={{URL::asset($products[$k]->image)}} width="80" height="100">
+                                            @break
+                                        @endif
+                                    @endfor
+                                @endif
                             @endfor
                         </div>
                     </div>

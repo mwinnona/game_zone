@@ -239,21 +239,21 @@
                                             <label for="platform">Plataforma:</label>
                                             <select class="form-control" name="plataform" id="plataform">
                                                 @if($products['plataform']==1)
-                                                <option value="0" selected>Ps4</option>
+                                                <option value="1" selected>Ps4</option>
                                                 @else 
-                                                <option value="0">Ps4</option>
+                                                <option value="1">Ps4</option>
                                                 @endif
 
                                                 @if($products['plataform']==2)
-                                                <option value="1" selected>Xbox</option>
+                                                <option value="2" selected>Xbox</option>
                                                 @else 
-                                                <option value="1">Xbox</option>
+                                                <option value="2">Xbox</option>
                                                 @endif
 
                                                 @if($products['plataform']==3)
-                                                <option value="2" selected>Nint. Switch</option>
+                                                <option value="3" selected>Nint. Switch</option>
                                                 @else 
-                                                <option value="2">Nint. Switch</option>
+                                                <option value="3">Nint. Switch</option>
                                                 @endif
 
                                             </select>
@@ -262,58 +262,58 @@
                                             <select class="form-control" name="gender" id="gender">
 
                                                 @if($products['gender']==1)
-                                                <option value="0" selected>Aventura</option>
+                                                <option value="1" selected>Aventura</option>
                                                 @else 
-                                                <option value="0">Aventura</option>
+                                                <option value="1">Aventura</option>
                                                 @endif
 
                                                 @if($products['gender']==2)
-                                                <option value="1" selected>Shooters</option>
+                                                <option value="2" selected>Shooters</option>
                                                 @else 
-                                                <option value="1">Shooters</option>
+                                                <option value="2">Shooters</option>
                                                 @endif
 
 
                                                 @if($products['gender']==3)
-                                                <option value="2" selected>Estrategia</option>
+                                                <option value="3" selected>Estrategia</option>
                                                 @else 
-                                                <option value="2">Estrategia</option>
+                                                <option value="3">Estrategia</option>
                                                 @endif
 
                                                 @if($products['gender']==4)
-                                                <option value="3" selected>Lucha</option>
+                                                <option value="4" selected>Lucha</option>
                                                 @else 
-                                                <option value="3">Lucha</option>
+                                                <option value="4">Lucha</option>
                                                 @endif
 
                                                 @if($products['gender']==5)
-                                                <option value="4" selected>RPG</option>
+                                                <option value="5" selected>RPG</option>
                                                 @else 
-                                                <option value="4">RPG</option>
+                                                <option value="5">RPG</option>
                                                 @endif
 
                                                 @if($products['gender']==6)
-                                                <option value="5" selected>ARPG</option>
+                                                <option value="6" selected>ARPG</option>
                                                 @else 
-                                                <option value="5">ARPG</option>
+                                                <option value="6">ARPG</option>
                                                 @endif
 
                                                 @if($products['gender']==7)
-                                                <option value="6" selected>Plataformas</option>
+                                                <option value="7" selected>Plataformas</option>
                                                 @else 
-                                                <option value="6">Plataformas</option>
+                                                <option value="7">Plataformas</option>
                                                 @endif
 
                                                 @if($products['gender']==8)
-                                                <option value="7" selected>Survival Horror</option>
+                                                <option value="8" selected>Survival Horror</option>
                                                 @else 
-                                                <option value="7">Survival Horror</option>
+                                                <option value="8">Survival Horror</option>
                                                 @endif
 
                                                 @if($products['gender']==9)
-                                                <option value="8" selected>Simulación</option>
+                                                <option value="9" selected>Simulación</option>
                                                 @else 
-                                                <option value="8">Simulación</option>
+                                                <option value="9">Simulación</option>
                                                 @endif
                                
                                             </select>
