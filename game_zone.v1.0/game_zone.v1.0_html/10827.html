@@ -1,0 +1,231 @@
+<html><head><title>CurlMultiHandler.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\guzzlehttp\guzzle\src\Handler\CurlMultiHandler.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\guzzlehttp\\guzzle\\src\\Handler\\CurlMultiHandler.php";
+top.document.title  = "CurlMultiHandler.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_G.html#90342">GuzzleHttp</a></span><span class="default">\Handler;</span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">GuzzleHttp\Exception\<a href="dictionary_G.html#100156">InvalidArgumentException</a>;</span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">GuzzleHttp\<a href="dictionary_G.html#139067">Promise</a> </span><span class="keyword">as <a href="dictionary_P.html#132007">P</a></span><span class="default">;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">GuzzleHttp\Promise\<a href="dictionary_G.html#139065">Promise</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">GuzzleHttp\<a href="dictionary_G.html#184857">Utils</a>;</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Psr\Http\Message\<a href="dictionary_P.html#147618">RequestInterface</a>;</span>
+<a name="9"><font size=-1>9     </font></a><span class="default"></span>
+<a name="10"><font size=-1>10     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"> * Returns an asynchronous response using curl_multi_* functions.</span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"> *</span>
+<a name="13"><font size=-1>13     </font></a><span class="comment"> * When using the CurlMultiHandler, custom curl options can be specified as an</span>
+<a name="14"><font size=-1>14     </font></a><span class="comment"> * associative array of curl option constants mapping to values in the</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment"> * **curl** key of the provided request options.</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment"> *</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment"> * @property resource $_mh Internal use only. Lazy loaded multi-handle.</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment"> */</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_G.html#55970">CurlMultiHandler</a></span>
+<a name="20"><font size=-1>20     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">    </span><span class="comment">/** @var CurlFactoryInterface */</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_G.html#75980">factory</a>;</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_G.html#153805">selectTimeout</a>;</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_G.html#24859">active</a>;</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_G.html#91472">handles</a> = [];</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_G.html#59672">delays</a> = [];</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_G.html#130599">options</a> = [];</span>
+<a name="28"><font size=-1>28     </font></a><span class="default"></span>
+<a name="29"><font size=-1>29     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment">     * This handler accepts the following options:</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment">     *</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment">     * - handle_factory: An optional factory  used to create curl handles</span>
+<a name="33"><font size=-1>33     </font></a><span class="comment">     * - select_timeout: Optional timeout (in seconds) to block before timing</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">     *   out while selecting curl handles. Defaults to 1 second.</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">     * - options: An associative array of CURLMOPT_* options and</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment">     *   corresponding values for curl_multi_setopt()</span>
+<a name="37"><font size=-1>37     </font></a><span class="comment">     *</span>
+<a name="38"><font size=-1>38     </font></a><span class="comment">     * @param array $options</span>
+<a name="39"><font size=-1>39     </font></a><span class="comment">     */</span>
+<a name="40"><font size=-1>40     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_G.html#18546">__construct</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_O.html#130316">options</a> = [])</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">    {</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">        $this-&gt;<a href="dictionary_G.html#75980">factory</a> = </span><span class="keyword">isset</span><span class="default">($<a href="dictionary_O.html#130316">options</a>[</span><span class="string">'handle_factory'</span><span class="default">])</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">            ? $<a href="dictionary_O.html#130316">options</a>[</span><span class="string">'handle_factory'</span><span class="default">] : </span><span class="keyword">new <a href="dictionary_G.html#55957">CurlFactory</a></span><span class="default">(</span><span class="number">50</span><span class="default">);</span>
+<a name="44"><font size=-1>44     </font></a><span class="default"></span>
+<a name="45"><font size=-1>45     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">isset</span><span class="default">($<a href="dictionary_O.html#130316">options</a>[</span><span class="string">'select_timeout'</span><span class="default">])) {</span>
+<a name="46"><font size=-1>46     </font></a><span class="default">            $this-&gt;<a href="dictionary_G.html#153805">selectTimeout</a> = $<a href="dictionary_O.html#130316">options</a>[</span><span class="string">'select_timeout'</span><span class="default">];</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">        } </span><span class="keyword">elseif </span><span class="default">($<a href="dictionary_S.html#153804">selectTimeout</a> = <a href="dictionary_G.html#85324">getenv</a>(</span><span class="string">'GUZZLE_CURL_SELECT_TIMEOUT'</span><span class="default">)) {</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">            $this-&gt;<a href="dictionary_G.html#153805">selectTimeout</a> = $selectTimeout;</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">            $this-&gt;<a href="dictionary_G.html#153805">selectTimeout</a> = </span><span class="number">1</span><span class="default">;</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        }</span>
+<a name="52"><font size=-1>52     </font></a><span class="default"></span>
+<a name="53"><font size=-1>53     </font></a><span class="default">        $this-&gt;<a href="dictionary_G.html#130599">options</a> = </span><span class="keyword">isset</span><span class="default">($<a href="dictionary_O.html#130316">options</a>[</span><span class="string">'options'</span><span class="default">]) ? $<a href="dictionary_O.html#130316">options</a>[</span><span class="string">'options'</span><span class="default">] : [];</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">    }</span>
+<a name="55"><font size=-1>55     </font></a><span class="default"></span>
+<a name="56"><font size=-1>56     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_G.html#19230">__get</a></span><span class="default">($<a href="dictionary_N.html#122487">name</a>)</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">    {</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_N.html#122487">name</a> === </span><span class="string">'_mh'</span><span class="default">) {</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">            $this-&gt;<a href="dictionary_&.html#20497">_mh</a> = <a href="dictionary_C.html#55935">curl_multi_init</a>();</span>
+<a name="60"><font size=-1>60     </font></a><span class="default"></span>
+<a name="61"><font size=-1>61     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">($this-&gt;<a href="dictionary_G.html#130599">options</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_O.html#129973">option</a> =&gt; $<a href="dictionary_V.html#186778">value</a>) {</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">                </span><span class="comment">// A warning is raised in case of a wrong option.</span>
+<a name="63"><font size=-1>63     </font></a><span class="comment">                <a href="dictionary_C.html#55938">curl_multi_setopt</a></span><span class="default">($this-&gt;<a href="dictionary_&.html#20497">_mh</a>, $<a href="dictionary_O.html#129973">option</a>, $<a href="dictionary_V.html#186778">value</a>);</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">            }</span>
+<a name="65"><font size=-1>65     </font></a><span class="default"></span>
+<a name="66"><font size=-1>66     </font></a><span class="default">            </span><span class="comment">// Further calls to _mh will return the value directly, without entering the</span>
+<a name="67"><font size=-1>67     </font></a><span class="comment">            // __get() method at all.</span>
+<a name="68"><font size=-1>68     </font></a><span class="comment">            </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_&.html#20497">_mh</a>;</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">        }</span>
+<a name="70"><font size=-1>70     </font></a><span class="default"></span>
+<a name="71"><font size=-1>71     </font></a><span class="default">        </span><span class="keyword">throw new </span><span class="default">\<a href="dictionary_B.html#33431">BadMethodCallException</a>();</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">    }</span>
+<a name="73"><font size=-1>73     </font></a><span class="default"></span>
+<a name="74"><font size=-1>74     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_G.html#19188">__destruct</a></span><span class="default">()</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">    {</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_&.html#20497">_mh</a>)) {</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">            <a href="dictionary_C.html#55932">curl_multi_close</a>($this-&gt;<a href="dictionary_&.html#20497">_mh</a>);</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">            </span><span class="keyword">unset</span><span class="default">($this-&gt;<a href="dictionary_&.html#20497">_mh</a>);</span>
+<a name="79"><font size=-1>79     </font></a><span class="default">        }</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">    }</span>
+<a name="81"><font size=-1>81     </font></a><span class="default"></span>
+<a name="82"><font size=-1>82     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_G.html#19273">__invoke</a></span><span class="default">(RequestInterface $<a href="dictionary_R.html#147352">request</a>, </span><span class="keyword">array </span><span class="default">$<a href="dictionary_O.html#130315">options</a>)</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">    {</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">        $<a href="dictionary_E.html#69056">easy</a> = $this-&gt;<a href="dictionary_G.html#75980">factory</a>-&gt;<a href="dictionary_C.html#50761">create</a>($<a href="dictionary_R.html#147352">request</a>, $<a href="dictionary_O.html#130315">options</a>);</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">        $<a href="dictionary_I.html#96721">id</a> = (int) $<a href="dictionary_E.html#69056">easy</a>-&gt;<a href="dictionary_H.html#91109">handle</a>;</span>
+<a name="86"><font size=-1>86     </font></a><span class="default"></span>
+<a name="87"><font size=-1>87     </font></a><span class="default">        $<a href="dictionary_P.html#139036">promise</a> = </span><span class="keyword">new <a href="dictionary_G.html#139069">Promise</a></span><span class="default">(</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">            [$this, </span><span class="string">'execute'</span><span class="default">],</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">            </span><span class="keyword">function </span><span class="default">() </span><span class="keyword">use </span><span class="default">($<a href="dictionary_I.html#96721">id</a>) {</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">                </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_G.html#39623">cancel</a>($<a href="dictionary_I.html#96721">id</a>);</span>
+<a name="91"><font size=-1>91     </font></a><span class="default">            }</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">        );</span>
+<a name="93"><font size=-1>93     </font></a><span class="default"></span>
+<a name="94"><font size=-1>94     </font></a><span class="default">        $this-&gt;<a href="dictionary_G.html#26071">addRequest</a>([</span><span class="string">'easy' </span><span class="default">=&gt; $<a href="dictionary_E.html#69056">easy</a>, </span><span class="string">'deferred' </span><span class="default">=&gt; $<a href="dictionary_P.html#139036">promise</a>]);</span>
+<a name="95"><font size=-1>95     </font></a><span class="default"></span>
+<a name="96"><font size=-1>96     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_P.html#139036">promise</a>;</span>
+<a name="97"><font size=-1>97     </font></a><span class="default">    }</span>
+<a name="98"><font size=-1>98     </font></a><span class="default"></span>
+<a name="99"><font size=-1>99     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="100"><font size=-1>100     </font></a><span class="comment">     * Ticks the curl event loop.</span>
+<a name="101"><font size=-1>101     </font></a><span class="comment">     */</span>
+<a name="102"><font size=-1>102     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_G.html#177974">tick</a></span><span class="default">()</span>
+<a name="103"><font size=-1>103     </font></a><span class="default">    {</span>
+<a name="104"><font size=-1>104     </font></a><span class="default">        </span><span class="comment">// Add any delayed handles if needed.</span>
+<a name="105"><font size=-1>105     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">($this-&gt;<a href="dictionary_G.html#59672">delays</a>) {</span>
+<a name="106"><font size=-1>106     </font></a><span class="default">            $<a href="dictionary_C.html#56285">currentTime</a> = <a href="dictionary_G.html#184855">Utils</a>::<a href="dictionary_G.html#56289">currentTime</a>();</span>
+<a name="107"><font size=-1>107     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">($this-&gt;<a href="dictionary_G.html#59672">delays</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_I.html#96717">id</a> =&gt; $<a href="dictionary_D.html#59621">delay</a>) {</span>
+<a name="108"><font size=-1>108     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($<a href="dictionary_C.html#56285">currentTime</a> &gt;= $<a href="dictionary_D.html#59621">delay</a>) {</span>
+<a name="109"><font size=-1>109     </font></a><span class="default">                    </span><span class="keyword">unset</span><span class="default">($this-&gt;<a href="dictionary_G.html#59672">delays</a>[$<a href="dictionary_I.html#96717">id</a>]);</span>
+<a name="110"><font size=-1>110     </font></a><span class="default">                    <a href="dictionary_C.html#55931">curl_multi_add_handle</a>(</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">                        $this-&gt;<a href="dictionary_&.html#20497">_mh</a>,</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">                        $this-&gt;<a href="dictionary_G.html#91472">handles</a>[$<a href="dictionary_I.html#96717">id</a>][</span><span class="string">'easy'</span><span class="default">]-&gt;<a href="dictionary_H.html#91109">handle</a></span>
+<a name="113"><font size=-1>113     </font></a><span class="default">                    );</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">                }</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">            }</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">        }</span>
+<a name="117"><font size=-1>117     </font></a><span class="default"></span>
+<a name="118"><font size=-1>118     </font></a><span class="default">        </span><span class="comment">// Step through the task queue which may add additional requests.</span>
+<a name="119"><font size=-1>119     </font></a><span class="comment">        <a href="dictionary_P.html#132007">P</a></span><span class="default">\<a href="dictionary_G.html#141000">queue</a>()-&gt;<a href="dictionary_R.html#151154">run</a>();</span>
+<a name="120"><font size=-1>120     </font></a><span class="default"></span>
+<a name="121"><font size=-1>121     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($this-&gt;<a href="dictionary_G.html#24859">active</a> &amp;&amp;</span>
+<a name="122"><font size=-1>122     </font></a><span class="default">            <a href="dictionary_C.html#55937">curl_multi_select</a>($this-&gt;<a href="dictionary_&.html#20497">_mh</a>, $this-&gt;<a href="dictionary_G.html#153805">selectTimeout</a>) === -</span><span class="number">1</span>
+<a name="123"><font size=-1>123     </font></a><span class="number">        </span><span class="default">) {</span>
+<a name="124"><font size=-1>124     </font></a><span class="default">            </span><span class="comment">// Perform a usleep if a select returns -1.</span>
+<a name="125"><font size=-1>125     </font></a><span class="comment">            // See: https://bugs.php.net/bug.php?id=61141</span>
+<a name="126"><font size=-1>126     </font></a><span class="comment">            <a href="dictionary_U.html#184762">usleep</a></span><span class="default">(</span><span class="number">250</span><span class="default">);</span>
+<a name="127"><font size=-1>127     </font></a><span class="default">        }</span>
+<a name="128"><font size=-1>128     </font></a><span class="default"></span>
+<a name="129"><font size=-1>129     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">(<a href="dictionary_C.html#55933">curl_multi_exec</a>($this-&gt;<a href="dictionary_&.html#20497">_mh</a>, $this-&gt;<a href="dictionary_G.html#24859">active</a>) === <a href="dictionary_C.html#55969">CURLM_CALL_MULTI_PERFORM</a>);</span>
+<a name="130"><font size=-1>130     </font></a><span class="default"></span>
+<a name="131"><font size=-1>131     </font></a><span class="default">        $this-&gt;<a href="dictionary_G.html#138828">processMessages</a>();</span>
+<a name="132"><font size=-1>132     </font></a><span class="default">    }</span>
+<a name="133"><font size=-1>133     </font></a><span class="default"></span>
+<a name="134"><font size=-1>134     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="135"><font size=-1>135     </font></a><span class="comment">     * Runs until all outstanding connections have completed.</span>
+<a name="136"><font size=-1>136     </font></a><span class="comment">     */</span>
+<a name="137"><font size=-1>137     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_G.html#73444">execute</a></span><span class="default">()</span>
+<a name="138"><font size=-1>138     </font></a><span class="default">    {</span>
+<a name="139"><font size=-1>139     </font></a><span class="default">        $<a href="dictionary_Q.html#140926">queue</a> = <a href="dictionary_P.html#132007">P</a>\<a href="dictionary_G.html#141000">queue</a>();</span>
+<a name="140"><font size=-1>140     </font></a><span class="default"></span>
+<a name="141"><font size=-1>141     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">($this-&gt;<a href="dictionary_G.html#91472">handles</a> || !$<a href="dictionary_Q.html#140926">queue</a>-&gt;<a href="dictionary_I.html#101241">isEmpty</a>()) {</span>
+<a name="142"><font size=-1>142     </font></a><span class="default">            </span><span class="comment">// If there are no transfers, then sleep for the next delay</span>
+<a name="143"><font size=-1>143     </font></a><span class="comment">            </span><span class="keyword">if </span><span class="default">(!$this-&gt;<a href="dictionary_G.html#24859">active</a> &amp;&amp; $this-&gt;<a href="dictionary_G.html#59672">delays</a>) {</span>
+<a name="144"><font size=-1>144     </font></a><span class="default">                <a href="dictionary_U.html#184762">usleep</a>($this-&gt;<a href="dictionary_G.html#178455">timeToNext</a>());</span>
+<a name="145"><font size=-1>145     </font></a><span class="default">            }</span>
+<a name="146"><font size=-1>146     </font></a><span class="default">            $this-&gt;<a href="dictionary_G.html#177974">tick</a>();</span>
+<a name="147"><font size=-1>147     </font></a><span class="default">        }</span>
+<a name="148"><font size=-1>148     </font></a><span class="default">    }</span>
+<a name="149"><font size=-1>149     </font></a><span class="default"></span>
+<a name="150"><font size=-1>150     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_G.html#26071">addRequest</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_E.html#71257">entry</a>)</span>
+<a name="151"><font size=-1>151     </font></a><span class="default">    {</span>
+<a name="152"><font size=-1>152     </font></a><span class="default">        $<a href="dictionary_E.html#69055">easy</a> = $<a href="dictionary_E.html#71257">entry</a>[</span><span class="string">'easy'</span><span class="default">];</span>
+<a name="153"><font size=-1>153     </font></a><span class="default">        $<a href="dictionary_I.html#96720">id</a> = (int) $<a href="dictionary_E.html#69055">easy</a>-&gt;<a href="dictionary_H.html#91109">handle</a>;</span>
+<a name="154"><font size=-1>154     </font></a><span class="default">        $this-&gt;<a href="dictionary_G.html#91472">handles</a>[$<a href="dictionary_I.html#96720">id</a>] = $<a href="dictionary_E.html#71257">entry</a>;</span>
+<a name="155"><font size=-1>155     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">empty</span><span class="default">($<a href="dictionary_E.html#69055">easy</a>-&gt;<a href="dictionary_O.html#130613">options</a>[</span><span class="string">'delay'</span><span class="default">])) {</span>
+<a name="156"><font size=-1>156     </font></a><span class="default">            <a href="dictionary_C.html#55931">curl_multi_add_handle</a>($this-&gt;<a href="dictionary_&.html#20497">_mh</a>, $<a href="dictionary_E.html#69055">easy</a>-&gt;<a href="dictionary_H.html#91109">handle</a>);</span>
+<a name="157"><font size=-1>157     </font></a><span class="default">        } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="158"><font size=-1>158     </font></a><span class="default">            $this-&gt;<a href="dictionary_G.html#59672">delays</a>[$<a href="dictionary_I.html#96720">id</a>] = <a href="dictionary_G.html#184855">Utils</a>::<a href="dictionary_G.html#56289">currentTime</a>() + ($<a href="dictionary_E.html#69055">easy</a>-&gt;<a href="dictionary_O.html#130613">options</a>[</span><span class="string">'delay'</span><span class="default">] / </span><span class="number">1000</span><span class="default">);</span>
+<a name="159"><font size=-1>159     </font></a><span class="default">        }</span>
+<a name="160"><font size=-1>160     </font></a><span class="default">    }</span>
+<a name="161"><font size=-1>161     </font></a><span class="default"></span>
+<a name="162"><font size=-1>162     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="163"><font size=-1>163     </font></a><span class="comment">     * Cancels a handle from sending and removes references to it.</span>
+<a name="164"><font size=-1>164     </font></a><span class="comment">     *</span>
+<a name="165"><font size=-1>165     </font></a><span class="comment">     * @param int $id Handle ID to cancel and remove.</span>
+<a name="166"><font size=-1>166     </font></a><span class="comment">     *</span>
+<a name="167"><font size=-1>167     </font></a><span class="comment">     * @return bool True on success, false on failure.</span>
+<a name="168"><font size=-1>168     </font></a><span class="comment">     */</span>
+<a name="169"><font size=-1>169     </font></a><span class="comment">    </span><span class="keyword">private function <a href="dictionary_G.html#39623">cancel</a></span><span class="default">($<a href="dictionary_I.html#96719">id</a>)</span>
+<a name="170"><font size=-1>170     </font></a><span class="default">    {</span>
+<a name="171"><font size=-1>171     </font></a><span class="default">        </span><span class="comment">// Cannot cancel if it has been processed.</span>
+<a name="172"><font size=-1>172     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_G.html#91472">handles</a>[$<a href="dictionary_I.html#96719">id</a>])) {</span>
+<a name="173"><font size=-1>173     </font></a><span class="default">            </span><span class="keyword">return <a href="dictionary_F.html#76452">false</a></span><span class="default">;</span>
+<a name="174"><font size=-1>174     </font></a><span class="default">        }</span>
+<a name="175"><font size=-1>175     </font></a><span class="default"></span>
+<a name="176"><font size=-1>176     </font></a><span class="default">        $<a href="dictionary_H.html#90912">handle</a> = $this-&gt;<a href="dictionary_G.html#91472">handles</a>[$<a href="dictionary_I.html#96719">id</a>][</span><span class="string">'easy'</span><span class="default">]-&gt;<a href="dictionary_H.html#91109">handle</a>;</span>
+<a name="177"><font size=-1>177     </font></a><span class="default">        </span><span class="keyword">unset</span><span class="default">($this-&gt;<a href="dictionary_G.html#59672">delays</a>[$<a href="dictionary_I.html#96719">id</a>], $this-&gt;<a href="dictionary_G.html#91472">handles</a>[$<a href="dictionary_I.html#96719">id</a>]);</span>
+<a name="178"><font size=-1>178     </font></a><span class="default">        <a href="dictionary_C.html#55936">curl_multi_remove_handle</a>($this-&gt;<a href="dictionary_&.html#20497">_mh</a>, $<a href="dictionary_H.html#90912">handle</a>);</span>
+<a name="179"><font size=-1>179     </font></a><span class="default">        <a href="dictionary_C.html#55920">curl_close</a>($<a href="dictionary_H.html#90912">handle</a>);</span>
+<a name="180"><font size=-1>180     </font></a><span class="default"></span>
+<a name="181"><font size=-1>181     </font></a><span class="default">        </span><span class="keyword">return <a href="dictionary_T.html#181186">true</a></span><span class="default">;</span>
+<a name="182"><font size=-1>182     </font></a><span class="default">    }</span>
+<a name="183"><font size=-1>183     </font></a><span class="default"></span>
+<a name="184"><font size=-1>184     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_G.html#138828">processMessages</a></span><span class="default">()</span>
+<a name="185"><font size=-1>185     </font></a><span class="default">    {</span>
+<a name="186"><font size=-1>186     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">($<a href="dictionary_D.html#62304">done</a> = <a href="dictionary_C.html#55934">curl_multi_info_read</a>($this-&gt;<a href="dictionary_&.html#20497">_mh</a>)) {</span>
+<a name="187"><font size=-1>187     </font></a><span class="default">            $<a href="dictionary_I.html#96718">id</a> = (int) $<a href="dictionary_D.html#62304">done</a>[</span><span class="string">'handle'</span><span class="default">];</span>
+<a name="188"><font size=-1>188     </font></a><span class="default">            <a href="dictionary_C.html#55936">curl_multi_remove_handle</a>($this-&gt;<a href="dictionary_&.html#20497">_mh</a>, $<a href="dictionary_D.html#62304">done</a>[</span><span class="string">'handle'</span><span class="default">]);</span>
+<a name="189"><font size=-1>189     </font></a><span class="default"></span>
+<a name="190"><font size=-1>190     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_G.html#91472">handles</a>[$<a href="dictionary_I.html#96718">id</a>])) {</span>
+<a name="191"><font size=-1>191     </font></a><span class="default">                </span><span class="comment">// Probably was cancelled.</span>
+<a name="192"><font size=-1>192     </font></a><span class="comment">                </span><span class="keyword">continue</span><span class="default">;</span>
+<a name="193"><font size=-1>193     </font></a><span class="default">            }</span>
+<a name="194"><font size=-1>194     </font></a><span class="default"></span>
+<a name="195"><font size=-1>195     </font></a><span class="default">            $<a href="dictionary_E.html#71256">entry</a> = $this-&gt;<a href="dictionary_G.html#91472">handles</a>[$<a href="dictionary_I.html#96718">id</a>];</span>
+<a name="196"><font size=-1>196     </font></a><span class="default">            </span><span class="keyword">unset</span><span class="default">($this-&gt;<a href="dictionary_G.html#91472">handles</a>[$<a href="dictionary_I.html#96718">id</a>], $this-&gt;<a href="dictionary_G.html#59672">delays</a>[$<a href="dictionary_I.html#96718">id</a>]);</span>
+<a name="197"><font size=-1>197     </font></a><span class="default">            $<a href="dictionary_E.html#71256">entry</a>[</span><span class="string">'easy'</span><span class="default">]-&gt;<a href="dictionary_E.html#71557">errno</a> = $<a href="dictionary_D.html#62304">done</a>[</span><span class="string">'result'</span><span class="default">];</span>
+<a name="198"><font size=-1>198     </font></a><span class="default">            $<a href="dictionary_E.html#71256">entry</a>[</span><span class="string">'deferred'</span><span class="default">]-&gt;<a href="dictionary_R.html#148184">resolve</a>(</span>
+<a name="199"><font size=-1>199     </font></a><span class="default">                <a href="dictionary_G.html#55957">CurlFactory</a>::<a href="dictionary_G.html#78303">finish</a>(</span>
+<a name="200"><font size=-1>200     </font></a><span class="default">                    $this,</span>
+<a name="201"><font size=-1>201     </font></a><span class="default">                    $<a href="dictionary_E.html#71256">entry</a>[</span><span class="string">'easy'</span><span class="default">],</span>
+<a name="202"><font size=-1>202     </font></a><span class="default">                    $this-&gt;<a href="dictionary_G.html#75980">factory</a></span>
+<a name="203"><font size=-1>203     </font></a><span class="default">                )</span>
+<a name="204"><font size=-1>204     </font></a><span class="default">            );</span>
+<a name="205"><font size=-1>205     </font></a><span class="default">        }</span>
+<a name="206"><font size=-1>206     </font></a><span class="default">    }</span>
+<a name="207"><font size=-1>207     </font></a><span class="default"></span>
+<a name="208"><font size=-1>208     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_G.html#178455">timeToNext</a></span><span class="default">()</span>
+<a name="209"><font size=-1>209     </font></a><span class="default">    {</span>
+<a name="210"><font size=-1>210     </font></a><span class="default">        $<a href="dictionary_C.html#56284">currentTime</a> = <a href="dictionary_G.html#184855">Utils</a>::<a href="dictionary_G.html#56289">currentTime</a>();</span>
+<a name="211"><font size=-1>211     </font></a><span class="default">        $<a href="dictionary_N.html#124418">nextTime</a> = <a href="dictionary_P.html#135904">PHP_INT_MAX</a>;</span>
+<a name="212"><font size=-1>212     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($this-&gt;<a href="dictionary_G.html#59672">delays</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_T.html#178109">time</a>) {</span>
+<a name="213"><font size=-1>213     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_T.html#178109">time</a> &lt; $<a href="dictionary_N.html#124418">nextTime</a>) {</span>
+<a name="214"><font size=-1>214     </font></a><span class="default">                $<a href="dictionary_N.html#124418">nextTime</a> = $<a href="dictionary_T.html#178109">time</a>;</span>
+<a name="215"><font size=-1>215     </font></a><span class="default">            }</span>
+<a name="216"><font size=-1>216     </font></a><span class="default">        }</span>
+<a name="217"><font size=-1>217     </font></a><span class="default"></span>
+<a name="218"><font size=-1>218     </font></a><span class="default">        </span><span class="keyword">return <a href="dictionary_M.html#113095">max</a></span><span class="default">(</span><span class="number">0</span><span class="default">, $<a href="dictionary_N.html#124418">nextTime</a> - $<a href="dictionary_C.html#56284">currentTime</a>) * </span><span class="number">1000000</span><span class="default">;</span>
+<a name="219"><font size=-1>219     </font></a><span class="default">    }</span>
+<a name="220"><font size=-1>220     </font></a><span class="default">}</span>
+<a name="221"><font size=-1>221     </font></a><span class="default"></span>
+</pre></body></html>

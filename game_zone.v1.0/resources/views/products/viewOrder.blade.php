@@ -87,7 +87,7 @@
     <br>
     <div class="product-details">
         <label>Factura:
-            <a href="#"><span><i class="fa fa-download" aria-hidden="true"></i></span></a>
+            <a href="{{URL('/factura/'.$order->token_order)}}" target="_blank"><span><i class="fa fa-download" aria-hidden="true"></i></span></a>
         </label>
     </div>
     <br>

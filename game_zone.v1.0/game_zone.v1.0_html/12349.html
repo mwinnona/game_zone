@@ -1,0 +1,113 @@
+<html><head><title>AbstractSyslogHandler.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\monolog\monolog\src\Monolog\Handler\AbstractSyslogHandler.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\monolog\\monolog\\src\\Monolog\\Handler\\AbstractSyslogHandler.php";
+top.document.title  = "AbstractSyslogHandler.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php </span><span class="keyword">declare</span><span class="default">(strict_types=</span><span class="number">1</span><span class="default">);</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of the Monolog package.</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * (c) Jordi Boggiano &lt;j.boggiano@seld.be&gt;</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> */</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"></span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_M.html#117842">Monolog</a></span><span class="default">\Handler;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Monolog\<a href="dictionary_M.html#110579">Logger</a>;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Monolog\Formatter\<a href="dictionary_M.html#80561">FormatterInterface</a>;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Monolog\Formatter\<a href="dictionary_M.html#109087">LineFormatter</a>;</span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment"> * Common syslog functionality</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment"> */</span>
+<a name="21"><font size=-1>21     </font></a><span class="comment"></span><span class="keyword">abstract class <a href="dictionary_M.html#24497">AbstractSyslogHandler</a> extends <a href="dictionary_M.html#24475">AbstractProcessingHandler</a></span>
+<a name="22"><font size=-1>22     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_M.html#75844">facility</a>;</span>
+<a name="24"><font size=-1>24     </font></a><span class="default"></span>
+<a name="25"><font size=-1>25     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="26"><font size=-1>26     </font></a><span class="comment">     * Translates Monolog log levels to syslog log priorities.</span>
+<a name="27"><font size=-1>27     </font></a><span class="comment">     */</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_M.html#110677">logLevels</a> = [</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">        <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#58647">DEBUG</a>     =&gt; <a href="dictionary_L.html#110461">LOG_DEBUG</a>,</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">        <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#98560">INFO</a>      =&gt; <a href="dictionary_L.html#110464">LOG_INFO</a>,</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">        <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#125546">NOTICE</a>    =&gt; <a href="dictionary_L.html#110477">LOG_NOTICE</a>,</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">        <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#189774">WARNING</a>   =&gt; <a href="dictionary_L.html#110482">LOG_WARNING</a>,</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">        <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#71651">ERROR</a>     =&gt; <a href="dictionary_L.html#110463">LOG_ERR</a>,</span>
+<a name="34"><font size=-1>34     </font></a><span class="default">        <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#51522">CRITICAL</a>  =&gt; <a href="dictionary_L.html#110458">LOG_CRIT</a>,</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">        <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#26908">ALERT</a>     =&gt; <a href="dictionary_L.html#110455">LOG_ALERT</a>,</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">        <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#69940">EMERGENCY</a> =&gt; <a href="dictionary_L.html#110462">LOG_EMERG</a>,</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">    ];</span>
+<a name="38"><font size=-1>38     </font></a><span class="default"></span>
+<a name="39"><font size=-1>39     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="40"><font size=-1>40     </font></a><span class="comment">     * List of valid log facility names.</span>
+<a name="41"><font size=-1>41     </font></a><span class="comment">     */</span>
+<a name="42"><font size=-1>42     </font></a><span class="comment">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_M.html#75840">facilities</a> = [</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        </span><span class="string">'auth'     </span><span class="default">=&gt; <a href="dictionary_L.html#110456">LOG_AUTH</a>,</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">        </span><span class="string">'authpriv' </span><span class="default">=&gt; <a href="dictionary_L.html#110457">LOG_AUTHPRIV</a>,</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">        </span><span class="string">'cron'     </span><span class="default">=&gt; <a href="dictionary_L.html#110459">LOG_CRON</a>,</span>
+<a name="46"><font size=-1>46     </font></a><span class="default">        </span><span class="string">'daemon'   </span><span class="default">=&gt; <a href="dictionary_L.html#110460">LOG_DAEMON</a>,</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">        </span><span class="string">'kern'     </span><span class="default">=&gt; <a href="dictionary_L.html#110465">LOG_KERN</a>,</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">        </span><span class="string">'lpr'      </span><span class="default">=&gt; <a href="dictionary_L.html#110474">LOG_LPR</a>,</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        </span><span class="string">'mail'     </span><span class="default">=&gt; <a href="dictionary_L.html#110475">LOG_MAIL</a>,</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">        </span><span class="string">'news'     </span><span class="default">=&gt; <a href="dictionary_L.html#110476">LOG_NEWS</a>,</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        </span><span class="string">'syslog'   </span><span class="default">=&gt; <a href="dictionary_L.html#110479">LOG_SYSLOG</a>,</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">        </span><span class="string">'user'     </span><span class="default">=&gt; <a href="dictionary_L.html#110480">LOG_USER</a>,</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">        </span><span class="string">'uucp'     </span><span class="default">=&gt; <a href="dictionary_L.html#110481">LOG_UUCP</a>,</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">    ];</span>
+<a name="55"><font size=-1>55     </font></a><span class="default"></span>
+<a name="56"><font size=-1>56     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="57"><font size=-1>57     </font></a><span class="comment">     * @param string|int $facility Either one of the names of the keys in $this-&gt;facilities, or a LOG_* facility constant</span>
+<a name="58"><font size=-1>58     </font></a><span class="comment">     * @param string|int $level    The minimum logging level at which this handler will be triggered</span>
+<a name="59"><font size=-1>59     </font></a><span class="comment">     * @param bool       $bubble   Whether the messages that are handled can bubble up the stack or not</span>
+<a name="60"><font size=-1>60     </font></a><span class="comment">     */</span>
+<a name="61"><font size=-1>61     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_M.html#17946">__construct</a></span><span class="default">($<a href="dictionary_F.html#75842">facility</a> = <a href="dictionary_L.html#110480">LOG_USER</a>, $<a href="dictionary_L.html#108501">level</a> = <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#58647">DEBUG</a>, <a href="dictionary_M.html#35357">bool</a> $<a href="dictionary_B.html#36138">bubble</a> = <a href="dictionary_T.html#181186">true</a>)</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">    {</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">        parent::<a href="dictionary_M.html#17507">__construct</a>($<a href="dictionary_L.html#108501">level</a>, $<a href="dictionary_B.html#36138">bubble</a>);</span>
+<a name="64"><font size=-1>64     </font></a><span class="default"></span>
+<a name="65"><font size=-1>65     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_D.html#59499">defined</a>(</span><span class="string">'PHP_WINDOWS_VERSION_BUILD'</span><span class="default">)) {</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local0'</span><span class="default">] = <a href="dictionary_L.html#110466">LOG_LOCAL0</a>;</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local1'</span><span class="default">] = <a href="dictionary_L.html#110467">LOG_LOCAL1</a>;</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local2'</span><span class="default">] = <a href="dictionary_L.html#110468">LOG_LOCAL2</a>;</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local3'</span><span class="default">] = <a href="dictionary_L.html#110469">LOG_LOCAL3</a>;</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local4'</span><span class="default">] = <a href="dictionary_L.html#110470">LOG_LOCAL4</a>;</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local5'</span><span class="default">] = <a href="dictionary_L.html#110471">LOG_LOCAL5</a>;</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local6'</span><span class="default">] = <a href="dictionary_L.html#110472">LOG_LOCAL6</a>;</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local7'</span><span class="default">] = <a href="dictionary_L.html#110473">LOG_LOCAL7</a>;</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">        } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local0'</span><span class="default">] = </span><span class="number">128</span><span class="default">; </span><span class="comment">// LOG_LOCAL0</span>
+<a name="76"><font size=-1>76     </font></a><span class="comment">            </span><span class="default">$this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local1'</span><span class="default">] = </span><span class="number">136</span><span class="default">; </span><span class="comment">// LOG_LOCAL1</span>
+<a name="77"><font size=-1>77     </font></a><span class="comment">            </span><span class="default">$this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local2'</span><span class="default">] = </span><span class="number">144</span><span class="default">; </span><span class="comment">// LOG_LOCAL2</span>
+<a name="78"><font size=-1>78     </font></a><span class="comment">            </span><span class="default">$this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local3'</span><span class="default">] = </span><span class="number">152</span><span class="default">; </span><span class="comment">// LOG_LOCAL3</span>
+<a name="79"><font size=-1>79     </font></a><span class="comment">            </span><span class="default">$this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local4'</span><span class="default">] = </span><span class="number">160</span><span class="default">; </span><span class="comment">// LOG_LOCAL4</span>
+<a name="80"><font size=-1>80     </font></a><span class="comment">            </span><span class="default">$this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local5'</span><span class="default">] = </span><span class="number">168</span><span class="default">; </span><span class="comment">// LOG_LOCAL5</span>
+<a name="81"><font size=-1>81     </font></a><span class="comment">            </span><span class="default">$this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local6'</span><span class="default">] = </span><span class="number">176</span><span class="default">; </span><span class="comment">// LOG_LOCAL6</span>
+<a name="82"><font size=-1>82     </font></a><span class="comment">            </span><span class="default">$this-&gt;<a href="dictionary_M.html#75840">facilities</a>[</span><span class="string">'local7'</span><span class="default">] = </span><span class="number">184</span><span class="default">; </span><span class="comment">// LOG_LOCAL7</span>
+<a name="83"><font size=-1>83     </font></a><span class="comment">        </span><span class="default">}</span>
+<a name="84"><font size=-1>84     </font></a><span class="default"></span>
+<a name="85"><font size=-1>85     </font></a><span class="default">        </span><span class="comment">// convert textual description of facility to syslog constant</span>
+<a name="86"><font size=-1>86     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_I.html#100768">is_string</a>($<a href="dictionary_F.html#75842">facility</a>) &amp;&amp; <a href="dictionary_A.html#29412">array_key_exists</a>(<a href="dictionary_S.html#164392">strtolower</a>($<a href="dictionary_F.html#75842">facility</a>), $this-&gt;<a href="dictionary_M.html#75840">facilities</a>)) {</span>
+<a name="87"><font size=-1>87     </font></a><span class="default">            $<a href="dictionary_F.html#75842">facility</a> = $this-&gt;<a href="dictionary_M.html#75840">facilities</a>[<a href="dictionary_S.html#164392">strtolower</a>($<a href="dictionary_F.html#75842">facility</a>)];</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">        } </span><span class="keyword">elseif </span><span class="default">(!<a href="dictionary_I.html#97880">in_array</a>($<a href="dictionary_F.html#75842">facility</a>, <a href="dictionary_A.html#29440">array_values</a>($this-&gt;<a href="dictionary_M.html#75840">facilities</a>), <a href="dictionary_T.html#181186">true</a>)) {</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">            </span><span class="keyword">throw new </span><span class="default">\<a href="dictionary_U.html#183319">UnexpectedValueException</a>(</span><span class="string">'Unknown facility value &quot;'</span><span class="default">.$<a href="dictionary_F.html#75842">facility</a>.</span><span class="string">'&quot; given'</span><span class="default">);</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">        }</span>
+<a name="91"><font size=-1>91     </font></a><span class="default"></span>
+<a name="92"><font size=-1>92     </font></a><span class="default">        $this-&gt;<a href="dictionary_M.html#75844">facility</a> = $facility;</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">    }</span>
+<a name="94"><font size=-1>94     </font></a><span class="default"></span>
+<a name="95"><font size=-1>95     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="96"><font size=-1>96     </font></a><span class="comment">     * {@inheritdoc}</span>
+<a name="97"><font size=-1>97     </font></a><span class="comment">     */</span>
+<a name="98"><font size=-1>98     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_M.html#84977">getDefaultFormatter</a></span><span class="default">(): FormatterInterface</span>
+<a name="99"><font size=-1>99     </font></a><span class="default">    {</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">        </span><span class="keyword">return new <a href="dictionary_M.html#109086">LineFormatter</a></span><span class="default">(</span><span class="string">'%channel%.%level_name%: %message% %context% %extra%'</span><span class="default">);</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">    }</span>
+<a name="102"><font size=-1>102     </font></a><span class="default">}</span>
+<a name="103"><font size=-1>103     </font></a><span class="default"></span>
+</pre></body></html>

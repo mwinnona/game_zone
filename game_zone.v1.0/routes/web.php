@@ -55,9 +55,8 @@ Route::get('/buscar/{plataforma}', 'ProductController@juegosxPlataforma');
 Route::get('/carrito', 'OrderController@showCart');
 Route::get('/agregar_carrito/{token}', 'OrderController@addCart');
 Route::post('/realizar_pedido', 'OrderController@preOrder');
-Route::post('/confirmar_pedido', 'OrderController@order');
+Route::post('/confirmar_pedido', 'OrderController@order'); 
 Route::get('/pedidos', 'OrderController@showOrders');
-<<<<<<< HEAD
 Route::get('/ver-pedido/{token}', 'OrderController@viewOrder');
 Route::get('/updateStatus/{token}', 'OrderController@updateStatus');
 Route::get('/reclamo/{token}', 'OrderController@claim');
@@ -67,11 +66,9 @@ Route::post('/reclamo-mail', 'OrderController@claimMail');
 Route::get('/reporte-pedidos', 'ReportsController@showOrders');
 Route::get('/ranking', 'ReportsController@bestSales');
 Route::post('/filtro', 'ReportsController@filter');
-Route::get('/factura/{token}', 'ReportsController@bill');
-=======
-
+Route::get('/report-order-view/{token}', 'ReportsController@billOrder');
 
 //pdf
-
 Route::get('/downloadproducts', 'PdfController@rankingProducts');
->>>>>>> 62f674f6afbcbeb972a217e1e777d2b903580c7e
+Route::get('/factura/{token}', 'PdfController@pdfBillOrder');
+Route::post('/ranking-pdf', 'PdfController@pdfRanking');

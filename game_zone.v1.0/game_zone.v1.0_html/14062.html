@@ -1,0 +1,272 @@
+<html><head><title>BankAccount.php.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body>
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\phpunit\php-code-coverage\tests\_files\Report\XML\CoverageForBankAccount\BankAccount.php.xml</h3>
+<SCRIPT>
+ defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\phpunit\\php-code-coverage\\tests\\_files\\Report\\XML\\CoverageForBankAccount\\BankAccount.php.xml";
+top.document.title  = "BankAccount.php.xml";
+</SCRIPT>
+<pre><a name="1"><font size=-1>1     </font></a><?xml version="1.0"?>
+<a name="2"><font size=-1>2     </font></a><phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+<a name="3"><font size=-1>3     </font></a>  <file name="BankAccount.php" path="%e">
+<a name="4"><font size=-1>4     </font></a>    <totals>
+<a name="5"><font size=-1>5     </font></a>      <lines total="33" comments="0" code="33" executable="10" executed="5" percent="50.00"/>
+<a name="6"><font size=-1>6     </font></a>      <methods count="4" tested="3" percent="75.00"/>
+<a name="7"><font size=-1>7     </font></a>      <functions count="0" tested="0" percent="0"/>
+<a name="8"><font size=-1>8     </font></a>      <classes count="1" tested="0" percent="0.00"/>
+<a name="9"><font size=-1>9     </font></a>      <traits count="0" tested="0" percent="0"/>
+<a name="10"><font size=-1>10     </font></a>    </totals>
+<a name="11"><font size=-1>11     </font></a>    <class name="BankAccount" start="2" executable="10" executed="5" crap="8.12">
+<a name="12"><font size=-1>12     </font></a>      <package full="" name="" sub="" category=""/>
+<a name="13"><font size=-1>13     </font></a>      <namespace name=""/>
+<a name="14"><font size=-1>14     </font></a>      <method name="getBalance" signature="getBalance()" start="6" end="9" crap="1" executable="1" executed="1" coverage="100"/>
+<a name="15"><font size=-1>15     </font></a>      <method name="setBalance" signature="setBalance($balance)" start="11" end="18" crap="6" executable="5" executed="0" coverage="0"/>
+<a name="16"><font size=-1>16     </font></a>      <method name="depositMoney" signature="depositMoney($balance)" start="20" end="25" crap="1" executable="2" executed="2" coverage="100"/>
+<a name="17"><font size=-1>17     </font></a>      <method name="withdrawMoney" signature="withdrawMoney($balance)" start="27" end="32" crap="1" executable="2" executed="2" coverage="100"/>
+<a name="18"><font size=-1>18     </font></a>    </class>
+<a name="19"><font size=-1>19     </font></a>    <coverage>
+<a name="20"><font size=-1>20     </font></a>      <line nr="8">
+<a name="21"><font size=-1>21     </font></a>        <covered by="BankAccountTest::testBalanceIsInitiallyZero"/>
+<a name="22"><font size=-1>22     </font></a>        <covered by="BankAccountTest::testDepositWithdrawMoney"/>
+<a name="23"><font size=-1>23     </font></a>      </line>
+<a name="24"><font size=-1>24     </font></a>      <line nr="22">
+<a name="25"><font size=-1>25     </font></a>        <covered by="BankAccountTest::testBalanceCannotBecomeNegative2"/>
+<a name="26"><font size=-1>26     </font></a>        <covered by="BankAccountTest::testDepositWithdrawMoney"/>
+<a name="27"><font size=-1>27     </font></a>      </line>
+<a name="28"><font size=-1>28     </font></a>      <line nr="24">
+<a name="29"><font size=-1>29     </font></a>        <covered by="BankAccountTest::testDepositWithdrawMoney"/>
+<a name="30"><font size=-1>30     </font></a>      </line>
+<a name="31"><font size=-1>31     </font></a>      <line nr="29">
+<a name="32"><font size=-1>32     </font></a>        <covered by="BankAccountTest::testBalanceCannotBecomeNegative"/>
+<a name="33"><font size=-1>33     </font></a>        <covered by="BankAccountTest::testDepositWithdrawMoney"/>
+<a name="34"><font size=-1>34     </font></a>      </line>
+<a name="35"><font size=-1>35     </font></a>      <line nr="31">
+<a name="36"><font size=-1>36     </font></a>        <covered by="BankAccountTest::testDepositWithdrawMoney"/>
+<a name="37"><font size=-1>37     </font></a>      </line>
+<a name="38"><font size=-1>38     </font></a>    </coverage>
+<a name="39"><font size=-1>39     </font></a>    <source>
+<a name="40"><font size=-1>40     </font></a>      <line no="1">
+<a name="41"><font size=-1>41     </font></a>        <token name="T_OPEN_TAG">&lt;?php</token>
+<a name="42"><font size=-1>42     </font></a>      </line>
+<a name="43"><font size=-1>43     </font></a>      <line no="2">
+<a name="44"><font size=-1>44     </font></a>        <token name="T_CLASS">class</token>
+<a name="45"><font size=-1>45     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="46"><font size=-1>46     </font></a>        <token name="T_STRING">BankAccount</token>
+<a name="47"><font size=-1>47     </font></a>      </line>
+<a name="48"><font size=-1>48     </font></a>      <line no="3">
+<a name="49"><font size=-1>49     </font></a>        <token name="T_OPEN_CURLY">{</token>
+<a name="50"><font size=-1>50     </font></a>      </line>
+<a name="51"><font size=-1>51     </font></a>      <line no="4">
+<a name="52"><font size=-1>52     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="53"><font size=-1>53     </font></a>        <token name="T_PROTECTED">protected</token>
+<a name="54"><font size=-1>54     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="55"><font size=-1>55     </font></a>        <token name="T_VARIABLE">$balance</token>
+<a name="56"><font size=-1>56     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="57"><font size=-1>57     </font></a>        <token name="T_EQUAL">=</token>
+<a name="58"><font size=-1>58     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="59"><font size=-1>59     </font></a>        <token name="T_LNUMBER">0</token>
+<a name="60"><font size=-1>60     </font></a>        <token name="T_SEMICOLON">;</token>
+<a name="61"><font size=-1>61     </font></a>      </line>
+<a name="62"><font size=-1>62     </font></a>      <line no="5"/>
+<a name="63"><font size=-1>63     </font></a>      <line no="6">
+<a name="64"><font size=-1>64     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="65"><font size=-1>65     </font></a>        <token name="T_PUBLIC">public</token>
+<a name="66"><font size=-1>66     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="67"><font size=-1>67     </font></a>        <token name="T_FUNCTION">function</token>
+<a name="68"><font size=-1>68     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="69"><font size=-1>69     </font></a>        <token name="T_STRING">getBalance</token>
+<a name="70"><font size=-1>70     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="71"><font size=-1>71     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="72"><font size=-1>72     </font></a>      </line>
+<a name="73"><font size=-1>73     </font></a>      <line no="7">
+<a name="74"><font size=-1>74     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="75"><font size=-1>75     </font></a>        <token name="T_OPEN_CURLY">{</token>
+<a name="76"><font size=-1>76     </font></a>      </line>
+<a name="77"><font size=-1>77     </font></a>      <line no="8">
+<a name="78"><font size=-1>78     </font></a>        <token name="T_WHITESPACE">        </token>
+<a name="79"><font size=-1>79     </font></a>        <token name="T_RETURN">return</token>
+<a name="80"><font size=-1>80     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="81"><font size=-1>81     </font></a>        <token name="T_VARIABLE">$this</token>
+<a name="82"><font size=-1>82     </font></a>        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+<a name="83"><font size=-1>83     </font></a>        <token name="T_STRING">balance</token>
+<a name="84"><font size=-1>84     </font></a>        <token name="T_SEMICOLON">;</token>
+<a name="85"><font size=-1>85     </font></a>      </line>
+<a name="86"><font size=-1>86     </font></a>      <line no="9">
+<a name="87"><font size=-1>87     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="88"><font size=-1>88     </font></a>        <token name="T_CLOSE_CURLY">}</token>
+<a name="89"><font size=-1>89     </font></a>      </line>
+<a name="90"><font size=-1>90     </font></a>      <line no="10"/>
+<a name="91"><font size=-1>91     </font></a>      <line no="11">
+<a name="92"><font size=-1>92     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="93"><font size=-1>93     </font></a>        <token name="T_PROTECTED">protected</token>
+<a name="94"><font size=-1>94     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="95"><font size=-1>95     </font></a>        <token name="T_FUNCTION">function</token>
+<a name="96"><font size=-1>96     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="97"><font size=-1>97     </font></a>        <token name="T_STRING">setBalance</token>
+<a name="98"><font size=-1>98     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="99"><font size=-1>99     </font></a>        <token name="T_VARIABLE">$balance</token>
+<a name="100"><font size=-1>100     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="101"><font size=-1>101     </font></a>      </line>
+<a name="102"><font size=-1>102     </font></a>      <line no="12">
+<a name="103"><font size=-1>103     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="104"><font size=-1>104     </font></a>        <token name="T_OPEN_CURLY">{</token>
+<a name="105"><font size=-1>105     </font></a>      </line>
+<a name="106"><font size=-1>106     </font></a>      <line no="13">
+<a name="107"><font size=-1>107     </font></a>        <token name="T_WHITESPACE">        </token>
+<a name="108"><font size=-1>108     </font></a>        <token name="T_IF">if</token>
+<a name="109"><font size=-1>109     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="110"><font size=-1>110     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="111"><font size=-1>111     </font></a>        <token name="T_VARIABLE">$balance</token>
+<a name="112"><font size=-1>112     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="113"><font size=-1>113     </font></a>        <token name="T_IS_GREATER_OR_EQUAL">&gt;=</token>
+<a name="114"><font size=-1>114     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="115"><font size=-1>115     </font></a>        <token name="T_LNUMBER">0</token>
+<a name="116"><font size=-1>116     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="117"><font size=-1>117     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="118"><font size=-1>118     </font></a>        <token name="T_OPEN_CURLY">{</token>
+<a name="119"><font size=-1>119     </font></a>      </line>
+<a name="120"><font size=-1>120     </font></a>      <line no="14">
+<a name="121"><font size=-1>121     </font></a>        <token name="T_WHITESPACE">            </token>
+<a name="122"><font size=-1>122     </font></a>        <token name="T_VARIABLE">$this</token>
+<a name="123"><font size=-1>123     </font></a>        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+<a name="124"><font size=-1>124     </font></a>        <token name="T_STRING">balance</token>
+<a name="125"><font size=-1>125     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="126"><font size=-1>126     </font></a>        <token name="T_EQUAL">=</token>
+<a name="127"><font size=-1>127     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="128"><font size=-1>128     </font></a>        <token name="T_VARIABLE">$balance</token>
+<a name="129"><font size=-1>129     </font></a>        <token name="T_SEMICOLON">;</token>
+<a name="130"><font size=-1>130     </font></a>      </line>
+<a name="131"><font size=-1>131     </font></a>      <line no="15">
+<a name="132"><font size=-1>132     </font></a>        <token name="T_WHITESPACE">        </token>
+<a name="133"><font size=-1>133     </font></a>        <token name="T_CLOSE_CURLY">}</token>
+<a name="134"><font size=-1>134     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="135"><font size=-1>135     </font></a>        <token name="T_ELSE">else</token>
+<a name="136"><font size=-1>136     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="137"><font size=-1>137     </font></a>        <token name="T_OPEN_CURLY">{</token>
+<a name="138"><font size=-1>138     </font></a>      </line>
+<a name="139"><font size=-1>139     </font></a>      <line no="16">
+<a name="140"><font size=-1>140     </font></a>        <token name="T_WHITESPACE">            </token>
+<a name="141"><font size=-1>141     </font></a>        <token name="T_THROW">throw</token>
+<a name="142"><font size=-1>142     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="143"><font size=-1>143     </font></a>        <token name="T_NEW">new</token>
+<a name="144"><font size=-1>144     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="145"><font size=-1>145     </font></a>        <token name="T_STRING">RuntimeException</token>
+<a name="146"><font size=-1>146     </font></a>        <token name="T_SEMICOLON">;</token>
+<a name="147"><font size=-1>147     </font></a>      </line>
+<a name="148"><font size=-1>148     </font></a>      <line no="17">
+<a name="149"><font size=-1>149     </font></a>        <token name="T_WHITESPACE">        </token>
+<a name="150"><font size=-1>150     </font></a>        <token name="T_CLOSE_CURLY">}</token>
+<a name="151"><font size=-1>151     </font></a>      </line>
+<a name="152"><font size=-1>152     </font></a>      <line no="18">
+<a name="153"><font size=-1>153     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="154"><font size=-1>154     </font></a>        <token name="T_CLOSE_CURLY">}</token>
+<a name="155"><font size=-1>155     </font></a>      </line>
+<a name="156"><font size=-1>156     </font></a>      <line no="19"/>
+<a name="157"><font size=-1>157     </font></a>      <line no="20">
+<a name="158"><font size=-1>158     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="159"><font size=-1>159     </font></a>        <token name="T_PUBLIC">public</token>
+<a name="160"><font size=-1>160     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="161"><font size=-1>161     </font></a>        <token name="T_FUNCTION">function</token>
+<a name="162"><font size=-1>162     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="163"><font size=-1>163     </font></a>        <token name="T_STRING">depositMoney</token>
+<a name="164"><font size=-1>164     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="165"><font size=-1>165     </font></a>        <token name="T_VARIABLE">$balance</token>
+<a name="166"><font size=-1>166     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="167"><font size=-1>167     </font></a>      </line>
+<a name="168"><font size=-1>168     </font></a>      <line no="21">
+<a name="169"><font size=-1>169     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="170"><font size=-1>170     </font></a>        <token name="T_OPEN_CURLY">{</token>
+<a name="171"><font size=-1>171     </font></a>      </line>
+<a name="172"><font size=-1>172     </font></a>      <line no="22">
+<a name="173"><font size=-1>173     </font></a>        <token name="T_WHITESPACE">        </token>
+<a name="174"><font size=-1>174     </font></a>        <token name="T_VARIABLE">$this</token>
+<a name="175"><font size=-1>175     </font></a>        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+<a name="176"><font size=-1>176     </font></a>        <token name="T_STRING">setBalance</token>
+<a name="177"><font size=-1>177     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="178"><font size=-1>178     </font></a>        <token name="T_VARIABLE">$this</token>
+<a name="179"><font size=-1>179     </font></a>        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+<a name="180"><font size=-1>180     </font></a>        <token name="T_STRING">getBalance</token>
+<a name="181"><font size=-1>181     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="182"><font size=-1>182     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="183"><font size=-1>183     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="184"><font size=-1>184     </font></a>        <token name="T_PLUS">+</token>
+<a name="185"><font size=-1>185     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="186"><font size=-1>186     </font></a>        <token name="T_VARIABLE">$balance</token>
+<a name="187"><font size=-1>187     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="188"><font size=-1>188     </font></a>        <token name="T_SEMICOLON">;</token>
+<a name="189"><font size=-1>189     </font></a>      </line>
+<a name="190"><font size=-1>190     </font></a>      <line no="23"/>
+<a name="191"><font size=-1>191     </font></a>      <line no="24">
+<a name="192"><font size=-1>192     </font></a>        <token name="T_WHITESPACE">        </token>
+<a name="193"><font size=-1>193     </font></a>        <token name="T_RETURN">return</token>
+<a name="194"><font size=-1>194     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="195"><font size=-1>195     </font></a>        <token name="T_VARIABLE">$this</token>
+<a name="196"><font size=-1>196     </font></a>        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+<a name="197"><font size=-1>197     </font></a>        <token name="T_STRING">getBalance</token>
+<a name="198"><font size=-1>198     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="199"><font size=-1>199     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="200"><font size=-1>200     </font></a>        <token name="T_SEMICOLON">;</token>
+<a name="201"><font size=-1>201     </font></a>      </line>
+<a name="202"><font size=-1>202     </font></a>      <line no="25">
+<a name="203"><font size=-1>203     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="204"><font size=-1>204     </font></a>        <token name="T_CLOSE_CURLY">}</token>
+<a name="205"><font size=-1>205     </font></a>      </line>
+<a name="206"><font size=-1>206     </font></a>      <line no="26"/>
+<a name="207"><font size=-1>207     </font></a>      <line no="27">
+<a name="208"><font size=-1>208     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="209"><font size=-1>209     </font></a>        <token name="T_PUBLIC">public</token>
+<a name="210"><font size=-1>210     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="211"><font size=-1>211     </font></a>        <token name="T_FUNCTION">function</token>
+<a name="212"><font size=-1>212     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="213"><font size=-1>213     </font></a>        <token name="T_STRING">withdrawMoney</token>
+<a name="214"><font size=-1>214     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="215"><font size=-1>215     </font></a>        <token name="T_VARIABLE">$balance</token>
+<a name="216"><font size=-1>216     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="217"><font size=-1>217     </font></a>      </line>
+<a name="218"><font size=-1>218     </font></a>      <line no="28">
+<a name="219"><font size=-1>219     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="220"><font size=-1>220     </font></a>        <token name="T_OPEN_CURLY">{</token>
+<a name="221"><font size=-1>221     </font></a>      </line>
+<a name="222"><font size=-1>222     </font></a>      <line no="29">
+<a name="223"><font size=-1>223     </font></a>        <token name="T_WHITESPACE">        </token>
+<a name="224"><font size=-1>224     </font></a>        <token name="T_VARIABLE">$this</token>
+<a name="225"><font size=-1>225     </font></a>        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+<a name="226"><font size=-1>226     </font></a>        <token name="T_STRING">setBalance</token>
+<a name="227"><font size=-1>227     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="228"><font size=-1>228     </font></a>        <token name="T_VARIABLE">$this</token>
+<a name="229"><font size=-1>229     </font></a>        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+<a name="230"><font size=-1>230     </font></a>        <token name="T_STRING">getBalance</token>
+<a name="231"><font size=-1>231     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="232"><font size=-1>232     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="233"><font size=-1>233     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="234"><font size=-1>234     </font></a>        <token name="T_MINUS">-</token>
+<a name="235"><font size=-1>235     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="236"><font size=-1>236     </font></a>        <token name="T_VARIABLE">$balance</token>
+<a name="237"><font size=-1>237     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="238"><font size=-1>238     </font></a>        <token name="T_SEMICOLON">;</token>
+<a name="239"><font size=-1>239     </font></a>      </line>
+<a name="240"><font size=-1>240     </font></a>      <line no="30"/>
+<a name="241"><font size=-1>241     </font></a>      <line no="31">
+<a name="242"><font size=-1>242     </font></a>        <token name="T_WHITESPACE">        </token>
+<a name="243"><font size=-1>243     </font></a>        <token name="T_RETURN">return</token>
+<a name="244"><font size=-1>244     </font></a>        <token name="T_WHITESPACE"> </token>
+<a name="245"><font size=-1>245     </font></a>        <token name="T_VARIABLE">$this</token>
+<a name="246"><font size=-1>246     </font></a>        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+<a name="247"><font size=-1>247     </font></a>        <token name="T_STRING">getBalance</token>
+<a name="248"><font size=-1>248     </font></a>        <token name="T_OPEN_BRACKET">(</token>
+<a name="249"><font size=-1>249     </font></a>        <token name="T_CLOSE_BRACKET">)</token>
+<a name="250"><font size=-1>250     </font></a>        <token name="T_SEMICOLON">;</token>
+<a name="251"><font size=-1>251     </font></a>      </line>
+<a name="252"><font size=-1>252     </font></a>      <line no="32">
+<a name="253"><font size=-1>253     </font></a>        <token name="T_WHITESPACE">    </token>
+<a name="254"><font size=-1>254     </font></a>        <token name="T_CLOSE_CURLY">}</token>
+<a name="255"><font size=-1>255     </font></a>      </line>
+<a name="256"><font size=-1>256     </font></a>      <line no="33">
+<a name="257"><font size=-1>257     </font></a>        <token name="T_CLOSE_CURLY">}</token>
+<a name="258"><font size=-1>258     </font></a>      </line>
+<a name="259"><font size=-1>259     </font></a>      <line no="34"/>
+<a name="260"><font size=-1>260     </font></a>    </source>
+<a name="261"><font size=-1>261     </font></a>  </file>
+<a name="262"><font size=-1>262     </font></a></phpunit>
+</pre></body></html>

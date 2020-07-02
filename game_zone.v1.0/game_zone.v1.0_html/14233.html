@@ -1,0 +1,64 @@
+<html><head><title>ConfigurableMethod.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\phpunit\phpunit\src\Framework\MockObject\ConfigurableMethod.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\phpunit\\phpunit\\src\\Framework\\MockObject\\ConfigurableMethod.php";
+top.document.title  = "ConfigurableMethod.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php </span><span class="keyword">declare</span><span class="default">(strict_types=</span><span class="number">1</span><span class="default">);</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="3"><font size=-1>3     </font></a><span class="comment"> * This file is part of PHPUnit.</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> *</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> * (c) Sebastian Bergmann &lt;sebastian@phpunit.de&gt;</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> *</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> */</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_P.html#136274">PHPUnit</a></span><span class="default">\Framework\MockObject;</span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">SebastianBergmann\Type\<a href="dictionary_S.html#181975">Type</a>;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment"> * @internal This class is not covered by the backward compatibility promise for PHPUnit</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment"> */</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment"></span><span class="keyword">final class <a href="dictionary_P.html#47518">ConfigurableMethod</a></span>
+<a name="18"><font size=-1>18     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment">     * @var string</span>
+<a name="21"><font size=-1>21     </font></a><span class="comment">     */</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_P.html#123285">name</a>;</span>
+<a name="23"><font size=-1>23     </font></a><span class="default"></span>
+<a name="24"><font size=-1>24     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment">     * @var Type</span>
+<a name="26"><font size=-1>26     </font></a><span class="comment">     */</span>
+<a name="27"><font size=-1>27     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_P.html#149960">returnType</a>;</span>
+<a name="28"><font size=-1>28     </font></a><span class="default"></span>
+<a name="29"><font size=-1>29     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#17837">__construct</a></span><span class="default">(<a href="dictionary_P.html#163936">string</a> $<a href="dictionary_N.html#122973">name</a>, <a href="dictionary_S.html#181969">Type</a> $<a href="dictionary_R.html#149949">returnType</a>)</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">    {</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#123285">name</a>       = $<a href="dictionary_N.html#122973">name</a>;</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#149960">returnType</a> = $returnType;</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">    }</span>
+<a name="34"><font size=-1>34     </font></a><span class="default"></span>
+<a name="35"><font size=-1>35     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#86968">getName</a></span><span class="default">(): <a href="dictionary_P.html#163936">string</a></span>
+<a name="36"><font size=-1>36     </font></a><span class="default">    {</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_P.html#123285">name</a>;</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">    }</span>
+<a name="39"><font size=-1>39     </font></a><span class="default"></span>
+<a name="40"><font size=-1>40     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#113368">mayReturn</a></span><span class="default">($<a href="dictionary_V.html#187498">value</a>): <a href="dictionary_P.html#35372">bool</a></span>
+<a name="41"><font size=-1>41     </font></a><span class="default">    {</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_V.html#187498">value</a> === <a href="dictionary_N.html#125929">null</a> &amp;&amp; $this-&gt;<a href="dictionary_P.html#149960">returnType</a>-&gt;<a href="dictionary_A.html#27225">allowsNull</a>()) {</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">            </span><span class="keyword">return <a href="dictionary_T.html#181186">true</a></span><span class="default">;</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">        }</span>
+<a name="45"><font size=-1>45     </font></a><span class="default"></span>
+<a name="46"><font size=-1>46     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_P.html#149960">returnType</a>-&gt;<a href="dictionary_I.html#100910">isAssignable</a>(<a href="dictionary_S.html#181969">Type</a>::<a href="dictionary_S.html#81334">fromValue</a>($<a href="dictionary_V.html#187498">value</a>, <a href="dictionary_F.html#76452">false</a>));</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">    }</span>
+<a name="48"><font size=-1>48     </font></a><span class="default"></span>
+<a name="49"><font size=-1>49     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#88110">getReturnTypeDeclaration</a></span><span class="default">(): <a href="dictionary_P.html#163936">string</a></span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    {</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_P.html#149960">returnType</a>-&gt;<a href="dictionary_G.html#88113">getReturnTypeDeclaration</a>();</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">    }</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">}</span>
+<a name="54"><font size=-1>54     </font></a><span class="default"></span>
+</pre></body></html>

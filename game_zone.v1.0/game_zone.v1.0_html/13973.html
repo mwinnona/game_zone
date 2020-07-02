@@ -1,0 +1,185 @@
+<html><head><title>Filter.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\phpunit\php-code-coverage\src\Filter.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\phpunit\\php-code-coverage\\src\\Filter.php";
+top.document.title  = "Filter.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php </span><span class="keyword">declare</span><span class="default">(strict_types=</span><span class="number">1</span><span class="default">);</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="3"><font size=-1>3     </font></a><span class="comment"> * This file is part of the php-code-coverage package.</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> *</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> * (c) Sebastian Bergmann &lt;sebastian@phpunit.de&gt;</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> *</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> */</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_S.html#153122">SebastianBergmann</a></span><span class="default">\CodeCoverage;</span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">SebastianBergmann\FileIterator\<a href="dictionary_S.html#75792">Facade</a> </span><span class="keyword">as <a href="dictionary_F.html#77309">FileIteratorFacade</a></span><span class="default">;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment"> * Filter for whitelisting of code coverage information.</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment"> */</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment"></span><span class="keyword">final class <a href="dictionary_S.html#77991">Filter</a></span>
+<a name="18"><font size=-1>18     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment">     * Source files that are whitelisted.</span>
+<a name="21"><font size=-1>21     </font></a><span class="comment">     *</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment">     * @var array</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment">     */</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_S.html#190192">whitelistedFiles</a> = [];</span>
+<a name="25"><font size=-1>25     </font></a><span class="default"></span>
+<a name="26"><font size=-1>26     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="27"><font size=-1>27     </font></a><span class="comment">     * Remembers the result of the `is_file()` calls.</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment">     *</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment">     * @var bool[]</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment">     */</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_S.html#101352">isFileCallsCache</a> = [];</span>
+<a name="32"><font size=-1>32     </font></a><span class="default"></span>
+<a name="33"><font size=-1>33     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">     * Adds a directory to the whitelist (recursively).</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">     */</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#25638">addDirectoryToWhitelist</a></span><span class="default">(<a href="dictionary_S.html#163980">string</a> $<a href="dictionary_D.html#61099">directory</a>, <a href="dictionary_S.html#163980">string</a> $<a href="dictionary_S.html#165319">suffix</a> = </span><span class="string">'.php'</span><span class="default">, <a href="dictionary_S.html#163980">string</a> $<a href="dictionary_P.html#137869">prefix</a> = </span><span class="string">''</span><span class="default">): <a href="dictionary_S.html#189279">void</a></span>
+<a name="37"><font size=-1>37     </font></a><span class="default">    {</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">        $<a href="dictionary_S.html#75787">facade</a> = </span><span class="keyword">new <a href="dictionary_F.html#77309">FileIteratorFacade</a></span><span class="default">;</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        $<a href="dictionary_F.html#77648">files</a>  = $<a href="dictionary_F.html#75784">facade</a>-&gt;<a href="dictionary_G.html#85640">getFilesAsArray</a>($<a href="dictionary_D.html#61099">directory</a>, $<a href="dictionary_S.html#165319">suffix</a>, $<a href="dictionary_P.html#137869">prefix</a>);</span>
+<a name="40"><font size=-1>40     </font></a><span class="default"></span>
+<a name="41"><font size=-1>41     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_F.html#77648">files</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_F.html#77101">file</a>) {</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">            $this-&gt;<a href="dictionary_S.html#25746">addFileToWhitelist</a>($<a href="dictionary_F.html#77101">file</a>);</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        }</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">    }</span>
+<a name="45"><font size=-1>45     </font></a><span class="default"></span>
+<a name="46"><font size=-1>46     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment">     * Adds a file to the whitelist.</span>
+<a name="48"><font size=-1>48     </font></a><span class="comment">     */</span>
+<a name="49"><font size=-1>49     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#25746">addFileToWhitelist</a></span><span class="default">(<a href="dictionary_S.html#163980">string</a> $<a href="dictionary_F.html#77452">filename</a>): <a href="dictionary_S.html#189279">void</a></span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    {</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        $<a href="dictionary_F.html#77452">filename</a> = \<a href="dictionary_R.html#144158">realpath</a>($<a href="dictionary_F.html#77452">filename</a>);</span>
+<a name="52"><font size=-1>52     </font></a><span class="default"></span>
+<a name="53"><font size=-1>53     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_F.html#77452">filename</a>) {</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        }</span>
+<a name="56"><font size=-1>56     </font></a><span class="default"></span>
+<a name="57"><font size=-1>57     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#190192">whitelistedFiles</a>[$<a href="dictionary_F.html#77452">filename</a>] = <a href="dictionary_T.html#181186">true</a>;</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">    }</span>
+<a name="59"><font size=-1>59     </font></a><span class="default"></span>
+<a name="60"><font size=-1>60     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="61"><font size=-1>61     </font></a><span class="comment">     * Adds files to the whitelist.</span>
+<a name="62"><font size=-1>62     </font></a><span class="comment">     *</span>
+<a name="63"><font size=-1>63     </font></a><span class="comment">     * @param string[] $files</span>
+<a name="64"><font size=-1>64     </font></a><span class="comment">     */</span>
+<a name="65"><font size=-1>65     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#25744">addFilesToWhitelist</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_F.html#77647">files</a>): <a href="dictionary_S.html#189279">void</a></span>
+<a name="66"><font size=-1>66     </font></a><span class="default">    {</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_F.html#77647">files</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_F.html#77100">file</a>) {</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">            $this-&gt;<a href="dictionary_S.html#25746">addFileToWhitelist</a>($<a href="dictionary_F.html#77100">file</a>);</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">        }</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">    }</span>
+<a name="71"><font size=-1>71     </font></a><span class="default"></span>
+<a name="72"><font size=-1>72     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="73"><font size=-1>73     </font></a><span class="comment">     * Removes a directory from the whitelist (recursively).</span>
+<a name="74"><font size=-1>74     </font></a><span class="comment">     */</span>
+<a name="75"><font size=-1>75     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#146324">removeDirectoryFromWhitelist</a></span><span class="default">(<a href="dictionary_S.html#163980">string</a> $<a href="dictionary_D.html#61098">directory</a>, <a href="dictionary_S.html#163980">string</a> $<a href="dictionary_S.html#165318">suffix</a> = </span><span class="string">'.php'</span><span class="default">, <a href="dictionary_S.html#163980">string</a> $<a href="dictionary_P.html#137868">prefix</a> = </span><span class="string">''</span><span class="default">): <a href="dictionary_S.html#189279">void</a></span>
+<a name="76"><font size=-1>76     </font></a><span class="default">    {</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">        $<a href="dictionary_S.html#75787">facade</a> = </span><span class="keyword">new <a href="dictionary_F.html#77309">FileIteratorFacade</a></span><span class="default">;</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">        $<a href="dictionary_F.html#77646">files</a>  = $<a href="dictionary_F.html#75783">facade</a>-&gt;<a href="dictionary_G.html#85640">getFilesAsArray</a>($<a href="dictionary_D.html#61098">directory</a>, $<a href="dictionary_S.html#165318">suffix</a>, $<a href="dictionary_P.html#137868">prefix</a>);</span>
+<a name="79"><font size=-1>79     </font></a><span class="default"></span>
+<a name="80"><font size=-1>80     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_F.html#77646">files</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_F.html#77099">file</a>) {</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">            $this-&gt;<a href="dictionary_S.html#146349">removeFileFromWhitelist</a>($<a href="dictionary_F.html#77099">file</a>);</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">        }</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">    }</span>
+<a name="84"><font size=-1>84     </font></a><span class="default"></span>
+<a name="85"><font size=-1>85     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="86"><font size=-1>86     </font></a><span class="comment">     * Removes a file from the whitelist.</span>
+<a name="87"><font size=-1>87     </font></a><span class="comment">     */</span>
+<a name="88"><font size=-1>88     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#146349">removeFileFromWhitelist</a></span><span class="default">(<a href="dictionary_S.html#163980">string</a> $<a href="dictionary_F.html#77449">filename</a>): <a href="dictionary_S.html#189279">void</a></span>
+<a name="89"><font size=-1>89     </font></a><span class="default">    {</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">        $<a href="dictionary_F.html#77449">filename</a> = \<a href="dictionary_R.html#144158">realpath</a>($<a href="dictionary_F.html#77449">filename</a>);</span>
+<a name="91"><font size=-1>91     </font></a><span class="default"></span>
+<a name="92"><font size=-1>92     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_F.html#77449">filename</a> || !</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_S.html#190192">whitelistedFiles</a>[$<a href="dictionary_F.html#77449">filename</a>])) {</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="94"><font size=-1>94     </font></a><span class="default">        }</span>
+<a name="95"><font size=-1>95     </font></a><span class="default"></span>
+<a name="96"><font size=-1>96     </font></a><span class="default">        </span><span class="keyword">unset</span><span class="default">($this-&gt;<a href="dictionary_S.html#190192">whitelistedFiles</a>[$<a href="dictionary_F.html#77449">filename</a>]);</span>
+<a name="97"><font size=-1>97     </font></a><span class="default">    }</span>
+<a name="98"><font size=-1>98     </font></a><span class="default"></span>
+<a name="99"><font size=-1>99     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="100"><font size=-1>100     </font></a><span class="comment">     * Checks whether a filename is a real filename.</span>
+<a name="101"><font size=-1>101     </font></a><span class="comment">     */</span>
+<a name="102"><font size=-1>102     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#101350">isFile</a></span><span class="default">(<a href="dictionary_S.html#163980">string</a> $<a href="dictionary_F.html#77451">filename</a>): <a href="dictionary_S.html#35388">bool</a></span>
+<a name="103"><font size=-1>103     </font></a><span class="default">    {</span>
+<a name="104"><font size=-1>104     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_S.html#101352">isFileCallsCache</a>[$<a href="dictionary_F.html#77451">filename</a>])) {</span>
+<a name="105"><font size=-1>105     </font></a><span class="default">            </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_S.html#101352">isFileCallsCache</a>[$<a href="dictionary_F.html#77451">filename</a>];</span>
+<a name="106"><font size=-1>106     </font></a><span class="default">        }</span>
+<a name="107"><font size=-1>107     </font></a><span class="default"></span>
+<a name="108"><font size=-1>108     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_F.html#77451">filename</a> === </span><span class="string">'-' </span><span class="default">||</span>
+<a name="109"><font size=-1>109     </font></a><span class="default">            \<a href="dictionary_S.html#164373">strpos</a>($<a href="dictionary_F.html#77451">filename</a>, </span><span class="string">'vfs://'</span><span class="default">) === </span><span class="number">0 </span><span class="default">||</span>
+<a name="110"><font size=-1>110     </font></a><span class="default">            \<a href="dictionary_S.html#164373">strpos</a>($<a href="dictionary_F.html#77451">filename</a>, </span><span class="string">'xdebug://debug-eval'</span><span class="default">) !== <a href="dictionary_F.html#76452">false</a> ||</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">            \<a href="dictionary_S.html#164373">strpos</a>($<a href="dictionary_F.html#77451">filename</a>, </span><span class="string">'eval()\'d code'</span><span class="default">) !== <a href="dictionary_F.html#76452">false</a> ||</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">            \<a href="dictionary_S.html#164373">strpos</a>($<a href="dictionary_F.html#77451">filename</a>, </span><span class="string">'runtime-created function'</span><span class="default">) !== <a href="dictionary_F.html#76452">false</a> ||</span>
+<a name="113"><font size=-1>113     </font></a><span class="default">            \<a href="dictionary_S.html#164373">strpos</a>($<a href="dictionary_F.html#77451">filename</a>, </span><span class="string">'runkit created function'</span><span class="default">) !== <a href="dictionary_F.html#76452">false</a> ||</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">            \<a href="dictionary_S.html#164373">strpos</a>($<a href="dictionary_F.html#77451">filename</a>, </span><span class="string">'assert code'</span><span class="default">) !== <a href="dictionary_F.html#76452">false</a> ||</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">            \<a href="dictionary_S.html#164373">strpos</a>($<a href="dictionary_F.html#77451">filename</a>, </span><span class="string">'regexp code'</span><span class="default">) !== <a href="dictionary_F.html#76452">false</a> ||</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">            \<a href="dictionary_S.html#164373">strpos</a>($<a href="dictionary_F.html#77451">filename</a>, </span><span class="string">'Standard input code'</span><span class="default">) !== <a href="dictionary_F.html#76452">false</a>) {</span>
+<a name="117"><font size=-1>117     </font></a><span class="default">            $<a href="dictionary_I.html#101344">isFile</a> = <a href="dictionary_F.html#76452">false</a>;</span>
+<a name="118"><font size=-1>118     </font></a><span class="default">        } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="119"><font size=-1>119     </font></a><span class="default">            $<a href="dictionary_I.html#101344">isFile</a> = \<a href="dictionary_F.html#77203">file_exists</a>($<a href="dictionary_F.html#77451">filename</a>);</span>
+<a name="120"><font size=-1>120     </font></a><span class="default">        }</span>
+<a name="121"><font size=-1>121     </font></a><span class="default"></span>
+<a name="122"><font size=-1>122     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#101352">isFileCallsCache</a>[$<a href="dictionary_F.html#77451">filename</a>] = $<a href="dictionary_I.html#101344">isFile</a>;</span>
+<a name="123"><font size=-1>123     </font></a><span class="default"></span>
+<a name="124"><font size=-1>124     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_I.html#101344">isFile</a>;</span>
+<a name="125"><font size=-1>125     </font></a><span class="default">    }</span>
+<a name="126"><font size=-1>126     </font></a><span class="default"></span>
+<a name="127"><font size=-1>127     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="128"><font size=-1>128     </font></a><span class="comment">     * Checks whether or not a file is filtered.</span>
+<a name="129"><font size=-1>129     </font></a><span class="comment">     */</span>
+<a name="130"><font size=-1>130     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#101356">isFiltered</a></span><span class="default">(<a href="dictionary_S.html#163980">string</a> $<a href="dictionary_F.html#77450">filename</a>): <a href="dictionary_S.html#35388">bool</a></span>
+<a name="131"><font size=-1>131     </font></a><span class="default">    {</span>
+<a name="132"><font size=-1>132     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!$this-&gt;<a href="dictionary_S.html#101350">isFile</a>($<a href="dictionary_F.html#77450">filename</a>)) {</span>
+<a name="133"><font size=-1>133     </font></a><span class="default">            </span><span class="keyword">return <a href="dictionary_T.html#181186">true</a></span><span class="default">;</span>
+<a name="134"><font size=-1>134     </font></a><span class="default">        }</span>
+<a name="135"><font size=-1>135     </font></a><span class="default"></span>
+<a name="136"><font size=-1>136     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">!</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_S.html#190192">whitelistedFiles</a>[$<a href="dictionary_F.html#77450">filename</a>]);</span>
+<a name="137"><font size=-1>137     </font></a><span class="default">    }</span>
+<a name="138"><font size=-1>138     </font></a><span class="default"></span>
+<a name="139"><font size=-1>139     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="140"><font size=-1>140     </font></a><span class="comment">     * Returns the list of whitelisted files.</span>
+<a name="141"><font size=-1>141     </font></a><span class="comment">     *</span>
+<a name="142"><font size=-1>142     </font></a><span class="comment">     * @return string[]</span>
+<a name="143"><font size=-1>143     </font></a><span class="comment">     */</span>
+<a name="144"><font size=-1>144     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#89616">getWhitelist</a></span><span class="default">(): </span><span class="keyword">array</span>
+<a name="145"><font size=-1>145     </font></a><span class="keyword">    </span><span class="default">{</span>
+<a name="146"><font size=-1>146     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\<a href="dictionary_A.html#29415">array_keys</a>($this-&gt;<a href="dictionary_S.html#190192">whitelistedFiles</a>);</span>
+<a name="147"><font size=-1>147     </font></a><span class="default">    }</span>
+<a name="148"><font size=-1>148     </font></a><span class="default"></span>
+<a name="149"><font size=-1>149     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="150"><font size=-1>150     </font></a><span class="comment">     * Returns whether this filter has a whitelist.</span>
+<a name="151"><font size=-1>151     </font></a><span class="comment">     */</span>
+<a name="152"><font size=-1>152     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#92224">hasWhitelist</a></span><span class="default">(): <a href="dictionary_S.html#35388">bool</a></span>
+<a name="153"><font size=-1>153     </font></a><span class="default">    {</span>
+<a name="154"><font size=-1>154     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">!</span><span class="keyword">empty</span><span class="default">($this-&gt;<a href="dictionary_S.html#190192">whitelistedFiles</a>);</span>
+<a name="155"><font size=-1>155     </font></a><span class="default">    }</span>
+<a name="156"><font size=-1>156     </font></a><span class="default"></span>
+<a name="157"><font size=-1>157     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="158"><font size=-1>158     </font></a><span class="comment">     * Returns the whitelisted files.</span>
+<a name="159"><font size=-1>159     </font></a><span class="comment">     *</span>
+<a name="160"><font size=-1>160     </font></a><span class="comment">     * @return string[]</span>
+<a name="161"><font size=-1>161     </font></a><span class="comment">     */</span>
+<a name="162"><font size=-1>162     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#89618">getWhitelistedFiles</a></span><span class="default">(): </span><span class="keyword">array</span>
+<a name="163"><font size=-1>163     </font></a><span class="keyword">    </span><span class="default">{</span>
+<a name="164"><font size=-1>164     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_S.html#190192">whitelistedFiles</a>;</span>
+<a name="165"><font size=-1>165     </font></a><span class="default">    }</span>
+<a name="166"><font size=-1>166     </font></a><span class="default"></span>
+<a name="167"><font size=-1>167     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="168"><font size=-1>168     </font></a><span class="comment">     * Sets the whitelisted files.</span>
+<a name="169"><font size=-1>169     </font></a><span class="comment">     */</span>
+<a name="170"><font size=-1>170     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_S.html#157553">setWhitelistedFiles</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_W.html#190191">whitelistedFiles</a>): <a href="dictionary_S.html#189279">void</a></span>
+<a name="171"><font size=-1>171     </font></a><span class="default">    {</span>
+<a name="172"><font size=-1>172     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#190192">whitelistedFiles</a> = $whitelistedFiles;</span>
+<a name="173"><font size=-1>173     </font></a><span class="default">    }</span>
+<a name="174"><font size=-1>174     </font></a><span class="default">}</span>
+<a name="175"><font size=-1>175     </font></a><span class="default"></span>
+</pre></body></html>

@@ -1,0 +1,27 @@
+<html><head><title>AtRule.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\sabberworm\php-css-parser\lib\Sabberworm\CSS\Property\AtRule.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\sabberworm\\php-css-parser\\lib\\Sabberworm\\CSS\\Property\\AtRule.php";
+top.document.title  = "AtRule.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_S.html#152330">Sabberworm</a></span><span class="default">\CSS\Property;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Sabberworm\CSS\<a href="dictionary_S.html#146594">Renderable</a>;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Sabberworm\CSS\Comment\<a href="dictionary_S.html#45944">Commentable</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span><span class="keyword">interface <a href="dictionary_S.html#30482">AtRule</a> extends </span><span class="default">Renderable, Commentable {</span>
+<a name="9"><font size=-1>9     </font></a><span class="default">	</span><span class="comment">// Since there are more set rules than block rules, weâ€™re whitelisting the block rules and have anything else be treated as a set rule.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment">	</span><span class="keyword">const <a href="dictionary_S.html#34918">BLOCK_RULES</a> </span><span class="default">= </span><span class="string">'media/document/supports/region-style/font-feature-values'</span><span class="default">;</span>
+<a name="11"><font size=-1>11     </font></a><span class="default">	</span><span class="comment">// â€¦and more font-specific ones (to be used inside font-feature-values)</span>
+<a name="12"><font size=-1>12     </font></a><span class="comment">	</span><span class="keyword">const <a href="dictionary_S.html#155361">SET_RULES</a> </span><span class="default">= </span><span class="string">'font-face/counter-style/page/swash/styleset/annotation'</span><span class="default">;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default">	</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">	</span><span class="keyword">public function <a href="dictionary_S.html#30494">atRuleName</a></span><span class="default">();</span>
+<a name="15"><font size=-1>15     </font></a><span class="default">	</span><span class="keyword">public function <a href="dictionary_S.html#30484">atRuleArgs</a></span><span class="default">();</span>
+<a name="16"><font size=-1>16     </font></a><span class="default">}</span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span>
+</pre></body></html>

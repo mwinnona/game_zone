@@ -1,0 +1,276 @@
+<html><head><title>Company.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\fzaninotto\faker\src\Faker\Provider\zh_TW\Company.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\fzaninotto\\faker\\src\\Faker\\Provider\\zh_TW\\Company.php";
+top.document.title  = "Company.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_F.html#76300">Faker</a></span><span class="default">\Provider\zh_TW;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_F.html#46078">Company</a> extends </span><span class="default">\Faker\Provider\<a href="dictionary_F.html#46058">Company</a></span>
+<a name="6"><font size=-1>6     </font></a><span class="default">{</span>
+<a name="7"><font size=-1>7     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#46120">companyEnSuffix</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="8"><font size=-1>8     </font></a><span class="default">        </span><span class="string">'Inc'</span><span class="default">, </span><span class="string">'and Sons'</span><span class="default">, </span><span class="string">'LLC'</span><span class="default">, </span><span class="string">'Group'</span><span class="default">, </span><span class="string">'PLC'</span><span class="default">, </span><span class="string">'Ltd'</span>
+<a name="9"><font size=-1>9     </font></a><span class="string">    </span><span class="default">);</span>
+<a name="10"><font size=-1>10     </font></a><span class="default"></span>
+<a name="11"><font size=-1>11     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#46117">companyEnFormats</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="12"><font size=-1>12     </font></a><span class="default">        </span><span class="string">'{{lastNameEn}} {{companyEnSuffix}}'</span><span class="default">,</span>
+<a name="13"><font size=-1>13     </font></a><span class="default">        </span><span class="string">'{{lastNameEn}}-{{lastNameEn}}'</span><span class="default">,</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">        </span><span class="string">'{{lastNameEn}}, {{lastNameEn}} and {{lastNameEn}}'</span>
+<a name="15"><font size=-1>15     </font></a><span class="string">    </span><span class="default">);</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span>
+<a name="17"><font size=-1>17     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#80364">formats</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="18"><font size=-1>18     </font></a><span class="default">        </span><span class="string">'{{companyPrefix}}{{companyModifier}}'</span><span class="default">,</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">        </span><span class="string">'{{companyPrefix}}{{companySuffix}}'</span><span class="default">,</span>
+<a name="20"><font size=-1>20     </font></a><span class="default">        </span><span class="string">'{{companyPrefix}}{{companyModifier}}{{CompanySuffix}}'</span><span class="default">,</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">    );</span>
+<a name="22"><font size=-1>22     </font></a><span class="default"></span>
+<a name="23"><font size=-1>23     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment">     * @link http://zh.wikipedia.org/zh-tw/Category:%E5%8F%B0%E7%81%A3%E5%85%AC%E5%8F%B8%E5%88%97%E8%A1%A8</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment">     */</span>
+<a name="26"><font size=-1>26     </font></a><span class="comment">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#46173">companyPrefix</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">        </span><span class="string">'ä¹¾å¤'</span><span class="default">, </span><span class="string">'äºžç¥ž'</span><span class="default">, </span><span class="string">'å…‰è­œ'</span><span class="default">, </span><span class="string">'å…¸é¸'</span><span class="default">, </span><span class="string">'å‡±åŸº'</span><span class="default">, </span><span class="string">'å‰è¡›èŠ±åœ’'</span><span class="default">,</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">        </span><span class="string">'å‰µè¦‹'</span><span class="default">, </span><span class="string">'å‹è¨Š'</span><span class="default">, </span><span class="string">'å°é”'</span><span class="default">, </span><span class="string">'åˆå‹¤'</span><span class="default">, </span><span class="string">'å–œç‘ªæ‹‰é›…'</span><span class="default">, </span><span class="string">'å–¬å±±'</span><span class="default">,</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">        </span><span class="string">'å¤šåˆ©å®‰'</span><span class="default">, </span><span class="string">'å¤§åœ‹'</span><span class="default">, </span><span class="string">'å¤§å®‡'</span><span class="default">, </span><span class="string">'å¤ªé™½'</span><span class="default">, </span><span class="string">'å¤ªé™½å‹•åŠ›'</span><span class="default">, </span><span class="string">'å®ç¢'</span><span class="default">,</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">        </span><span class="string">'å®é”'</span><span class="default">, </span><span class="string">'å°ç™½å…”'</span><span class="default">, </span><span class="string">'å·¨å¤§'</span><span class="default">, </span><span class="string">'å·¨å®¤'</span><span class="default">, </span><span class="string">'åº·å¸«å‚…'</span><span class="default">, </span><span class="string">'å»¶ä¼¸'</span><span class="default">,</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">        </span><span class="string">'å¼˜ç…œ'</span><span class="default">, </span><span class="string">'å½Žçš„'</span><span class="default">, </span><span class="string">'æ“Žå¤©'</span><span class="default">, </span><span class="string">'æ–°äºžæ´²'</span><span class="default">, </span><span class="string">'æ—ºæ—º'</span><span class="default">, </span><span class="string">'æ˜±æ³‰'</span><span class="default">,</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">        </span><span class="string">'æ™ºå† '</span><span class="default">, </span><span class="string">'æœªä¾†'</span><span class="default">, </span><span class="string">'æ¾å´—'</span><span class="default">, </span><span class="string">'æ­£æ–°'</span><span class="default">, </span><span class="string">'æ´§èª '</span><span class="default">, </span><span class="string">'æµ·è¶'</span><span class="default">,</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">        </span><span class="string">'æ·»ç¿¼å‰µè¶Š'</span><span class="default">, </span><span class="string">'æ»¾çŸ³'</span><span class="default">, </span><span class="string">'çŽ‹å“'</span><span class="default">, </span><span class="string">'ç•¶ç„¶'</span><span class="default">, </span><span class="string">'ç›¸ä¿¡'</span><span class="default">, </span><span class="string">'ç›æ°´'</span><span class="default">,</span>
+<a name="34"><font size=-1>34     </font></a><span class="default">        </span><span class="string">'ç ”è¯'</span><span class="default">, </span><span class="string">'ç¦èŒ‚'</span><span class="default">, </span><span class="string">'ç¨®å­'</span><span class="default">, </span><span class="string">'ç±³æ¨‚å£«'</span><span class="default">, </span><span class="string">'ç´…å…ƒç´ '</span><span class="default">, </span><span class="string">'ç´…å¿ƒè¾£æ¤’'</span><span class="default">,</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">        </span><span class="string">'çµ±ä¸€'</span><span class="default">, </span><span class="string">'ç¾Žåˆ©é”'</span><span class="default">, </span><span class="string">'ç¾Žå¦™'</span><span class="default">, </span><span class="string">'ç¾Žæ¨‚å¸'</span><span class="default">, </span><span class="string">'ç¾¤çŸ³'</span><span class="default">, </span><span class="string">'è€é·¹'</span><span class="default">,</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">        </span><span class="string">'è¯å¼·'</span><span class="default">, </span><span class="string">'èŠ®æ²³'</span><span class="default">, </span><span class="string">'è‹±ç‰¹è¡›'</span><span class="default">, </span><span class="string">'èŒ‚ç‚º'</span><span class="default">, </span><span class="string">'è¯ç‰¹'</span><span class="default">, </span><span class="string">'è¯ç ”'</span><span class="default">,</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">        </span><span class="string">'è¯ç¢©'</span><span class="default">, </span><span class="string">'è¯ç¾©'</span><span class="default">, </span><span class="string">'è§’é ­'</span><span class="default">, </span><span class="string">'è¨Šé€£'</span><span class="default">, </span><span class="string">'è±è¯'</span><span class="default">, </span><span class="string">'è±ªå®¢'</span><span class="default">, </span><span class="string">'è±ªè¨˜'</span><span class="default">,</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">        </span><span class="string">'è²´æ—'</span><span class="default">, </span><span class="string">'è¶¨å‹¢'</span><span class="default">, </span><span class="string">'éŠæˆ²æ©˜å­'</span><span class="default">, </span><span class="string">'é‡Žç«æ¨‚é›†'</span><span class="default">, </span><span class="string">'é‡‘é©'</span><span class="default">,</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        </span><span class="string">'éŠ€é­š'</span><span class="default">, </span><span class="string">'é˜¿çˆ¾ç™¼'</span><span class="default">, </span><span class="string">'é¢¨å’Œæ—¥éº—'</span><span class="default">, </span><span class="string">'é¢¨æ½®'</span><span class="default">, </span><span class="string">'é¢¨é›²'</span><span class="default">,</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">    );</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#46130">companyModifier</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">        </span><span class="string">'ç§‘æŠ€'</span><span class="default">, </span><span class="string">'é›»è…¦'</span><span class="default">, </span><span class="string">'åœ‹éš›'</span><span class="default">, </span><span class="string">'é›»å­'</span><span class="default">, </span><span class="string">'å¨›æ¨‚'</span><span class="default">, </span><span class="string">'éŸ³æ¨‚'</span><span class="default">, </span><span class="string">'å”±ç‰‡'</span><span class="default">,</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        </span><span class="string">'è­‰åˆ¸'</span><span class="default">, </span><span class="string">'é›†åœ˜'</span><span class="default">, </span><span class="string">'ä¼æ¥­'</span><span class="default">, </span><span class="string">'æ©Ÿæ¢°'</span><span class="default">, </span><span class="string">'å·¥æ¥­'</span><span class="default">, </span><span class="string">'æ–‡åŒ–'</span><span class="default">, </span><span class="string">'æ±½è»Š'</span><span class="default">,</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">        </span><span class="string">'ç™¾è²¨'</span><span class="default">, </span><span class="string">'é…’åº—'</span><span class="default">, </span><span class="string">'æ•¸ä½'</span><span class="default">,</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">    );</span>
+<a name="46"><font size=-1>46     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#46208">companySuffix</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">        </span><span class="string">'å…¬å¸'</span><span class="default">, </span><span class="string">'æœ‰é™å…¬å¸'</span><span class="default">, </span><span class="string">'è‚¡ä»½æœ‰é™å…¬å¸'</span>
+<a name="48"><font size=-1>48     </font></a><span class="string">    </span><span class="default">);</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="50"><font size=-1>50     </font></a><span class="comment">     * @link https://zh-tw.facebook.com/notes/%E7%8E%A9%E5%BB%A3%E5%91%8Aplaying-with-advertising/%E5%9B%9E%E9%A1%A7%E8%87%BA%E7%81%A3%E6%AD%B7%E5%B1%86%E5%BB%A3%E5%91%8A%E9%87%91%E5%8F%A5%E7%8D%8E/294008963985215</span>
+<a name="51"><font size=-1>51     </font></a><span class="comment">     */</span>
+<a name="52"><font size=-1>52     </font></a><span class="comment">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#40183">catchPhrase</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">        </span><span class="string">'Everything\'s ok'</span><span class="default">,</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">        </span><span class="string">'Just call me be happy'</span><span class="default">,</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        </span><span class="string">'Keep Walking'</span><span class="default">,</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">        </span><span class="string">'NOKIAç›¸ä¿¡ç§‘æŠ€å§‹çµ‚ä¾†è‡ªæ–¼äººæ€§'</span><span class="default">,</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">        </span><span class="string">'PayEasyï¼Œé™ªä½ Shoppingä¸€è¼©å­'</span><span class="default">,</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">        </span><span class="string">'Playä¸ç´¯'</span><span class="default">,</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        </span><span class="string">'The city never sleeps'</span><span class="default">,</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">        </span><span class="string">'Trust me, you can make it!'</span><span class="default">,</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">        </span><span class="string">'We are family'</span><span class="default">,</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">        </span><span class="string">'We share'</span><span class="default">,</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">        </span><span class="string">'You A.S.O beautiful'</span><span class="default">,</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">        </span><span class="string">'ä¸€äººåƒï¼Œå…©äººè£œ'</span><span class="default">,</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">        </span><span class="string">'ä¸€å®šè¦å¹¸ç¦å“¦ï¼'</span><span class="default">,</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">        </span><span class="string">'ä¸€æŠŠæŠµå…©æŠŠï¼Œä½•éœ€ç‘ªéº—äºžï¼Ÿï¼'</span><span class="default">,</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">        </span><span class="string">'ä¸€æ¬¡è²·å¥½ï¼Œå°±æ˜¯é ‚å¥½'</span><span class="default">,</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">        </span><span class="string">'ä¸€æ­¥ä¸€è…³å°ï¼Œå¤§å®¶æ„›å°ç£'</span><span class="default">,</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">        </span><span class="string">'ä¸€æ®µè©±ï¼Œæ„Ÿå‹•äº†ä¸€å¹…ç•«ï¼'</span><span class="default">,</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">        </span><span class="string">'ä¸€é»žä¸€é»ž ç´¯ç©æ›´å¥½çš„è‡ªå·±'</span><span class="default">,</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">        </span><span class="string">'ä¸‰ä¸äº”æ™‚ï¼Œæ„›è¦åŠæ™‚'</span><span class="default">,</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">        </span><span class="string">'ä¸‰é¤è€æ˜¯åœ¨å¤–ï¼Œäººäººå«æˆ‘è€å¤–ï¼'</span><span class="default">,</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">        </span><span class="string">'ä¸åªè¾¦å…¬å®¤ï¼ŒæŽŒæ¡æ›´å¤šäº‹'</span><span class="default">,</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">        </span><span class="string">'ä¸åœ¨ä¹Žå¤©é•·åœ°ä¹…ï¼Œåªåœ¨ä¹Žæ›¾ç¶“æ“æœ‰'</span><span class="default">,</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">        </span><span class="string">'ä¸åœ¨è¾¦å…¬å®¤ï¼Œä¹Ÿèƒ½è¾¦å…¬äº‹'</span><span class="default">,</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">        </span><span class="string">'ä¸å¹³å‡¡çš„å¹³å‡¡å¤§çœ¾'</span><span class="default">,</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">        </span><span class="string">'ä¸æƒ³åˆ†é–‹ å°±æ°¸é åœ¨ä¸€èµ·å§'</span><span class="default">,</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">        </span><span class="string">'ä¸è©²æ„›çš„ï¼Œè¶æ—©æ›'</span><span class="default">,</span>
+<a name="79"><font size=-1>79     </font></a><span class="default">        </span><span class="string">'ä¸éŽï½žä¸éŽï½žï¼Œä¸€å®šæ¸¬ä¸éŽ'</span><span class="default">,</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">        </span><span class="string">'ä¸–äº‹é›£æ–™ï¼Œå®‰æ³°æ¯”è¼ƒå¥½'</span><span class="default">,</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">        </span><span class="string">'ä¸–äº‹é›£æ–™ï¼Œå°äººè¦æ›´å¥½'</span><span class="default">,</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">        </span><span class="string">'ä¸–ç•Œä¸Šæœ€é‡è¦çš„ä¸€éƒ¨è»Šæ˜¯çˆ¸çˆ¸çš„è‚©è†€'</span><span class="default">,</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">        </span><span class="string">'ä¹Žä¹¾å•¦ï¼'</span><span class="default">,</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">        </span><span class="string">'äººç”Ÿ30è²¡é–‹å§‹'</span><span class="default">,</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">        </span><span class="string">'ä»€éº¼æœ€é’ï¼Ÿ'</span><span class="default">,</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">        </span><span class="string">'ä»€éº¼éƒ½æœ‰ï¼Œä»€éº¼éƒ½è³£ï¼Œä»€éº¼éƒ½ä¸å¥‡æ€ªï¼'</span><span class="default">,</span>
+<a name="87"><font size=-1>87     </font></a><span class="default">        </span><span class="string">'ä»Šå¤©å¿ƒæƒ…å¹¾ï¼Ÿ'</span><span class="default">,</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">        </span><span class="string">'ä»–å‚»ç“œã€ä½ è°æ˜Ž'</span><span class="default">,</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">        </span><span class="string">'ä»–æ‰å¾—ä½æˆ‘'</span><span class="default">,</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">        </span><span class="string">'ä½ æœªå¿…å‡ºé¡žæ‹”èƒ ä½†è‚¯å®šèˆ‡çœ¾ä¸åŒ'</span><span class="default">,</span>
+<a name="91"><font size=-1>91     </font></a><span class="default">        </span><span class="string">'ä½ çš„æ„›ï¼Œæ˜¯å­©å­æœ€å¥½çš„ç¤ºç¯„'</span><span class="default">,</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">        </span><span class="string">'ä½ è¬›å°èªžå˜›ä¹Ÿé€š'</span><span class="default">,</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">        </span><span class="string">'ä¾¿å®œä¸€æ¨£æœ‰å¥½è²¨'</span><span class="default">,</span>
+<a name="94"><font size=-1>94     </font></a><span class="default">        </span><span class="string">'ä¿‚é‡‘Aï¼'</span><span class="default">,</span>
+<a name="95"><font size=-1>95     </font></a><span class="default">        </span><span class="string">'ä¿¡ä»»ï¼Œå¸¶ä¾†æ–°å¹¸ç¦'</span><span class="default">,</span>
+<a name="96"><font size=-1>96     </font></a><span class="default">        </span><span class="string">'ä¿¡ç¾©æˆ¿å±‹ï¼Œä¿¡ä»»ï¼Œå¸¶ä¾†æ–°å¹¸ç¦'</span><span class="default">,</span>
+<a name="97"><font size=-1>97     </font></a><span class="default">        </span><span class="string">'åšä½ è‡ªå·±æ‰å«ä¹–ï¼Œåšä½ çš„ä¹–ä¹–ï¼'</span><span class="default">,</span>
+<a name="98"><font size=-1>98     </font></a><span class="default">        </span><span class="string">'åšè‡ªå·± è‡ªå·±åš'</span><span class="default">,</span>
+<a name="99"><font size=-1>99     </font></a><span class="default">        </span><span class="string">'å‚»ç“œé¡ç‰‡,è°æ˜Žé¸æ“‡'</span><span class="default">,</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">        </span><span class="string">'ãŠå…ƒæ°—ã§ã™ã‹ï¼Ÿ'</span><span class="default">,</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">        </span><span class="string">'å…¨åœ‹é›»å­ è¶³æ„Ÿå¿ƒã„Ÿ'</span><span class="default">,</span>
+<a name="102"><font size=-1>102     </font></a><span class="default">        </span><span class="string">'å…¨å®¶å°±æ˜¯ä½ å®¶'</span><span class="default">,</span>
+<a name="103"><font size=-1>103     </font></a><span class="default">        </span><span class="string">'å†å¿™ï¼Œä¹Ÿè¦å’Œä½ å–æ¯å’–å•¡'</span><span class="default">,</span>
+<a name="104"><font size=-1>104     </font></a><span class="default">        </span><span class="string">'åˆ¥è®“ä»Šå¤©çš„æ‡‰é…¬æˆç‚ºæ˜Žå¤©çš„è² æ“”'</span><span class="default">,</span>
+<a name="105"><font size=-1>105     </font></a><span class="default">        </span><span class="string">'åˆ°æœè£åº—åŸ¹é¤Šæ°£è³ªï¼Œåˆ°æ›¸åº—å±•ç¤ºæœè£'</span><span class="default">,</span>
+<a name="106"><font size=-1>106     </font></a><span class="default">        </span><span class="string">'åŒ–åŽ»å¿ƒä¸­é‚£æ¢ç·š'</span><span class="default">,</span>
+<a name="107"><font size=-1>107     </font></a><span class="default">        </span><span class="string">'åŽŸä¾†æˆ‘å€‘é€™éº¼è¿‘'</span><span class="default">,</span>
+<a name="108"><font size=-1>108     </font></a><span class="default">        </span><span class="string">'åªæœ‰é å‚³ï¼Œæ²’æœ‰è·é›¢'</span><span class="default">,</span>
+<a name="109"><font size=-1>109     </font></a><span class="default">        </span><span class="string">'åªè¦æœ‰å¤¢ï¼Œä½ æœƒç´…'</span><span class="default">,</span>
+<a name="110"><font size=-1>110     </font></a><span class="default">        </span><span class="string">'å«å¤©å¤©ä¸å° Canonå¹«ä½ å°ï¼'</span><span class="default">,</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">        </span><span class="string">'å¯æ†çš„èˆŠæƒ…äººï¼Œçœ‹ä¸åˆ°æˆ‘çš„æ–°å…§è¡£'</span><span class="default">,</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">        </span><span class="string">'å°ç£ï¼ŒåŠ æ²¹ï¼'</span><span class="default">,</span>
+<a name="113"><font size=-1>113     </font></a><span class="default">        </span><span class="string">'åˆå‘³æ‰æœƒå‘·æ„'</span><span class="default">,</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">        </span><span class="string">'å•Šï¼ç¦æ°£å•¦ï¼'</span><span class="default">,</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">        </span><span class="string">'å–œæ­¡å—Ž? çˆ¸çˆ¸è²·çµ¦ä½ !'</span><span class="default">,</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">        </span><span class="string">'åš•åŠ åš•å¥½å‘·'</span><span class="default">,</span>
+<a name="117"><font size=-1>117     </font></a><span class="default">        </span><span class="string">'å›žå®¶çš„æ„Ÿè¦ºçœŸå¥½'</span><span class="default">,</span>
+<a name="118"><font size=-1>118     </font></a><span class="default">        </span><span class="string">'å› ç‚ºä½ å€¼å¾— Lâ€™OREâ€™AL'</span><span class="default">,</span>
+<a name="119"><font size=-1>119     </font></a><span class="default">        </span><span class="string">'å¤å¤©å¥½ç†± æ„›è¦è¶ç†±'</span><span class="default">,</span>
+<a name="120"><font size=-1>120     </font></a><span class="default">        </span><span class="string">'å¤šå–æ°´æ²’äº‹ï¼Œæ²’äº‹å¤šå–æ°´'</span><span class="default">,</span>
+<a name="121"><font size=-1>121     </font></a><span class="default">        </span><span class="string">'å¤œæ·±äº†ï¼Œæ‰“å€‹é›»è©±å›žå®¶'</span><span class="default">,</span>
+<a name="122"><font size=-1>122     </font></a><span class="default">        </span><span class="string">'å¤©ç”Ÿè¶…äººæ°£ï¼Œä¸è©²é­äººæ£„'</span><span class="default">,</span>
+<a name="123"><font size=-1>123     </font></a><span class="default">        </span><span class="string">'å¥³äººèªªå¥½ï¼Œæ‰ç®—é ‚å¥½'</span><span class="default">,</span>
+<a name="124"><font size=-1>124     </font></a><span class="default">        </span><span class="string">'å¥½æ±è¥¿å’Œå¥½æœ‹å‹åˆ†äº«'</span><span class="default">,</span>
+<a name="125"><font size=-1>125     </font></a><span class="default">        </span><span class="string">'å¥½çš„é–‹å–œå°±æ˜¯æˆåŠŸçš„ä¸€åŠï¼'</span><span class="default">,</span>
+<a name="126"><font size=-1>126     </font></a><span class="default">        </span><span class="string">'å¥½èº«é«”ï¼Œæ²’äººæ•¢æƒ¹ä½ '</span><span class="default">,</span>
+<a name="127"><font size=-1>127     </font></a><span class="default">        </span><span class="string">'å¥½éšªï¼Œæœ‰å—å±±ï¼'</span><span class="default">,</span>
+<a name="128"><font size=-1>128     </font></a><span class="default">        </span><span class="string">'å­©å­ï¼æˆ‘è¦ä½ å°‡ä¾†æ¯”æˆ‘å¼·ï¼'</span><span class="default">,</span>
+<a name="129"><font size=-1>129     </font></a><span class="default">        </span><span class="string">'å­¸ç´çš„å­©å­ä¸æœƒè®Šå£ž'</span><span class="default">,</span>
+<a name="130"><font size=-1>130     </font></a><span class="default">        </span><span class="string">'å®‰å…¨æ˜¯å›žå®¶å”¯ä¸€çš„è·¯'</span><span class="default">,</span>
+<a name="131"><font size=-1>131     </font></a><span class="default">        </span><span class="string">'å°è€Œç¾Žã€å°è€Œå†·ã€å°è€Œçœ'</span><span class="default">,</span>
+<a name="132"><font size=-1>132     </font></a><span class="default">        </span><span class="string">'å¹¸ç¦æ€Žèƒ½èªªä¸ç”¨'</span><span class="default">,</span>
+<a name="133"><font size=-1>133     </font></a><span class="default">        </span><span class="string">'å¿ƒï¼Œæ˜¯äººç”Ÿæœ€å¤§çš„æˆ°å ´'</span><span class="default">,</span>
+<a name="134"><font size=-1>134     </font></a><span class="default">        </span><span class="string">'æ‚¨çœŸå…§è¡Œï¼'</span><span class="default">,</span>
+<a name="135"><font size=-1>135     </font></a><span class="default">        </span><span class="string">'æƒ³åƒåŠ›æ˜¯ä½ çš„è¶…èƒ½åŠ›'</span><span class="default">,</span>
+<a name="136"><font size=-1>136     </font></a><span class="default">        </span><span class="string">'æ…ˆæ¯å¿ƒã€è±†è…å¿ƒ'</span><span class="default">,</span>
+<a name="137"><font size=-1>137     </font></a><span class="default">        </span><span class="string">'æˆ‘ä¸èªè­˜ä½ ï¼Œä½†æ˜¯æˆ‘è¬è¬ä½ ï¼'</span><span class="default">,</span>
+<a name="138"><font size=-1>138     </font></a><span class="default">        </span><span class="string">'æˆ‘å°±æ˜¯è¶…æ„› Sendï¼'</span><span class="default">,</span>
+<a name="139"><font size=-1>139     </font></a><span class="default">        </span><span class="string">'æˆ‘çš„å…«åˆ†æ–°æ‘ºå­¸ï¼'</span><span class="default">,</span>
+<a name="140"><font size=-1>140     </font></a><span class="default">        </span><span class="string">'æ‹èª°åƒèª°ï¼Œèª°æ‹èª°èª°éƒ½å¾—åƒèª°'</span><span class="default">,</span>
+<a name="141"><font size=-1>141     </font></a><span class="default">        </span><span class="string">'æŒºç«‹ï¼Œä¸åªæŒºé˜® ä¹ŸæŒºæ'</span><span class="default">,</span>
+<a name="142"><font size=-1>142     </font></a><span class="default">        </span><span class="string">'æè¡€ä¸€è¢‹ï¼Œæ•‘äººä¸€å‘½'</span><span class="default">,</span>
+<a name="143"><font size=-1>143     </font></a><span class="default">        </span><span class="string">'æ’¼å‹•å¤©ä¸‹çš„åŠ›é‡'</span><span class="default">,</span>
+<a name="144"><font size=-1>144     </font></a><span class="default">        </span><span class="string">'æ“‹ä¸ä½çš„æ„Ÿè¦º'</span><span class="default">,</span>
+<a name="145"><font size=-1>145     </font></a><span class="default">        </span><span class="string">'æ•´å€‹åŸŽå¸‚å°±æ˜¯æˆ‘çš„å’–å•¡é¤¨'</span><span class="default">,</span>
+<a name="146"><font size=-1>146     </font></a><span class="default">        </span><span class="string">'æœ€ä½³å¥³ä¸»è§’æ›ä½ åšåšçœ‹'</span><span class="default">,</span>
+<a name="147"><font size=-1>147     </font></a><span class="default">        </span><span class="string">'æœ‰å¿ƒæœ€è¦ç·Š'</span><span class="default">,</span>
+<a name="148"><font size=-1>148     </font></a><span class="default">        </span><span class="string">'æœ‰æ›¸æ‰æœƒè´'</span><span class="default">,</span>
+<a name="149"><font size=-1>149     </font></a><span class="default">        </span><span class="string">'æœ‰é’æ‰æ•¢å¤§è²'</span><span class="default">,</span>
+<a name="150"><font size=-1>150     </font></a><span class="default">        </span><span class="string">'æœ‰é»žé»åˆä¸æœƒå¤ªé»'</span><span class="default">,</span>
+<a name="151"><font size=-1>151     </font></a><span class="default">        </span><span class="string">'æœŸå¾…ä¸‹ä¸€æ¬¡ï¼Œä¸å¦‚é è‡ªå·±'</span><span class="default">,</span>
+<a name="152"><font size=-1>152     </font></a><span class="default">        </span><span class="string">'æœªä¾† å°±æ˜¯ç¾åœ¨'</span><span class="default">,</span>
+<a name="153"><font size=-1>153     </font></a><span class="default">        </span><span class="string">'æ­£åï¼Œåæ­£éƒ½å¾ˆæ­£ï¼'</span><span class="default">,</span>
+<a name="154"><font size=-1>154     </font></a><span class="default">        </span><span class="string">'æ¯ä¸€å¥è©±ï¼Œéƒ½æ˜¯æ€å¿µ'</span><span class="default">,</span>
+<a name="155"><font size=-1>155     </font></a><span class="default">        </span><span class="string">'æ²’èªªå‡ºå£çš„ ä¿èª ä¹Ÿè½å¾—æ‡‚'</span><span class="default">,</span>
+<a name="156"><font size=-1>156     </font></a><span class="default">        </span><span class="string">'ç¾åœ¨çš„Nobodyï¼Œæœªä¾†çš„Somebodyï¼'</span><span class="default">,</span>
+<a name="157"><font size=-1>157     </font></a><span class="default">        </span><span class="string">'ç”Ÿå‘½å°±è©²æµªè²»åœ¨ç¾Žå¥½çš„äº‹ç‰©ä¸Š'</span><span class="default">,</span>
+<a name="158"><font size=-1>158     </font></a><span class="default">        </span><span class="string">'ç”¨ä½ æƒ³è¦çš„æ–¹å¼é“åˆ¥'</span><span class="default">,</span>
+<a name="159"><font size=-1>159     </font></a><span class="default">        </span><span class="string">'ç”¨å¤§é‡‘ï¼Œçœå¤§é‡‘'</span><span class="default">,</span>
+<a name="160"><font size=-1>160     </font></a><span class="default">        </span><span class="string">'ç”¨å¥½å¿ƒè…¸åšå¥½é¦™è…¸'</span><span class="default">,</span>
+<a name="161"><font size=-1>161     </font></a><span class="default">        </span><span class="string">'ç”¨æ„›æ‰“æ•—ä¸æ™¯æ°£'</span><span class="default">,</span>
+<a name="162"><font size=-1>162     </font></a><span class="default">        </span><span class="string">'ç”¨æœ€æ„› ç…§é¡§æœ€æ„›'</span><span class="default">,</span>
+<a name="163"><font size=-1>163     </font></a><span class="default">        </span><span class="string">'ç•™ä¸€ç›žç‡ˆçµ¦æœ€å¾Œå›žå®¶çš„äºº'</span><span class="default">,</span>
+<a name="164"><font size=-1>164     </font></a><span class="default">        </span><span class="string">'ç™¾æœå¯§ã€ä¿è­·æ‚¨'</span><span class="default">,</span>
+<a name="165"><font size=-1>165     </font></a><span class="default">        </span><span class="string">'çœŸæ„Ÿæƒ…å°±æ˜¯æœ€å¥½çš„æœå‹™'</span><span class="default">,</span>
+<a name="166"><font size=-1>166     </font></a><span class="default">        </span><span class="string">'çŸ¥è­˜ä½¿ä½ æ›´æœ‰é­…åŠ›'</span><span class="default">,</span>
+<a name="167"><font size=-1>167     </font></a><span class="default">        </span><span class="string">'ç¢¼ç¢¼éƒ½æœ‰çŽ'</span><span class="default">,</span>
+<a name="168"><font size=-1>168     </font></a><span class="default">        </span><span class="string">'ç®¡ä»–ä»€éº¼åž¢ï¼Œä¸€ç“¶å°±å¤ '</span><span class="default">,</span>
+<a name="169"><font size=-1>169     </font></a><span class="default">        </span><span class="string">'ç´…åˆ©é»žæ•¸ä¹Ÿèƒ½ç•¶é£¯åƒ'</span><span class="default">,</span>
+<a name="170"><font size=-1>170     </font></a><span class="default">        </span><span class="string">'ç´™æœ‰æ˜¥é¢¨æœ€æº«æŸ”'</span><span class="default">,</span>
+<a name="171"><font size=-1>171     </font></a><span class="default">        </span><span class="string">'ç´™è¦Double A è¬äº‹éƒ½OKï¼'</span><span class="default">,</span>
+<a name="172"><font size=-1>172     </font></a><span class="default">        </span><span class="string">'çµ¦ä½ å¥½çœ‹'</span><span class="default">,</span>
+<a name="173"><font size=-1>173     </font></a><span class="default">        </span><span class="string">'çµ¦æˆ‘å°å¿ƒé»žå…’'</span><span class="default">,</span>
+<a name="174"><font size=-1>174     </font></a><span class="default">        </span><span class="string">'è‚å“ªæ²’å¥½ï¼Œäººç”Ÿæ˜¯é»‘ç™½çš„ï¼è‚å“ªé¡§å¥½ï¼Œäººç”Ÿæ˜¯å½©è‰²çš„ï¼'</span><span class="default">,</span>
+<a name="175"><font size=-1>175     </font></a><span class="default">        </span><span class="string">'è‚è‹¦èª°äººçŸ¥'</span><span class="default">,</span>
+<a name="176"><font size=-1>176     </font></a><span class="default">        </span><span class="string">'è¬äº‹çš†å¯é”ï¼Œå”¯æœ‰æƒ…ç„¡åƒ¹'</span><span class="default">,</span>
+<a name="177"><font size=-1>177     </font></a><span class="default">        </span><span class="string">'èªçœŸçš„å¥³äººæœ€ç¾Žéº—'</span><span class="default">,</span>
+<a name="178"><font size=-1>178     </font></a><span class="default">        </span><span class="string">'è´ç”²å˜¸çŸ¥äºº'</span><span class="default">,</span>
+<a name="179"><font size=-1>179     </font></a><span class="default">        </span><span class="string">'è·¯ï¼Œæ˜¯ESCAPEèµ°å‡ºä¾†çš„'</span><span class="default">,</span>
+<a name="180"><font size=-1>180     </font></a><span class="default">        </span><span class="string">'é€™ä¸æ˜¯è‚¯å¾·åŸºï¼'</span><span class="default">,</span>
+<a name="181"><font size=-1>181     </font></a><span class="default">        </span><span class="string">'é€™å€‹æœˆä¸æœƒä¾†ï¼Œä¸‹å€‹æœˆä¹Ÿä¸æœƒä¾†äº†ï¼Œä»¥å¾Œéƒ½ä¸æœƒä¾†äº†'</span><span class="default">,</span>
+<a name="182"><font size=-1>182     </font></a><span class="default">        </span><span class="string">'é€™æ˜¯ä¸€å®šè¦çš„å•¦ï¼'</span><span class="default">,</span>
+<a name="183"><font size=-1>183     </font></a><span class="default">        </span><span class="string">'é€™ç¨®æ™‚æ©Ÿï¼Œç„¡é–’ä¹Ÿæ˜¯ä¸€ç¨®å¹¸ç¦'</span><span class="default">,</span>
+<a name="184"><font size=-1>184     </font></a><span class="default">        </span><span class="string">'é€™ç¨®é¬¼åœ°æ–¹éƒ½æ”¶å¾—åˆ°'</span><span class="default">,</span>
+<a name="185"><font size=-1>185     </font></a><span class="default">        </span><span class="string">'é€šå¾€æˆåŠŸçš„è·¯ï¼Œç¸½æ˜¯åœ¨æ–½å·¥ä¸­'</span><span class="default">,</span>
+<a name="186"><font size=-1>186     </font></a><span class="default">        </span><span class="string">'é‘½çŸ³æ†ä¹…é ï¼Œä¸€é¡†æ°¸ç•™å‚³'</span><span class="default">,</span>
+<a name="187"><font size=-1>187     </font></a><span class="default">        </span><span class="string">'é—œå¿ƒè‡ªå·±ï¼Œä¹Ÿé—œå¿ƒåˆ¥äºº'</span><span class="default">,</span>
+<a name="188"><font size=-1>188     </font></a><span class="default">        </span><span class="string">'é—œæ©Ÿæ˜¯ä¸€ç¨®ç¾Žå¾·'</span><span class="default">,</span>
+<a name="189"><font size=-1>189     </font></a><span class="default">        </span><span class="string">'é™ªå¦³Shopping ä¸€è¼©å­'</span><span class="default">,</span>
+<a name="190"><font size=-1>190     </font></a><span class="default">        </span><span class="string">'é›…èŠ³æ¯”å¥³äººæ›´çž­è§£å¥³äºº'</span><span class="default">,</span>
+<a name="191"><font size=-1>191     </font></a><span class="default">        </span><span class="string">'é’èœåº•å‘·å•¦'</span><span class="default">,</span>
+<a name="192"><font size=-1>192     </font></a><span class="default">        </span><span class="string">'éœå¾—è®“æ‚¨è€³æ ¹æ¸…éœ'</span><span class="default">,</span>
+<a name="193"><font size=-1>193     </font></a><span class="default">        </span><span class="string">'é¦¬ä¸Šå°±æœƒå¥½'</span><span class="default">,</span>
+<a name="194"><font size=-1>194     </font></a><span class="default">    );</span>
+<a name="195"><font size=-1>195     </font></a><span class="default"></span>
+<a name="196"><font size=-1>196     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#36067">bsWords</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="197"><font size=-1>197     </font></a><span class="default">        </span><span class="keyword">array</span><span class="default">(</span>
+<a name="198"><font size=-1>198     </font></a><span class="default">            </span><span class="string">'å¯¦ç¾'</span><span class="default">, </span><span class="string">'å¯¦ä½œ'</span><span class="default">, </span><span class="string">'æ•´åˆ'</span><span class="default">, </span><span class="string">'æœ€ä½³åŒ–'</span><span class="default">,</span>
+<a name="199"><font size=-1>199     </font></a><span class="default">            </span><span class="string">'é©å‘½'</span><span class="default">, </span><span class="string">'è½‰è®Š'</span><span class="default">, </span><span class="string">'ææ˜‡'</span><span class="default">, </span><span class="string">'å•Ÿç”¨'</span><span class="default">, </span><span class="string">'æŒ‡æ®'</span><span class="default">,</span>
+<a name="200"><font size=-1>200     </font></a><span class="default">            </span><span class="string">'åˆ©ç”¨'</span><span class="default">, </span><span class="string">'é‡ç¾'</span><span class="default">, </span><span class="string">'çµåˆ'</span><span class="default">, </span><span class="string">'æž¶æ§‹'</span><span class="default">, </span><span class="string">'åŠ å¼·'</span><span class="default">,</span>
+<a name="201"><font size=-1>201     </font></a><span class="default">            </span><span class="string">'é›†ä¸­'</span><span class="default">, </span><span class="string">'è®Šå½¢'</span><span class="default">, </span><span class="string">'å¼·åŒ–'</span><span class="default">, </span><span class="string">'æŽ¨å»£'</span><span class="default">, </span><span class="string">'å»¶ä¼¸'</span><span class="default">,</span>
+<a name="202"><font size=-1>202     </font></a><span class="default">            </span><span class="string">'ç”Ÿç”¢'</span><span class="default">, </span><span class="string">'é€²åŒ–'</span><span class="default">, </span><span class="string">'æ”¹å–„'</span><span class="default">, </span><span class="string">'æé«˜'</span><span class="default">, </span><span class="string">'é–‹ç™¼'</span><span class="default">,</span>
+<a name="203"><font size=-1>203     </font></a><span class="default">            </span><span class="string">'å‰µé€ '</span><span class="default">, </span><span class="string">'å°ˆæ³¨'</span><span class="default">,</span>
+<a name="204"><font size=-1>204     </font></a><span class="default">        ), </span><span class="keyword">array</span><span class="default">(</span>
+<a name="205"><font size=-1>205     </font></a><span class="default">            </span><span class="string">'åŠ å€¼'</span><span class="default">, </span><span class="string">'ç¸±å‘'</span><span class="default">, </span><span class="string">'å …å›º'</span><span class="default">, </span><span class="string">'å…¨çƒ'</span><span class="default">, </span><span class="string">'åœ¨åœ°'</span><span class="default">, </span><span class="string">'é ˜å…ˆ'</span><span class="default">,</span>
+<a name="206"><font size=-1>206     </font></a><span class="default">            </span><span class="string">'è™›æ“¬'</span><span class="default">, </span><span class="string">'å‹•æ…‹'</span><span class="default">, </span><span class="string">'å®Œå…¨'</span><span class="default">, </span><span class="string">'æˆç†Ÿ'</span><span class="default">, </span><span class="string">'ç©©å®š'</span><span class="default">, </span><span class="string">'ç©©å¥'</span><span class="default">,</span>
+<a name="207"><font size=-1>207     </font></a><span class="default">            </span><span class="string">'å³æ™‚'</span><span class="default">, </span><span class="string">'å…¨å¹´ç„¡ä¼‘'</span><span class="default">, </span><span class="string">'é«˜æ•ˆ'</span><span class="default">, </span><span class="string">'å¿«é€Ÿ'</span><span class="default">, </span><span class="string">'äº’å‹•'</span><span class="default">,</span>
+<a name="208"><font size=-1>208     </font></a><span class="default">            </span><span class="string">'ä¸–ç•Œç´š'</span><span class="default">, </span><span class="string">'ä¸‹ä¸€ä»£'</span><span class="default">, </span><span class="string">'æ–°ä¸€ä»£'</span><span class="default">, </span><span class="string">'ç„¡ç·š'</span><span class="default">, </span><span class="string">'ç„¡é™'</span><span class="default">,</span>
+<a name="209"><font size=-1>209     </font></a><span class="default">            </span><span class="string">'è±å¯Œ'</span><span class="default">, </span><span class="string">'é–‹æº'</span><span class="default">, </span><span class="string">'å‰ç«¯'</span><span class="default">, </span><span class="string">'åˆ†æ•£å¼'</span><span class="default">, </span><span class="string">'ç„¡ç¸«'</span><span class="default">, </span><span class="string">'è·¨å¹³è‡º'</span><span class="default">,</span>
+<a name="210"><font size=-1>210     </font></a><span class="default">        ),</span>
+<a name="211"><font size=-1>211     </font></a><span class="default">        </span><span class="keyword">array</span><span class="default">(</span>
+<a name="212"><font size=-1>212     </font></a><span class="default">            </span><span class="string">'å…¸ç¯„'</span><span class="default">, </span><span class="string">'å¸‚å ´'</span><span class="default">, </span><span class="string">'åˆä½œ'</span><span class="default">, </span><span class="string">'æž¶æ§‹'</span><span class="default">, </span><span class="string">'åŸºç¤Žå¹³è‡º'</span><span class="default">, </span><span class="string">'é »é“'</span><span class="default">,</span>
+<a name="213"><font size=-1>213     </font></a><span class="default">            </span><span class="string">'ç„¦é»ž'</span><span class="default">, </span><span class="string">'æ–¹æ¡ˆ'</span><span class="default">, </span><span class="string">'è§£æ±ºæ–¹æ¡ˆ'</span><span class="default">, </span><span class="string">'ç¤¾ç¾¤'</span><span class="default">, </span><span class="string">'ç§‘æŠ€'</span><span class="default">, </span><span class="string">'æŠ€è¡“'</span><span class="default">,</span>
+<a name="214"><font size=-1>214     </font></a><span class="default">            </span><span class="string">'å…§å®¹'</span><span class="default">, </span><span class="string">'å…¥å£'</span><span class="default">, </span><span class="string">'ä¾›æ‡‰éŠ'</span><span class="default">, </span><span class="string">'ä»‹é¢'</span><span class="default">, </span><span class="string">'ç³»çµ±'</span><span class="default">, </span><span class="string">'é »å¯¬'</span><span class="default">,</span>
+<a name="215"><font size=-1>215     </font></a><span class="default">            </span><span class="string">'æ¨¡åž‹'</span><span class="default">, </span><span class="string">'ç¶²è·¯'</span><span class="default">, </span><span class="string">'ä½¿ç”¨ç¶“é©—'</span><span class="default">, </span><span class="string">'è©•é‡'</span><span class="default">, </span><span class="string">'æ–¹æ³•'</span><span class="default">,</span>
+<a name="216"><font size=-1>216     </font></a><span class="default">        )</span>
+<a name="217"><font size=-1>217     </font></a><span class="default">    );</span>
+<a name="218"><font size=-1>218     </font></a><span class="default"></span>
+<a name="219"><font size=-1>219     </font></a><span class="default">    </span><span class="keyword">public static function <a href="dictionary_F.html#46119">companyEnSuffix</a></span><span class="default">()</span>
+<a name="220"><font size=-1>220     </font></a><span class="default">    {</span>
+<a name="221"><font size=-1>221     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_C.html#46121">companyEnSuffix</a>);</span>
+<a name="222"><font size=-1>222     </font></a><span class="default">    }</span>
+<a name="223"><font size=-1>223     </font></a><span class="default"></span>
+<a name="224"><font size=-1>224     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_F.html#46116">companyEn</a></span><span class="default">()</span>
+<a name="225"><font size=-1>225     </font></a><span class="default">    {</span>
+<a name="226"><font size=-1>226     </font></a><span class="default">        $<a href="dictionary_F.html#80029">format</a> = </span><span class="keyword">static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_C.html#46118">companyEnFormats</a>);</span>
+<a name="227"><font size=-1>227     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#82492">generator</a>-&gt;<a href="dictionary_P.html#133398">parse</a>($<a href="dictionary_F.html#80029">format</a>);</span>
+<a name="228"><font size=-1>228     </font></a><span class="default">    }</span>
+<a name="229"><font size=-1>229     </font></a><span class="default"></span>
+<a name="230"><font size=-1>230     </font></a><span class="default">    </span><span class="keyword">public static function <a href="dictionary_F.html#46129">companyModifier</a></span><span class="default">()</span>
+<a name="231"><font size=-1>231     </font></a><span class="default">    {</span>
+<a name="232"><font size=-1>232     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_C.html#46131">companyModifier</a>);</span>
+<a name="233"><font size=-1>233     </font></a><span class="default">    }</span>
+<a name="234"><font size=-1>234     </font></a><span class="default"></span>
+<a name="235"><font size=-1>235     </font></a><span class="default">    </span><span class="keyword">public static function <a href="dictionary_F.html#46159">companyPrefix</a></span><span class="default">()</span>
+<a name="236"><font size=-1>236     </font></a><span class="default">    {</span>
+<a name="237"><font size=-1>237     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_C.html#46183">companyPrefix</a>);</span>
+<a name="238"><font size=-1>238     </font></a><span class="default">    }</span>
+<a name="239"><font size=-1>239     </font></a><span class="default"></span>
+<a name="240"><font size=-1>240     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_F.html#40176">catchPhrase</a></span><span class="default">()</span>
+<a name="241"><font size=-1>241     </font></a><span class="default">    {</span>
+<a name="242"><font size=-1>242     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_C.html#40185">catchPhrase</a>);</span>
+<a name="243"><font size=-1>243     </font></a><span class="default">    }</span>
+<a name="244"><font size=-1>244     </font></a><span class="default"></span>
+<a name="245"><font size=-1>245     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_F.html#36047">bs</a></span><span class="default">()</span>
+<a name="246"><font size=-1>246     </font></a><span class="default">    {</span>
+<a name="247"><font size=-1>247     </font></a><span class="default">        $<a href="dictionary_R.html#149061">result</a> = </span><span class="string">''</span><span class="default">;</span>
+<a name="248"><font size=-1>248     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_B.html#36071">bsWords</a> </span><span class="keyword">as </span><span class="default">&amp;$<a href="dictionary_W.html#190748">word</a>) {</span>
+<a name="249"><font size=-1>249     </font></a><span class="default">            $<a href="dictionary_R.html#149061">result</a> .= </span><span class="keyword">static</span><span class="default">::randomElement($<a href="dictionary_W.html#190748">word</a>);</span>
+<a name="250"><font size=-1>250     </font></a><span class="default">        }</span>
+<a name="251"><font size=-1>251     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_R.html#149061">result</a>;</span>
+<a name="252"><font size=-1>252     </font></a><span class="default">    }</span>
+<a name="253"><font size=-1>253     </font></a><span class="default"></span>
+<a name="254"><font size=-1>254     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="255"><font size=-1>255     </font></a><span class="comment">     * return standard VAT / Tax ID / Uniform Serial Number</span>
+<a name="256"><font size=-1>256     </font></a><span class="comment">     *</span>
+<a name="257"><font size=-1>257     </font></a><span class="comment">     * @example 28263822</span>
+<a name="258"><font size=-1>258     </font></a><span class="comment">     *</span>
+<a name="259"><font size=-1>259     </font></a><span class="comment">     * @return int</span>
+<a name="260"><font size=-1>260     </font></a><span class="comment">     */</span>
+<a name="261"><font size=-1>261     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_F.html#188400">VAT</a></span><span class="default">()</span>
+<a name="262"><font size=-1>262     </font></a><span class="default">    {</span>
+<a name="263"><font size=-1>263     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomNumber(</span><span class="number">8</span><span class="default">, <a href="dictionary_T.html#181186">true</a>);</span>
+<a name="264"><font size=-1>264     </font></a><span class="default">    }</span>
+<a name="265"><font size=-1>265     </font></a><span class="default">}</span>
+<a name="266"><font size=-1>266     </font></a><span class="default"></span>
+</pre></body></html>

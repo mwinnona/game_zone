@@ -83,6 +83,21 @@
         </div>
     </div>
     </form>
+    @if(count($products)!=0)
+    <form method="POST" action="{{url('/ranking-pdf')}}" enctype="multipart/form-data">
+        @csrf
+        @if(isset($fechaInicial) && isset($fechaFinal) && isset($platform))
+        <input type="hidden" id="fechaInicial" name="fechaInicial" value="{{$fechaInicial}}">
+        <input type="hidden" id="fechaFinal" name="fechaFinal" value="{{$fechaFinal}}">
+        <input type="hidden" id="platform" name="platform" value="{{$platform}}">
+        @endif
+        <div class="col-md-4 col-md-push-8">
+            <div class="product-details centrar-interno">
+                <div class="add-to-cart col-md-3">
+                    <button type="submit" class="add-to-cart-btn" ><i class="fa fa-download"></i>Descargar Reporte</button>
+                </div>
+            </div>
+        </div>
     <br>
     <br>
     <table class="table table-bordered table-hover">
@@ -100,6 +115,7 @@
             <tr class="hover">
             <th class="text-center" scope="row">N°{{$i+1}}</th>
             <td class="text-center" >{{$products[$i]->name}}</td>
+            <input type="hidden" id="token_product[]" name="token_product[]" value="{{$products[$i]->token_product}}">
             @if($products[$i]->plataform=='1' || $products[$i]->plataform=='1')
             <td class="text-center" >PLAY STATION</td>
             @elseif($products[$i]->plataform=='2' || $products[$i]->plataform=='2')
@@ -108,11 +124,18 @@
             <td class="text-center" >NINTENDO</td>
             @endif
             <td class="text-center" >{{$products[$i]->stock}}</td>
+            <input type="hidden" id="quantity[]" name="quantity[]" value="{{$products[$i]->stock}}">
             <td class="text-center" >S/. {{$products[$i]->price}}</td>
+            <input type="hidden" id="price[]" name="price[]" value="{{$products[$i]->price}}">
           </tr>
           @endfor
         </tbody>
     </table>
+    </form>
+    @else
+    <br>
+    <h2>No se encontraron ventas con estos filtros</h2>
+    @endif
 </div>
 
 @endsection

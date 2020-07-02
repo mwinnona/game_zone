@@ -1,0 +1,57 @@
+<html><head><title>bootstrap-4.blade.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\laravel\framework\src\Illuminate\Pagination\resources\views\bootstrap-4.blade.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\laravel\\framework\\src\\Illuminate\\Pagination\\resources\\views\\bootstrap-4.blade.php";
+top.document.title  = "bootstrap-4.blade.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default"></span><span class="string">@if ($paginator-&gt;hasPages())</span>
+<a name="2"><font size=-1>2     </font></a><span class="string">    &lt;nav&gt;</span>
+<a name="3"><font size=-1>3     </font></a><span class="string">        &lt;ul class=&quot;pagination&quot;&gt;</span>
+<a name="4"><font size=-1>4     </font></a><span class="string">            {{-- Previous Page Link --}}</span>
+<a name="5"><font size=-1>5     </font></a><span class="string">            @if ($paginator-&gt;onFirstPage())</span>
+<a name="6"><font size=-1>6     </font></a><span class="string">                &lt;li class=&quot;page-item disabled&quot; aria-disabled=&quot;true&quot; aria-label=&quot;@lang('pagination.previous')&quot;&gt;</span>
+<a name="7"><font size=-1>7     </font></a><span class="string">                    &lt;span class=&quot;page-link&quot; aria-hidden=&quot;true&quot;&gt;&amp;lsaquo;&lt;/span&gt;</span>
+<a name="8"><font size=-1>8     </font></a><span class="string">                &lt;/li&gt;</span>
+<a name="9"><font size=-1>9     </font></a><span class="string">            @else</span>
+<a name="10"><font size=-1>10     </font></a><span class="string">                &lt;li class=&quot;page-item&quot;&gt;</span>
+<a name="11"><font size=-1>11     </font></a><span class="string">                    &lt;a class=&quot;page-link&quot; href=&quot;{{ $paginator-&gt;previousPageUrl() }}&quot; rel=&quot;prev&quot; aria-label=&quot;@lang('pagination.previous')&quot;&gt;&amp;lsaquo;&lt;/a&gt;</span>
+<a name="12"><font size=-1>12     </font></a><span class="string">                &lt;/li&gt;</span>
+<a name="13"><font size=-1>13     </font></a><span class="string">            @endif</span>
+<a name="14"><font size=-1>14     </font></a><span class="string"></span>
+<a name="15"><font size=-1>15     </font></a><span class="string">            {{-- Pagination Elements --}}</span>
+<a name="16"><font size=-1>16     </font></a><span class="string">            @foreach ($elements as $element)</span>
+<a name="17"><font size=-1>17     </font></a><span class="string">                {{-- &quot;Three Dots&quot; Separator --}}</span>
+<a name="18"><font size=-1>18     </font></a><span class="string">                @if (is_string($element))</span>
+<a name="19"><font size=-1>19     </font></a><span class="string">                    &lt;li class=&quot;page-item disabled&quot; aria-disabled=&quot;true&quot;&gt;&lt;span class=&quot;page-link&quot;&gt;{{ $element }}&lt;/span&gt;&lt;/li&gt;</span>
+<a name="20"><font size=-1>20     </font></a><span class="string">                @endif</span>
+<a name="21"><font size=-1>21     </font></a><span class="string"></span>
+<a name="22"><font size=-1>22     </font></a><span class="string">                {{-- Array Of Links --}}</span>
+<a name="23"><font size=-1>23     </font></a><span class="string">                @if (is_array($element))</span>
+<a name="24"><font size=-1>24     </font></a><span class="string">                    @foreach ($element as $page =&gt; $url)</span>
+<a name="25"><font size=-1>25     </font></a><span class="string">                        @if ($page == $paginator-&gt;currentPage())</span>
+<a name="26"><font size=-1>26     </font></a><span class="string">                            &lt;li class=&quot;page-item active&quot; aria-current=&quot;page&quot;&gt;&lt;span class=&quot;page-link&quot;&gt;{{ $page }}&lt;/span&gt;&lt;/li&gt;</span>
+<a name="27"><font size=-1>27     </font></a><span class="string">                        @else</span>
+<a name="28"><font size=-1>28     </font></a><span class="string">                            &lt;li class=&quot;page-item&quot;&gt;&lt;a class=&quot;page-link&quot; href=&quot;{{ $url }}&quot;&gt;{{ $page }}&lt;/a&gt;&lt;/li&gt;</span>
+<a name="29"><font size=-1>29     </font></a><span class="string">                        @endif</span>
+<a name="30"><font size=-1>30     </font></a><span class="string">                    @endforeach</span>
+<a name="31"><font size=-1>31     </font></a><span class="string">                @endif</span>
+<a name="32"><font size=-1>32     </font></a><span class="string">            @endforeach</span>
+<a name="33"><font size=-1>33     </font></a><span class="string"></span>
+<a name="34"><font size=-1>34     </font></a><span class="string">            {{-- Next Page Link --}}</span>
+<a name="35"><font size=-1>35     </font></a><span class="string">            @if ($paginator-&gt;hasMorePages())</span>
+<a name="36"><font size=-1>36     </font></a><span class="string">                &lt;li class=&quot;page-item&quot;&gt;</span>
+<a name="37"><font size=-1>37     </font></a><span class="string">                    &lt;a class=&quot;page-link&quot; href=&quot;{{ $paginator-&gt;nextPageUrl() }}&quot; rel=&quot;next&quot; aria-label=&quot;@lang('pagination.next')&quot;&gt;&amp;rsaquo;&lt;/a&gt;</span>
+<a name="38"><font size=-1>38     </font></a><span class="string">                &lt;/li&gt;</span>
+<a name="39"><font size=-1>39     </font></a><span class="string">            @else</span>
+<a name="40"><font size=-1>40     </font></a><span class="string">                &lt;li class=&quot;page-item disabled&quot; aria-disabled=&quot;true&quot; aria-label=&quot;@lang('pagination.next')&quot;&gt;</span>
+<a name="41"><font size=-1>41     </font></a><span class="string">                    &lt;span class=&quot;page-link&quot; aria-hidden=&quot;true&quot;&gt;&amp;rsaquo;&lt;/span&gt;</span>
+<a name="42"><font size=-1>42     </font></a><span class="string">                &lt;/li&gt;</span>
+<a name="43"><font size=-1>43     </font></a><span class="string">            @endif</span>
+<a name="44"><font size=-1>44     </font></a><span class="string">        &lt;/ul&gt;</span>
+<a name="45"><font size=-1>45     </font></a><span class="string">    &lt;/nav&gt;</span>
+<a name="46"><font size=-1>46     </font></a><span class="string">@endif</span>
+<a name="47"><font size=-1>47     </font></a><span class="string"></span>
+</pre></body></html>

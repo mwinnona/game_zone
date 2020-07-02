@@ -98,8 +98,7 @@ class ReportsController extends Controller
                     }
                 }
             }
-            //dd($products_ranking);
-            return view('reports.ranking', ['products' => $products_ranking]);
+            return view('reports.ranking', ['products' => $products_ranking, 'platform'=> $request->platform, 'fechaInicial' => $fechaInicial, 'fechaFinal' => $fechaFinal]);
         }else{
             $products = Product::all();
             $products_ranking = array();
@@ -145,11 +144,11 @@ class ReportsController extends Controller
                     }
                 }
             }
-            return view('reports.ranking', ['products' => $products_ranking]);
+            return view('reports.ranking', ['products' => $products_ranking, 'platform'=> $request->platform, 'fechaInicial' => $fechaInicial, 'fechaFinal' => $fechaFinal]);
         }
     }
 
-    function bill($token){
+    function billOrder($token){
         //$user = User::where('id', \Auth::user()->id)->first();
         $order = Order::where('token_order', $token)->first();
         $user = User::where('id', $order->id_user)->first();

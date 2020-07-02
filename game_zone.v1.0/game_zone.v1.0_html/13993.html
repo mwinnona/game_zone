@@ -1,0 +1,73 @@
+<html><head><title>file.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\phpunit\php-code-coverage\src\Report\Html\Renderer\Template\js\file.js</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\phpunit\\php-code-coverage\\src\\Report\\Html\\Renderer\\Template\\js\\file.js";
+top.document.title  = "file.js";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">  <a href="dictionary_&.html#1815">$</a>(</span><span class="keyword">function</span><span class="default">() {</span>
+<a name="2"><font size=-1>2     </font></a><span class="default">   </span><span class="keyword">var <a href="dictionary_&.html#2072">$window</a>     </span><span class="default">= <a href="dictionary_&.html#1815">$</a>(window)</span>
+<a name="3"><font size=-1>3     </font></a><span class="default">     , <a href="dictionary_&.html#2061">$top_link</a>   = <a href="dictionary_&.html#1815">$</a>(</span><span class="string">'#toplink'</span><span class="default">)</span>
+<a name="4"><font size=-1>4     </font></a><span class="default">     , <a href="dictionary_&.html#1833">$body</a>       = <a href="dictionary_&.html#1815">$</a>(</span><span class="string">'body, html'</span><span class="default">)</span>
+<a name="5"><font size=-1>5     </font></a><span class="default">     , <a href="dictionary_&.html#128850">offset</a>      = <a href="dictionary_&.html#1815">$</a>(</span><span class="string">'#code'</span><span class="default">).<a href="dictionary_O.html#128895">offset</a>().<a href="dictionary_T.html#179941">top</a></span>
+<a name="6"><font size=-1>6     </font></a><span class="default">     , <a href="dictionary_&.html#93314">hidePopover</a> = </span><span class="keyword">function </span><span class="default">(<a href="dictionary_&.html#2038">$target</a>) {</span>
+<a name="7"><font size=-1>7     </font></a><span class="default">        <a href="dictionary_&.html#2038">$target</a>.<a href="dictionary_D.html#57979">data</a>(</span><span class="string">'popover-hover'</span><span class="default">, </span><span class="keyword">false</span><span class="default">);</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span>
+<a name="9"><font size=-1>9     </font></a><span class="default">        <a href="dictionary_S.html#157128">setTimeout</a>(</span><span class="keyword">function </span><span class="default">() {</span>
+<a name="10"><font size=-1>10     </font></a><span class="default">         </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_&.html#2038">$target</a>.<a href="dictionary_D.html#57979">data</a>(</span><span class="string">'popover-hover'</span><span class="default">)) {</span>
+<a name="11"><font size=-1>11     </font></a><span class="default">          <a href="dictionary_&.html#2038">$target</a>.<a href="dictionary_P.html#136981">popover</a>(</span><span class="string">'hide'</span><span class="default">);</span>
+<a name="12"><font size=-1>12     </font></a><span class="default">         }</span>
+<a name="13"><font size=-1>13     </font></a><span class="default">        }, </span><span class="number">300</span><span class="default">);</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">     };</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span>
+<a name="16"><font size=-1>16     </font></a><span class="default">   <a href="dictionary_&.html#2061">$top_link</a>.<a href="dictionary_H.html#93295">hide</a>().<a href="dictionary_C.html#43128">click</a>(</span><span class="keyword">function</span><span class="default">(<a href="dictionary_&.html#72355">event</a>) {</span>
+<a name="17"><font size=-1>17     </font></a><span class="default">    <a href="dictionary_&.html#72355">event</a>.<a href="dictionary_P.html#138312">preventDefault</a>();</span>
+<a name="18"><font size=-1>18     </font></a><span class="default">    <a href="dictionary_&.html#1833">$body</a>.<a href="dictionary_A.html#27537">animate</a>({<a href="dictionary_S.html#152997">scrollTop</a>:</span><span class="number">0</span><span class="default">}, </span><span class="number">800</span><span class="default">);</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">   });</span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span>
+<a name="21"><font size=-1>21     </font></a><span class="default">   <a href="dictionary_&.html#2072">$window</a>.<a href="dictionary_S.html#152950">scroll</a>(</span><span class="keyword">function</span><span class="default">() {</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    </span><span class="keyword">if</span><span class="default">(<a href="dictionary_&.html#2072">$window</a>.<a href="dictionary_S.html#152999">scrollTop</a>() &gt; <a href="dictionary_&.html#128850">offset</a>) {</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">     <a href="dictionary_&.html#2061">$top_link</a>.<a href="dictionary_F.html#76074">fadeIn</a>();</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">    } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">     <a href="dictionary_&.html#2061">$top_link</a>.<a href="dictionary_F.html#76076">fadeOut</a>();</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">    }</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">   }).<a href="dictionary_S.html#152950">scroll</a>();</span>
+<a name="28"><font size=-1>28     </font></a><span class="default"></span>
+<a name="29"><font size=-1>29     </font></a><span class="default">   <a href="dictionary_&.html#1815">$</a>(</span><span class="string">'.popin'</span><span class="default">)</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">    .<a href="dictionary_P.html#136981">popover</a>({<a href="dictionary_T.html#181068">trigger</a>: </span><span class="string">'manual'</span><span class="default">})</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">    .<a href="dictionary_O.html#129257">on</a>({</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">     </span><span class="string">'mouseenter.popover'</span><span class="default">: </span><span class="keyword">function </span><span class="default">() {</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">      </span><span class="keyword">var <a href="dictionary_&.html#2039">$target</a> </span><span class="default">= <a href="dictionary_&.html#1815">$</a>(</span><span class="keyword">this</span><span class="default">);</span>
+<a name="34"><font size=-1>34     </font></a><span class="default">      </span><span class="keyword">var <a href="dictionary_&.html#1845">$container</a> </span><span class="default">= <a href="dictionary_&.html#2039">$target</a>.<a href="dictionary_C.html#41480">children</a>().<a href="dictionary_F.html#78418">first</a>();</span>
+<a name="35"><font size=-1>35     </font></a><span class="default"></span>
+<a name="36"><font size=-1>36     </font></a><span class="default">      <a href="dictionary_&.html#2039">$target</a>.<a href="dictionary_D.html#57979">data</a>(</span><span class="string">'popover-hover'</span><span class="default">, </span><span class="keyword">true</span><span class="default">);</span>
+<a name="37"><font size=-1>37     </font></a><span class="default"></span>
+<a name="38"><font size=-1>38     </font></a><span class="default">      </span><span class="comment">// popover already displayed</span>
+<a name="39"><font size=-1>39     </font></a><span class="comment">      </span><span class="keyword">if </span><span class="default">(<a href="dictionary_&.html#2039">$target</a>.<a href="dictionary_N.html#124313">next</a>(</span><span class="string">'.popover'</span><span class="default">).<a href="dictionary_L.html#108323">length</a>) {</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">       </span><span class="keyword">return</span><span class="default">;</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">      }</span>
+<a name="42"><font size=-1>42     </font></a><span class="default"></span>
+<a name="43"><font size=-1>43     </font></a><span class="default">      </span><span class="comment">// show the popover</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">      <a href="dictionary_&.html#1845">$container</a></span><span class="default">.<a href="dictionary_P.html#136981">popover</a>(</span><span class="string">'show'</span><span class="default">);</span>
+<a name="45"><font size=-1>45     </font></a><span class="default"></span>
+<a name="46"><font size=-1>46     </font></a><span class="default">      </span><span class="comment">// register mouse events on the popover</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment">      <a href="dictionary_&.html#2039">$target</a></span><span class="default">.<a href="dictionary_N.html#124313">next</a>(</span><span class="string">'.popover:not(.popover-initialized)'</span><span class="default">)</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">       .<a href="dictionary_O.html#129257">on</a>({</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        </span><span class="string">'mouseenter'</span><span class="default">: </span><span class="keyword">function </span><span class="default">() {</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">         <a href="dictionary_&.html#2039">$target</a>.<a href="dictionary_D.html#57979">data</a>(</span><span class="string">'popover-hover'</span><span class="default">, </span><span class="keyword">true</span><span class="default">);</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        },</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">        </span><span class="string">'mouseleave'</span><span class="default">: </span><span class="keyword">function </span><span class="default">() {</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">         <a href="dictionary_&.html#93314">hidePopover</a>(<a href="dictionary_&.html#1845">$container</a>);</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">        }</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">       })</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">       .<a href="dictionary_A.html#25533">addClass</a>(</span><span class="string">'popover-initialized'</span><span class="default">);</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">     },</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">     </span><span class="string">'mouseleave.popover'</span><span class="default">: </span><span class="keyword">function </span><span class="default">() {</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">      <a href="dictionary_&.html#93314">hidePopover</a>(<a href="dictionary_&.html#1815">$</a>(</span><span class="keyword">this</span><span class="default">).<a href="dictionary_C.html#41480">children</a>().<a href="dictionary_F.html#78418">first</a>());</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">     }</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">    });</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">  });</span>
+<a name="63"><font size=-1>63     </font></a><span class="default"></span>
+</pre></body></html>

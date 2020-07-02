@@ -1,0 +1,93 @@
+<html><head><title>export.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\scrivo\highlight.php\tools\export.js</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\scrivo\\highlight.php\\tools\\export.js";
+top.document.title  = "export.js";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default"></span><span class="string">&quot;use strict&quot;</span><span class="default">;</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"><a href="dictionary_R.html#147693">require</a>([</span><span class="string">&quot;dojo/node!fs&quot;</span><span class="default">, </span><span class="string">&quot;dojox/json/ref&quot;</span><span class="default">, </span><span class="string">&quot;dojo/_base/kernel&quot;</span><span class="default">], </span><span class="keyword">function</span><span class="default">(<a href="dictionary_&.html#81343">fs</a>, <a href="dictionary_&.html#144794">ref</a>, <a href="dictionary_&.html#104613">kernel</a>) {</span>
+<a name="4"><font size=-1>4     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_&.html#125094">nodeRequire</a> </span><span class="default">= <a href="dictionary_&.html#104613">kernel</a>.<a href="dictionary_G.html#89740">global</a>.<a href="dictionary_R.html#147692">require</a> &amp;&amp; <a href="dictionary_&.html#104613">kernel</a>.<a href="dictionary_G.html#89740">global</a>.<a href="dictionary_R.html#147692">require</a>.<a href="dictionary_N.html#125095">nodeRequire</a>;</span>
+<a name="5"><font size=-1>5     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_&.html#93357">HIGHLIGHT_DIR</a> </span><span class="default">= <a href="dictionary_D.html#61937">dojo</a>.<a href="dictionary_C.html#47428">config</a>.<a href="dictionary_H.html#93387">highlightJsDir</a>;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_&.html#56561">CWD</a> </span><span class="default">= <a href="dictionary_D.html#61937">dojo</a>.<a href="dictionary_C.html#47428">config</a>.<a href="dictionary_C.html#56568">cwd</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_&.html#107039">LANGS_W_DEPS</a> </span><span class="default">= [</span><span class="string">'arduino.js'</span><span class="default">];</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span>
+<a name="9"><font size=-1>9     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_&.html#43391">cloneDeep</a> </span><span class="default">= <a href="dictionary_&.html#125094">nodeRequire</a>(`${<a href="dictionary_&.html#56561">CWD</a>}/lodash.cloneDeep.js`);</span>
+<a name="10"><font size=-1>10     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_&.html#93494">hljs</a> </span><span class="default">= <a href="dictionary_&.html#125094">nodeRequire</a>(`${<a href="dictionary_&.html#93357">HIGHLIGHT_DIR</a>}/highlight.js`);</span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span>
+<a name="12"><font size=-1>12     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="13"><font size=-1>13     </font></a><span class="comment">     * Translate any RegExp objects that may exist in a language definition into a string representation.</span>
+<a name="14"><font size=-1>14     </font></a><span class="comment">     *</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment">     * @param {Object} lang</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment">     * @param {number} nestingLevel</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment">     */</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment">    </span><span class="keyword">function <a href="dictionary_&.html#145345">regexToStr</a></span><span class="default">(<a href="dictionary_&.html#107009">lang</a>, <a href="dictionary_&.html#123952">nestingLevel</a> = </span><span class="number">0</span><span class="default">) {</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">        </span><span class="comment">// Max recursion level</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_&.html#123952">nestingLevel</a> &gt; </span><span class="number">15</span><span class="default">) {</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">        }</span>
+<a name="23"><font size=-1>23     </font></a><span class="default"></span>
+<a name="24"><font size=-1>24     </font></a><span class="default">        </span><span class="keyword">for </span><span class="default">(</span><span class="keyword">const <a href="dictionary_&.html#105372">key</a> in <a href="dictionary_&.html#107009">lang</a></span><span class="default">) {</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(<a href="dictionary_&.html#107009">lang</a>[<a href="dictionary_&.html#105372">key</a>] </span><span class="keyword">instanceof </span><span class="default">RegExp) {</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">                <a href="dictionary_&.html#107009">lang</a>[<a href="dictionary_&.html#105372">key</a>] = <a href="dictionary_&.html#107009">lang</a>[<a href="dictionary_&.html#105372">key</a>].<a href="dictionary_S.html#159595">source</a>;</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">            } </span><span class="keyword">else if </span><span class="default">(</span><span class="keyword">typeof <a href="dictionary_&.html#107009">lang</a></span><span class="default">[<a href="dictionary_&.html#105372">key</a>] === </span><span class="string">'object'</span><span class="default">) {</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">                <a href="dictionary_&.html#145345">regexToStr</a>(<a href="dictionary_&.html#107009">lang</a>[<a href="dictionary_&.html#105372">key</a>], <a href="dictionary_&.html#123952">nestingLevel</a> + </span><span class="number">1</span><span class="default">);</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">            }</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">        }</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">    }</span>
+<a name="32"><font size=-1>32     </font></a><span class="default"></span>
+<a name="33"><font size=-1>33     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">     * PCRE does not support the `\uXXXX` syntax, so we must use `\x{XXXX}` instead.</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">     *</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment">     * @param {string} s</span>
+<a name="37"><font size=-1>37     </font></a><span class="comment">     *</span>
+<a name="38"><font size=-1>38     </font></a><span class="comment">     * @see https://www.regular-expressions.info/unicode.html#codepoint</span>
+<a name="39"><font size=-1>39     </font></a><span class="comment">     *</span>
+<a name="40"><font size=-1>40     </font></a><span class="comment">     * @returns {string}</span>
+<a name="41"><font size=-1>41     </font></a><span class="comment">     */</span>
+<a name="42"><font size=-1>42     </font></a><span class="comment">    </span><span class="keyword">function <a href="dictionary_&.html#104108">jsUnicodeToPhpUnicode</a></span><span class="default">(<a href="dictionary_&.html#151845">s</a>) {</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        </span><span class="keyword">return <a href="dictionary_&.html#151845">s</a></span><span class="default">.<a href="dictionary_R.html#146791">replace</a>(</span><span class="number">/\\u([0-9A-Fa-f]+)/g</span><span class="default">, </span><span class="string">&quot;\\x{$1}&quot;</span><span class="default">);</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">    }</span>
+<a name="45"><font size=-1>45     </font></a><span class="default"></span>
+<a name="46"><font size=-1>46     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment">     * Load a language and export it as a translated string to STDOUT.</span>
+<a name="48"><font size=-1>48     </font></a><span class="comment">     *</span>
+<a name="49"><font size=-1>49     </font></a><span class="comment">     * @param {string} lang</span>
+<a name="50"><font size=-1>50     </font></a><span class="comment">     */</span>
+<a name="51"><font size=-1>51     </font></a><span class="comment">    </span><span class="keyword">function <a href="dictionary_&.html#74420">exportLang</a></span><span class="default">(<a href="dictionary_&.html#107010">lang</a>) {</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">        </span><span class="keyword">const <a href="dictionary_&.html#191552">x</a> </span><span class="default">= <a href="dictionary_&.html#125094">nodeRequire</a>(`${<a href="dictionary_&.html#93357">HIGHLIGHT_DIR</a>}/languages/${<a href="dictionary_&.html#107010">lang</a>}.js`);</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">        </span><span class="keyword">const <a href="dictionary_&.html#106627">l</a> </span><span class="default">= <a href="dictionary_&.html#43391">cloneDeep</a>(<a href="dictionary_&.html#191552">x</a>(<a href="dictionary_&.html#93494">hljs</a>));</span>
+<a name="54"><font size=-1>54     </font></a><span class="default"></span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        <a href="dictionary_&.html#145345">regexToStr</a>(<a href="dictionary_&.html#106627">l</a>);</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">        <a href="dictionary_&.html#93494">hljs</a>.<a href="dictionary_R.html#145637">registerLanguage</a>(<a href="dictionary_&.html#107010">lang</a>, <a href="dictionary_&.html#191552">x</a>);</span>
+<a name="57"><font size=-1>57     </font></a><span class="default"></span>
+<a name="58"><font size=-1>58     </font></a><span class="default">        console.<a href="dictionary_C.html#110427">log</a>(<a href="dictionary_&.html#107010">lang</a>);</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        console.<a href="dictionary_C.html#110427">log</a>(<a href="dictionary_&.html#104108">jsUnicodeToPhpUnicode</a>(<a href="dictionary_D.html#61939">dojox</a>.<a href="dictionary_J.html#103960">json</a>.<a href="dictionary_R.html#144820">ref</a>.<a href="dictionary_T.html#179258">toJson</a>(<a href="dictionary_&.html#106627">l</a>)));</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">    }</span>
+<a name="61"><font size=-1>61     </font></a><span class="default"></span>
+<a name="62"><font size=-1>62     </font></a><span class="default">    <a href="dictionary_&.html#81343">fs</a>.<a href="dictionary_R.html#143969">readdir</a>(`${<a href="dictionary_&.html#93357">HIGHLIGHT_DIR</a>}/languages/`,</span><span class="keyword">function</span><span class="default">(<a href="dictionary_&.html#71519">err</a>, <a href="dictionary_&.html#77636">files</a>) {</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_&.html#71519">err</a>) {</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">            </span><span class="keyword">throw <a href="dictionary_&.html#71519">err</a></span><span class="default">;</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">        }</span>
+<a name="66"><font size=-1>66     </font></a><span class="default"></span>
+<a name="67"><font size=-1>67     </font></a><span class="default">        </span><span class="comment">// Load all of the languages that don't extend other languages</span>
+<a name="68"><font size=-1>68     </font></a><span class="comment">        <a href="dictionary_&.html#77636">files</a></span><span class="default">.<a href="dictionary_F.html#79860">forEach</a>(</span><span class="keyword">function</span><span class="default">(<a href="dictionary_&.html#77045">file</a>) {</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(<a href="dictionary_&.html#77045">file</a> === </span><span class="string">&quot;.DS_Store&quot; </span><span class="default">|| <a href="dictionary_&.html#107039">LANGS_W_DEPS</a>.<a href="dictionary_I.html#98450">indexOf</a>(<a href="dictionary_&.html#77045">file</a>) &gt;= </span><span class="number">0</span><span class="default">) {</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">                </span><span class="keyword">return</span><span class="default">;</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">            }</span>
+<a name="72"><font size=-1>72     </font></a><span class="default"></span>
+<a name="73"><font size=-1>73     </font></a><span class="default">            <a href="dictionary_&.html#74420">exportLang</a>(<a href="dictionary_&.html#77045">file</a>.<a href="dictionary_R.html#146791">replace</a>(</span><span class="number">/\.js$/</span><span class="default">, </span><span class="string">&quot;&quot;</span><span class="default">));</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">        });</span>
+<a name="75"><font size=-1>75     </font></a><span class="default"></span>
+<a name="76"><font size=-1>76     </font></a><span class="default">        </span><span class="comment">// These languages extend other languages, so we need to make sure that</span>
+<a name="77"><font size=-1>77     </font></a><span class="comment">        // they are loaded *after* all the standard languages are loaded.</span>
+<a name="78"><font size=-1>78     </font></a><span class="comment">        <a href="dictionary_&.html#107039">LANGS_W_DEPS</a></span><span class="default">.<a href="dictionary_F.html#79860">forEach</a>(</span><span class="keyword">function</span><span class="default">(<a href="dictionary_&.html#77044">file</a>) {</span>
+<a name="79"><font size=-1>79     </font></a><span class="default">            <a href="dictionary_&.html#74420">exportLang</a>(<a href="dictionary_&.html#77044">file</a>.<a href="dictionary_R.html#146791">replace</a>(</span><span class="number">/\.js$/</span><span class="default">, </span><span class="string">&quot;&quot;</span><span class="default">));</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">        });</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">    });</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">});</span>
+<a name="83"><font size=-1>83     </font></a><span class="default"></span>
+</pre></body></html>

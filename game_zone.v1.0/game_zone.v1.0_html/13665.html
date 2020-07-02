@@ -1,0 +1,120 @@
+<html><head><title>ExtensionTest.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\phar-io\manifest\tests\values\ExtensionTest.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\phar-io\\manifest\\tests\\values\\ExtensionTest.php";
+top.document.title  = "ExtensionTest.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="3"><font size=-1>3     </font></a><span class="comment"> * This file is part of PharIo\Manifest.</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> *</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> * (c) Arne Blankerts &lt;arne@blankerts.de&gt;, Sebastian Heuer &lt;sebastian@phpeople.de&gt;, Sebastian Bergmann &lt;sebastian@phpunit.de&gt;</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> *</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> */</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"></span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_P.html#135756">PharIo</a></span><span class="default">\Manifest;</span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">PharIo\Version\<a href="dictionary_P.html#27717">AnyVersionConstraint</a>;</span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">PharIo\Version\<a href="dictionary_P.html#188685">Version</a>;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">PharIo\Version\<a href="dictionary_P.html#188715">VersionConstraint</a>;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">PharIo\Version\<a href="dictionary_P.html#188718">VersionConstraintParser</a>;</span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">PHPUnit\Framework\<a href="dictionary_P.html#173894">TestCase</a>;</span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span>
+<a name="19"><font size=-1>19     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment"> * @covers \PharIo\Manifest\Extension</span>
+<a name="21"><font size=-1>21     </font></a><span class="comment"> * @covers \PharIo\Manifest\Type</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment"> *</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment"> * @uses \PharIo\Version\VersionConstraint</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment"> * @uses \PharIo\Manifest\ApplicationName</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment"> */</span>
+<a name="26"><font size=-1>26     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_P.html#74986">ExtensionTest</a> extends <a href="dictionary_P.html#173889">TestCase</a> </span><span class="default">{</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment">     * @var Extension</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment">     */</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_P.html#181913">type</a>;</span>
+<a name="31"><font size=-1>31     </font></a><span class="default"></span>
+<a name="32"><font size=-1>32     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="33"><font size=-1>33     </font></a><span class="comment">     * @var ApplicationName|\PHPUnit_Framework_MockObject_MockObject</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">     */</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_P.html#123170">name</a>;</span>
+<a name="36"><font size=-1>36     </font></a><span class="default"></span>
+<a name="37"><font size=-1>37     </font></a><span class="default">    </span><span class="keyword">protected function <a href="dictionary_P.html#157276">setUp</a></span><span class="default">() {</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#123170">name</a> = $this-&gt;<a href="dictionary_P.html#51200">createMock</a>(<a href="dictionary_P.html#28177">ApplicationName</a>::</span><span class="keyword">class</span><span class="default">);</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#181913">type</a> = <a href="dictionary_P.html#181968">Type</a>::<a href="dictionary_P.html#74926">extension</a>($this-&gt;<a href="dictionary_P.html#123170">name</a>, </span><span class="keyword">new <a href="dictionary_P.html#27716">AnyVersionConstraint</a></span><span class="default">);</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">    }</span>
+<a name="41"><font size=-1>41     </font></a><span class="default"></span>
+<a name="42"><font size=-1>42     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#173720">testCanBeCreated</a></span><span class="default">() {</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#29960">assertInstanceOf</a>(<a href="dictionary_P.html#74934">Extension</a>::</span><span class="keyword">class</span><span class="default">, $this-&gt;<a href="dictionary_P.html#181913">type</a>);</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">    }</span>
+<a name="45"><font size=-1>45     </font></a><span class="default"></span>
+<a name="46"><font size=-1>46     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#175388">testIsNotApplication</a></span><span class="default">() {</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#29916">assertFalse</a>($this-&gt;<a href="dictionary_P.html#181913">type</a>-&gt;<a href="dictionary_I.html#100833">isApplication</a>());</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    }</span>
+<a name="49"><font size=-1>49     </font></a><span class="default"></span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#175395">testIsNotLibrary</a></span><span class="default">() {</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#29916">assertFalse</a>($this-&gt;<a href="dictionary_P.html#181913">type</a>-&gt;<a href="dictionary_I.html#101666">isLibrary</a>());</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">    }</span>
+<a name="53"><font size=-1>53     </font></a><span class="default"></span>
+<a name="54"><font size=-1>54     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#175375">testIsExtension</a></span><span class="default">() {</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#30247">assertTrue</a>($this-&gt;<a href="dictionary_P.html#181913">type</a>-&gt;<a href="dictionary_I.html#101324">isExtension</a>());</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">    }</span>
+<a name="57"><font size=-1>57     </font></a><span class="default"></span>
+<a name="58"><font size=-1>58     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#173307">testApplicationCanBeRetrieved</a></span><span class="default">()</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">    {</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#29960">assertInstanceOf</a>(<a href="dictionary_P.html#28177">ApplicationName</a>::</span><span class="keyword">class</span><span class="default">, $this-&gt;<a href="dictionary_P.html#181913">type</a>-&gt;<a href="dictionary_G.html#83867">getApplicationName</a>());</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">    }</span>
+<a name="62"><font size=-1>62     </font></a><span class="default"></span>
+<a name="63"><font size=-1>63     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#177167">testVersionConstraintCanBeRetrieved</a></span><span class="default">() {</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#29960">assertInstanceOf</a>(</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">            VersionConstraint::</span><span class="keyword">class</span><span class="default">,</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">            $this-&gt;<a href="dictionary_P.html#181913">type</a>-&gt;<a href="dictionary_G.html#89570">getVersionConstraint</a>()</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">        );</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">    }</span>
+<a name="69"><font size=-1>69     </font></a><span class="default"></span>
+<a name="70"><font size=-1>70     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#173306">testApplicationCanBeQueried</a></span><span class="default">()</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">    {</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#123170">name</a>-&gt;<a href="dictionary_M.html#115643">method</a>(</span><span class="string">'isEqual'</span><span class="default">)-&gt;<a href="dictionary_W.html#190426">willReturn</a>(<a href="dictionary_T.html#181186">true</a>);</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#30247">assertTrue</a>(</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">            $this-&gt;<a href="dictionary_P.html#181913">type</a>-&gt;<a href="dictionary_I.html#101327">isExtensionFor</a>($this-&gt;<a href="dictionary_P.html#51200">createMock</a>(<a href="dictionary_P.html#28177">ApplicationName</a>::</span><span class="keyword">class</span><span class="default">))</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">        );</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">    }</span>
+<a name="77"><font size=-1>77     </font></a><span class="default"></span>
+<a name="78"><font size=-1>78     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#174035">testCompatibleWithReturnsTrueForMatchingVersionConstraintAndApplicaiton</a></span><span class="default">() {</span>
+<a name="79"><font size=-1>79     </font></a><span class="default">        $<a href="dictionary_A.html#27858">app</a> = </span><span class="keyword">new <a href="dictionary_P.html#28177">ApplicationName</a></span><span class="default">(</span><span class="string">'foo/bar'</span><span class="default">);</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">        $<a href="dictionary_E.html#74887">extension</a> = <a href="dictionary_P.html#181968">Type</a>::<a href="dictionary_P.html#74926">extension</a>($<a href="dictionary_A.html#27858">app</a>, (</span><span class="keyword">new <a href="dictionary_P.html#188717">VersionConstraintParser</a></span><span class="default">)-&gt;<a href="dictionary_P.html#133398">parse</a>(</span><span class="string">'^1.0'</span><span class="default">));</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">        $<a href="dictionary_V.html#188582">version</a> = </span><span class="keyword">new <a href="dictionary_P.html#188680">Version</a></span><span class="default">(</span><span class="string">'1.0.0'</span><span class="default">);</span>
+<a name="82"><font size=-1>82     </font></a><span class="default"></span>
+<a name="83"><font size=-1>83     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#30247">assertTrue</a>(</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">            $<a href="dictionary_E.html#74887">extension</a>-&gt;<a href="dictionary_I.html#101055">isCompatibleWith</a>($<a href="dictionary_A.html#27858">app</a>, $<a href="dictionary_V.html#188582">version</a>)</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">        );</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">    }</span>
+<a name="87"><font size=-1>87     </font></a><span class="default"></span>
+<a name="88"><font size=-1>88     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#174034">testCompatibleWithReturnsFalseForNotMatchingVersionConstraint</a></span><span class="default">() {</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">        $<a href="dictionary_A.html#27859">app</a> = </span><span class="keyword">new <a href="dictionary_P.html#28177">ApplicationName</a></span><span class="default">(</span><span class="string">'foo/bar'</span><span class="default">);</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">        $<a href="dictionary_E.html#74888">extension</a> = <a href="dictionary_P.html#181968">Type</a>::<a href="dictionary_P.html#74926">extension</a>($<a href="dictionary_A.html#27859">app</a>, (</span><span class="keyword">new <a href="dictionary_P.html#188717">VersionConstraintParser</a></span><span class="default">)-&gt;<a href="dictionary_P.html#133398">parse</a>(</span><span class="string">'^1.0'</span><span class="default">));</span>
+<a name="91"><font size=-1>91     </font></a><span class="default">        $<a href="dictionary_V.html#188583">version</a> = </span><span class="keyword">new <a href="dictionary_P.html#188680">Version</a></span><span class="default">(</span><span class="string">'2.0.0'</span><span class="default">);</span>
+<a name="92"><font size=-1>92     </font></a><span class="default"></span>
+<a name="93"><font size=-1>93     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#29916">assertFalse</a>(</span>
+<a name="94"><font size=-1>94     </font></a><span class="default">            $<a href="dictionary_E.html#74888">extension</a>-&gt;<a href="dictionary_I.html#101055">isCompatibleWith</a>($<a href="dictionary_A.html#27859">app</a>, $<a href="dictionary_V.html#188583">version</a>)</span>
+<a name="95"><font size=-1>95     </font></a><span class="default">        );</span>
+<a name="96"><font size=-1>96     </font></a><span class="default">    }</span>
+<a name="97"><font size=-1>97     </font></a><span class="default"></span>
+<a name="98"><font size=-1>98     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_P.html#174033">testCompatibleWithReturnsFalseForNotMatchingApplication</a></span><span class="default">() {</span>
+<a name="99"><font size=-1>99     </font></a><span class="default">        $<a href="dictionary_A.html#27951">app1</a> = </span><span class="keyword">new <a href="dictionary_P.html#28177">ApplicationName</a></span><span class="default">(</span><span class="string">'foo/bar'</span><span class="default">);</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">        $<a href="dictionary_A.html#27953">app2</a> = </span><span class="keyword">new <a href="dictionary_P.html#28177">ApplicationName</a></span><span class="default">(</span><span class="string">'foo/foo'</span><span class="default">);</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">        $<a href="dictionary_E.html#74889">extension</a> = <a href="dictionary_P.html#181968">Type</a>::<a href="dictionary_P.html#74926">extension</a>($<a href="dictionary_A.html#27951">app1</a>, (</span><span class="keyword">new <a href="dictionary_P.html#188717">VersionConstraintParser</a></span><span class="default">)-&gt;<a href="dictionary_P.html#133398">parse</a>(</span><span class="string">'^1.0'</span><span class="default">));</span>
+<a name="102"><font size=-1>102     </font></a><span class="default">        $<a href="dictionary_V.html#188584">version</a> = </span><span class="keyword">new <a href="dictionary_P.html#188680">Version</a></span><span class="default">(</span><span class="string">'1.0.0'</span><span class="default">);</span>
+<a name="103"><font size=-1>103     </font></a><span class="default"></span>
+<a name="104"><font size=-1>104     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#29916">assertFalse</a>(</span>
+<a name="105"><font size=-1>105     </font></a><span class="default">            $<a href="dictionary_E.html#74889">extension</a>-&gt;<a href="dictionary_I.html#101055">isCompatibleWith</a>($<a href="dictionary_A.html#27953">app2</a>, $<a href="dictionary_V.html#188584">version</a>)</span>
+<a name="106"><font size=-1>106     </font></a><span class="default">        );</span>
+<a name="107"><font size=-1>107     </font></a><span class="default">    }</span>
+<a name="108"><font size=-1>108     </font></a><span class="default"></span>
+<a name="109"><font size=-1>109     </font></a><span class="default">}</span>
+<a name="110"><font size=-1>110     </font></a><span class="default"></span>
+</pre></body></html>

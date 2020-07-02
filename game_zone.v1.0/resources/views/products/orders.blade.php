@@ -84,7 +84,7 @@
                     </div>
                     <div class="col-md-1">
                         <label>Factura:
-                            <a href="{{URL('/factura/'.$orders[$i]->token_order)}}"><span><i class="fa fa-download" aria-hidden="true"></i></span></a>
+                            <a href="{{URL('/factura/'.$orders[$i]->token_order)}}" target="_blank"><span><i class="fa fa-download" aria-hidden="true"></i></span></a>
                         </label>
                     </div>
                 </div></a>

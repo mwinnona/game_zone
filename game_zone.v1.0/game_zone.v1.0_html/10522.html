@@ -1,0 +1,76 @@
+<html><head><title>Address.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\fzaninotto\faker\src\Faker\Provider\es_PE\Address.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\fzaninotto\\faker\\src\\Faker\\Provider\\es_PE\\Address.php";
+top.document.title  = "Address.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_F.html#76300">Faker</a></span><span class="default">\Provider\es_PE;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_F.html#26205">Address</a> extends </span><span class="default">\Faker\Provider\es_ES\<a href="dictionary_F.html#26197">Address</a></span>
+<a name="6"><font size=-1>6     </font></a><span class="default">{</span>
+<a name="7"><font size=-1>7     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#41886">cityPrefix</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">'San'</span><span class="default">, </span><span class="string">'Puerto'</span><span class="default">, </span><span class="string">'Gral.'</span><span class="default">, </span><span class="string">'Don'</span><span class="default">);</span>
+<a name="8"><font size=-1>8     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#41913">citySuffix</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">'Alta'</span><span class="default">, </span><span class="string">'Baja'</span><span class="default">, </span><span class="string">'Norte'</span><span class="default">, </span><span class="string">'Este'</span><span class="default">, </span><span class="string">' Sur'</span><span class="default">, </span><span class="string">' Oeste'</span><span class="default">);</span>
+<a name="9"><font size=-1>9     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#36548">buildingNumber</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">'#####'</span><span class="default">, </span><span class="string">'####'</span><span class="default">, </span><span class="string">'###'</span><span class="default">, </span><span class="string">'##'</span><span class="default">, </span><span class="string">'#'</span><span class="default">);</span>
+<a name="10"><font size=-1>10     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#163458">streetPrefix</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">'Jr.'</span><span class="default">, </span><span class="string">'Av.'</span><span class="default">, </span><span class="string">'Cl.'</span><span class="default">, </span><span class="string">'Urb.' </span><span class="default">);</span>
+<a name="11"><font size=-1>11     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#163494">streetSuffix</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">''</span><span class="default">);</span>
+<a name="12"><font size=-1>12     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#137342">postcode</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">'LIMA ##'</span><span class="default">);</span>
+<a name="13"><font size=-1>13     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#162091">state</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">        </span><span class="string">'Lima'</span><span class="default">, </span><span class="string">'Callao'</span><span class="default">, </span><span class="string">'Arequipa'</span><span class="default">, </span><span class="string">'Cuzco'</span><span class="default">, </span><span class="string">'Piura'</span><span class="default">, </span><span class="string">'Iquitos'</span><span class="default">, </span><span class="string">'Huaraz'</span><span class="default">, </span><span class="string">'Tacna'</span><span class="default">, </span><span class="string">'Ayacucho'</span><span class="default">, </span><span class="string">'Pucallpa'</span><span class="default">, </span><span class="string">'Trujillo'</span><span class="default">, </span><span class="string">'Chimbote'</span><span class="default">, </span><span class="string">'Ica'</span><span class="default">, </span><span class="string">'Moquegua'</span><span class="default">, </span><span class="string">'Puno'</span><span class="default">, </span><span class="string">'Tarapoto'</span><span class="default">, </span><span class="string">'Cajamarca'</span><span class="default">, </span><span class="string">'Lambayeque'</span><span class="default">, </span><span class="string">'Huanuco'</span><span class="default">, </span><span class="string">'Jauja'</span><span class="default">, </span><span class="string">'Tumbes'</span><span class="default">, </span><span class="string">'Madre de Dios'</span>
+<a name="15"><font size=-1>15     </font></a><span class="string">    </span><span class="default">);</span>
+<a name="16"><font size=-1>16     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#41759">cityFormats</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="17"><font size=-1>17     </font></a><span class="default">        </span><span class="string">'{{cityPrefix}} {{firstName}} {{lastName}}'</span><span class="default">,</span>
+<a name="18"><font size=-1>18     </font></a><span class="default">        </span><span class="string">'{{cityPrefix}} {{firstName}}'</span><span class="default">,</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">        </span><span class="string">'{{firstName}} {{citySuffix}}'</span><span class="default">,</span>
+<a name="20"><font size=-1>20     </font></a><span class="default">        </span><span class="string">'{{lastName}} {{citySuffix}}'</span><span class="default">,</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">    );</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#163366">streetNameFormats</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">        </span><span class="string">'{{streetPrefix}} {{firstName}} {{lastName}}'</span><span class="default">,</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">    );</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#163292">streetAddressFormats</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">        </span><span class="string">'{{streetName}} # {{buildingNumber}} '</span><span class="default">,</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">        </span><span class="string">'{{streetName}} # {{buildingNumber}} {{secondaryAddress}}'</span><span class="default">,</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">    );</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#26328">addressFormats</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">        </span><span class="string">&quot;{{streetAddress}}\n{{city}}, {{state}}&quot;</span><span class="default">,</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">    );</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#153205">secondaryAddressFormats</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">'Dpto. ###'</span><span class="default">, </span><span class="string">'Hab. ###'</span><span class="default">, </span><span class="string">'Piso #'</span><span class="default">, </span><span class="string">'Piso ##'</span><span class="default">);</span>
+<a name="33"><font size=-1>33     </font></a><span class="default"></span>
+<a name="34"><font size=-1>34     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">     * @example ''</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment">     */</span>
+<a name="37"><font size=-1>37     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_F.html#41864">cityPrefix</a></span><span class="default">()</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">    {</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_C.html#41904">cityPrefix</a>);</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">    }</span>
+<a name="41"><font size=-1>41     </font></a><span class="default"></span>
+<a name="42"><font size=-1>42     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="43"><font size=-1>43     </font></a><span class="comment">     * @example 'Jr.'</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">     */</span>
+<a name="45"><font size=-1>45     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_F.html#163429">streetPrefix</a></span><span class="default">()</span>
+<a name="46"><font size=-1>46     </font></a><span class="default">    {</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_S.html#163481">streetPrefix</a>);</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    }</span>
+<a name="49"><font size=-1>49     </font></a><span class="default"></span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="51"><font size=-1>51     </font></a><span class="comment">     * @example 'Dpto. 402'</span>
+<a name="52"><font size=-1>52     </font></a><span class="comment">     */</span>
+<a name="53"><font size=-1>53     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_F.html#153187">secondaryAddress</a></span><span class="default">()</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">    {</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::numerify(</span><span class="keyword">static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_S.html#153220">secondaryAddressFormats</a>));</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">    }</span>
+<a name="57"><font size=-1>57     </font></a><span class="default"></span>
+<a name="58"><font size=-1>58     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="59"><font size=-1>59     </font></a><span class="comment">     * @example 'Lima'</span>
+<a name="60"><font size=-1>60     </font></a><span class="comment">     */</span>
+<a name="61"><font size=-1>61     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_F.html#162067">state</a></span><span class="default">()</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">    {</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_S.html#162109">state</a>);</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">    }</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">}</span>
+<a name="66"><font size=-1>66     </font></a><span class="default"></span>
+</pre></body></html>

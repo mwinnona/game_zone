@@ -1,0 +1,184 @@
+<html><head><title>DeduplicationHandler.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\monolog\monolog\src\Monolog\Handler\DeduplicationHandler.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\monolog\\monolog\\src\\Monolog\\Handler\\DeduplicationHandler.php";
+top.document.title  = "DeduplicationHandler.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php </span><span class="keyword">declare</span><span class="default">(strict_types=</span><span class="number">1</span><span class="default">);</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of the Monolog package.</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * (c) Jordi Boggiano &lt;j.boggiano@seld.be&gt;</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> */</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"></span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_M.html#117842">Monolog</a></span><span class="default">\Handler;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Monolog\<a href="dictionary_M.html#110579">Logger</a>;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment"> * Simple handler wrapper that deduplicates log records across multiple requests</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment"> *</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment"> * It also includes the BufferHandler functionality and will buffer</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment"> * all messages until the end of the request or flush() is called.</span>
+<a name="21"><font size=-1>21     </font></a><span class="comment"> *</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment"> * This works by storing all log records' messages above $deduplicationLevel</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment"> * to the file specified by $deduplicationStore. When further logs come in at the end of the</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment"> * request (or when flush() is called), all those above $deduplicationLevel are checked</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment"> * against the existing stored logs. If they match and the timestamps in the stored log is</span>
+<a name="26"><font size=-1>26     </font></a><span class="comment"> * not older than $time seconds, the new log record is discarded. If no log record is new, the</span>
+<a name="27"><font size=-1>27     </font></a><span class="comment"> * whole data set is discarded.</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment"> *</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment"> * This is mainly useful in combination with Mail handlers or things like Slack or HipChat handlers</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment"> * that send messages to people, to avoid spamming with the same message over and over in case of</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment"> * a major component failure like a database server being down which makes all requests fail in the</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment"> * same way.</span>
+<a name="33"><font size=-1>33     </font></a><span class="comment"> *</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment"> * @author Jordi Boggiano &lt;j.boggiano@seld.be&gt;</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment"> */</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_M.html#58929">DeduplicationHandler</a> extends <a href="dictionary_M.html#36344">BufferHandler</a></span>
+<a name="37"><font size=-1>37     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="39"><font size=-1>39     </font></a><span class="comment">     * @var string</span>
+<a name="40"><font size=-1>40     </font></a><span class="comment">     */</span>
+<a name="41"><font size=-1>41     </font></a><span class="comment">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_M.html#58933">deduplicationStore</a>;</span>
+<a name="42"><font size=-1>42     </font></a><span class="default"></span>
+<a name="43"><font size=-1>43     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">     * @var int</span>
+<a name="45"><font size=-1>45     </font></a><span class="comment">     */</span>
+<a name="46"><font size=-1>46     </font></a><span class="comment">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_M.html#58931">deduplicationLevel</a>;</span>
+<a name="47"><font size=-1>47     </font></a><span class="default"></span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="49"><font size=-1>49     </font></a><span class="comment">     * @var int</span>
+<a name="50"><font size=-1>50     </font></a><span class="comment">     */</span>
+<a name="51"><font size=-1>51     </font></a><span class="comment">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_M.html#178203">time</a>;</span>
+<a name="52"><font size=-1>52     </font></a><span class="default"></span>
+<a name="53"><font size=-1>53     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="54"><font size=-1>54     </font></a><span class="comment">     * @var bool</span>
+<a name="55"><font size=-1>55     </font></a><span class="comment">     */</span>
+<a name="56"><font size=-1>56     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_M.html#82186">gc</a> = <a href="dictionary_F.html#76452">false</a>;</span>
+<a name="57"><font size=-1>57     </font></a><span class="default"></span>
+<a name="58"><font size=-1>58     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="59"><font size=-1>59     </font></a><span class="comment">     * @param HandlerInterface $handler            Handler.</span>
+<a name="60"><font size=-1>60     </font></a><span class="comment">     * @param string           $deduplicationStore The file/path where the deduplication log should be kept</span>
+<a name="61"><font size=-1>61     </font></a><span class="comment">     * @param string|int       $deduplicationLevel The minimum logging level for log records to be looked at for deduplication purposes</span>
+<a name="62"><font size=-1>62     </font></a><span class="comment">     * @param int              $time               The period (in seconds) during which duplicate entries should be suppressed after a given log is sent through</span>
+<a name="63"><font size=-1>63     </font></a><span class="comment">     * @param bool             $bubble             Whether the messages that are handled can bubble up the stack or not</span>
+<a name="64"><font size=-1>64     </font></a><span class="comment">     */</span>
+<a name="65"><font size=-1>65     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_M.html#18937">__construct</a></span><span class="default">(HandlerInterface $<a href="dictionary_H.html#91296">handler</a>, ?<a href="dictionary_M.html#163940">string</a> $<a href="dictionary_D.html#58932">deduplicationStore</a> = <a href="dictionary_N.html#125929">null</a>, $<a href="dictionary_D.html#58930">deduplicationLevel</a> = <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#71651">ERROR</a>, <a href="dictionary_M.html#99603">int</a> $<a href="dictionary_T.html#178134">time</a> = </span><span class="number">60</span><span class="default">, <a href="dictionary_M.html#35357">bool</a> $<a href="dictionary_B.html#36134">bubble</a> = <a href="dictionary_T.html#181186">true</a>)</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">    {</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">        parent::<a href="dictionary_M.html#18067">__construct</a>($<a href="dictionary_H.html#91296">handler</a>, </span><span class="number">0</span><span class="default">, <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#58647">DEBUG</a>, $<a href="dictionary_B.html#36134">bubble</a>, <a href="dictionary_F.html#76452">false</a>);</span>
+<a name="68"><font size=-1>68     </font></a><span class="default"></span>
+<a name="69"><font size=-1>69     </font></a><span class="default">        $this-&gt;<a href="dictionary_M.html#58933">deduplicationStore</a> = $deduplicationStore === <a href="dictionary_N.html#125929">null</a> ? <a href="dictionary_S.html#166302">sys_get_temp_dir</a>() . </span><span class="string">'/monolog-dedup-' </span><span class="default">. <a href="dictionary_S.html#165161">substr</a>(<a href="dictionary_M.html#113480">md5</a>(__FILE__), </span><span class="number">0</span><span class="default">, </span><span class="number">20</span><span class="default">) .</span><span class="string">'.log' </span><span class="default">: $<a href="dictionary_D.html#58932">deduplicationStore</a>;</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">        $this-&gt;<a href="dictionary_M.html#58931">deduplicationLevel</a> = <a href="dictionary_M.html#110576">Logger</a>::<a href="dictionary_M.html#179815">toMonologLevel</a>($<a href="dictionary_D.html#58930">deduplicationLevel</a>);</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">        $this-&gt;<a href="dictionary_M.html#178203">time</a> = $time;</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">    }</span>
+<a name="73"><font size=-1>73     </font></a><span class="default"></span>
+<a name="74"><font size=-1>74     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_M.html#79192">flush</a></span><span class="default">(): <a href="dictionary_M.html#189220">void</a></span>
+<a name="75"><font size=-1>75     </font></a><span class="default">    {</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($this-&gt;<a href="dictionary_M.html#36354">bufferSize</a> === </span><span class="number">0</span><span class="default">) {</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">        }</span>
+<a name="79"><font size=-1>79     </font></a><span class="default"></span>
+<a name="80"><font size=-1>80     </font></a><span class="default">        $<a href="dictionary_P.html#134111">passthru</a> = <a href="dictionary_N.html#125929">null</a>;</span>
+<a name="81"><font size=-1>81     </font></a><span class="default"></span>
+<a name="82"><font size=-1>82     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($this-&gt;<a href="dictionary_M.html#36329">buffer</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_R.html#144431">record</a>) {</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_R.html#144431">record</a>[</span><span class="string">'level'</span><span class="default">] &gt;= $this-&gt;<a href="dictionary_M.html#58931">deduplicationLevel</a>) {</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">                $<a href="dictionary_P.html#134111">passthru</a> = $passthru || !$this-&gt;<a href="dictionary_M.html#101192">isDuplicate</a>($<a href="dictionary_R.html#144431">record</a>);</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($<a href="dictionary_P.html#134111">passthru</a>) {</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">                    $this-&gt;<a href="dictionary_M.html#28088">appendRecord</a>($<a href="dictionary_R.html#144431">record</a>);</span>
+<a name="87"><font size=-1>87     </font></a><span class="default">                }</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">            }</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">        }</span>
+<a name="90"><font size=-1>90     </font></a><span class="default"></span>
+<a name="91"><font size=-1>91     </font></a><span class="default">        </span><span class="comment">// default of null is valid as well as if no record matches duplicationLevel we just pass through</span>
+<a name="92"><font size=-1>92     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_P.html#134111">passthru</a> === <a href="dictionary_T.html#181186">true</a> || $<a href="dictionary_P.html#134111">passthru</a> === <a href="dictionary_N.html#125929">null</a>) {</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#91354">handler</a>-&gt;<a href="dictionary_H.html#91125">handleBatch</a>($this-&gt;<a href="dictionary_M.html#36329">buffer</a>);</span>
+<a name="94"><font size=-1>94     </font></a><span class="default">        }</span>
+<a name="95"><font size=-1>95     </font></a><span class="default"></span>
+<a name="96"><font size=-1>96     </font></a><span class="default">        $this-&gt;<a href="dictionary_M.html#42984">clear</a>();</span>
+<a name="97"><font size=-1>97     </font></a><span class="default"></span>
+<a name="98"><font size=-1>98     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($this-&gt;<a href="dictionary_M.html#82186">gc</a>) {</span>
+<a name="99"><font size=-1>99     </font></a><span class="default">            $this-&gt;<a href="dictionary_M.html#44794">collectLogs</a>();</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">        }</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">    }</span>
+<a name="102"><font size=-1>102     </font></a><span class="default"></span>
+<a name="103"><font size=-1>103     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_M.html#101192">isDuplicate</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_R.html#144430">record</a>): <a href="dictionary_M.html#35357">bool</a></span>
+<a name="104"><font size=-1>104     </font></a><span class="default">    {</span>
+<a name="105"><font size=-1>105     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_F.html#77203">file_exists</a>($this-&gt;<a href="dictionary_M.html#58933">deduplicationStore</a>)) {</span>
+<a name="106"><font size=-1>106     </font></a><span class="default">            </span><span class="keyword">return <a href="dictionary_F.html#76452">false</a></span><span class="default">;</span>
+<a name="107"><font size=-1>107     </font></a><span class="default">        }</span>
+<a name="108"><font size=-1>108     </font></a><span class="default"></span>
+<a name="109"><font size=-1>109     </font></a><span class="default">        $<a href="dictionary_S.html#162821">store</a> = <a href="dictionary_F.html#77136">file</a>($this-&gt;<a href="dictionary_M.html#58933">deduplicationStore</a>, <a href="dictionary_F.html#77208">FILE_IGNORE_NEW_LINES</a> | <a href="dictionary_F.html#77218">FILE_SKIP_EMPTY_LINES</a>);</span>
+<a name="110"><font size=-1>110     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_I.html#100695">is_array</a>($<a href="dictionary_S.html#162821">store</a>)) {</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">            </span><span class="keyword">return <a href="dictionary_F.html#76452">false</a></span><span class="default">;</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">        }</span>
+<a name="113"><font size=-1>113     </font></a><span class="default"></span>
+<a name="114"><font size=-1>114     </font></a><span class="default">        $<a href="dictionary_Y.html#192829">yesterday</a> = <a href="dictionary_T.html#178191">time</a>() - </span><span class="number">86400</span><span class="default">;</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">        $<a href="dictionary_T.html#178453">timestampValidity</a> = $<a href="dictionary_R.html#144430">record</a>[</span><span class="string">'datetime'</span><span class="default">]-&gt;<a href="dictionary_G.html#89057">getTimestamp</a>() - $this-&gt;<a href="dictionary_M.html#178203">time</a>;</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">        $<a href="dictionary_E.html#74170">expectedMessage</a> = <a href="dictionary_P.html#137982">preg_replace</a>(</span><span class="string">'{[\r\n].*}'</span><span class="default">, </span><span class="string">''</span><span class="default">, $<a href="dictionary_R.html#144430">record</a>[</span><span class="string">'message'</span><span class="default">]);</span>
+<a name="117"><font size=-1>117     </font></a><span class="default"></span>
+<a name="118"><font size=-1>118     </font></a><span class="default">        </span><span class="keyword">for </span><span class="default">($<a href="dictionary_I.html#95467">i</a> = <a href="dictionary_C.html#50164">count</a>($<a href="dictionary_S.html#162821">store</a>) - </span><span class="number">1</span><span class="default">; $<a href="dictionary_I.html#95467">i</a> &gt;= </span><span class="number">0</span><span class="default">; $<a href="dictionary_I.html#95467">i</a>--) {</span>
+<a name="119"><font size=-1>119     </font></a><span class="default">            </span><span class="keyword">list</span><span class="default">($<a href="dictionary_T.html#178426">timestamp</a>, $<a href="dictionary_L.html#108492">level</a>, $<a href="dictionary_M.html#114705">message</a>) = <a href="dictionary_E.html#74366">explode</a>(</span><span class="string">':'</span><span class="default">, $<a href="dictionary_S.html#162821">store</a>[$<a href="dictionary_I.html#95467">i</a>], </span><span class="number">3</span><span class="default">);</span>
+<a name="120"><font size=-1>120     </font></a><span class="default"></span>
+<a name="121"><font size=-1>121     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_L.html#108492">level</a> === $<a href="dictionary_R.html#144430">record</a>[</span><span class="string">'level_name'</span><span class="default">] &amp;&amp; $<a href="dictionary_M.html#114705">message</a> === $<a href="dictionary_E.html#74170">expectedMessage</a> &amp;&amp; $<a href="dictionary_T.html#178426">timestamp</a> &gt; $<a href="dictionary_T.html#178453">timestampValidity</a>) {</span>
+<a name="122"><font size=-1>122     </font></a><span class="default">                </span><span class="keyword">return <a href="dictionary_T.html#181186">true</a></span><span class="default">;</span>
+<a name="123"><font size=-1>123     </font></a><span class="default">            }</span>
+<a name="124"><font size=-1>124     </font></a><span class="default"></span>
+<a name="125"><font size=-1>125     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_T.html#178426">timestamp</a> &lt; $<a href="dictionary_Y.html#192829">yesterday</a>) {</span>
+<a name="126"><font size=-1>126     </font></a><span class="default">                $this-&gt;<a href="dictionary_M.html#82186">gc</a> = <a href="dictionary_T.html#181186">true</a>;</span>
+<a name="127"><font size=-1>127     </font></a><span class="default">            }</span>
+<a name="128"><font size=-1>128     </font></a><span class="default">        }</span>
+<a name="129"><font size=-1>129     </font></a><span class="default"></span>
+<a name="130"><font size=-1>130     </font></a><span class="default">        </span><span class="keyword">return <a href="dictionary_F.html#76452">false</a></span><span class="default">;</span>
+<a name="131"><font size=-1>131     </font></a><span class="default">    }</span>
+<a name="132"><font size=-1>132     </font></a><span class="default"></span>
+<a name="133"><font size=-1>133     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_M.html#44794">collectLogs</a></span><span class="default">(): <a href="dictionary_M.html#189220">void</a></span>
+<a name="134"><font size=-1>134     </font></a><span class="default">    {</span>
+<a name="135"><font size=-1>135     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_F.html#77203">file_exists</a>($this-&gt;<a href="dictionary_M.html#58933">deduplicationStore</a>)) {</span>
+<a name="136"><font size=-1>136     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="137"><font size=-1>137     </font></a><span class="default">        }</span>
+<a name="138"><font size=-1>138     </font></a><span class="default"></span>
+<a name="139"><font size=-1>139     </font></a><span class="default">        $<a href="dictionary_H.html#90913">handle</a> = <a href="dictionary_F.html#79766">fopen</a>($this-&gt;<a href="dictionary_M.html#58933">deduplicationStore</a>, </span><span class="string">'rw+'</span><span class="default">);</span>
+<a name="140"><font size=-1>140     </font></a><span class="default"></span>
+<a name="141"><font size=-1>141     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_H.html#90913">handle</a>) {</span>
+<a name="142"><font size=-1>142     </font></a><span class="default">            </span><span class="keyword">throw new </span><span class="default">\<a href="dictionary_R.html#151318">RuntimeException</a>(</span><span class="string">'Failed to open file for reading and writing: ' </span><span class="default">. $this-&gt;<a href="dictionary_M.html#58933">deduplicationStore</a>);</span>
+<a name="143"><font size=-1>143     </font></a><span class="default">        }</span>
+<a name="144"><font size=-1>144     </font></a><span class="default"></span>
+<a name="145"><font size=-1>145     </font></a><span class="default">        <a href="dictionary_F.html#79107">flock</a>($<a href="dictionary_H.html#90913">handle</a>, <a href="dictionary_L.html#110367">LOCK_EX</a>);</span>
+<a name="146"><font size=-1>146     </font></a><span class="default">        $<a href="dictionary_V.html#185889">validLogs</a> = [];</span>
+<a name="147"><font size=-1>147     </font></a><span class="default"></span>
+<a name="148"><font size=-1>148     </font></a><span class="default">        $<a href="dictionary_T.html#178454">timestampValidity</a> = <a href="dictionary_T.html#178191">time</a>() - $this-&gt;<a href="dictionary_M.html#178203">time</a>;</span>
+<a name="149"><font size=-1>149     </font></a><span class="default"></span>
+<a name="150"><font size=-1>150     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">(!<a href="dictionary_F.html#76631">feof</a>($<a href="dictionary_H.html#90913">handle</a>)) {</span>
+<a name="151"><font size=-1>151     </font></a><span class="default">            $<a href="dictionary_L.html#110422">log</a> = <a href="dictionary_F.html#76665">fgets</a>($<a href="dictionary_H.html#90913">handle</a>);</span>
+<a name="152"><font size=-1>152     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_L.html#110422">log</a> &amp;&amp; <a href="dictionary_S.html#165161">substr</a>($<a href="dictionary_L.html#110422">log</a>, </span><span class="number">0</span><span class="default">, </span><span class="number">10</span><span class="default">) &gt;= $<a href="dictionary_T.html#178454">timestampValidity</a>) {</span>
+<a name="153"><font size=-1>153     </font></a><span class="default">                $<a href="dictionary_V.html#185889">validLogs</a>[] = $<a href="dictionary_L.html#110422">log</a>;</span>
+<a name="154"><font size=-1>154     </font></a><span class="default">            }</span>
+<a name="155"><font size=-1>155     </font></a><span class="default">        }</span>
+<a name="156"><font size=-1>156     </font></a><span class="default"></span>
+<a name="157"><font size=-1>157     </font></a><span class="default">        <a href="dictionary_F.html#81406">ftruncate</a>($<a href="dictionary_H.html#90913">handle</a>, </span><span class="number">0</span><span class="default">);</span>
+<a name="158"><font size=-1>158     </font></a><span class="default">        <a href="dictionary_R.html#150044">rewind</a>($<a href="dictionary_H.html#90913">handle</a>);</span>
+<a name="159"><font size=-1>159     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_V.html#185889">validLogs</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_L.html#110422">log</a>) {</span>
+<a name="160"><font size=-1>160     </font></a><span class="default">            <a href="dictionary_F.html#81747">fwrite</a>($<a href="dictionary_H.html#90913">handle</a>, $<a href="dictionary_L.html#110422">log</a>);</span>
+<a name="161"><font size=-1>161     </font></a><span class="default">        }</span>
+<a name="162"><font size=-1>162     </font></a><span class="default"></span>
+<a name="163"><font size=-1>163     </font></a><span class="default">        <a href="dictionary_F.html#79107">flock</a>($<a href="dictionary_H.html#90913">handle</a>, <a href="dictionary_L.html#110372">LOCK_UN</a>);</span>
+<a name="164"><font size=-1>164     </font></a><span class="default">        <a href="dictionary_F.html#76515">fclose</a>($<a href="dictionary_H.html#90913">handle</a>);</span>
+<a name="165"><font size=-1>165     </font></a><span class="default"></span>
+<a name="166"><font size=-1>166     </font></a><span class="default">        $this-&gt;<a href="dictionary_M.html#82186">gc</a> = <a href="dictionary_F.html#76452">false</a>;</span>
+<a name="167"><font size=-1>167     </font></a><span class="default">    }</span>
+<a name="168"><font size=-1>168     </font></a><span class="default"></span>
+<a name="169"><font size=-1>169     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_M.html#28088">appendRecord</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_R.html#144432">record</a>): <a href="dictionary_M.html#189220">void</a></span>
+<a name="170"><font size=-1>170     </font></a><span class="default">    {</span>
+<a name="171"><font size=-1>171     </font></a><span class="default">        <a href="dictionary_F.html#77216">file_put_contents</a>($this-&gt;<a href="dictionary_M.html#58933">deduplicationStore</a>, $<a href="dictionary_R.html#144432">record</a>[</span><span class="string">'datetime'</span><span class="default">]-&gt;<a href="dictionary_G.html#89057">getTimestamp</a>() . </span><span class="string">':' </span><span class="default">. $<a href="dictionary_R.html#144432">record</a>[</span><span class="string">'level_name'</span><span class="default">] . </span><span class="string">':' </span><span class="default">. <a href="dictionary_P.html#137982">preg_replace</a>(</span><span class="string">'{[\r\n].*}'</span><span class="default">, </span><span class="string">''</span><span class="default">, $<a href="dictionary_R.html#144432">record</a>[</span><span class="string">'message'</span><span class="default">]) . </span><span class="string">&quot;\n&quot;</span><span class="default">, <a href="dictionary_F.html#77202">FILE_APPEND</a>);</span>
+<a name="172"><font size=-1>172     </font></a><span class="default">    }</span>
+<a name="173"><font size=-1>173     </font></a><span class="default">}</span>
+<a name="174"><font size=-1>174     </font></a><span class="default"></span>
+</pre></body></html>

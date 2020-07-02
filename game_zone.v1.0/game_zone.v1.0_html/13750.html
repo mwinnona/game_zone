@@ -1,0 +1,482 @@
+<html><head><title>File.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\phenx\php-font-lib\src\FontLib\TrueType\File.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\phenx\\php-font-lib\\src\\FontLib\\TrueType\\File.php";
+top.document.title  = "File.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="3"><font size=-1>3     </font></a><span class="comment"> * @package php-font-lib</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * @link    https://github.com/PhenX/php-font-lib</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> * @author  Fabien MÃ©nager &lt;fabien.menager@gmail.com&gt;</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> */</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"></span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_F.html#79592">FontLib</a></span><span class="default">\TrueType;</span>
+<a name="10"><font size=-1>10     </font></a><span class="default"></span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">FontLib\<a href="dictionary_F.html#26622">AdobeFontMetrics</a>;</span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">FontLib\<a href="dictionary_F.html#79548">Font</a>;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">FontLib\<a href="dictionary_F.html#34463">BinaryStream</a>;</span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">FontLib\Table\<a href="dictionary_F.html#171894">Table</a>;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">FontLib\Table\<a href="dictionary_F.html#61126">DirectoryEntry</a>;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">FontLib\Table\Type\<a href="dictionary_F.html#89828">glyf</a>;</span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">FontLib\Table\Type\<a href="dictionary_F.html#123307">name</a>;</span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">FontLib\Table\Type\<a href="dictionary_F.html#123453">nameRecord</a>;</span>
+<a name="19"><font size=-1>19     </font></a><span class="default"></span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="21"><font size=-1>21     </font></a><span class="comment"> * TrueType font file.</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment"> *</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment"> * @package php-font-lib</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment"> */</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_F.html#77163">File</a> extends <a href="dictionary_F.html#34462">BinaryStream</a> </span><span class="default">{</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="27"><font size=-1>27     </font></a><span class="comment">   * @var Header</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment">   */</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment">  </span><span class="keyword">public </span><span class="default">$<a href="dictionary_F.html#92626">header</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="30"><font size=-1>30     </font></a><span class="default"></span>
+<a name="31"><font size=-1>31     </font></a><span class="default">  </span><span class="keyword">private </span><span class="default">$<a href="dictionary_F.html#171963">tableOffset</a> = </span><span class="number">0</span><span class="default">; </span><span class="comment">// Used for TTC</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment"></span>
+<a name="33"><font size=-1>33     </font></a><span class="comment">  </span><span class="keyword">private static </span><span class="default">$<a href="dictionary_F.html#143708">raw</a> = <a href="dictionary_F.html#76452">false</a>;</span>
+<a name="34"><font size=-1>34     </font></a><span class="default"></span>
+<a name="35"><font size=-1>35     </font></a><span class="default">  </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_F.html#61105">directory</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">  </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_F.html#58013">data</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="37"><font size=-1>37     </font></a><span class="default"></span>
+<a name="38"><font size=-1>38     </font></a><span class="default">  </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_F.html#89837">glyph_subset</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="39"><font size=-1>39     </font></a><span class="default"></span>
+<a name="40"><font size=-1>40     </font></a><span class="default">  </span><span class="keyword">public </span><span class="default">$<a href="dictionary_F.html#89835">glyph_all</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="41"><font size=-1>41     </font></a><span class="default"></span>
+<a name="42"><font size=-1>42     </font></a><span class="default">  </span><span class="keyword">static </span><span class="default">$<a href="dictionary_F.html#111377">macCharNames</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">    </span><span class="string">&quot;.notdef&quot;</span><span class="default">, </span><span class="string">&quot;.null&quot;</span><span class="default">, </span><span class="string">&quot;CR&quot;</span><span class="default">,</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">    </span><span class="string">&quot;space&quot;</span><span class="default">, </span><span class="string">&quot;exclam&quot;</span><span class="default">, </span><span class="string">&quot;quotedbl&quot;</span><span class="default">, </span><span class="string">&quot;numbersign&quot;</span><span class="default">,</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">    </span><span class="string">&quot;dollar&quot;</span><span class="default">, </span><span class="string">&quot;percent&quot;</span><span class="default">, </span><span class="string">&quot;ampersand&quot;</span><span class="default">, </span><span class="string">&quot;quotesingle&quot;</span><span class="default">,</span>
+<a name="46"><font size=-1>46     </font></a><span class="default">    </span><span class="string">&quot;parenleft&quot;</span><span class="default">, </span><span class="string">&quot;parenright&quot;</span><span class="default">, </span><span class="string">&quot;asterisk&quot;</span><span class="default">, </span><span class="string">&quot;plus&quot;</span><span class="default">,</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">    </span><span class="string">&quot;comma&quot;</span><span class="default">, </span><span class="string">&quot;hyphen&quot;</span><span class="default">, </span><span class="string">&quot;period&quot;</span><span class="default">, </span><span class="string">&quot;slash&quot;</span><span class="default">,</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    </span><span class="string">&quot;zero&quot;</span><span class="default">, </span><span class="string">&quot;one&quot;</span><span class="default">, </span><span class="string">&quot;two&quot;</span><span class="default">, </span><span class="string">&quot;three&quot;</span><span class="default">,</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">    </span><span class="string">&quot;four&quot;</span><span class="default">, </span><span class="string">&quot;five&quot;</span><span class="default">, </span><span class="string">&quot;six&quot;</span><span class="default">, </span><span class="string">&quot;seven&quot;</span><span class="default">,</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    </span><span class="string">&quot;eight&quot;</span><span class="default">, </span><span class="string">&quot;nine&quot;</span><span class="default">, </span><span class="string">&quot;colon&quot;</span><span class="default">, </span><span class="string">&quot;semicolon&quot;</span><span class="default">,</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">    </span><span class="string">&quot;less&quot;</span><span class="default">, </span><span class="string">&quot;equal&quot;</span><span class="default">, </span><span class="string">&quot;greater&quot;</span><span class="default">, </span><span class="string">&quot;question&quot;</span><span class="default">,</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">    </span><span class="string">&quot;at&quot;</span><span class="default">, </span><span class="string">&quot;A&quot;</span><span class="default">, </span><span class="string">&quot;B&quot;</span><span class="default">, </span><span class="string">&quot;C&quot;</span><span class="default">, </span><span class="string">&quot;D&quot;</span><span class="default">, </span><span class="string">&quot;E&quot;</span><span class="default">, </span><span class="string">&quot;F&quot;</span><span class="default">, </span><span class="string">&quot;G&quot;</span><span class="default">,</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">    </span><span class="string">&quot;H&quot;</span><span class="default">, </span><span class="string">&quot;I&quot;</span><span class="default">, </span><span class="string">&quot;J&quot;</span><span class="default">, </span><span class="string">&quot;K&quot;</span><span class="default">, </span><span class="string">&quot;L&quot;</span><span class="default">, </span><span class="string">&quot;M&quot;</span><span class="default">, </span><span class="string">&quot;N&quot;</span><span class="default">, </span><span class="string">&quot;O&quot;</span><span class="default">,</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">    </span><span class="string">&quot;P&quot;</span><span class="default">, </span><span class="string">&quot;Q&quot;</span><span class="default">, </span><span class="string">&quot;R&quot;</span><span class="default">, </span><span class="string">&quot;S&quot;</span><span class="default">, </span><span class="string">&quot;T&quot;</span><span class="default">, </span><span class="string">&quot;U&quot;</span><span class="default">, </span><span class="string">&quot;V&quot;</span><span class="default">, </span><span class="string">&quot;W&quot;</span><span class="default">,</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">    </span><span class="string">&quot;X&quot;</span><span class="default">, </span><span class="string">&quot;Y&quot;</span><span class="default">, </span><span class="string">&quot;Z&quot;</span><span class="default">, </span><span class="string">&quot;bracketleft&quot;</span><span class="default">,</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">    </span><span class="string">&quot;backslash&quot;</span><span class="default">, </span><span class="string">&quot;bracketright&quot;</span><span class="default">, </span><span class="string">&quot;asciicircum&quot;</span><span class="default">, </span><span class="string">&quot;underscore&quot;</span><span class="default">,</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">    </span><span class="string">&quot;grave&quot;</span><span class="default">, </span><span class="string">&quot;a&quot;</span><span class="default">, </span><span class="string">&quot;b&quot;</span><span class="default">, </span><span class="string">&quot;c&quot;</span><span class="default">, </span><span class="string">&quot;d&quot;</span><span class="default">, </span><span class="string">&quot;e&quot;</span><span class="default">, </span><span class="string">&quot;f&quot;</span><span class="default">, </span><span class="string">&quot;g&quot;</span><span class="default">,</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">    </span><span class="string">&quot;h&quot;</span><span class="default">, </span><span class="string">&quot;i&quot;</span><span class="default">, </span><span class="string">&quot;j&quot;</span><span class="default">, </span><span class="string">&quot;k&quot;</span><span class="default">, </span><span class="string">&quot;l&quot;</span><span class="default">, </span><span class="string">&quot;m&quot;</span><span class="default">, </span><span class="string">&quot;n&quot;</span><span class="default">, </span><span class="string">&quot;o&quot;</span><span class="default">,</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">    </span><span class="string">&quot;p&quot;</span><span class="default">, </span><span class="string">&quot;q&quot;</span><span class="default">, </span><span class="string">&quot;r&quot;</span><span class="default">, </span><span class="string">&quot;s&quot;</span><span class="default">, </span><span class="string">&quot;t&quot;</span><span class="default">, </span><span class="string">&quot;u&quot;</span><span class="default">, </span><span class="string">&quot;v&quot;</span><span class="default">, </span><span class="string">&quot;w&quot;</span><span class="default">,</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">    </span><span class="string">&quot;x&quot;</span><span class="default">, </span><span class="string">&quot;y&quot;</span><span class="default">, </span><span class="string">&quot;z&quot;</span><span class="default">, </span><span class="string">&quot;braceleft&quot;</span><span class="default">,</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">    </span><span class="string">&quot;bar&quot;</span><span class="default">, </span><span class="string">&quot;braceright&quot;</span><span class="default">, </span><span class="string">&quot;asciitilde&quot;</span><span class="default">, </span><span class="string">&quot;Adieresis&quot;</span><span class="default">,</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">    </span><span class="string">&quot;Aring&quot;</span><span class="default">, </span><span class="string">&quot;Ccedilla&quot;</span><span class="default">, </span><span class="string">&quot;Eacute&quot;</span><span class="default">, </span><span class="string">&quot;Ntilde&quot;</span><span class="default">,</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">    </span><span class="string">&quot;Odieresis&quot;</span><span class="default">, </span><span class="string">&quot;Udieresis&quot;</span><span class="default">, </span><span class="string">&quot;aacute&quot;</span><span class="default">, </span><span class="string">&quot;agrave&quot;</span><span class="default">,</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">    </span><span class="string">&quot;acircumflex&quot;</span><span class="default">, </span><span class="string">&quot;adieresis&quot;</span><span class="default">, </span><span class="string">&quot;atilde&quot;</span><span class="default">, </span><span class="string">&quot;aring&quot;</span><span class="default">,</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">    </span><span class="string">&quot;ccedilla&quot;</span><span class="default">, </span><span class="string">&quot;eacute&quot;</span><span class="default">, </span><span class="string">&quot;egrave&quot;</span><span class="default">, </span><span class="string">&quot;ecircumflex&quot;</span><span class="default">,</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">    </span><span class="string">&quot;edieresis&quot;</span><span class="default">, </span><span class="string">&quot;iacute&quot;</span><span class="default">, </span><span class="string">&quot;igrave&quot;</span><span class="default">, </span><span class="string">&quot;icircumflex&quot;</span><span class="default">,</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">    </span><span class="string">&quot;idieresis&quot;</span><span class="default">, </span><span class="string">&quot;ntilde&quot;</span><span class="default">, </span><span class="string">&quot;oacute&quot;</span><span class="default">, </span><span class="string">&quot;ograve&quot;</span><span class="default">,</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">    </span><span class="string">&quot;ocircumflex&quot;</span><span class="default">, </span><span class="string">&quot;odieresis&quot;</span><span class="default">, </span><span class="string">&quot;otilde&quot;</span><span class="default">, </span><span class="string">&quot;uacute&quot;</span><span class="default">,</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">    </span><span class="string">&quot;ugrave&quot;</span><span class="default">, </span><span class="string">&quot;ucircumflex&quot;</span><span class="default">, </span><span class="string">&quot;udieresis&quot;</span><span class="default">, </span><span class="string">&quot;dagger&quot;</span><span class="default">,</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">    </span><span class="string">&quot;degree&quot;</span><span class="default">, </span><span class="string">&quot;cent&quot;</span><span class="default">, </span><span class="string">&quot;sterling&quot;</span><span class="default">, </span><span class="string">&quot;section&quot;</span><span class="default">,</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">    </span><span class="string">&quot;bullet&quot;</span><span class="default">, </span><span class="string">&quot;paragraph&quot;</span><span class="default">, </span><span class="string">&quot;germandbls&quot;</span><span class="default">, </span><span class="string">&quot;registered&quot;</span><span class="default">,</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">    </span><span class="string">&quot;copyright&quot;</span><span class="default">, </span><span class="string">&quot;trademark&quot;</span><span class="default">, </span><span class="string">&quot;acute&quot;</span><span class="default">, </span><span class="string">&quot;dieresis&quot;</span><span class="default">,</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">    </span><span class="string">&quot;notequal&quot;</span><span class="default">, </span><span class="string">&quot;AE&quot;</span><span class="default">, </span><span class="string">&quot;Oslash&quot;</span><span class="default">, </span><span class="string">&quot;infinity&quot;</span><span class="default">,</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">    </span><span class="string">&quot;plusminus&quot;</span><span class="default">, </span><span class="string">&quot;lessequal&quot;</span><span class="default">, </span><span class="string">&quot;greaterequal&quot;</span><span class="default">, </span><span class="string">&quot;yen&quot;</span><span class="default">,</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">    </span><span class="string">&quot;mu&quot;</span><span class="default">, </span><span class="string">&quot;partialdiff&quot;</span><span class="default">, </span><span class="string">&quot;summation&quot;</span><span class="default">, </span><span class="string">&quot;product&quot;</span><span class="default">,</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">    </span><span class="string">&quot;pi&quot;</span><span class="default">, </span><span class="string">&quot;integral&quot;</span><span class="default">, </span><span class="string">&quot;ordfeminine&quot;</span><span class="default">, </span><span class="string">&quot;ordmasculine&quot;</span><span class="default">,</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">    </span><span class="string">&quot;Omega&quot;</span><span class="default">, </span><span class="string">&quot;ae&quot;</span><span class="default">, </span><span class="string">&quot;oslash&quot;</span><span class="default">, </span><span class="string">&quot;questiondown&quot;</span><span class="default">,</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">    </span><span class="string">&quot;exclamdown&quot;</span><span class="default">, </span><span class="string">&quot;logicalnot&quot;</span><span class="default">, </span><span class="string">&quot;radical&quot;</span><span class="default">, </span><span class="string">&quot;florin&quot;</span><span class="default">,</span>
+<a name="79"><font size=-1>79     </font></a><span class="default">    </span><span class="string">&quot;approxequal&quot;</span><span class="default">, </span><span class="string">&quot;increment&quot;</span><span class="default">, </span><span class="string">&quot;guillemotleft&quot;</span><span class="default">, </span><span class="string">&quot;guillemotright&quot;</span><span class="default">,</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">    </span><span class="string">&quot;ellipsis&quot;</span><span class="default">, </span><span class="string">&quot;nbspace&quot;</span><span class="default">, </span><span class="string">&quot;Agrave&quot;</span><span class="default">, </span><span class="string">&quot;Atilde&quot;</span><span class="default">,</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">    </span><span class="string">&quot;Otilde&quot;</span><span class="default">, </span><span class="string">&quot;OE&quot;</span><span class="default">, </span><span class="string">&quot;oe&quot;</span><span class="default">, </span><span class="string">&quot;endash&quot;</span><span class="default">,</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">    </span><span class="string">&quot;emdash&quot;</span><span class="default">, </span><span class="string">&quot;quotedblleft&quot;</span><span class="default">, </span><span class="string">&quot;quotedblright&quot;</span><span class="default">, </span><span class="string">&quot;quoteleft&quot;</span><span class="default">,</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">    </span><span class="string">&quot;quoteright&quot;</span><span class="default">, </span><span class="string">&quot;divide&quot;</span><span class="default">, </span><span class="string">&quot;lozenge&quot;</span><span class="default">, </span><span class="string">&quot;ydieresis&quot;</span><span class="default">,</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">    </span><span class="string">&quot;Ydieresis&quot;</span><span class="default">, </span><span class="string">&quot;fraction&quot;</span><span class="default">, </span><span class="string">&quot;currency&quot;</span><span class="default">, </span><span class="string">&quot;guilsinglleft&quot;</span><span class="default">,</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">    </span><span class="string">&quot;guilsinglright&quot;</span><span class="default">, </span><span class="string">&quot;fi&quot;</span><span class="default">, </span><span class="string">&quot;fl&quot;</span><span class="default">, </span><span class="string">&quot;daggerdbl&quot;</span><span class="default">,</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">    </span><span class="string">&quot;periodcentered&quot;</span><span class="default">, </span><span class="string">&quot;quotesinglbase&quot;</span><span class="default">, </span><span class="string">&quot;quotedblbase&quot;</span><span class="default">, </span><span class="string">&quot;perthousand&quot;</span><span class="default">,</span>
+<a name="87"><font size=-1>87     </font></a><span class="default">    </span><span class="string">&quot;Acircumflex&quot;</span><span class="default">, </span><span class="string">&quot;Ecircumflex&quot;</span><span class="default">, </span><span class="string">&quot;Aacute&quot;</span><span class="default">, </span><span class="string">&quot;Edieresis&quot;</span><span class="default">,</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">    </span><span class="string">&quot;Egrave&quot;</span><span class="default">, </span><span class="string">&quot;Iacute&quot;</span><span class="default">, </span><span class="string">&quot;Icircumflex&quot;</span><span class="default">, </span><span class="string">&quot;Idieresis&quot;</span><span class="default">,</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">    </span><span class="string">&quot;Igrave&quot;</span><span class="default">, </span><span class="string">&quot;Oacute&quot;</span><span class="default">, </span><span class="string">&quot;Ocircumflex&quot;</span><span class="default">, </span><span class="string">&quot;applelogo&quot;</span><span class="default">,</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">    </span><span class="string">&quot;Ograve&quot;</span><span class="default">, </span><span class="string">&quot;Uacute&quot;</span><span class="default">, </span><span class="string">&quot;Ucircumflex&quot;</span><span class="default">, </span><span class="string">&quot;Ugrave&quot;</span><span class="default">,</span>
+<a name="91"><font size=-1>91     </font></a><span class="default">    </span><span class="string">&quot;dotlessi&quot;</span><span class="default">, </span><span class="string">&quot;circumflex&quot;</span><span class="default">, </span><span class="string">&quot;tilde&quot;</span><span class="default">, </span><span class="string">&quot;macron&quot;</span><span class="default">,</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">    </span><span class="string">&quot;breve&quot;</span><span class="default">, </span><span class="string">&quot;dotaccent&quot;</span><span class="default">, </span><span class="string">&quot;ring&quot;</span><span class="default">, </span><span class="string">&quot;cedilla&quot;</span><span class="default">,</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">    </span><span class="string">&quot;hungarumlaut&quot;</span><span class="default">, </span><span class="string">&quot;ogonek&quot;</span><span class="default">, </span><span class="string">&quot;caron&quot;</span><span class="default">, </span><span class="string">&quot;Lslash&quot;</span><span class="default">,</span>
+<a name="94"><font size=-1>94     </font></a><span class="default">    </span><span class="string">&quot;lslash&quot;</span><span class="default">, </span><span class="string">&quot;Scaron&quot;</span><span class="default">, </span><span class="string">&quot;scaron&quot;</span><span class="default">, </span><span class="string">&quot;Zcaron&quot;</span><span class="default">,</span>
+<a name="95"><font size=-1>95     </font></a><span class="default">    </span><span class="string">&quot;zcaron&quot;</span><span class="default">, </span><span class="string">&quot;brokenbar&quot;</span><span class="default">, </span><span class="string">&quot;Eth&quot;</span><span class="default">, </span><span class="string">&quot;eth&quot;</span><span class="default">,</span>
+<a name="96"><font size=-1>96     </font></a><span class="default">    </span><span class="string">&quot;Yacute&quot;</span><span class="default">, </span><span class="string">&quot;yacute&quot;</span><span class="default">, </span><span class="string">&quot;Thorn&quot;</span><span class="default">, </span><span class="string">&quot;thorn&quot;</span><span class="default">,</span>
+<a name="97"><font size=-1>97     </font></a><span class="default">    </span><span class="string">&quot;minus&quot;</span><span class="default">, </span><span class="string">&quot;multiply&quot;</span><span class="default">, </span><span class="string">&quot;onesuperior&quot;</span><span class="default">, </span><span class="string">&quot;twosuperior&quot;</span><span class="default">,</span>
+<a name="98"><font size=-1>98     </font></a><span class="default">    </span><span class="string">&quot;threesuperior&quot;</span><span class="default">, </span><span class="string">&quot;onehalf&quot;</span><span class="default">, </span><span class="string">&quot;onequarter&quot;</span><span class="default">, </span><span class="string">&quot;threequarters&quot;</span><span class="default">,</span>
+<a name="99"><font size=-1>99     </font></a><span class="default">    </span><span class="string">&quot;franc&quot;</span><span class="default">, </span><span class="string">&quot;Gbreve&quot;</span><span class="default">, </span><span class="string">&quot;gbreve&quot;</span><span class="default">, </span><span class="string">&quot;Idot&quot;</span><span class="default">,</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">    </span><span class="string">&quot;Scedilla&quot;</span><span class="default">, </span><span class="string">&quot;scedilla&quot;</span><span class="default">, </span><span class="string">&quot;Cacute&quot;</span><span class="default">, </span><span class="string">&quot;cacute&quot;</span><span class="default">,</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">    </span><span class="string">&quot;Ccaron&quot;</span><span class="default">, </span><span class="string">&quot;ccaron&quot;</span><span class="default">, </span><span class="string">&quot;dmacron&quot;</span>
+<a name="102"><font size=-1>102     </font></a><span class="string">  </span><span class="default">);</span>
+<a name="103"><font size=-1>103     </font></a><span class="default"></span>
+<a name="104"><font size=-1>104     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#88864">getTable</a></span><span class="default">() {</span>
+<a name="105"><font size=-1>105     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#133727">parseTableEntries</a>();</span>
+<a name="106"><font size=-1>106     </font></a><span class="default"></span>
+<a name="107"><font size=-1>107     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#61105">directory</a>;</span>
+<a name="108"><font size=-1>108     </font></a><span class="default">  }</span>
+<a name="109"><font size=-1>109     </font></a><span class="default"></span>
+<a name="110"><font size=-1>110     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#157065">setTableOffset</a></span><span class="default">($<a href="dictionary_O.html#128787">offset</a>) {</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#171963">tableOffset</a> = $<a href="dictionary_O.html#128787">offset</a>;</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">  }</span>
+<a name="113"><font size=-1>113     </font></a><span class="default"></span>
+<a name="114"><font size=-1>114     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#133342">parse</a></span><span class="default">() {</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#133727">parseTableEntries</a>();</span>
+<a name="116"><font size=-1>116     </font></a><span class="default"></span>
+<a name="117"><font size=-1>117     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#58013">data</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="118"><font size=-1>118     </font></a><span class="default"></span>
+<a name="119"><font size=-1>119     </font></a><span class="default">    </span><span class="keyword">foreach </span><span class="default">($this-&gt;<a href="dictionary_F.html#61105">directory</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_T.html#172041">tag</a> =&gt; $<a href="dictionary_T.html#171803">table</a>) {</span>
+<a name="120"><font size=-1>120     </font></a><span class="default">      </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">empty</span><span class="default">($this-&gt;<a href="dictionary_F.html#58013">data</a>[$<a href="dictionary_T.html#172041">tag</a>])) {</span>
+<a name="121"><font size=-1>121     </font></a><span class="default">        $this-&gt;<a href="dictionary_F.html#144108">readTable</a>($<a href="dictionary_T.html#172041">tag</a>);</span>
+<a name="122"><font size=-1>122     </font></a><span class="default">      }</span>
+<a name="123"><font size=-1>123     </font></a><span class="default">    }</span>
+<a name="124"><font size=-1>124     </font></a><span class="default">  }</span>
+<a name="125"><font size=-1>125     </font></a><span class="default"></span>
+<a name="126"><font size=-1>126     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#184804">utf8toUnicode</a></span><span class="default">($<a href="dictionary_S.html#162928">str</a>) {</span>
+<a name="127"><font size=-1>127     </font></a><span class="default">    $<a href="dictionary_L.html#107938">len</a> = <a href="dictionary_S.html#164301">strlen</a>($<a href="dictionary_S.html#162928">str</a>);</span>
+<a name="128"><font size=-1>128     </font></a><span class="default">    $<a href="dictionary_O.html#131376">out</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="129"><font size=-1>129     </font></a><span class="default"></span>
+<a name="130"><font size=-1>130     </font></a><span class="default">    </span><span class="keyword">for </span><span class="default">($<a href="dictionary_I.html#95158">i</a> = </span><span class="number">0</span><span class="default">; $<a href="dictionary_I.html#95158">i</a> &lt; $<a href="dictionary_L.html#107938">len</a>; $<a href="dictionary_I.html#95158">i</a>++) {</span>
+<a name="131"><font size=-1>131     </font></a><span class="default">      $<a href="dictionary_U.html#183328">uni</a> = -</span><span class="number">1</span><span class="default">;</span>
+<a name="132"><font size=-1>132     </font></a><span class="default">      $<a href="dictionary_H.html#90594">h</a>   = <a href="dictionary_O.html#130667">ord</a>($<a href="dictionary_S.html#162928">str</a>[$<a href="dictionary_I.html#95158">i</a>]);</span>
+<a name="133"><font size=-1>133     </font></a><span class="default"></span>
+<a name="134"><font size=-1>134     </font></a><span class="default">      </span><span class="keyword">if </span><span class="default">($<a href="dictionary_H.html#90594">h</a> &lt;= </span><span class="number">0x7F</span><span class="default">) {</span>
+<a name="135"><font size=-1>135     </font></a><span class="default">        $<a href="dictionary_U.html#183328">uni</a> = $<a href="dictionary_H.html#90594">h</a>;</span>
+<a name="136"><font size=-1>136     </font></a><span class="default">      }</span>
+<a name="137"><font size=-1>137     </font></a><span class="default">      </span><span class="keyword">elseif </span><span class="default">($<a href="dictionary_H.html#90594">h</a> &gt;= </span><span class="number">0xC2</span><span class="default">) {</span>
+<a name="138"><font size=-1>138     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(($<a href="dictionary_H.html#90594">h</a> &lt;= </span><span class="number">0xDF</span><span class="default">) &amp;&amp; ($<a href="dictionary_I.html#95158">i</a> &lt; $<a href="dictionary_L.html#107938">len</a> - </span><span class="number">1</span><span class="default">)) {</span>
+<a name="139"><font size=-1>139     </font></a><span class="default">          $<a href="dictionary_U.html#183328">uni</a> = ($<a href="dictionary_H.html#90594">h</a> &amp; </span><span class="number">0x1F</span><span class="default">) &lt;&lt; </span><span class="number">6 </span><span class="default">| (<a href="dictionary_O.html#130667">ord</a>($<a href="dictionary_S.html#162928">str</a>[++$<a href="dictionary_I.html#95158">i</a>]) &amp; </span><span class="number">0x3F</span><span class="default">);</span>
+<a name="140"><font size=-1>140     </font></a><span class="default">        }</span>
+<a name="141"><font size=-1>141     </font></a><span class="default">        </span><span class="keyword">elseif </span><span class="default">(($<a href="dictionary_H.html#90594">h</a> &lt;= </span><span class="number">0xEF</span><span class="default">) &amp;&amp; ($<a href="dictionary_I.html#95158">i</a> &lt; $<a href="dictionary_L.html#107938">len</a> - </span><span class="number">2</span><span class="default">)) {</span>
+<a name="142"><font size=-1>142     </font></a><span class="default">          $<a href="dictionary_U.html#183328">uni</a> = ($<a href="dictionary_H.html#90594">h</a> &amp; </span><span class="number">0x0F</span><span class="default">) &lt;&lt; </span><span class="number">12 </span><span class="default">| (<a href="dictionary_O.html#130667">ord</a>($<a href="dictionary_S.html#162928">str</a>[++$<a href="dictionary_I.html#95158">i</a>]) &amp; </span><span class="number">0x3F</span><span class="default">) &lt;&lt; </span><span class="number">6 </span><span class="default">| (<a href="dictionary_O.html#130667">ord</a>($<a href="dictionary_S.html#162928">str</a>[++$<a href="dictionary_I.html#95158">i</a>]) &amp; </span><span class="number">0x3F</span><span class="default">);</span>
+<a name="143"><font size=-1>143     </font></a><span class="default">        }</span>
+<a name="144"><font size=-1>144     </font></a><span class="default">        </span><span class="keyword">elseif </span><span class="default">(($<a href="dictionary_H.html#90594">h</a> &lt;= </span><span class="number">0xF4</span><span class="default">) &amp;&amp; ($<a href="dictionary_I.html#95158">i</a> &lt; $<a href="dictionary_L.html#107938">len</a> - </span><span class="number">3</span><span class="default">)) {</span>
+<a name="145"><font size=-1>145     </font></a><span class="default">          $<a href="dictionary_U.html#183328">uni</a> = ($<a href="dictionary_H.html#90594">h</a> &amp; </span><span class="number">0x0F</span><span class="default">) &lt;&lt; </span><span class="number">18 </span><span class="default">| (<a href="dictionary_O.html#130667">ord</a>($<a href="dictionary_S.html#162928">str</a>[++$<a href="dictionary_I.html#95158">i</a>]) &amp; </span><span class="number">0x3F</span><span class="default">) &lt;&lt; </span><span class="number">12 </span><span class="default">| (<a href="dictionary_O.html#130667">ord</a>($<a href="dictionary_S.html#162928">str</a>[++$<a href="dictionary_I.html#95158">i</a>]) &amp; </span><span class="number">0x3F</span><span class="default">) &lt;&lt; </span><span class="number">6 </span><span class="default">| (<a href="dictionary_O.html#130667">ord</a>($<a href="dictionary_S.html#162928">str</a>[++$<a href="dictionary_I.html#95158">i</a>]) &amp; </span><span class="number">0x3F</span><span class="default">);</span>
+<a name="146"><font size=-1>146     </font></a><span class="default">        }</span>
+<a name="147"><font size=-1>147     </font></a><span class="default">      }</span>
+<a name="148"><font size=-1>148     </font></a><span class="default"></span>
+<a name="149"><font size=-1>149     </font></a><span class="default">      </span><span class="keyword">if </span><span class="default">($<a href="dictionary_U.html#183328">uni</a> &gt;= </span><span class="number">0</span><span class="default">) {</span>
+<a name="150"><font size=-1>150     </font></a><span class="default">        $<a href="dictionary_O.html#131376">out</a>[] = $<a href="dictionary_U.html#183328">uni</a>;</span>
+<a name="151"><font size=-1>151     </font></a><span class="default">      }</span>
+<a name="152"><font size=-1>152     </font></a><span class="default">    }</span>
+<a name="153"><font size=-1>153     </font></a><span class="default"></span>
+<a name="154"><font size=-1>154     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$<a href="dictionary_O.html#131376">out</a>;</span>
+<a name="155"><font size=-1>155     </font></a><span class="default">  }</span>
+<a name="156"><font size=-1>156     </font></a><span class="default"></span>
+<a name="157"><font size=-1>157     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#89383">getUnicodeCharMap</a></span><span class="default">() {</span>
+<a name="158"><font size=-1>158     </font></a><span class="default">    $<a href="dictionary_S.html#165202">subtable</a> = <a href="dictionary_N.html#125929">null</a>;</span>
+<a name="159"><font size=-1>159     </font></a><span class="default">    </span><span class="keyword">foreach </span><span class="default">($this-&gt;<a href="dictionary_F.html#84828">getData</a>(</span><span class="string">&quot;cmap&quot;</span><span class="default">, </span><span class="string">&quot;subtables&quot;</span><span class="default">) </span><span class="keyword">as </span><span class="default">$<a href="dictionary_&.html#20876">_subtable</a>) {</span>
+<a name="160"><font size=-1>160     </font></a><span class="default">      </span><span class="keyword">if </span><span class="default">($<a href="dictionary_&.html#20876">_subtable</a>[</span><span class="string">&quot;platformID&quot;</span><span class="default">] == </span><span class="number">0 </span><span class="default">|| $<a href="dictionary_&.html#20876">_subtable</a>[</span><span class="string">&quot;platformID&quot;</span><span class="default">] == </span><span class="number">3 </span><span class="default">&amp;&amp; $<a href="dictionary_&.html#20876">_subtable</a>[</span><span class="string">&quot;platformSpecificID&quot;</span><span class="default">] == </span><span class="number">1</span><span class="default">) {</span>
+<a name="161"><font size=-1>161     </font></a><span class="default">        $<a href="dictionary_S.html#165202">subtable</a> = $<a href="dictionary_&.html#20876">_subtable</a>;</span>
+<a name="162"><font size=-1>162     </font></a><span class="default">        </span><span class="keyword">break</span><span class="default">;</span>
+<a name="163"><font size=-1>163     </font></a><span class="default">      }</span>
+<a name="164"><font size=-1>164     </font></a><span class="default">    }</span>
+<a name="165"><font size=-1>165     </font></a><span class="default"></span>
+<a name="166"><font size=-1>166     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">($<a href="dictionary_S.html#165202">subtable</a>) {</span>
+<a name="167"><font size=-1>167     </font></a><span class="default">      </span><span class="keyword">return </span><span class="default">$<a href="dictionary_S.html#165202">subtable</a>[</span><span class="string">&quot;glyphIndexArray&quot;</span><span class="default">];</span>
+<a name="168"><font size=-1>168     </font></a><span class="default">    }</span>
+<a name="169"><font size=-1>169     </font></a><span class="default"></span>
+<a name="170"><font size=-1>170     </font></a><span class="default">    </span><span class="keyword">return <a href="dictionary_N.html#125929">null</a></span><span class="default">;</span>
+<a name="171"><font size=-1>171     </font></a><span class="default">  }</span>
+<a name="172"><font size=-1>172     </font></a><span class="default"></span>
+<a name="173"><font size=-1>173     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#157054">setSubset</a></span><span class="default">($<a href="dictionary_S.html#165137">subset</a>) {</span>
+<a name="174"><font size=-1>174     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_I.html#100695">is_array</a>($<a href="dictionary_S.html#165137">subset</a>)) {</span>
+<a name="175"><font size=-1>175     </font></a><span class="default">      $<a href="dictionary_S.html#165137">subset</a> = $this-&gt;<a href="dictionary_F.html#184804">utf8toUnicode</a>($<a href="dictionary_S.html#165137">subset</a>);</span>
+<a name="176"><font size=-1>176     </font></a><span class="default">    }</span>
+<a name="177"><font size=-1>177     </font></a><span class="default"></span>
+<a name="178"><font size=-1>178     </font></a><span class="default">    $<a href="dictionary_S.html#165137">subset</a> = <a href="dictionary_A.html#29438">array_unique</a>($<a href="dictionary_S.html#165137">subset</a>);</span>
+<a name="179"><font size=-1>179     </font></a><span class="default"></span>
+<a name="180"><font size=-1>180     </font></a><span class="default">    $<a href="dictionary_G.html#89845">glyphIndexArray</a> = $this-&gt;<a href="dictionary_F.html#89383">getUnicodeCharMap</a>();</span>
+<a name="181"><font size=-1>181     </font></a><span class="default"></span>
+<a name="182"><font size=-1>182     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_G.html#89845">glyphIndexArray</a>) {</span>
+<a name="183"><font size=-1>183     </font></a><span class="default">      </span><span class="keyword">return</span><span class="default">;</span>
+<a name="184"><font size=-1>184     </font></a><span class="default">    }</span>
+<a name="185"><font size=-1>185     </font></a><span class="default"></span>
+<a name="186"><font size=-1>186     </font></a><span class="default">    $<a href="dictionary_G.html#89680">gids</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="187"><font size=-1>187     </font></a><span class="default">      </span><span class="number">0</span><span class="default">, </span><span class="comment">// .notdef</span>
+<a name="188"><font size=-1>188     </font></a><span class="comment">      </span><span class="number">1</span><span class="default">, </span><span class="comment">// .null</span>
+<a name="189"><font size=-1>189     </font></a><span class="comment">    </span><span class="default">);</span>
+<a name="190"><font size=-1>190     </font></a><span class="default"></span>
+<a name="191"><font size=-1>191     </font></a><span class="default">    </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_S.html#165137">subset</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_C.html#44248">code</a>) {</span>
+<a name="192"><font size=-1>192     </font></a><span class="default">      </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">($<a href="dictionary_G.html#89845">glyphIndexArray</a>[$<a href="dictionary_C.html#44248">code</a>])) {</span>
+<a name="193"><font size=-1>193     </font></a><span class="default">        </span><span class="keyword">continue</span><span class="default">;</span>
+<a name="194"><font size=-1>194     </font></a><span class="default">      }</span>
+<a name="195"><font size=-1>195     </font></a><span class="default"></span>
+<a name="196"><font size=-1>196     </font></a><span class="default">      $<a href="dictionary_G.html#89673">gid</a>        = $<a href="dictionary_G.html#89845">glyphIndexArray</a>[$<a href="dictionary_C.html#44248">code</a>];</span>
+<a name="197"><font size=-1>197     </font></a><span class="default">      $<a href="dictionary_G.html#89680">gids</a>[$<a href="dictionary_G.html#89673">gid</a>] = $<a href="dictionary_G.html#89673">gid</a>;</span>
+<a name="198"><font size=-1>198     </font></a><span class="default">    }</span>
+<a name="199"><font size=-1>199     </font></a><span class="default"></span>
+<a name="200"><font size=-1>200     </font></a><span class="default">    </span><span class="comment">/** @var glyf $glyf */</span>
+<a name="201"><font size=-1>201     </font></a><span class="comment">    </span><span class="default">$<a href="dictionary_G.html#89827">glyf</a> = $this-&gt;<a href="dictionary_F.html#88868">getTableObject</a>(</span><span class="string">&quot;glyf&quot;</span><span class="default">);</span>
+<a name="202"><font size=-1>202     </font></a><span class="default">    $<a href="dictionary_G.html#89680">gids</a> = $<a href="dictionary_G.html#89827">glyf</a>-&gt;<a href="dictionary_G.html#85857">getGlyphIDs</a>($<a href="dictionary_G.html#89680">gids</a>);</span>
+<a name="203"><font size=-1>203     </font></a><span class="default"></span>
+<a name="204"><font size=-1>204     </font></a><span class="default">    <a href="dictionary_S.html#159360">sort</a>($<a href="dictionary_G.html#89680">gids</a>);</span>
+<a name="205"><font size=-1>205     </font></a><span class="default"></span>
+<a name="206"><font size=-1>206     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#89837">glyph_subset</a> = $<a href="dictionary_G.html#89680">gids</a>;</span>
+<a name="207"><font size=-1>207     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#89835">glyph_all</a>    = <a href="dictionary_A.html#29440">array_values</a>($<a href="dictionary_G.html#89845">glyphIndexArray</a>); </span><span class="comment">// FIXME</span>
+<a name="208"><font size=-1>208     </font></a><span class="comment">  </span><span class="default">}</span>
+<a name="209"><font size=-1>209     </font></a><span class="default"></span>
+<a name="210"><font size=-1>210     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#88807">getSubset</a></span><span class="default">() {</span>
+<a name="211"><font size=-1>211     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">empty</span><span class="default">($this-&gt;<a href="dictionary_F.html#89837">glyph_subset</a>)) {</span>
+<a name="212"><font size=-1>212     </font></a><span class="default">      </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#89835">glyph_all</a>;</span>
+<a name="213"><font size=-1>213     </font></a><span class="default">    }</span>
+<a name="214"><font size=-1>214     </font></a><span class="default"></span>
+<a name="215"><font size=-1>215     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#89837">glyph_subset</a>;</span>
+<a name="216"><font size=-1>216     </font></a><span class="default">  }</span>
+<a name="217"><font size=-1>217     </font></a><span class="default"></span>
+<a name="218"><font size=-1>218     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#70233">encode</a></span><span class="default">($<a href="dictionary_T.html#172216">tags</a> = </span><span class="keyword">array</span><span class="default">()) {</span>
+<a name="219"><font size=-1>219     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!self::$<a href="dictionary_F.html#143708">raw</a>) {</span>
+<a name="220"><font size=-1>220     </font></a><span class="default">      $<a href="dictionary_T.html#172216">tags</a> = <a href="dictionary_A.html#29417">array_merge</a>(</span><span class="keyword">array</span><span class="default">(</span><span class="string">&quot;head&quot;</span><span class="default">, </span><span class="string">&quot;hhea&quot;</span><span class="default">, </span><span class="string">&quot;cmap&quot;</span><span class="default">, </span><span class="string">&quot;hmtx&quot;</span><span class="default">, </span><span class="string">&quot;maxp&quot;</span><span class="default">, </span><span class="string">&quot;glyf&quot;</span><span class="default">, </span><span class="string">&quot;loca&quot;</span><span class="default">, </span><span class="string">&quot;name&quot;</span><span class="default">, </span><span class="string">&quot;post&quot;</span><span class="default">), $<a href="dictionary_T.html#172216">tags</a>);</span>
+<a name="221"><font size=-1>221     </font></a><span class="default">    }</span>
+<a name="222"><font size=-1>222     </font></a><span class="default">    </span><span class="keyword">else </span><span class="default">{</span>
+<a name="223"><font size=-1>223     </font></a><span class="default">      $<a href="dictionary_T.html#172216">tags</a> = <a href="dictionary_A.html#29415">array_keys</a>($this-&gt;<a href="dictionary_F.html#61105">directory</a>);</span>
+<a name="224"><font size=-1>224     </font></a><span class="default">    }</span>
+<a name="225"><font size=-1>225     </font></a><span class="default"></span>
+<a name="226"><font size=-1>226     </font></a><span class="default">    $<a href="dictionary_N.html#126048">num_tables</a> = <a href="dictionary_C.html#50164">count</a>($<a href="dictionary_T.html#172216">tags</a>);</span>
+<a name="227"><font size=-1>227     </font></a><span class="default">    $<a href="dictionary_N.html#119409">n</a>          = </span><span class="number">16</span><span class="default">; </span><span class="comment">// @todo</span>
+<a name="228"><font size=-1>228     </font></a><span class="comment"></span>
+<a name="229"><font size=-1>229     </font></a><span class="comment">    <a href="dictionary_F.html#79547">Font</a></span><span class="default">::<a href="dictionary_F.html#57267">d</a>(</span><span class="string">&quot;Tables : &quot; </span><span class="default">. <a href="dictionary_I.html#97806">implode</a>(</span><span class="string">&quot;, &quot;</span><span class="default">, $<a href="dictionary_T.html#172216">tags</a>));</span>
+<a name="230"><font size=-1>230     </font></a><span class="default"></span>
+<a name="231"><font size=-1>231     </font></a><span class="default">    </span><span class="comment">/** @var DirectoryEntry[] $entries */</span>
+<a name="232"><font size=-1>232     </font></a><span class="comment">    </span><span class="default">$<a href="dictionary_E.html#71220">entries</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="233"><font size=-1>233     </font></a><span class="default">    </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_T.html#172216">tags</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_T.html#172042">tag</a>) {</span>
+<a name="234"><font size=-1>234     </font></a><span class="default">      </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_F.html#61105">directory</a>[$<a href="dictionary_T.html#172042">tag</a>])) {</span>
+<a name="235"><font size=-1>235     </font></a><span class="default">        <a href="dictionary_F.html#79547">Font</a>::<a href="dictionary_F.html#57267">d</a>(</span><span class="string">&quot;  &gt;&gt; '</span><span class="default">$<a href="dictionary_T.html#172042">tag</a></span><span class="string">' table doesn't exist&quot;</span><span class="default">);</span>
+<a name="236"><font size=-1>236     </font></a><span class="default">        </span><span class="keyword">continue</span><span class="default">;</span>
+<a name="237"><font size=-1>237     </font></a><span class="default">      }</span>
+<a name="238"><font size=-1>238     </font></a><span class="default"></span>
+<a name="239"><font size=-1>239     </font></a><span class="default">      $<a href="dictionary_E.html#71220">entries</a>[$<a href="dictionary_T.html#172042">tag</a>] = $this-&gt;<a href="dictionary_F.html#61105">directory</a>[$<a href="dictionary_T.html#172042">tag</a>];</span>
+<a name="240"><font size=-1>240     </font></a><span class="default">    }</span>
+<a name="241"><font size=-1>241     </font></a><span class="default"></span>
+<a name="242"><font size=-1>242     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#92626">header</a>-&gt;<a href="dictionary_D.html#58023">data</a>[</span><span class="string">&quot;numTables&quot;</span><span class="default">] = $<a href="dictionary_N.html#126048">num_tables</a>;</span>
+<a name="243"><font size=-1>243     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#92626">header</a>-&gt;<a href="dictionary_E.html#70238">encode</a>();</span>
+<a name="244"><font size=-1>244     </font></a><span class="default"></span>
+<a name="245"><font size=-1>245     </font></a><span class="default">    $<a href="dictionary_D.html#61123">directory_offset</a> = $this-&gt;<a href="dictionary_F.html#137170">pos</a>();</span>
+<a name="246"><font size=-1>246     </font></a><span class="default">    $<a href="dictionary_O.html#128788">offset</a>           = $<a href="dictionary_D.html#61123">directory_offset</a> + $<a href="dictionary_N.html#126048">num_tables</a> * $<a href="dictionary_N.html#119409">n</a>;</span>
+<a name="247"><font size=-1>247     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#153447">seek</a>($<a href="dictionary_O.html#128788">offset</a>);</span>
+<a name="248"><font size=-1>248     </font></a><span class="default"></span>
+<a name="249"><font size=-1>249     </font></a><span class="default">    $<a href="dictionary_I.html#95160">i</a> = </span><span class="number">0</span><span class="default">;</span>
+<a name="250"><font size=-1>250     </font></a><span class="default">    </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_E.html#71220">entries</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_E.html#71265">entry</a>) {</span>
+<a name="251"><font size=-1>251     </font></a><span class="default">      $<a href="dictionary_E.html#71265">entry</a>-&gt;<a href="dictionary_E.html#70238">encode</a>($<a href="dictionary_D.html#61123">directory_offset</a> + $<a href="dictionary_I.html#95160">i</a> * $<a href="dictionary_N.html#119409">n</a>);</span>
+<a name="252"><font size=-1>252     </font></a><span class="default">      $<a href="dictionary_I.html#95160">i</a>++;</span>
+<a name="253"><font size=-1>253     </font></a><span class="default">    }</span>
+<a name="254"><font size=-1>254     </font></a><span class="default">  }</span>
+<a name="255"><font size=-1>255     </font></a><span class="default"></span>
+<a name="256"><font size=-1>256     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#133539">parseHeader</a></span><span class="default">() {</span>
+<a name="257"><font size=-1>257     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">empty</span><span class="default">($this-&gt;<a href="dictionary_F.html#92626">header</a>)) {</span>
+<a name="258"><font size=-1>258     </font></a><span class="default">      </span><span class="keyword">return</span><span class="default">;</span>
+<a name="259"><font size=-1>259     </font></a><span class="default">    }</span>
+<a name="260"><font size=-1>260     </font></a><span class="default"></span>
+<a name="261"><font size=-1>261     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#153447">seek</a>($this-&gt;<a href="dictionary_F.html#171963">tableOffset</a>);</span>
+<a name="262"><font size=-1>262     </font></a><span class="default"></span>
+<a name="263"><font size=-1>263     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#92626">header</a> = </span><span class="keyword">new <a href="dictionary_F.html#92630">Header</a></span><span class="default">($this);</span>
+<a name="264"><font size=-1>264     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#92626">header</a>-&gt;<a href="dictionary_P.html#133398">parse</a>();</span>
+<a name="265"><font size=-1>265     </font></a><span class="default">  }</span>
+<a name="266"><font size=-1>266     </font></a><span class="default"></span>
+<a name="267"><font size=-1>267     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#85716">getFontType</a></span><span class="default">(){</span>
+<a name="268"><font size=-1>268     </font></a><span class="default">    $<a href="dictionary_C.html#42396">class_parts</a> = <a href="dictionary_E.html#74366">explode</a>(</span><span class="string">&quot;\\&quot;</span><span class="default">, <a href="dictionary_G.html#83491">get_class</a>($this));</span>
+<a name="269"><font size=-1>269     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$<a href="dictionary_C.html#42396">class_parts</a>[</span><span class="number">1</span><span class="default">];</span>
+<a name="270"><font size=-1>270     </font></a><span class="default">  }</span>
+<a name="271"><font size=-1>271     </font></a><span class="default"></span>
+<a name="272"><font size=-1>272     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#133727">parseTableEntries</a></span><span class="default">() {</span>
+<a name="273"><font size=-1>273     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#133539">parseHeader</a>();</span>
+<a name="274"><font size=-1>274     </font></a><span class="default"></span>
+<a name="275"><font size=-1>275     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">empty</span><span class="default">($this-&gt;<a href="dictionary_F.html#61105">directory</a>)) {</span>
+<a name="276"><font size=-1>276     </font></a><span class="default">      </span><span class="keyword">return</span><span class="default">;</span>
+<a name="277"><font size=-1>277     </font></a><span class="default">    }</span>
+<a name="278"><font size=-1>278     </font></a><span class="default"></span>
+<a name="279"><font size=-1>279     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">empty</span><span class="default">($this-&gt;<a href="dictionary_F.html#92626">header</a>-&gt;<a href="dictionary_D.html#58023">data</a>[</span><span class="string">&quot;numTables&quot;</span><span class="default">])) {</span>
+<a name="280"><font size=-1>280     </font></a><span class="default">      </span><span class="keyword">return</span><span class="default">;</span>
+<a name="281"><font size=-1>281     </font></a><span class="default">    }</span>
+<a name="282"><font size=-1>282     </font></a><span class="default"></span>
+<a name="283"><font size=-1>283     </font></a><span class="default"></span>
+<a name="284"><font size=-1>284     </font></a><span class="default">    $<a href="dictionary_T.html#181641">type</a> = $this-&gt;<a href="dictionary_F.html#85716">getFontType</a>();</span>
+<a name="285"><font size=-1>285     </font></a><span class="default">    $</span><span class="keyword">class </span><span class="default">= </span><span class="string">&quot;FontLib\\</span><span class="default">$<a href="dictionary_T.html#181641">type</a></span><span class="string">\\TableDirectoryEntry&quot;</span><span class="default">;</span>
+<a name="286"><font size=-1>286     </font></a><span class="default"></span>
+<a name="287"><font size=-1>287     </font></a><span class="default">    </span><span class="keyword">for </span><span class="default">($<a href="dictionary_I.html#95159">i</a> = </span><span class="number">0</span><span class="default">; $<a href="dictionary_I.html#95159">i</a> &lt; $this-&gt;<a href="dictionary_F.html#92626">header</a>-&gt;<a href="dictionary_D.html#58023">data</a>[</span><span class="string">&quot;numTables&quot;</span><span class="default">]; $<a href="dictionary_I.html#95159">i</a>++) {</span>
+<a name="288"><font size=-1>288     </font></a><span class="default">      </span><span class="comment">/** @var TableDirectoryEntry $entry */</span>
+<a name="289"><font size=-1>289     </font></a><span class="comment">      </span><span class="default">$<a href="dictionary_E.html#71264">entry</a> = </span><span class="keyword">new </span><span class="default">$</span><span class="keyword">class</span><span class="default">($this);</span>
+<a name="290"><font size=-1>290     </font></a><span class="default">      $<a href="dictionary_E.html#71264">entry</a>-&gt;<a href="dictionary_P.html#133398">parse</a>();</span>
+<a name="291"><font size=-1>291     </font></a><span class="default"></span>
+<a name="292"><font size=-1>292     </font></a><span class="default">      $this-&gt;<a href="dictionary_F.html#61105">directory</a>[$<a href="dictionary_E.html#71264">entry</a>-&gt;<a href="dictionary_T.html#172121">tag</a>] = $<a href="dictionary_E.html#71264">entry</a>;</span>
+<a name="293"><font size=-1>293     </font></a><span class="default">    }</span>
+<a name="294"><font size=-1>294     </font></a><span class="default">  }</span>
+<a name="295"><font size=-1>295     </font></a><span class="default"></span>
+<a name="296"><font size=-1>296     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#125378">normalizeFUnit</a></span><span class="default">($<a href="dictionary_V.html#186833">value</a>, $<a href="dictionary_B.html#33670">base</a> = </span><span class="number">1000</span><span class="default">) {</span>
+<a name="297"><font size=-1>297     </font></a><span class="default">    </span><span class="keyword">return <a href="dictionary_R.html#150477">round</a></span><span class="default">($<a href="dictionary_V.html#186833">value</a> * ($<a href="dictionary_B.html#33670">base</a> / $this-&gt;<a href="dictionary_F.html#84828">getData</a>(</span><span class="string">&quot;head&quot;</span><span class="default">, </span><span class="string">&quot;unitsPerEm&quot;</span><span class="default">)));</span>
+<a name="298"><font size=-1>298     </font></a><span class="default">  }</span>
+<a name="299"><font size=-1>299     </font></a><span class="default"></span>
+<a name="300"><font size=-1>300     </font></a><span class="default">  </span><span class="keyword">protected function <a href="dictionary_F.html#144108">readTable</a></span><span class="default">($<a href="dictionary_T.html#172040">tag</a>) {</span>
+<a name="301"><font size=-1>301     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#133727">parseTableEntries</a>();</span>
+<a name="302"><font size=-1>302     </font></a><span class="default"></span>
+<a name="303"><font size=-1>303     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!self::$<a href="dictionary_F.html#143708">raw</a>) {</span>
+<a name="304"><font size=-1>304     </font></a><span class="default">      $<a href="dictionary_N.html#123365">name_canon</a> = <a href="dictionary_P.html#137982">preg_replace</a>(</span><span class="string">&quot;/[^a-z0-9]/&quot;</span><span class="default">, </span><span class="string">&quot;&quot;</span><span class="default">, <a href="dictionary_S.html#164392">strtolower</a>($<a href="dictionary_T.html#172040">tag</a>));</span>
+<a name="305"><font size=-1>305     </font></a><span class="default"></span>
+<a name="306"><font size=-1>306     </font></a><span class="default">      $</span><span class="keyword">class </span><span class="default">= </span><span class="string">&quot;FontLib\\Table\\Type\\</span><span class="default">$<a href="dictionary_N.html#123365">name_canon</a></span><span class="string">&quot;</span><span class="default">;</span>
+<a name="307"><font size=-1>307     </font></a><span class="default"></span>
+<a name="308"><font size=-1>308     </font></a><span class="default">      </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_F.html#61105">directory</a>[$<a href="dictionary_T.html#172040">tag</a>]) || !@<a href="dictionary_C.html#42339">class_exists</a>($</span><span class="keyword">class</span><span class="default">)) {</span>
+<a name="309"><font size=-1>309     </font></a><span class="default">        </span><span class="keyword">return</span><span class="default">;</span>
+<a name="310"><font size=-1>310     </font></a><span class="default">      }</span>
+<a name="311"><font size=-1>311     </font></a><span class="default">    }</span>
+<a name="312"><font size=-1>312     </font></a><span class="default">    </span><span class="keyword">else </span><span class="default">{</span>
+<a name="313"><font size=-1>313     </font></a><span class="default">      $</span><span class="keyword">class </span><span class="default">= </span><span class="string">&quot;FontLib\\Table\\Table&quot;</span><span class="default">;</span>
+<a name="314"><font size=-1>314     </font></a><span class="default">    }</span>
+<a name="315"><font size=-1>315     </font></a><span class="default"></span>
+<a name="316"><font size=-1>316     </font></a><span class="default">    </span><span class="comment">/** @var Table $table */</span>
+<a name="317"><font size=-1>317     </font></a><span class="comment">    </span><span class="default">$<a href="dictionary_T.html#171802">table</a> = </span><span class="keyword">new </span><span class="default">$</span><span class="keyword">class</span><span class="default">($this-&gt;<a href="dictionary_F.html#61105">directory</a>[$<a href="dictionary_T.html#172040">tag</a>]);</span>
+<a name="318"><font size=-1>318     </font></a><span class="default">    $<a href="dictionary_T.html#171802">table</a>-&gt;<a href="dictionary_P.html#133398">parse</a>();</span>
+<a name="319"><font size=-1>319     </font></a><span class="default"></span>
+<a name="320"><font size=-1>320     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#58013">data</a>[$<a href="dictionary_T.html#172040">tag</a>] = $<a href="dictionary_T.html#171802">table</a>;</span>
+<a name="321"><font size=-1>321     </font></a><span class="default">  }</span>
+<a name="322"><font size=-1>322     </font></a><span class="default"></span>
+<a name="323"><font size=-1>323     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="324"><font size=-1>324     </font></a><span class="comment">   * @param $name</span>
+<a name="325"><font size=-1>325     </font></a><span class="comment">   *</span>
+<a name="326"><font size=-1>326     </font></a><span class="comment">   * @return Table</span>
+<a name="327"><font size=-1>327     </font></a><span class="comment">   */</span>
+<a name="328"><font size=-1>328     </font></a><span class="comment">  </span><span class="keyword">public function <a href="dictionary_F.html#88868">getTableObject</a></span><span class="default">($<a href="dictionary_N.html#122585">name</a>) {</span>
+<a name="329"><font size=-1>329     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#58013">data</a>[$<a href="dictionary_N.html#122585">name</a>];</span>
+<a name="330"><font size=-1>330     </font></a><span class="default">  }</span>
+<a name="331"><font size=-1>331     </font></a><span class="default"></span>
+<a name="332"><font size=-1>332     </font></a><span class="default">  </span><span class="keyword">public function <a href="dictionary_F.html#157064">setTableObject</a></span><span class="default">($<a href="dictionary_N.html#122584">name</a>, <a href="dictionary_F.html#171889">Table</a> $<a href="dictionary_D.html#57631">data</a>) {</span>
+<a name="333"><font size=-1>333     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#58013">data</a>[$<a href="dictionary_N.html#122584">name</a>] = $<a href="dictionary_D.html#57631">data</a>;</span>
+<a name="334"><font size=-1>334     </font></a><span class="default">  }</span>
+<a name="335"><font size=-1>335     </font></a><span class="default"></span>
+<a name="336"><font size=-1>336     </font></a><span class="default">  </span><span class="keyword">public function <a href="dictionary_F.html#84828">getData</a></span><span class="default">($<a href="dictionary_N.html#122586">name</a>, $<a href="dictionary_K.html#105265">key</a> = <a href="dictionary_N.html#125929">null</a>) {</span>
+<a name="337"><font size=-1>337     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#133727">parseTableEntries</a>();</span>
+<a name="338"><font size=-1>338     </font></a><span class="default"></span>
+<a name="339"><font size=-1>339     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">empty</span><span class="default">($this-&gt;<a href="dictionary_F.html#58013">data</a>[$<a href="dictionary_N.html#122586">name</a>])) {</span>
+<a name="340"><font size=-1>340     </font></a><span class="default">      $this-&gt;<a href="dictionary_F.html#144108">readTable</a>($<a href="dictionary_N.html#122586">name</a>);</span>
+<a name="341"><font size=-1>341     </font></a><span class="default">    }</span>
+<a name="342"><font size=-1>342     </font></a><span class="default"></span>
+<a name="343"><font size=-1>343     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">($this-&gt;<a href="dictionary_F.html#58013">data</a>[$<a href="dictionary_N.html#122586">name</a>])) {</span>
+<a name="344"><font size=-1>344     </font></a><span class="default">      </span><span class="keyword">return <a href="dictionary_N.html#125929">null</a></span><span class="default">;</span>
+<a name="345"><font size=-1>345     </font></a><span class="default">    }</span>
+<a name="346"><font size=-1>346     </font></a><span class="default"></span>
+<a name="347"><font size=-1>347     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_K.html#105265">key</a>) {</span>
+<a name="348"><font size=-1>348     </font></a><span class="default">      </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#58013">data</a>[$<a href="dictionary_N.html#122586">name</a>]-&gt;<a href="dictionary_D.html#58023">data</a>;</span>
+<a name="349"><font size=-1>349     </font></a><span class="default">    }</span>
+<a name="350"><font size=-1>350     </font></a><span class="default">    </span><span class="keyword">else </span><span class="default">{</span>
+<a name="351"><font size=-1>351     </font></a><span class="default">      </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#58013">data</a>[$<a href="dictionary_N.html#122586">name</a>]-&gt;<a href="dictionary_D.html#58023">data</a>[$<a href="dictionary_K.html#105265">key</a>];</span>
+<a name="352"><font size=-1>352     </font></a><span class="default">    }</span>
+<a name="353"><font size=-1>353     </font></a><span class="default">  }</span>
+<a name="354"><font size=-1>354     </font></a><span class="default"></span>
+<a name="355"><font size=-1>355     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#25637">addDirectoryEntry</a></span><span class="default">(<a href="dictionary_F.html#61125">DirectoryEntry</a> $<a href="dictionary_E.html#71266">entry</a>) {</span>
+<a name="356"><font size=-1>356     </font></a><span class="default">    $this-&gt;<a href="dictionary_F.html#61105">directory</a>[$<a href="dictionary_E.html#71266">entry</a>-&gt;<a href="dictionary_T.html#172121">tag</a>] = $<a href="dictionary_E.html#71266">entry</a>;</span>
+<a name="357"><font size=-1>357     </font></a><span class="default">  }</span>
+<a name="358"><font size=-1>358     </font></a><span class="default"></span>
+<a name="359"><font size=-1>359     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#152571">saveAdobeFontMetrics</a></span><span class="default">($<a href="dictionary_F.html#76962">file</a>, $<a href="dictionary_E.html#70502">encoding</a> = <a href="dictionary_N.html#125929">null</a>) {</span>
+<a name="360"><font size=-1>360     </font></a><span class="default">    $<a href="dictionary_A.html#26687">afm</a> = </span><span class="keyword">new <a href="dictionary_F.html#26621">AdobeFontMetrics</a></span><span class="default">($this);</span>
+<a name="361"><font size=-1>361     </font></a><span class="default">    $<a href="dictionary_A.html#26687">afm</a>-&gt;<a href="dictionary_W.html#191132">write</a>($<a href="dictionary_F.html#76962">file</a>, $<a href="dictionary_E.html#70502">encoding</a>);</span>
+<a name="362"><font size=-1>362     </font></a><span class="default">  }</span>
+<a name="363"><font size=-1>363     </font></a><span class="default"></span>
+<a name="364"><font size=-1>364     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="365"><font size=-1>365     </font></a><span class="comment">   * Get a specific name table string value from its ID</span>
+<a name="366"><font size=-1>366     </font></a><span class="comment">   *</span>
+<a name="367"><font size=-1>367     </font></a><span class="comment">   * @param int $nameID The name ID</span>
+<a name="368"><font size=-1>368     </font></a><span class="comment">   *</span>
+<a name="369"><font size=-1>369     </font></a><span class="comment">   * @return string|null</span>
+<a name="370"><font size=-1>370     </font></a><span class="comment">   */</span>
+<a name="371"><font size=-1>371     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#87030">getNameTableString</a></span><span class="default">($<a href="dictionary_N.html#123431">nameID</a>) {</span>
+<a name="372"><font size=-1>372     </font></a><span class="default">    </span><span class="comment">/** @var nameRecord[] $records */</span>
+<a name="373"><font size=-1>373     </font></a><span class="comment">    </span><span class="default">$<a href="dictionary_R.html#144523">records</a> = $this-&gt;<a href="dictionary_F.html#84828">getData</a>(</span><span class="string">&quot;name&quot;</span><span class="default">, </span><span class="string">&quot;records&quot;</span><span class="default">);</span>
+<a name="374"><font size=-1>374     </font></a><span class="default"></span>
+<a name="375"><font size=-1>375     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">($<a href="dictionary_R.html#144523">records</a>[$<a href="dictionary_N.html#123431">nameID</a>])) {</span>
+<a name="376"><font size=-1>376     </font></a><span class="default">      </span><span class="keyword">return <a href="dictionary_N.html#125929">null</a></span><span class="default">;</span>
+<a name="377"><font size=-1>377     </font></a><span class="default">    }</span>
+<a name="378"><font size=-1>378     </font></a><span class="default"></span>
+<a name="379"><font size=-1>379     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$<a href="dictionary_R.html#144523">records</a>[$<a href="dictionary_N.html#123431">nameID</a>]-&gt;<a href="dictionary_S.html#163886">string</a>;</span>
+<a name="380"><font size=-1>380     </font></a><span class="default">  }</span>
+<a name="381"><font size=-1>381     </font></a><span class="default"></span>
+<a name="382"><font size=-1>382     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="383"><font size=-1>383     </font></a><span class="comment">   * Get font copyright</span>
+<a name="384"><font size=-1>384     </font></a><span class="comment">   *</span>
+<a name="385"><font size=-1>385     </font></a><span class="comment">   * @return string|null</span>
+<a name="386"><font size=-1>386     </font></a><span class="comment">   */</span>
+<a name="387"><font size=-1>387     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#85688">getFontCopyright</a></span><span class="default">() {</span>
+<a name="388"><font size=-1>388     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#87030">getNameTableString</a>(<a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123367">NAME_COPYRIGHT</a>);</span>
+<a name="389"><font size=-1>389     </font></a><span class="default">  }</span>
+<a name="390"><font size=-1>390     </font></a><span class="default"></span>
+<a name="391"><font size=-1>391     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="392"><font size=-1>392     </font></a><span class="comment">   * Get font name</span>
+<a name="393"><font size=-1>393     </font></a><span class="comment">   *</span>
+<a name="394"><font size=-1>394     </font></a><span class="comment">   * @return string|null</span>
+<a name="395"><font size=-1>395     </font></a><span class="comment">   */</span>
+<a name="396"><font size=-1>396     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#85708">getFontName</a></span><span class="default">() {</span>
+<a name="397"><font size=-1>397     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#87030">getNameTableString</a>(<a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123378">NAME_NAME</a>);</span>
+<a name="398"><font size=-1>398     </font></a><span class="default">  }</span>
+<a name="399"><font size=-1>399     </font></a><span class="default"></span>
+<a name="400"><font size=-1>400     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="401"><font size=-1>401     </font></a><span class="comment">   * Get font subfamily</span>
+<a name="402"><font size=-1>402     </font></a><span class="comment">   *</span>
+<a name="403"><font size=-1>403     </font></a><span class="comment">   * @return string|null</span>
+<a name="404"><font size=-1>404     </font></a><span class="comment">   */</span>
+<a name="405"><font size=-1>405     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#85712">getFontSubfamily</a></span><span class="default">() {</span>
+<a name="406"><font size=-1>406     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#87030">getNameTableString</a>(<a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123383">NAME_SUBFAMILY</a>);</span>
+<a name="407"><font size=-1>407     </font></a><span class="default">  }</span>
+<a name="408"><font size=-1>408     </font></a><span class="default"></span>
+<a name="409"><font size=-1>409     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="410"><font size=-1>410     </font></a><span class="comment">   * Get font subfamily ID</span>
+<a name="411"><font size=-1>411     </font></a><span class="comment">   *</span>
+<a name="412"><font size=-1>412     </font></a><span class="comment">   * @return string|null</span>
+<a name="413"><font size=-1>413     </font></a><span class="comment">   */</span>
+<a name="414"><font size=-1>414     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#85714">getFontSubfamilyID</a></span><span class="default">() {</span>
+<a name="415"><font size=-1>415     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#87030">getNameTableString</a>(<a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123384">NAME_SUBFAMILY_ID</a>);</span>
+<a name="416"><font size=-1>416     </font></a><span class="default">  }</span>
+<a name="417"><font size=-1>417     </font></a><span class="default"></span>
+<a name="418"><font size=-1>418     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="419"><font size=-1>419     </font></a><span class="comment">   * Get font full name</span>
+<a name="420"><font size=-1>420     </font></a><span class="comment">   *</span>
+<a name="421"><font size=-1>421     </font></a><span class="comment">   * @return string|null</span>
+<a name="422"><font size=-1>422     </font></a><span class="comment">   */</span>
+<a name="423"><font size=-1>423     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#85696">getFontFullName</a></span><span class="default">() {</span>
+<a name="424"><font size=-1>424     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#87030">getNameTableString</a>(<a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123374">NAME_FULL_NAME</a>);</span>
+<a name="425"><font size=-1>425     </font></a><span class="default">  }</span>
+<a name="426"><font size=-1>426     </font></a><span class="default"></span>
+<a name="427"><font size=-1>427     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="428"><font size=-1>428     </font></a><span class="comment">   * Get font version</span>
+<a name="429"><font size=-1>429     </font></a><span class="comment">   *</span>
+<a name="430"><font size=-1>430     </font></a><span class="comment">   * @return string|null</span>
+<a name="431"><font size=-1>431     </font></a><span class="comment">   */</span>
+<a name="432"><font size=-1>432     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#85717">getFontVersion</a></span><span class="default">() {</span>
+<a name="433"><font size=-1>433     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#87030">getNameTableString</a>(<a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123387">NAME_VERSION</a>);</span>
+<a name="434"><font size=-1>434     </font></a><span class="default">  }</span>
+<a name="435"><font size=-1>435     </font></a><span class="default"></span>
+<a name="436"><font size=-1>436     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="437"><font size=-1>437     </font></a><span class="comment">   * Get font weight</span>
+<a name="438"><font size=-1>438     </font></a><span class="comment">   *</span>
+<a name="439"><font size=-1>439     </font></a><span class="comment">   * @return string|null</span>
+<a name="440"><font size=-1>440     </font></a><span class="comment">   */</span>
+<a name="441"><font size=-1>441     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#85719">getFontWeight</a></span><span class="default">() {</span>
+<a name="442"><font size=-1>442     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#88868">getTableObject</a>(</span><span class="string">&quot;OS/2&quot;</span><span class="default">)-&gt;<a href="dictionary_D.html#58023">data</a>[</span><span class="string">&quot;usWeightClass&quot;</span><span class="default">];</span>
+<a name="443"><font size=-1>443     </font></a><span class="default">  }</span>
+<a name="444"><font size=-1>444     </font></a><span class="default"></span>
+<a name="445"><font size=-1>445     </font></a><span class="default">  </span><span class="comment">/**</span>
+<a name="446"><font size=-1>446     </font></a><span class="comment">   * Get font Postscript name</span>
+<a name="447"><font size=-1>447     </font></a><span class="comment">   *</span>
+<a name="448"><font size=-1>448     </font></a><span class="comment">   * @return string|null</span>
+<a name="449"><font size=-1>449     </font></a><span class="comment">   */</span>
+<a name="450"><font size=-1>450     </font></a><span class="comment">  </span><span class="keyword">function <a href="dictionary_F.html#85710">getFontPostscriptName</a></span><span class="default">() {</span>
+<a name="451"><font size=-1>451     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_F.html#87030">getNameTableString</a>(<a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123379">NAME_POSTSCRIPT_NAME</a>);</span>
+<a name="452"><font size=-1>452     </font></a><span class="default">  }</span>
+<a name="453"><font size=-1>453     </font></a><span class="default"></span>
+<a name="454"><font size=-1>454     </font></a><span class="default">  </span><span class="keyword">function <a href="dictionary_F.html#144753">reduce</a></span><span class="default">() {</span>
+<a name="455"><font size=-1>455     </font></a><span class="default">    $<a href="dictionary_N.html#123506">names_to_keep</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="456"><font size=-1>456     </font></a><span class="default">      <a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123367">NAME_COPYRIGHT</a>,</span>
+<a name="457"><font size=-1>457     </font></a><span class="default">      <a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123378">NAME_NAME</a>,</span>
+<a name="458"><font size=-1>458     </font></a><span class="default">      <a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123383">NAME_SUBFAMILY</a>,</span>
+<a name="459"><font size=-1>459     </font></a><span class="default">      <a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123384">NAME_SUBFAMILY_ID</a>,</span>
+<a name="460"><font size=-1>460     </font></a><span class="default">      <a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123374">NAME_FULL_NAME</a>,</span>
+<a name="461"><font size=-1>461     </font></a><span class="default">      <a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123387">NAME_VERSION</a>,</span>
+<a name="462"><font size=-1>462     </font></a><span class="default">      <a href="dictionary_F.html#123303">name</a>::<a href="dictionary_F.html#123379">NAME_POSTSCRIPT_NAME</a>,</span>
+<a name="463"><font size=-1>463     </font></a><span class="default">    );</span>
+<a name="464"><font size=-1>464     </font></a><span class="default"></span>
+<a name="465"><font size=-1>465     </font></a><span class="default">    </span><span class="keyword">foreach </span><span class="default">($this-&gt;<a href="dictionary_F.html#58013">data</a>[</span><span class="string">&quot;name&quot;</span><span class="default">]-&gt;<a href="dictionary_D.html#58023">data</a>[</span><span class="string">&quot;records&quot;</span><span class="default">] </span><span class="keyword">as </span><span class="default">$<a href="dictionary_I.html#96779">id</a> =&gt; $<a href="dictionary_R.html#144252">rec</a>) {</span>
+<a name="466"><font size=-1>466     </font></a><span class="default">      </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_I.html#97880">in_array</a>($<a href="dictionary_I.html#96779">id</a>, $<a href="dictionary_N.html#123506">names_to_keep</a>)) {</span>
+<a name="467"><font size=-1>467     </font></a><span class="default">        </span><span class="keyword">unset</span><span class="default">($this-&gt;<a href="dictionary_F.html#58013">data</a>[</span><span class="string">&quot;name&quot;</span><span class="default">]-&gt;<a href="dictionary_D.html#58023">data</a>[</span><span class="string">&quot;records&quot;</span><span class="default">][$<a href="dictionary_I.html#96779">id</a>]);</span>
+<a name="468"><font size=-1>468     </font></a><span class="default">      }</span>
+<a name="469"><font size=-1>469     </font></a><span class="default">    }</span>
+<a name="470"><font size=-1>470     </font></a><span class="default">  }</span>
+<a name="471"><font size=-1>471     </font></a><span class="default">}</span>
+<a name="472"><font size=-1>472     </font></a><span class="default"></span>
+</pre></body></html>

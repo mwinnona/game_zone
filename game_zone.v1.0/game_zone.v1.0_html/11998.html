@@ -1,0 +1,240 @@
+<html><head><title>DocParser.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\league\commonmark\src\DocParser.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\league\\commonmark\\src\\DocParser.php";
+top.document.title  = "DocParser.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of the league/commonmark package.</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * (c) Colin O'Dell &lt;colinodell@gmail.com&gt;</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * Original code based on the CommonMark JS reference parser (https://bitly.com/commonmark-js)</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> *  - (c) John MacFarlane</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> *</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="13"><font size=-1>13     </font></a><span class="comment"> */</span>
+<a name="14"><font size=-1>14     </font></a><span class="comment"></span>
+<a name="15"><font size=-1>15     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_L.html#107658">League</a></span><span class="default">\CommonMark;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">League\CommonMark\Block\Element\<a href="dictionary_L.html#24406">AbstractBlock</a>;</span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">League\CommonMark\Block\Element\<a href="dictionary_L.html#24494">AbstractStringContainerBlock</a>;</span>
+<a name="19"><font size=-1>19     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">League\CommonMark\Block\Element\<a href="dictionary_L.html#61875">Document</a>;</span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">League\CommonMark\Block\Element\<a href="dictionary_L.html#132558">Paragraph</a>;</span>
+<a name="21"><font size=-1>21     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">League\CommonMark\Block\Element\<a href="dictionary_L.html#164165">StringContainerInterface</a>;</span>
+<a name="22"><font size=-1>22     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">League\CommonMark\Event\<a href="dictionary_L.html#61892">DocumentParsedEvent</a>;</span>
+<a name="23"><font size=-1>23     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">League\CommonMark\Event\<a href="dictionary_L.html#61894">DocumentPreParsedEvent</a>;</span>
+<a name="24"><font size=-1>24     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">League\CommonMark\Input\<a href="dictionary_L.html#112142">MarkdownInput</a>;</span>
+<a name="25"><font size=-1>25     </font></a><span class="default"></span>
+<a name="26"><font size=-1>26     </font></a><span class="default"></span><span class="keyword">final class <a href="dictionary_L.html#61799">DocParser</a> implements </span><span class="default">DocParserInterface</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">{</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment">     * @var EnvironmentInterface</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment">     */</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_L.html#71380">environment</a>;</span>
+<a name="32"><font size=-1>32     </font></a><span class="default"></span>
+<a name="33"><font size=-1>33     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">     * @var InlineParserEngine</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">     */</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_L.html#98927">inlineParserEngine</a>;</span>
+<a name="37"><font size=-1>37     </font></a><span class="default"></span>
+<a name="38"><font size=-1>38     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="39"><font size=-1>39     </font></a><span class="comment">     * @var int|float</span>
+<a name="40"><font size=-1>40     </font></a><span class="comment">     */</span>
+<a name="41"><font size=-1>41     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_L.html#113299">maxNestingLevel</a>;</span>
+<a name="42"><font size=-1>42     </font></a><span class="default"></span>
+<a name="43"><font size=-1>43     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">     * @param EnvironmentInterface $environment</span>
+<a name="45"><font size=-1>45     </font></a><span class="comment">     */</span>
+<a name="46"><font size=-1>46     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_L.html#17774">__construct</a></span><span class="default">(EnvironmentInterface $<a href="dictionary_E.html#71349">environment</a>)</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">    {</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">        $this-&gt;<a href="dictionary_L.html#71380">environment</a> = $environment;</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        $this-&gt;<a href="dictionary_L.html#98927">inlineParserEngine</a> = </span><span class="keyword">new <a href="dictionary_L.html#98928">InlineParserEngine</a></span><span class="default">($<a href="dictionary_E.html#71349">environment</a>);</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">        $this-&gt;<a href="dictionary_L.html#113299">maxNestingLevel</a> = $<a href="dictionary_E.html#71349">environment</a>-&gt;<a href="dictionary_G.html#84586">getConfig</a>(</span><span class="string">'max_nesting_level'</span><span class="default">, \<a href="dictionary_I.html#98487">INF</a>);</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">    }</span>
+<a name="52"><font size=-1>52     </font></a><span class="default"></span>
+<a name="53"><font size=-1>53     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="54"><font size=-1>54     </font></a><span class="comment">     * @param string $input</span>
+<a name="55"><font size=-1>55     </font></a><span class="comment">     *</span>
+<a name="56"><font size=-1>56     </font></a><span class="comment">     * @throws \RuntimeException</span>
+<a name="57"><font size=-1>57     </font></a><span class="comment">     *</span>
+<a name="58"><font size=-1>58     </font></a><span class="comment">     * @return Document</span>
+<a name="59"><font size=-1>59     </font></a><span class="comment">     */</span>
+<a name="60"><font size=-1>60     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_L.html#133325">parse</a></span><span class="default">(<a href="dictionary_L.html#163932">string</a> $<a href="dictionary_I.html#99003">input</a>): <a href="dictionary_L.html#61874">Document</a></span>
+<a name="61"><font size=-1>61     </font></a><span class="default">    {</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">        $<a href="dictionary_D.html#61839">document</a> = </span><span class="keyword">new <a href="dictionary_L.html#61874">Document</a></span><span class="default">();</span>
+<a name="63"><font size=-1>63     </font></a><span class="default"></span>
+<a name="64"><font size=-1>64     </font></a><span class="default">        $<a href="dictionary_P.html#138074">preParsedEvent</a> = </span><span class="keyword">new <a href="dictionary_L.html#61893">DocumentPreParsedEvent</a></span><span class="default">($<a href="dictionary_D.html#61839">document</a>, </span><span class="keyword">new <a href="dictionary_L.html#112141">MarkdownInput</a></span><span class="default">($<a href="dictionary_I.html#99003">input</a>));</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">        $this-&gt;<a href="dictionary_L.html#71380">environment</a>-&gt;<a href="dictionary_D.html#61354">dispatch</a>($<a href="dictionary_P.html#138074">preParsedEvent</a>);</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">        $<a href="dictionary_M.html#112120">markdown</a> = $<a href="dictionary_P.html#138074">preParsedEvent</a>-&gt;<a href="dictionary_G.html#86529">getMarkdown</a>();</span>
+<a name="67"><font size=-1>67     </font></a><span class="default"></span>
+<a name="68"><font size=-1>68     </font></a><span class="default">        $<a href="dictionary_C.html#49191">context</a> = </span><span class="keyword">new <a href="dictionary_L.html#49445">Context</a></span><span class="default">($<a href="dictionary_D.html#61839">document</a>, $this-&gt;<a href="dictionary_L.html#71380">environment</a>);</span>
+<a name="69"><font size=-1>69     </font></a><span class="default"></span>
+<a name="70"><font size=-1>70     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_M.html#112120">markdown</a>-&gt;<a href="dictionary_G.html#86396">getLines</a>() </span><span class="keyword">as </span><span class="default">$<a href="dictionary_L.html#108767">line</a>) {</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">            $<a href="dictionary_C.html#49191">context</a>-&gt;<a href="dictionary_S.html#156558">setNextLine</a>($<a href="dictionary_L.html#108767">line</a>);</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">            $this-&gt;<a href="dictionary_L.html#98024">incorporateLine</a>($<a href="dictionary_C.html#49191">context</a>);</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">        }</span>
+<a name="74"><font size=-1>74     </font></a><span class="default"></span>
+<a name="75"><font size=-1>75     </font></a><span class="default">        $<a href="dictionary_L.html#109042">lineCount</a> = $<a href="dictionary_M.html#112120">markdown</a>-&gt;<a href="dictionary_G.html#86369">getLineCount</a>();</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">($<a href="dictionary_T.html#178507">tip</a> = $<a href="dictionary_C.html#49191">context</a>-&gt;<a href="dictionary_G.html#89070">getTip</a>()) {</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">            $<a href="dictionary_T.html#178507">tip</a>-&gt;<a href="dictionary_F.html#78116">finalize</a>($<a href="dictionary_C.html#49191">context</a>, $<a href="dictionary_L.html#109042">lineCount</a>);</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">        }</span>
+<a name="79"><font size=-1>79     </font></a><span class="default"></span>
+<a name="80"><font size=-1>80     </font></a><span class="default">        $this-&gt;<a href="dictionary_L.html#138817">processInlines</a>($<a href="dictionary_C.html#49191">context</a>);</span>
+<a name="81"><font size=-1>81     </font></a><span class="default"></span>
+<a name="82"><font size=-1>82     </font></a><span class="default">        $this-&gt;<a href="dictionary_L.html#71380">environment</a>-&gt;<a href="dictionary_D.html#61354">dispatch</a>(</span><span class="keyword">new <a href="dictionary_L.html#61891">DocumentParsedEvent</a></span><span class="default">($<a href="dictionary_D.html#61839">document</a>));</span>
+<a name="83"><font size=-1>83     </font></a><span class="default"></span>
+<a name="84"><font size=-1>84     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_D.html#61839">document</a>;</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">    }</span>
+<a name="86"><font size=-1>86     </font></a><span class="default"></span>
+<a name="87"><font size=-1>87     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_L.html#98024">incorporateLine</a></span><span class="default">(ContextInterface $<a href="dictionary_C.html#49192">context</a>): <a href="dictionary_L.html#189253">void</a></span>
+<a name="88"><font size=-1>88     </font></a><span class="default">    {</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">        $<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_G.html#84062">getBlockCloser</a>()-&gt;<a href="dictionary_R.html#148109">resetTip</a>();</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">        $<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_S.html#155519">setBlocksParsed</a>(<a href="dictionary_F.html#76452">false</a>);</span>
+<a name="91"><font size=-1>91     </font></a><span class="default"></span>
+<a name="92"><font size=-1>92     </font></a><span class="default">        $<a href="dictionary_C.html#56324">cursor</a> = </span><span class="keyword">new <a href="dictionary_L.html#56412">Cursor</a></span><span class="default">($<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_G.html#86362">getLine</a>());</span>
+<a name="93"><font size=-1>93     </font></a><span class="default"></span>
+<a name="94"><font size=-1>94     </font></a><span class="default">        $this-&gt;<a href="dictionary_L.html#148062">resetContainer</a>($<a href="dictionary_C.html#49192">context</a>, $<a href="dictionary_C.html#56324">cursor</a>);</span>
+<a name="95"><font size=-1>95     </font></a><span class="default">        $<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_G.html#84062">getBlockCloser</a>()-&gt;<a href="dictionary_S.html#156360">setLastMatchedContainer</a>($<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_G.html#84657">getContainer</a>());</span>
+<a name="96"><font size=-1>96     </font></a><span class="default"></span>
+<a name="97"><font size=-1>97     </font></a><span class="default">        $this-&gt;<a href="dictionary_L.html#133426">parseBlocks</a>($<a href="dictionary_C.html#49192">context</a>, $<a href="dictionary_C.html#56324">cursor</a>);</span>
+<a name="98"><font size=-1>98     </font></a><span class="default"></span>
+<a name="99"><font size=-1>99     </font></a><span class="default">        </span><span class="comment">// What remains at the offset is a text line.  Add the text to the appropriate container.</span>
+<a name="100"><font size=-1>100     </font></a><span class="comment">        // First check for a lazy paragraph continuation:</span>
+<a name="101"><font size=-1>101     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">($this-&gt;<a href="dictionary_L.html#91175">handleLazyParagraphContinuation</a>($<a href="dictionary_C.html#49192">context</a>, $<a href="dictionary_C.html#56324">cursor</a>)) {</span>
+<a name="102"><font size=-1>102     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="103"><font size=-1>103     </font></a><span class="default">        }</span>
+<a name="104"><font size=-1>104     </font></a><span class="default"></span>
+<a name="105"><font size=-1>105     </font></a><span class="default">        </span><span class="comment">// not a lazy continuation</span>
+<a name="106"><font size=-1>106     </font></a><span class="comment">        // finalize any blocks not matched</span>
+<a name="107"><font size=-1>107     </font></a><span class="comment">        </span><span class="default">$<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_G.html#84062">getBlockCloser</a>()-&gt;<a href="dictionary_C.html#43589">closeUnmatchedBlocks</a>();</span>
+<a name="108"><font size=-1>108     </font></a><span class="default"></span>
+<a name="109"><font size=-1>109     </font></a><span class="default">        </span><span class="comment">// Determine whether the last line is blank, updating parents as needed</span>
+<a name="110"><font size=-1>110     </font></a><span class="comment">        </span><span class="default">$this-&gt;<a href="dictionary_L.html#155420">setAndPropagateLastLineBlank</a>($<a href="dictionary_C.html#49192">context</a>, $<a href="dictionary_C.html#56324">cursor</a>);</span>
+<a name="111"><font size=-1>111     </font></a><span class="default"></span>
+<a name="112"><font size=-1>112     </font></a><span class="default">        </span><span class="comment">// Handle any remaining cursor contents</span>
+<a name="113"><font size=-1>113     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_G.html#84657">getContainer</a>() </span><span class="keyword">instanceof </span><span class="default">StringContainerInterface) {</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">            $<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_G.html#84657">getContainer</a>()-&gt;<a href="dictionary_H.html#91404">handleRemainingContents</a>($<a href="dictionary_C.html#49192">context</a>, $<a href="dictionary_C.html#56324">cursor</a>);</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">        } </span><span class="keyword">elseif </span><span class="default">(!$<a href="dictionary_C.html#56324">cursor</a>-&gt;<a href="dictionary_I.html#100942">isBlank</a>()) {</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">            </span><span class="comment">// Create paragraph container for line</span>
+<a name="117"><font size=-1>117     </font></a><span class="comment">            </span><span class="default">$<a href="dictionary_P.html#131862">p</a> = </span><span class="keyword">new <a href="dictionary_L.html#132557">Paragraph</a></span><span class="default">();</span>
+<a name="118"><font size=-1>118     </font></a><span class="default">            $<a href="dictionary_C.html#49192">context</a>-&gt;<a href="dictionary_A.html#25498">addBlock</a>($<a href="dictionary_P.html#131862">p</a>);</span>
+<a name="119"><font size=-1>119     </font></a><span class="default">            $<a href="dictionary_C.html#56324">cursor</a>-&gt;<a href="dictionary_A.html#26642">advanceToNextNonSpaceOrTab</a>();</span>
+<a name="120"><font size=-1>120     </font></a><span class="default">            $<a href="dictionary_P.html#131862">p</a>-&gt;<a href="dictionary_A.html#25885">addLine</a>($<a href="dictionary_C.html#56324">cursor</a>-&gt;<a href="dictionary_G.html#87963">getRemainder</a>());</span>
+<a name="121"><font size=-1>121     </font></a><span class="default">        }</span>
+<a name="122"><font size=-1>122     </font></a><span class="default">    }</span>
+<a name="123"><font size=-1>123     </font></a><span class="default"></span>
+<a name="124"><font size=-1>124     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_L.html#138817">processInlines</a></span><span class="default">(ContextInterface $<a href="dictionary_C.html#49189">context</a>): <a href="dictionary_L.html#189253">void</a></span>
+<a name="125"><font size=-1>125     </font></a><span class="default">    {</span>
+<a name="126"><font size=-1>126     </font></a><span class="default">        $<a href="dictionary_W.html#189702">walker</a> = $<a href="dictionary_C.html#49189">context</a>-&gt;<a href="dictionary_G.html#85174">getDocument</a>()-&gt;<a href="dictionary_W.html#189707">walker</a>();</span>
+<a name="127"><font size=-1>127     </font></a><span class="default"></span>
+<a name="128"><font size=-1>128     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">($<a href="dictionary_E.html#72162">event</a> = $<a href="dictionary_W.html#189702">walker</a>-&gt;<a href="dictionary_N.html#124335">next</a>()) {</span>
+<a name="129"><font size=-1>129     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_E.html#72162">event</a>-&gt;<a href="dictionary_I.html#101274">isEntering</a>()) {</span>
+<a name="130"><font size=-1>130     </font></a><span class="default">                </span><span class="keyword">continue</span><span class="default">;</span>
+<a name="131"><font size=-1>131     </font></a><span class="default">            }</span>
+<a name="132"><font size=-1>132     </font></a><span class="default"></span>
+<a name="133"><font size=-1>133     </font></a><span class="default">            $<a href="dictionary_N.html#124596">node</a> = $<a href="dictionary_E.html#72162">event</a>-&gt;<a href="dictionary_G.html#87112">getNode</a>();</span>
+<a name="134"><font size=-1>134     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_N.html#124596">node</a> </span><span class="keyword">instanceof <a href="dictionary_L.html#24493">AbstractStringContainerBlock</a></span><span class="default">) {</span>
+<a name="135"><font size=-1>135     </font></a><span class="default">                $this-&gt;<a href="dictionary_L.html#98927">inlineParserEngine</a>-&gt;<a href="dictionary_P.html#133398">parse</a>($<a href="dictionary_N.html#124596">node</a>, $<a href="dictionary_C.html#49189">context</a>-&gt;<a href="dictionary_G.html#85174">getDocument</a>()-&gt;<a href="dictionary_G.html#87913">getReferenceMap</a>());</span>
+<a name="136"><font size=-1>136     </font></a><span class="default">            }</span>
+<a name="137"><font size=-1>137     </font></a><span class="default">        }</span>
+<a name="138"><font size=-1>138     </font></a><span class="default">    }</span>
+<a name="139"><font size=-1>139     </font></a><span class="default"></span>
+<a name="140"><font size=-1>140     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="141"><font size=-1>141     </font></a><span class="comment">     * Sets the container to the last open child (or its parent)</span>
+<a name="142"><font size=-1>142     </font></a><span class="comment">     *</span>
+<a name="143"><font size=-1>143     </font></a><span class="comment">     * @param ContextInterface $context</span>
+<a name="144"><font size=-1>144     </font></a><span class="comment">     * @param Cursor           $cursor</span>
+<a name="145"><font size=-1>145     </font></a><span class="comment">     */</span>
+<a name="146"><font size=-1>146     </font></a><span class="comment">    </span><span class="keyword">private function <a href="dictionary_L.html#148062">resetContainer</a></span><span class="default">(ContextInterface $<a href="dictionary_C.html#49188">context</a>, <a href="dictionary_L.html#56412">Cursor</a> $cursor): <a href="dictionary_L.html#189253">void</a></span>
+<a name="147"><font size=-1>147     </font></a><span class="default">    {</span>
+<a name="148"><font size=-1>148     </font></a><span class="default">        $<a href="dictionary_C.html#48589">container</a> = $<a href="dictionary_C.html#49188">context</a>-&gt;<a href="dictionary_G.html#85174">getDocument</a>();</span>
+<a name="149"><font size=-1>149     </font></a><span class="default"></span>
+<a name="150"><font size=-1>150     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">($<a href="dictionary_L.html#107222">lastChild</a> = $<a href="dictionary_C.html#48589">container</a>-&gt;<a href="dictionary_L.html#107225">lastChild</a>()) {</span>
+<a name="151"><font size=-1>151     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!($<a href="dictionary_L.html#107222">lastChild</a> </span><span class="keyword">instanceof <a href="dictionary_L.html#24405">AbstractBlock</a></span><span class="default">)) {</span>
+<a name="152"><font size=-1>152     </font></a><span class="default">                </span><span class="keyword">break</span><span class="default">;</span>
+<a name="153"><font size=-1>153     </font></a><span class="default">            }</span>
+<a name="154"><font size=-1>154     </font></a><span class="default"></span>
+<a name="155"><font size=-1>155     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_L.html#107222">lastChild</a>-&gt;<a href="dictionary_I.html#101988">isOpen</a>()) {</span>
+<a name="156"><font size=-1>156     </font></a><span class="default">                </span><span class="keyword">break</span><span class="default">;</span>
+<a name="157"><font size=-1>157     </font></a><span class="default">            }</span>
+<a name="158"><font size=-1>158     </font></a><span class="default"></span>
+<a name="159"><font size=-1>159     </font></a><span class="default">            $<a href="dictionary_C.html#48589">container</a> = $<a href="dictionary_L.html#107222">lastChild</a>;</span>
+<a name="160"><font size=-1>160     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_C.html#48589">container</a>-&gt;<a href="dictionary_M.html#112902">matchesNextLine</a>($<a href="dictionary_C.html#56322">cursor</a>)) {</span>
+<a name="161"><font size=-1>161     </font></a><span class="default">                $<a href="dictionary_C.html#48589">container</a> = $container-&gt;<a href="dictionary_P.html#133167">parent</a>(); </span><span class="comment">// back up to the last matching block</span>
+<a name="162"><font size=-1>162     </font></a><span class="comment">                </span><span class="keyword">break</span><span class="default">;</span>
+<a name="163"><font size=-1>163     </font></a><span class="default">            }</span>
+<a name="164"><font size=-1>164     </font></a><span class="default">        }</span>
+<a name="165"><font size=-1>165     </font></a><span class="default"></span>
+<a name="166"><font size=-1>166     </font></a><span class="default">        $<a href="dictionary_C.html#49188">context</a>-&gt;<a href="dictionary_S.html#155750">setContainer</a>($<a href="dictionary_C.html#48589">container</a>);</span>
+<a name="167"><font size=-1>167     </font></a><span class="default">    }</span>
+<a name="168"><font size=-1>168     </font></a><span class="default"></span>
+<a name="169"><font size=-1>169     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="170"><font size=-1>170     </font></a><span class="comment">     * Parse blocks</span>
+<a name="171"><font size=-1>171     </font></a><span class="comment">     *</span>
+<a name="172"><font size=-1>172     </font></a><span class="comment">     * @param ContextInterface $context</span>
+<a name="173"><font size=-1>173     </font></a><span class="comment">     * @param Cursor           $cursor</span>
+<a name="174"><font size=-1>174     </font></a><span class="comment">     */</span>
+<a name="175"><font size=-1>175     </font></a><span class="comment">    </span><span class="keyword">private function <a href="dictionary_L.html#133426">parseBlocks</a></span><span class="default">(ContextInterface $<a href="dictionary_C.html#49190">context</a>, <a href="dictionary_L.html#56412">Cursor</a> $cursor): <a href="dictionary_L.html#189253">void</a></span>
+<a name="176"><font size=-1>176     </font></a><span class="default">    {</span>
+<a name="177"><font size=-1>177     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">(!$<a href="dictionary_C.html#49190">context</a>-&gt;<a href="dictionary_G.html#84657">getContainer</a>()-&gt;<a href="dictionary_I.html#101033">isCode</a>() &amp;&amp; !$<a href="dictionary_C.html#49190">context</a>-&gt;<a href="dictionary_G.html#84073">getBlocksParsed</a>()) {</span>
+<a name="178"><font size=-1>178     </font></a><span class="default">            $<a href="dictionary_P.html#133456">parsed</a> = <a href="dictionary_F.html#76452">false</a>;</span>
+<a name="179"><font size=-1>179     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">($this-&gt;<a href="dictionary_L.html#71380">environment</a>-&gt;<a href="dictionary_G.html#84067">getBlockParsers</a>() </span><span class="keyword">as </span><span class="default">$<a href="dictionary_P.html#133624">parser</a>) {</span>
+<a name="180"><font size=-1>180     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($<a href="dictionary_P.html#133624">parser</a>-&gt;<a href="dictionary_P.html#133398">parse</a>($<a href="dictionary_C.html#49190">context</a>, $<a href="dictionary_C.html#56323">cursor</a>)) {</span>
+<a name="181"><font size=-1>181     </font></a><span class="default">                    $<a href="dictionary_P.html#133456">parsed</a> = <a href="dictionary_T.html#181186">true</a>;</span>
+<a name="182"><font size=-1>182     </font></a><span class="default">                    </span><span class="keyword">break</span><span class="default">;</span>
+<a name="183"><font size=-1>183     </font></a><span class="default">                }</span>
+<a name="184"><font size=-1>184     </font></a><span class="default">            }</span>
+<a name="185"><font size=-1>185     </font></a><span class="default"></span>
+<a name="186"><font size=-1>186     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_P.html#133456">parsed</a> || $<a href="dictionary_C.html#49190">context</a>-&gt;<a href="dictionary_G.html#84657">getContainer</a>() </span><span class="keyword">instanceof </span><span class="default">StringContainerInterface || (($<a href="dictionary_T.html#178506">tip</a> = $<a href="dictionary_C.html#49190">context</a>-&gt;<a href="dictionary_G.html#89070">getTip</a>()) &amp;&amp; $<a href="dictionary_T.html#178506">tip</a>-&gt;<a href="dictionary_G.html#85095">getDepth</a>() &gt;= $this-&gt;<a href="dictionary_L.html#113299">maxNestingLevel</a>)) {</span>
+<a name="187"><font size=-1>187     </font></a><span class="default">                $<a href="dictionary_C.html#49190">context</a>-&gt;<a href="dictionary_S.html#155519">setBlocksParsed</a>(<a href="dictionary_T.html#181186">true</a>);</span>
+<a name="188"><font size=-1>188     </font></a><span class="default">                </span><span class="keyword">break</span><span class="default">;</span>
+<a name="189"><font size=-1>189     </font></a><span class="default">            }</span>
+<a name="190"><font size=-1>190     </font></a><span class="default">        }</span>
+<a name="191"><font size=-1>191     </font></a><span class="default">    }</span>
+<a name="192"><font size=-1>192     </font></a><span class="default"></span>
+<a name="193"><font size=-1>193     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_L.html#91175">handleLazyParagraphContinuation</a></span><span class="default">(ContextInterface $<a href="dictionary_C.html#49193">context</a>, <a href="dictionary_L.html#56412">Cursor</a> $cursor): <a href="dictionary_L.html#35395">bool</a></span>
+<a name="194"><font size=-1>194     </font></a><span class="default">    {</span>
+<a name="195"><font size=-1>195     </font></a><span class="default">        $<a href="dictionary_T.html#178508">tip</a> = $<a href="dictionary_C.html#49193">context</a>-&gt;<a href="dictionary_G.html#89070">getTip</a>();</span>
+<a name="196"><font size=-1>196     </font></a><span class="default"></span>
+<a name="197"><font size=-1>197     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_T.html#178508">tip</a> </span><span class="keyword">instanceof <a href="dictionary_L.html#132557">Paragraph</a> </span><span class="default">&amp;&amp;</span>
+<a name="198"><font size=-1>198     </font></a><span class="default">            !$<a href="dictionary_C.html#49193">context</a>-&gt;<a href="dictionary_G.html#84062">getBlockCloser</a>()-&gt;<a href="dictionary_A.html#28383">areAllClosed</a>() &amp;&amp;</span>
+<a name="199"><font size=-1>199     </font></a><span class="default">            !$<a href="dictionary_C.html#56325">cursor</a>-&gt;<a href="dictionary_I.html#100942">isBlank</a>() &amp;&amp;</span>
+<a name="200"><font size=-1>200     </font></a><span class="default">            \<a href="dictionary_C.html#50164">count</a>($<a href="dictionary_T.html#178508">tip</a>-&gt;<a href="dictionary_G.html#88619">getStrings</a>()) &gt; </span><span class="number">0</span><span class="default">) {</span>
+<a name="201"><font size=-1>201     </font></a><span class="default"></span>
+<a name="202"><font size=-1>202     </font></a><span class="default">            </span><span class="comment">// lazy paragraph continuation</span>
+<a name="203"><font size=-1>203     </font></a><span class="comment">            </span><span class="default">$<a href="dictionary_T.html#178508">tip</a>-&gt;<a href="dictionary_A.html#25885">addLine</a>($<a href="dictionary_C.html#56325">cursor</a>-&gt;<a href="dictionary_G.html#87963">getRemainder</a>());</span>
+<a name="204"><font size=-1>204     </font></a><span class="default"></span>
+<a name="205"><font size=-1>205     </font></a><span class="default">            </span><span class="keyword">return <a href="dictionary_T.html#181186">true</a></span><span class="default">;</span>
+<a name="206"><font size=-1>206     </font></a><span class="default">        }</span>
+<a name="207"><font size=-1>207     </font></a><span class="default"></span>
+<a name="208"><font size=-1>208     </font></a><span class="default">        </span><span class="keyword">return <a href="dictionary_F.html#76452">false</a></span><span class="default">;</span>
+<a name="209"><font size=-1>209     </font></a><span class="default">    }</span>
+<a name="210"><font size=-1>210     </font></a><span class="default"></span>
+<a name="211"><font size=-1>211     </font></a><span class="default">    </span><span class="keyword">private function <a href="dictionary_L.html#155420">setAndPropagateLastLineBlank</a></span><span class="default">(ContextInterface $<a href="dictionary_C.html#49187">context</a>, <a href="dictionary_L.html#56412">Cursor</a> $cursor): <a href="dictionary_L.html#189253">void</a></span>
+<a name="212"><font size=-1>212     </font></a><span class="default">    {</span>
+<a name="213"><font size=-1>213     </font></a><span class="default">        $<a href="dictionary_C.html#48588">container</a> = $<a href="dictionary_C.html#49187">context</a>-&gt;<a href="dictionary_G.html#84657">getContainer</a>();</span>
+<a name="214"><font size=-1>214     </font></a><span class="default"></span>
+<a name="215"><font size=-1>215     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_C.html#56321">cursor</a>-&gt;<a href="dictionary_I.html#100942">isBlank</a>() &amp;&amp; $<a href="dictionary_L.html#107221">lastChild</a> = $<a href="dictionary_C.html#48588">container</a>-&gt;<a href="dictionary_L.html#107225">lastChild</a>()) {</span>
+<a name="216"><font size=-1>216     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_L.html#107221">lastChild</a> </span><span class="keyword">instanceof <a href="dictionary_L.html#24405">AbstractBlock</a></span><span class="default">) {</span>
+<a name="217"><font size=-1>217     </font></a><span class="default">                $<a href="dictionary_L.html#107221">lastChild</a>-&gt;<a href="dictionary_S.html#156358">setLastLineBlank</a>(<a href="dictionary_T.html#181186">true</a>);</span>
+<a name="218"><font size=-1>218     </font></a><span class="default">            }</span>
+<a name="219"><font size=-1>219     </font></a><span class="default">        }</span>
+<a name="220"><font size=-1>220     </font></a><span class="default"></span>
+<a name="221"><font size=-1>221     </font></a><span class="default">        $<a href="dictionary_L.html#107306">lastLineBlank</a> = $<a href="dictionary_C.html#48588">container</a>-&gt;<a href="dictionary_S.html#157936">shouldLastLineBeBlank</a>($<a href="dictionary_C.html#56321">cursor</a>, $<a href="dictionary_C.html#49187">context</a>-&gt;<a href="dictionary_G.html#86389">getLineNumber</a>());</span>
+<a name="222"><font size=-1>222     </font></a><span class="default"></span>
+<a name="223"><font size=-1>223     </font></a><span class="default">        </span><span class="comment">// Propagate lastLineBlank up through parents:</span>
+<a name="224"><font size=-1>224     </font></a><span class="comment">        </span><span class="keyword">while </span><span class="default">($<a href="dictionary_C.html#48588">container</a> </span><span class="keyword">instanceof <a href="dictionary_L.html#24405">AbstractBlock</a> </span><span class="default">&amp;&amp; $<a href="dictionary_C.html#48588">container</a>-&gt;<a href="dictionary_E.html#70895">endsWithBlankLine</a>() !== $<a href="dictionary_L.html#107306">lastLineBlank</a>) {</span>
+<a name="225"><font size=-1>225     </font></a><span class="default">            $<a href="dictionary_C.html#48588">container</a>-&gt;<a href="dictionary_S.html#156358">setLastLineBlank</a>($<a href="dictionary_L.html#107306">lastLineBlank</a>);</span>
+<a name="226"><font size=-1>226     </font></a><span class="default">            $<a href="dictionary_C.html#48588">container</a> = $container-&gt;<a href="dictionary_P.html#133167">parent</a>();</span>
+<a name="227"><font size=-1>227     </font></a><span class="default">        }</span>
+<a name="228"><font size=-1>228     </font></a><span class="default">    }</span>
+<a name="229"><font size=-1>229     </font></a><span class="default">}</span>
+<a name="230"><font size=-1>230     </font></a><span class="default"></span>
+</pre></body></html>

@@ -1,0 +1,91 @@
+<html><head><title>app.blade.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\resources\views\layouts\app.blade.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\resources\\views\\layouts\\app.blade.php";
+top.document.title  = "app.blade.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default"></span><span class="string">&lt;!doctype html&gt;</span>
+<a name="2"><font size=-1>2     </font></a><span class="string">&lt;html lang=&quot;{{ str_replace('_', '-', app()-&gt;getLocale()) }}&quot;&gt;</span>
+<a name="3"><font size=-1>3     </font></a><span class="string">&lt;head&gt;</span>
+<a name="4"><font size=-1>4     </font></a><span class="string">    &lt;meta charset=&quot;utf-8&quot;&gt;</span>
+<a name="5"><font size=-1>5     </font></a><span class="string">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</span>
+<a name="6"><font size=-1>6     </font></a><span class="string"></span>
+<a name="7"><font size=-1>7     </font></a><span class="string">    &lt;!-- CSRF Token --&gt;</span>
+<a name="8"><font size=-1>8     </font></a><span class="string">    &lt;meta name=&quot;csrf-token&quot; content=&quot;{{ csrf_token() }}&quot;&gt;</span>
+<a name="9"><font size=-1>9     </font></a><span class="string"></span>
+<a name="10"><font size=-1>10     </font></a><span class="string">    &lt;title&gt;{{ config('app.name', 'Laravel') }}&lt;/title&gt;</span>
+<a name="11"><font size=-1>11     </font></a><span class="string"></span>
+<a name="12"><font size=-1>12     </font></a><span class="string">    &lt;!-- Scripts --&gt;</span>
+<a name="13"><font size=-1>13     </font></a><span class="string">    &lt;script src=&quot;{{ asset('js/app.js') }}&quot; defer&gt;&lt;/script&gt;</span>
+<a name="14"><font size=-1>14     </font></a><span class="string"></span>
+<a name="15"><font size=-1>15     </font></a><span class="string">    &lt;!-- Fonts --&gt;</span>
+<a name="16"><font size=-1>16     </font></a><span class="string">    &lt;link rel=&quot;dns-prefetch&quot; href=&quot;//fonts.gstatic.com&quot;&gt;</span>
+<a name="17"><font size=-1>17     </font></a><span class="string">    &lt;link href=&quot;https://fonts.googleapis.com/css?family=Nunito&quot; rel=&quot;stylesheet&quot;&gt;</span>
+<a name="18"><font size=-1>18     </font></a><span class="string"></span>
+<a name="19"><font size=-1>19     </font></a><span class="string">    &lt;!-- Styles --&gt;</span>
+<a name="20"><font size=-1>20     </font></a><span class="string">    &lt;link href=&quot;{{ asset('css/app.css') }}&quot; rel=&quot;stylesheet&quot;&gt;</span>
+<a name="21"><font size=-1>21     </font></a><span class="string">&lt;/head&gt;</span>
+<a name="22"><font size=-1>22     </font></a><span class="string">&lt;body&gt;</span>
+<a name="23"><font size=-1>23     </font></a><span class="string">    &lt;div id=&quot;app&quot;&gt;</span>
+<a name="24"><font size=-1>24     </font></a><span class="string">        &lt;nav class=&quot;navbar navbar-expand-md navbar-light bg-white shadow-sm&quot;&gt;</span>
+<a name="25"><font size=-1>25     </font></a><span class="string">            &lt;div class=&quot;container&quot;&gt;</span>
+<a name="26"><font size=-1>26     </font></a><span class="string">                &lt;a class=&quot;navbar-brand&quot; href=&quot;{{ url('/') }}&quot;&gt;</span>
+<a name="27"><font size=-1>27     </font></a><span class="string">                    {{ config('app.name', 'Laravel') }}</span>
+<a name="28"><font size=-1>28     </font></a><span class="string">                &lt;/a&gt;</span>
+<a name="29"><font size=-1>29     </font></a><span class="string">                &lt;button class=&quot;navbar-toggler&quot; type=&quot;button&quot; data-toggle=&quot;collapse&quot; data-target=&quot;#navbarSupportedContent&quot; aria-controls=&quot;navbarSupportedContent&quot; aria-expanded=&quot;false&quot; aria-label=&quot;{{ __('Toggle navigation') }}&quot;&gt;</span>
+<a name="30"><font size=-1>30     </font></a><span class="string">                    &lt;span class=&quot;navbar-toggler-icon&quot;&gt;&lt;/span&gt;</span>
+<a name="31"><font size=-1>31     </font></a><span class="string">                &lt;/button&gt;</span>
+<a name="32"><font size=-1>32     </font></a><span class="string"></span>
+<a name="33"><font size=-1>33     </font></a><span class="string">                &lt;div class=&quot;collapse navbar-collapse&quot; id=&quot;navbarSupportedContent&quot;&gt;</span>
+<a name="34"><font size=-1>34     </font></a><span class="string">                    &lt;!-- Left Side Of Navbar --&gt;</span>
+<a name="35"><font size=-1>35     </font></a><span class="string">                    &lt;ul class=&quot;navbar-nav mr-auto&quot;&gt;</span>
+<a name="36"><font size=-1>36     </font></a><span class="string"></span>
+<a name="37"><font size=-1>37     </font></a><span class="string">                    &lt;/ul&gt;</span>
+<a name="38"><font size=-1>38     </font></a><span class="string"></span>
+<a name="39"><font size=-1>39     </font></a><span class="string">                    &lt;!-- Right Side Of Navbar --&gt;</span>
+<a name="40"><font size=-1>40     </font></a><span class="string">                    &lt;ul class=&quot;navbar-nav ml-auto&quot;&gt;</span>
+<a name="41"><font size=-1>41     </font></a><span class="string">                        &lt;!-- Authentication Links --&gt;</span>
+<a name="42"><font size=-1>42     </font></a><span class="string">                        @guest</span>
+<a name="43"><font size=-1>43     </font></a><span class="string">                            &lt;li class=&quot;nav-item&quot;&gt;</span>
+<a name="44"><font size=-1>44     </font></a><span class="string">                                &lt;a class=&quot;nav-link&quot; href=&quot;{{ route('login') }}&quot;&gt;{{ __('Login') }}&lt;/a&gt;</span>
+<a name="45"><font size=-1>45     </font></a><span class="string">                            &lt;/li&gt;</span>
+<a name="46"><font size=-1>46     </font></a><span class="string">                            @if (Route::has('register'))</span>
+<a name="47"><font size=-1>47     </font></a><span class="string">                                &lt;li class=&quot;nav-item&quot;&gt;</span>
+<a name="48"><font size=-1>48     </font></a><span class="string">                                    &lt;a class=&quot;nav-link&quot; href=&quot;{{ route('register') }}&quot;&gt;{{ __('Register') }}&lt;/a&gt;</span>
+<a name="49"><font size=-1>49     </font></a><span class="string">                                &lt;/li&gt;</span>
+<a name="50"><font size=-1>50     </font></a><span class="string">                            @endif</span>
+<a name="51"><font size=-1>51     </font></a><span class="string">                        @else</span>
+<a name="52"><font size=-1>52     </font></a><span class="string">                            &lt;li class=&quot;nav-item dropdown&quot;&gt;</span>
+<a name="53"><font size=-1>53     </font></a><span class="string">                                &lt;a id=&quot;navbarDropdown&quot; class=&quot;nav-link dropdown-toggle&quot; href=&quot;#&quot; role=&quot;button&quot; data-toggle=&quot;dropdown&quot; aria-haspopup=&quot;true&quot; aria-expanded=&quot;false&quot; v-pre&gt;</span>
+<a name="54"><font size=-1>54     </font></a><span class="string">                                    {{ Auth::user()-&gt;name }} &lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;</span>
+<a name="55"><font size=-1>55     </font></a><span class="string">                                &lt;/a&gt;</span>
+<a name="56"><font size=-1>56     </font></a><span class="string"></span>
+<a name="57"><font size=-1>57     </font></a><span class="string">                                &lt;div class=&quot;dropdown-menu dropdown-menu-right&quot; aria-labelledby=&quot;navbarDropdown&quot;&gt;</span>
+<a name="58"><font size=-1>58     </font></a><span class="string">                                    &lt;a class=&quot;dropdown-item&quot; href=&quot;{{ route('logout') }}&quot;</span>
+<a name="59"><font size=-1>59     </font></a><span class="string">                                       onclick=&quot;event.preventDefault();</span>
+<a name="60"><font size=-1>60     </font></a><span class="string">                                                     document.getElementById('logout-form').submit();&quot;&gt;</span>
+<a name="61"><font size=-1>61     </font></a><span class="string">                                        {{ __('Logout') }}</span>
+<a name="62"><font size=-1>62     </font></a><span class="string">                                    &lt;/a&gt;</span>
+<a name="63"><font size=-1>63     </font></a><span class="string"></span>
+<a name="64"><font size=-1>64     </font></a><span class="string">                                    &lt;form id=&quot;logout-form&quot; action=&quot;{{ route('logout') }}&quot; method=&quot;POST&quot; style=&quot;display: none;&quot;&gt;</span>
+<a name="65"><font size=-1>65     </font></a><span class="string">                                        @csrf</span>
+<a name="66"><font size=-1>66     </font></a><span class="string">                                    &lt;/form&gt;</span>
+<a name="67"><font size=-1>67     </font></a><span class="string">                                &lt;/div&gt;</span>
+<a name="68"><font size=-1>68     </font></a><span class="string">                            &lt;/li&gt;</span>
+<a name="69"><font size=-1>69     </font></a><span class="string">                        @endguest</span>
+<a name="70"><font size=-1>70     </font></a><span class="string">                    &lt;/ul&gt;</span>
+<a name="71"><font size=-1>71     </font></a><span class="string">                &lt;/div&gt;</span>
+<a name="72"><font size=-1>72     </font></a><span class="string">            &lt;/div&gt;</span>
+<a name="73"><font size=-1>73     </font></a><span class="string">        &lt;/nav&gt;</span>
+<a name="74"><font size=-1>74     </font></a><span class="string"></span>
+<a name="75"><font size=-1>75     </font></a><span class="string">        &lt;main class=&quot;py-4&quot;&gt;</span>
+<a name="76"><font size=-1>76     </font></a><span class="string">            @yield('content')</span>
+<a name="77"><font size=-1>77     </font></a><span class="string">        &lt;/main&gt;</span>
+<a name="78"><font size=-1>78     </font></a><span class="string">    &lt;/div&gt;</span>
+<a name="79"><font size=-1>79     </font></a><span class="string">&lt;/body&gt;</span>
+<a name="80"><font size=-1>80     </font></a><span class="string">&lt;/html&gt;</span>
+<a name="81"><font size=-1>81     </font></a><span class="string"></span>
+</pre></body></html>

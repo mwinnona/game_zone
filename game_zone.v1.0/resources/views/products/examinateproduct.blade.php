@@ -208,7 +208,7 @@
         <!-- /SECTION -->
 
         <!--Este es el modal para editar el producto, aqui tienen que ir los datos del producto-->
-        <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -216,7 +216,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                   <h2 class="modal-title" id="exampleModalLabel">Modificar Producto</h2>
-                </div>-->
+                </div>
                 <form method ="POST" action ="{{url('/modificar_producto')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -384,32 +384,9 @@
                         </div>
                     </div>
                 </form>
-              <!--</div>
-            </div>
-        </div>-->
-
-        <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Mensaje de Validación</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Existen campos vacíos, el producto no se ah modificado.
-                </div>
-                <div class="modal-footer centrar-interno">
-                    <div class="product-details">
-                        <div class="add-to-cart col-md-6">
-                            <button data-target="#mensaje" type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
-                        </div>
-                    </div>
-                </div>
               </div>
             </div>
-          </div>-->
+        </div>
 @endsection
 @section('plugin')
     <script src={{ asset("js/products.js")}}></script>

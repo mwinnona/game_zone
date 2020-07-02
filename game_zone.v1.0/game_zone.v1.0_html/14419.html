@@ -1,0 +1,69 @@
+<html><head><title>DataProviderDebugTest.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\phpunit\phpunit\tests\_files\DataProviderDebugTest.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\phpunit\\phpunit\\tests\\_files\\DataProviderDebugTest.php";
+top.document.title  = "DataProviderDebugTest.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php </span><span class="keyword">declare</span><span class="default">(strict_types=</span><span class="number">1</span><span class="default">);</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="3"><font size=-1>3     </font></a><span class="comment"> * This file is part of PHPUnit.</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> *</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> * (c) Sebastian Bergmann &lt;sebastian@phpunit.de&gt;</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> *</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> */</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"></span><span class="keyword">use </span><span class="default">PHPUnit\Framework\<a href="dictionary_P.html#173894">TestCase</a>;</span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_D.html#58182">DataProviderDebugTest</a> extends <a href="dictionary_P.html#173889">TestCase</a></span>
+<a name="13"><font size=-1>13     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">    </span><span class="keyword">public static function <a href="dictionary_D.html#139663">provider</a></span><span class="default">()</span>
+<a name="15"><font size=-1>15     </font></a><span class="default">    {</span>
+<a name="16"><font size=-1>16     </font></a><span class="default">        $<a href="dictionary_O.html#128056">obj2</a>      = </span><span class="keyword">new </span><span class="default">\<a href="dictionary_S.html#162439">stdClass</a>;</span>
+<a name="17"><font size=-1>17     </font></a><span class="default">        $<a href="dictionary_O.html#128056">obj2</a>-&gt;<a href="dictionary_F.html#79723">foo</a> = </span><span class="string">'bar'</span><span class="default">;</span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span>
+<a name="19"><font size=-1>19     </font></a><span class="default">        $<a href="dictionary_O.html#128061">obj3</a> = (object) [</span><span class="number">1</span><span class="default">, </span><span class="number">2</span><span class="default">, </span><span class="string">&quot;Test\r\n&quot;</span><span class="default">, </span><span class="number">4</span><span class="default">, </span><span class="number">5</span><span class="default">, </span><span class="number">6</span><span class="default">, </span><span class="number">7</span><span class="default">, </span><span class="number">8</span><span class="default">];</span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span>
+<a name="21"><font size=-1>21     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a> = </span><span class="keyword">new </span><span class="default">\<a href="dictionary_S.html#162439">stdClass</a>;</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">        </span><span class="comment">//@codingStandardsIgnoreStart</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment">        </span><span class="default">$<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_N.html#125931">null</a> = <a href="dictionary_N.html#125929">null</a>;</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">        </span><span class="comment">//@codingStandardsIgnoreEnd</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment">        </span><span class="default">$<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_B.html#35572">boolean</a>     = <a href="dictionary_T.html#181186">true</a>;</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_I.html#99755">integer</a>     = </span><span class="number">1</span><span class="default">;</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_D.html#62409">double</a>      = </span><span class="number">1.2</span><span class="default">;</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_S.html#163886">string</a>      = </span><span class="string">'1'</span><span class="default">;</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_T.html#177525">text</a>        = </span><span class="string">&quot;this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext&quot;</span><span class="default">;</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_O.html#128355">object</a>      = $<a href="dictionary_O.html#128056">obj2</a>;</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_O.html#128383">objectagain</a> = $<a href="dictionary_O.html#128056">obj2</a>;</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a>-&gt;</span><span class="keyword">array       </span><span class="default">= [</span><span class="string">'foo' </span><span class="default">=&gt; </span><span class="string">'bar'</span><span class="default">];</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">        $<a href="dictionary_O.html#127987">obj</a>-&gt;<a href="dictionary_S.html#153826">self</a>        = $<a href="dictionary_O.html#127987">obj</a>;</span>
+<a name="34"><font size=-1>34     </font></a><span class="default"></span>
+<a name="35"><font size=-1>35     </font></a><span class="default">        $<a href="dictionary_S.html#162764">storage</a> = </span><span class="keyword">new </span><span class="default">\<a href="dictionary_S.html#159902">SplObjectStorage</a>;</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">        $<a href="dictionary_S.html#162764">storage</a>-&gt;<a href="dictionary_A.html#30512">attach</a>($<a href="dictionary_O.html#128056">obj2</a>);</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">        $<a href="dictionary_S.html#162764">storage</a>-&gt;<a href="dictionary_F.html#79723">foo</a> = $<a href="dictionary_O.html#127987">obj</a>;</span>
+<a name="38"><font size=-1>38     </font></a><span class="default"></span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">[</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">            [<a href="dictionary_N.html#125929">null</a>, <a href="dictionary_T.html#181186">true</a>, </span><span class="number">1</span><span class="default">, </span><span class="number">1.0</span><span class="default">],</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">            [</span><span class="number">1.2</span><span class="default">, \<a href="dictionary_F.html#79766">fopen</a>(</span><span class="string">'php://memory'</span><span class="default">, </span><span class="string">'r'</span><span class="default">), </span><span class="string">'1'</span><span class="default">],</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">            [[[</span><span class="number">1</span><span class="default">, </span><span class="number">2</span><span class="default">, </span><span class="number">3</span><span class="default">], [</span><span class="number">3</span><span class="default">, </span><span class="number">4</span><span class="default">, </span><span class="number">5</span><span class="default">]]],</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">            </span><span class="comment">// \n\r and \r is converted to \n</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">            </span><span class="default">[</span><span class="string">&quot;this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext&quot;</span><span class="default">],</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">            [</span><span class="keyword">new </span><span class="default">\<a href="dictionary_S.html#162439">stdClass</a>, $<a href="dictionary_O.html#127987">obj</a>, [], $<a href="dictionary_S.html#162764">storage</a>, $<a href="dictionary_O.html#128061">obj3</a>],</span>
+<a name="46"><font size=-1>46     </font></a><span class="default">            [\<a href="dictionary_C.html#41551">chr</a>(</span><span class="number">0</span><span class="default">) . \<a href="dictionary_C.html#41551">chr</a>(</span><span class="number">1</span><span class="default">) . \<a href="dictionary_C.html#41551">chr</a>(</span><span class="number">2</span><span class="default">) . \<a href="dictionary_C.html#41551">chr</a>(</span><span class="number">3</span><span class="default">) . \<a href="dictionary_C.html#41551">chr</a>(</span><span class="number">4</span><span class="default">) . \<a href="dictionary_C.html#41551">chr</a>(</span><span class="number">5</span><span class="default">), \<a href="dictionary_I.html#97806">implode</a>(</span><span class="string">''</span><span class="default">, \<a href="dictionary_A.html#29416">array_map</a>(</span><span class="string">'chr'</span><span class="default">, \<a href="dictionary_R.html#143616">range</a>(</span><span class="number">0x0e</span><span class="default">, </span><span class="number">0x1f</span><span class="default">)))],</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">            [\<a href="dictionary_C.html#41551">chr</a>(</span><span class="number">0x00</span><span class="default">) . \<a href="dictionary_C.html#41551">chr</a>(</span><span class="number">0x09</span><span class="default">)],</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">        ];</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">    }</span>
+<a name="50"><font size=-1>50     </font></a><span class="default"></span>
+<a name="51"><font size=-1>51     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="52"><font size=-1>52     </font></a><span class="comment">     * @dataProvider provider</span>
+<a name="53"><font size=-1>53     </font></a><span class="comment">     */</span>
+<a name="54"><font size=-1>54     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_D.html#176155">testProvider</a></span><span class="default">(): <a href="dictionary_V.html#189218">void</a></span>
+<a name="55"><font size=-1>55     </font></a><span class="default">    {</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#30247">assertTrue</a>(<a href="dictionary_T.html#181186">true</a>);</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">    }</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">}</span>
+<a name="59"><font size=-1>59     </font></a><span class="default"></span>
+</pre></body></html>

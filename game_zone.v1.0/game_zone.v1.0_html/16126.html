@@ -1,0 +1,160 @@
+<html><head><title>ErrorListener.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\symfony\http-kernel\EventListener\ErrorListener.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\symfony\\http-kernel\\EventListener\\ErrorListener.php";
+top.document.title  = "ErrorListener.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of the Symfony package.</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * (c) Fabien Potencier &lt;fabien@symfony.com&gt;</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> */</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"></span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_S.html#166112">Symfony</a></span><span class="default">\Component\HttpKernel\EventListener;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Psr\Log\<a href="dictionary_P.html#110586">LoggerInterface</a>;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\Debug\Exception\<a href="dictionary_S.html#78990">FlattenException</a> </span><span class="keyword">as <a href="dictionary_L.html#107877">LegacyFlattenException</a></span><span class="default">;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\ErrorHandler\Exception\<a href="dictionary_S.html#78988">FlattenException</a>;</span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\EventDispatcher\<a href="dictionary_S.html#72494">EventDispatcherInterface</a>;</span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\EventDispatcher\<a href="dictionary_S.html#72644">EventSubscriberInterface</a>;</span>
+<a name="19"><font size=-1>19     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\HttpFoundation\<a href="dictionary_S.html#147566">Request</a>;</span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\HttpKernel\Event\<a href="dictionary_S.html#49615">ControllerArgumentsEvent</a>;</span>
+<a name="21"><font size=-1>21     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\HttpKernel\Event\<a href="dictionary_S.html#73197">ExceptionEvent</a>;</span>
+<a name="22"><font size=-1>22     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\HttpKernel\Exception\<a href="dictionary_S.html#94155">HttpExceptionInterface</a>;</span>
+<a name="23"><font size=-1>23     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\HttpKernel\<a href="dictionary_S.html#94164">HttpKernelInterface</a>;</span>
+<a name="24"><font size=-1>24     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\HttpKernel\<a href="dictionary_S.html#104647">KernelEvents</a>;</span>
+<a name="25"><font size=-1>25     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\HttpKernel\Log\<a href="dictionary_S.html#58728">DebugLoggerInterface</a>;</span>
+<a name="26"><font size=-1>26     </font></a><span class="default"></span>
+<a name="27"><font size=-1>27     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment"> * @author Fabien Potencier &lt;fabien@symfony.com&gt;</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment"> */</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_S.html#71820">ErrorListener</a> implements </span><span class="default">EventSubscriberInterface</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">{</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_S.html#49600">controller</a>;</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_S.html#110554">logger</a>;</span>
+<a name="34"><font size=-1>34     </font></a><span class="default">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_S.html#58664">debug</a>;</span>
+<a name="35"><font size=-1>35     </font></a><span class="default"></span>
+<a name="36"><font size=-1>36     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_S.html#17422">__construct</a></span><span class="default">($<a href="dictionary_C.html#49543">controller</a>, LoggerInterface $<a href="dictionary_L.html#110495">logger</a> = <a href="dictionary_N.html#125929">null</a>, $<a href="dictionary_D.html#58624">debug</a> = <a href="dictionary_F.html#76452">false</a>)</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">    {</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#49600">controller</a> = $controller;</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#110554">logger</a> = $logger;</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#58664">debug</a> = $debug;</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">    }</span>
+<a name="42"><font size=-1>42     </font></a><span class="default"></span>
+<a name="43"><font size=-1>43     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_S.html#110667">logKernelException</a></span><span class="default">(<a href="dictionary_S.html#73196">ExceptionEvent</a> $<a href="dictionary_E.html#72149">event</a>)</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">    {</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">        $<a href="dictionary_E.html#63028">e</a> = <a href="dictionary_S.html#78991">FlattenException</a>::<a href="dictionary_S.html#51059">createFromThrowable</a>($<a href="dictionary_E.html#72149">event</a>-&gt;<a href="dictionary_G.html#88996">getThrowable</a>());</span>
+<a name="46"><font size=-1>46     </font></a><span class="default"></span>
+<a name="47"><font size=-1>47     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#110489">logException</a>($<a href="dictionary_E.html#72149">event</a>-&gt;<a href="dictionary_G.html#88996">getThrowable</a>(), <a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'Uncaught PHP Exception %s: &quot;%s&quot; at %s line %s'</span><span class="default">, $<a href="dictionary_E.html#63028">e</a>-&gt;<a href="dictionary_G.html#84333">getClass</a>(), $<a href="dictionary_E.html#63028">e</a>-&gt;<a href="dictionary_G.html#86606">getMessage</a>(), $<a href="dictionary_E.html#63028">e</a>-&gt;<a href="dictionary_G.html#85603">getFile</a>(), $<a href="dictionary_E.html#63028">e</a>-&gt;<a href="dictionary_G.html#86362">getLine</a>()));</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    }</span>
+<a name="49"><font size=-1>49     </font></a><span class="default"></span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_S.html#129428">onKernelException</a></span><span class="default">(<a href="dictionary_S.html#73196">ExceptionEvent</a> $<a href="dictionary_E.html#72146">event</a>, <a href="dictionary_S.html#163924">string</a> $<a href="dictionary_E.html#72521">eventName</a> = <a href="dictionary_N.html#125929">null</a>, EventDispatcherInterface $<a href="dictionary_E.html#72482">eventDispatcher</a> = <a href="dictionary_N.html#125929">null</a>)</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">    {</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_N.html#125929">null</a> === $this-&gt;<a href="dictionary_S.html#49600">controller</a>) {</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">        }</span>
+<a name="55"><font size=-1>55     </font></a><span class="default"></span>
+<a name="56"><font size=-1>56     </font></a><span class="default">        $<a href="dictionary_E.html#72912">exception</a> = $<a href="dictionary_E.html#72146">event</a>-&gt;<a href="dictionary_G.html#88996">getThrowable</a>();</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">        $<a href="dictionary_R.html#147106">request</a> = $this-&gt;<a href="dictionary_S.html#62905">duplicateRequest</a>($<a href="dictionary_E.html#72912">exception</a>, $<a href="dictionary_E.html#72146">event</a>-&gt;<a href="dictionary_G.html#87997">getRequest</a>());</span>
+<a name="58"><font size=-1>58     </font></a><span class="default"></span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        </span><span class="keyword">try </span><span class="default">{</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">            $<a href="dictionary_R.html#148544">response</a> = $<a href="dictionary_E.html#72146">event</a>-&gt;<a href="dictionary_G.html#86266">getKernel</a>()-&gt;<a href="dictionary_H.html#91104">handle</a>($<a href="dictionary_R.html#147106">request</a>, HttpKernelInterface::<a href="dictionary_S.html#164957">SUB_REQUEST</a>, <a href="dictionary_F.html#76452">false</a>);</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">        } </span><span class="keyword">catch </span><span class="default">(\<a href="dictionary_E.html#73138">Exception</a> $<a href="dictionary_E.html#63026">e</a>) {</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">            $<a href="dictionary_F.html#75136">f</a> = <a href="dictionary_S.html#78991">FlattenException</a>::<a href="dictionary_S.html#51059">createFromThrowable</a>($<a href="dictionary_E.html#63026">e</a>);</span>
+<a name="63"><font size=-1>63     </font></a><span class="default"></span>
+<a name="64"><font size=-1>64     </font></a><span class="default">            $this-&gt;<a href="dictionary_S.html#110489">logException</a>($<a href="dictionary_E.html#63026">e</a>, <a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'Exception thrown when handling an exception (%s: %s at %s line %s)'</span><span class="default">, $<a href="dictionary_F.html#75136">f</a>-&gt;<a href="dictionary_G.html#84333">getClass</a>(), $<a href="dictionary_F.html#75136">f</a>-&gt;<a href="dictionary_G.html#86606">getMessage</a>(), $<a href="dictionary_E.html#63026">e</a>-&gt;<a href="dictionary_G.html#85603">getFile</a>(), $<a href="dictionary_E.html#63026">e</a>-&gt;<a href="dictionary_G.html#86362">getLine</a>()));</span>
+<a name="65"><font size=-1>65     </font></a><span class="default"></span>
+<a name="66"><font size=-1>66     </font></a><span class="default">            $<a href="dictionary_P.html#138241">prev</a> = $<a href="dictionary_E.html#63026">e</a>;</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">            </span><span class="keyword">do </span><span class="default">{</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($<a href="dictionary_E.html#72912">exception</a> === $<a href="dictionary_W.html#190970">wrapper</a> = $<a href="dictionary_P.html#138241">prev</a>) {</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">                    </span><span class="keyword">throw </span><span class="default">$<a href="dictionary_E.html#63026">e</a>;</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">                }</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">            } </span><span class="keyword">while </span><span class="default">($<a href="dictionary_P.html#138241">prev</a> = $<a href="dictionary_W.html#190970">wrapper</a>-&gt;<a href="dictionary_G.html#87640">getPrevious</a>());</span>
+<a name="72"><font size=-1>72     </font></a><span class="default"></span>
+<a name="73"><font size=-1>73     </font></a><span class="default">            $<a href="dictionary_P.html#138241">prev</a> = </span><span class="keyword">new </span><span class="default">\<a href="dictionary_R.html#145085">ReflectionProperty</a>($<a href="dictionary_W.html#190970">wrapper</a> </span><span class="keyword">instanceof </span><span class="default">\<a href="dictionary_E.html#73138">Exception</a> ? \<a href="dictionary_E.html#73138">Exception</a>::</span><span class="keyword">class </span><span class="default">: \<a href="dictionary_E.html#71687">Error</a>::</span><span class="keyword">class</span><span class="default">, </span><span class="string">'previous'</span><span class="default">);</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">            $<a href="dictionary_P.html#138241">prev</a>-&gt;<a href="dictionary_S.html#155377">setAccessible</a>(<a href="dictionary_T.html#181186">true</a>);</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">            $<a href="dictionary_P.html#138241">prev</a>-&gt;<a href="dictionary_S.html#157510">setValue</a>($<a href="dictionary_W.html#190970">wrapper</a>, $<a href="dictionary_E.html#72912">exception</a>);</span>
+<a name="76"><font size=-1>76     </font></a><span class="default"></span>
+<a name="77"><font size=-1>77     </font></a><span class="default">            </span><span class="keyword">throw </span><span class="default">$<a href="dictionary_E.html#63026">e</a>;</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">        }</span>
+<a name="79"><font size=-1>79     </font></a><span class="default"></span>
+<a name="80"><font size=-1>80     </font></a><span class="default">        $<a href="dictionary_E.html#72146">event</a>-&gt;<a href="dictionary_S.html#156848">setResponse</a>($<a href="dictionary_R.html#148544">response</a>);</span>
+<a name="81"><font size=-1>81     </font></a><span class="default"></span>
+<a name="82"><font size=-1>82     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($this-&gt;<a href="dictionary_S.html#58664">debug</a> &amp;&amp; $<a href="dictionary_E.html#72482">eventDispatcher</a> </span><span class="keyword">instanceof </span><span class="default">EventDispatcherInterface) {</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">            $<a href="dictionary_C.html#51597">cspRemovalListener</a> = </span><span class="keyword">function </span><span class="default">($<a href="dictionary_E.html#72147">event</a>) </span><span class="keyword">use </span><span class="default">(&amp;$cspRemovalListener, $<a href="dictionary_E.html#72482">eventDispatcher</a>) {</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">                $<a href="dictionary_E.html#72147">event</a>-&gt;<a href="dictionary_G.html#88061">getResponse</a>()-&gt;<a href="dictionary_H.html#93014">headers</a>-&gt;<a href="dictionary_R.html#146223">remove</a>(</span><span class="string">'Content-Security-Policy'</span><span class="default">);</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">                $<a href="dictionary_E.html#72482">eventDispatcher</a>-&gt;<a href="dictionary_R.html#146381">removeListener</a>(<a href="dictionary_S.html#104646">KernelEvents</a>::<a href="dictionary_S.html#148751">RESPONSE</a>, $cspRemovalListener);</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">            };</span>
+<a name="87"><font size=-1>87     </font></a><span class="default">            $<a href="dictionary_E.html#72482">eventDispatcher</a>-&gt;<a href="dictionary_A.html#25902">addListener</a>(<a href="dictionary_S.html#104646">KernelEvents</a>::<a href="dictionary_S.html#148751">RESPONSE</a>, $<a href="dictionary_C.html#51597">cspRemovalListener</a>, -</span><span class="number">128</span><span class="default">);</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">        }</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">    }</span>
+<a name="90"><font size=-1>90     </font></a><span class="default"></span>
+<a name="91"><font size=-1>91     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_S.html#129321">onControllerArguments</a></span><span class="default">(<a href="dictionary_S.html#49614">ControllerArgumentsEvent</a> $<a href="dictionary_E.html#72148">event</a>)</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">    {</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">        $<a href="dictionary_E.html#63027">e</a> = $<a href="dictionary_E.html#72148">event</a>-&gt;<a href="dictionary_G.html#87997">getRequest</a>()-&gt;<a href="dictionary_A.html#31122">attributes</a>-&gt;<a href="dictionary_G.html#83445">get</a>(</span><span class="string">'exception'</span><span class="default">);</span>
+<a name="94"><font size=-1>94     </font></a><span class="default"></span>
+<a name="95"><font size=-1>95     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_E.html#63027">e</a> </span><span class="keyword">instanceof </span><span class="default">\<a href="dictionary_T.html#177904">Throwable</a> || <a href="dictionary_F.html#76452">false</a> === $<a href="dictionary_K.html#104148">k</a> = <a href="dictionary_A.html#29429">array_search</a>($<a href="dictionary_E.html#63027">e</a>, $<a href="dictionary_E.html#72148">event</a>-&gt;<a href="dictionary_G.html#83908">getArguments</a>(), <a href="dictionary_T.html#181186">true</a>)) {</span>
+<a name="96"><font size=-1>96     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="97"><font size=-1>97     </font></a><span class="default">        }</span>
+<a name="98"><font size=-1>98     </font></a><span class="default"></span>
+<a name="99"><font size=-1>99     </font></a><span class="default">        $<a href="dictionary_R.html#141153">r</a> = </span><span class="keyword">new </span><span class="default">\<a href="dictionary_R.html#145058">ReflectionFunction</a>(\<a href="dictionary_C.html#43630">Closure</a>::<a href="dictionary_C.html#81200">fromCallable</a>($<a href="dictionary_E.html#72148">event</a>-&gt;<a href="dictionary_G.html#84724">getController</a>()));</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">        $<a href="dictionary_R.html#141153">r</a> = $<a href="dictionary_R.html#141153">r</a>-&gt;<a href="dictionary_G.html#87437">getParameters</a>()[$<a href="dictionary_K.html#104148">k</a>] ?? <a href="dictionary_N.html#125929">null</a>;</span>
+<a name="101"><font size=-1>101     </font></a><span class="default"></span>
+<a name="102"><font size=-1>102     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_R.html#141153">r</a> &amp;&amp; (!$<a href="dictionary_R.html#141153">r</a>-&gt;<a href="dictionary_H.html#92200">hasType</a>() || \<a href="dictionary_I.html#97880">in_array</a>($<a href="dictionary_R.html#141153">r</a>-&gt;<a href="dictionary_G.html#89360">getType</a>()-&gt;<a href="dictionary_G.html#86981">getName</a>(), [<a href="dictionary_S.html#78990">FlattenException</a>::</span><span class="keyword">class</span><span class="default">, <a href="dictionary_L.html#107877">LegacyFlattenException</a>::</span><span class="keyword">class</span><span class="default">], <a href="dictionary_T.html#181186">true</a>))) {</span>
+<a name="103"><font size=-1>103     </font></a><span class="default">            $<a href="dictionary_A.html#28892">arguments</a> = $<a href="dictionary_E.html#72148">event</a>-&gt;<a href="dictionary_G.html#83908">getArguments</a>();</span>
+<a name="104"><font size=-1>104     </font></a><span class="default">            $<a href="dictionary_A.html#28892">arguments</a>[$<a href="dictionary_K.html#104148">k</a>] = <a href="dictionary_S.html#78991">FlattenException</a>::<a href="dictionary_S.html#51059">createFromThrowable</a>($<a href="dictionary_E.html#63027">e</a>);</span>
+<a name="105"><font size=-1>105     </font></a><span class="default">            $<a href="dictionary_E.html#72148">event</a>-&gt;<a href="dictionary_S.html#155448">setArguments</a>($<a href="dictionary_A.html#28892">arguments</a>);</span>
+<a name="106"><font size=-1>106     </font></a><span class="default">        }</span>
+<a name="107"><font size=-1>107     </font></a><span class="default">    }</span>
+<a name="108"><font size=-1>108     </font></a><span class="default"></span>
+<a name="109"><font size=-1>109     </font></a><span class="default">    </span><span class="keyword">public static function <a href="dictionary_S.html#88782">getSubscribedEvents</a></span><span class="default">(): </span><span class="keyword">array</span>
+<a name="110"><font size=-1>110     </font></a><span class="keyword">    </span><span class="default">{</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">[</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">            <a href="dictionary_S.html#104646">KernelEvents</a>::<a href="dictionary_S.html#49612">CONTROLLER_ARGUMENTS</a> =&gt; </span><span class="string">'onControllerArguments'</span><span class="default">,</span>
+<a name="113"><font size=-1>113     </font></a><span class="default">            <a href="dictionary_S.html#104646">KernelEvents</a>::<a href="dictionary_S.html#73097">EXCEPTION</a> =&gt; [</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">                [</span><span class="string">'logKernelException'</span><span class="default">, </span><span class="number">0</span><span class="default">],</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">                [</span><span class="string">'onKernelException'</span><span class="default">, -</span><span class="number">128</span><span class="default">],</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">            ],</span>
+<a name="117"><font size=-1>117     </font></a><span class="default">        ];</span>
+<a name="118"><font size=-1>118     </font></a><span class="default">    }</span>
+<a name="119"><font size=-1>119     </font></a><span class="default"></span>
+<a name="120"><font size=-1>120     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="121"><font size=-1>121     </font></a><span class="comment">     * Logs an exception.</span>
+<a name="122"><font size=-1>122     </font></a><span class="comment">     */</span>
+<a name="123"><font size=-1>123     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_S.html#110489">logException</a></span><span class="default">(\<a href="dictionary_T.html#177904">Throwable</a> $<a href="dictionary_E.html#72913">exception</a>, <a href="dictionary_S.html#163924">string</a> $<a href="dictionary_M.html#113768">message</a>): <a href="dictionary_S.html#189229">void</a></span>
+<a name="124"><font size=-1>124     </font></a><span class="default">    {</span>
+<a name="125"><font size=-1>125     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_N.html#125929">null</a> !== $this-&gt;<a href="dictionary_S.html#110554">logger</a>) {</span>
+<a name="126"><font size=-1>126     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_E.html#72913">exception</a> </span><span class="keyword">instanceof </span><span class="default">HttpExceptionInterface || $<a href="dictionary_E.html#72913">exception</a>-&gt;<a href="dictionary_G.html#88563">getStatusCode</a>() &gt;= </span><span class="number">500</span><span class="default">) {</span>
+<a name="127"><font size=-1>127     </font></a><span class="default">                $this-&gt;<a href="dictionary_S.html#110554">logger</a>-&gt;<a href="dictionary_C.html#51530">critical</a>($<a href="dictionary_M.html#113768">message</a>, [</span><span class="string">'exception' </span><span class="default">=&gt; $<a href="dictionary_E.html#72913">exception</a>]);</span>
+<a name="128"><font size=-1>128     </font></a><span class="default">            } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="129"><font size=-1>129     </font></a><span class="default">                $this-&gt;<a href="dictionary_S.html#110554">logger</a>-&gt;<a href="dictionary_E.html#71667">error</a>($<a href="dictionary_M.html#113768">message</a>, [</span><span class="string">'exception' </span><span class="default">=&gt; $<a href="dictionary_E.html#72913">exception</a>]);</span>
+<a name="130"><font size=-1>130     </font></a><span class="default">            }</span>
+<a name="131"><font size=-1>131     </font></a><span class="default">        }</span>
+<a name="132"><font size=-1>132     </font></a><span class="default">    }</span>
+<a name="133"><font size=-1>133     </font></a><span class="default"></span>
+<a name="134"><font size=-1>134     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="135"><font size=-1>135     </font></a><span class="comment">     * Clones the request for the exception.</span>
+<a name="136"><font size=-1>136     </font></a><span class="comment">     */</span>
+<a name="137"><font size=-1>137     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_S.html#62905">duplicateRequest</a></span><span class="default">(\<a href="dictionary_T.html#177904">Throwable</a> $<a href="dictionary_E.html#72914">exception</a>, <a href="dictionary_S.html#147561">Request</a> $request): <a href="dictionary_S.html#147561">Request</a></span>
+<a name="138"><font size=-1>138     </font></a><span class="default">    {</span>
+<a name="139"><font size=-1>139     </font></a><span class="default">        $<a href="dictionary_A.html#30854">attributes</a> = [</span>
+<a name="140"><font size=-1>140     </font></a><span class="default">            </span><span class="string">'_controller' </span><span class="default">=&gt; $this-&gt;<a href="dictionary_S.html#49600">controller</a>,</span>
+<a name="141"><font size=-1>141     </font></a><span class="default">            </span><span class="string">'exception' </span><span class="default">=&gt; $<a href="dictionary_E.html#72914">exception</a>,</span>
+<a name="142"><font size=-1>142     </font></a><span class="default">            </span><span class="string">'logger' </span><span class="default">=&gt; $this-&gt;<a href="dictionary_S.html#110554">logger</a> </span><span class="keyword">instanceof </span><span class="default">DebugLoggerInterface ? $this-&gt;<a href="dictionary_S.html#110554">logger</a> : <a href="dictionary_N.html#125929">null</a>,</span>
+<a name="143"><font size=-1>143     </font></a><span class="default">        ];</span>
+<a name="144"><font size=-1>144     </font></a><span class="default">        $<a href="dictionary_R.html#147107">request</a> = $request-&gt;<a href="dictionary_D.html#62899">duplicate</a>(<a href="dictionary_N.html#125929">null</a>, <a href="dictionary_N.html#125929">null</a>, $<a href="dictionary_A.html#30854">attributes</a>);</span>
+<a name="145"><font size=-1>145     </font></a><span class="default">        $<a href="dictionary_R.html#147107">request</a>-&gt;<a href="dictionary_S.html#156467">setMethod</a>(</span><span class="string">'GET'</span><span class="default">);</span>
+<a name="146"><font size=-1>146     </font></a><span class="default"></span>
+<a name="147"><font size=-1>147     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_R.html#147107">request</a>;</span>
+<a name="148"><font size=-1>148     </font></a><span class="default">    }</span>
+<a name="149"><font size=-1>149     </font></a><span class="default">}</span>
+<a name="150"><font size=-1>150     </font></a><span class="default"></span>
+</pre></body></html>

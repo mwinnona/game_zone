@@ -31,7 +31,14 @@
 <!-- /BREADCRUMB -->
 
 <div class="container">
-    <h1 >Pedido N°000{{$order->id}}</h1>
+    <div class="col-md-10">
+        <h1 >Pedido N°000{{$order->id}}</h1>
+    </div>
+    <div class="col-md-2">
+        <label>Factura:
+            <a href="{{URL('/factura/'.$order->token_order)}}"><span><i class="fa fa-download" aria-hidden="true"></i></span></a>
+        </label>
+    </div>
     <br>
     <div class="col-md-12">
         <table class="table table-bordered table-hover">

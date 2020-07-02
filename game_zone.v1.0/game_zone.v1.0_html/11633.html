@@ -1,0 +1,188 @@
+<html><head><title>CallQueuedHandler.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\laravel\framework\src\Illuminate\Queue\CallQueuedHandler.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\CallQueuedHandler.php";
+top.document.title  = "CallQueuedHandler.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_I.html#97429">Illuminate</a></span><span class="default">\Queue;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">use <a href="dictionary_E.html#73138">Exception</a></span><span class="default">;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Illuminate\Contracts\Bus\<a href="dictionary_I.html#61434">Dispatcher</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Illuminate\Contracts\Container\<a href="dictionary_I.html#48750">Container</a>;</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Illuminate\Contracts\Queue\<a href="dictionary_I.html#103776">Job</a>;</span>
+<a name="9"><font size=-1>9     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Illuminate\Database\Eloquent\<a href="dictionary_I.html#117565">ModelNotFoundException</a>;</span>
+<a name="10"><font size=-1>10     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Illuminate\Pipeline\<a href="dictionary_I.html#136475">Pipeline</a>;</span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span><span class="keyword">use <a href="dictionary_R.html#145041">ReflectionClass</a></span><span class="default">;</span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_I.html#39551">CallQueuedHandler</a></span>
+<a name="14"><font size=-1>14     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="15"><font size=-1>15     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment">     * The bus dispatcher implementation.</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment">     *</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment">     * @var \Illuminate\Contracts\Bus\Dispatcher</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment">     */</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_I.html#61414">dispatcher</a>;</span>
+<a name="21"><font size=-1>21     </font></a><span class="default"></span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment">     * The container instance.</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment">     *</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment">     * @var \Illuminate\Contracts\Container\Container</span>
+<a name="26"><font size=-1>26     </font></a><span class="comment">     */</span>
+<a name="27"><font size=-1>27     </font></a><span class="comment">    </span><span class="keyword">protected </span><span class="default">$<a href="dictionary_I.html#48711">container</a>;</span>
+<a name="28"><font size=-1>28     </font></a><span class="default"></span>
+<a name="29"><font size=-1>29     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment">     * Create a new handler instance.</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment">     *</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment">     * @param  \Illuminate\Contracts\Bus\Dispatcher  $dispatcher</span>
+<a name="33"><font size=-1>33     </font></a><span class="comment">     * @param  \Illuminate\Contracts\Container\Container  $container</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">     * @return void</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">     */</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_I.html#17914">__construct</a></span><span class="default">(<a href="dictionary_D.html#61388">Dispatcher</a> $dispatcher, <a href="dictionary_C.html#48593">Container</a> $container)</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">    {</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">        $this-&gt;<a href="dictionary_I.html#48711">container</a> = $container;</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        $this-&gt;<a href="dictionary_I.html#61414">dispatcher</a> = $dispatcher;</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">    }</span>
+<a name="41"><font size=-1>41     </font></a><span class="default"></span>
+<a name="42"><font size=-1>42     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="43"><font size=-1>43     </font></a><span class="comment">     * Handle the queued job.</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">     *</span>
+<a name="45"><font size=-1>45     </font></a><span class="comment">     * @param  \Illuminate\Contracts\Queue\Job  $job</span>
+<a name="46"><font size=-1>46     </font></a><span class="comment">     * @param  array  $data</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment">     * @return void</span>
+<a name="48"><font size=-1>48     </font></a><span class="comment">     */</span>
+<a name="49"><font size=-1>49     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_I.html#38812">call</a></span><span class="default">(<a href="dictionary_J.html#103656">Job</a> $job, </span><span class="keyword">array </span><span class="default">$<a href="dictionary_D.html#57385">data</a>)</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    {</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        </span><span class="keyword">try </span><span class="default">{</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">            $<a href="dictionary_C.html#45587">command</a> = $this-&gt;<a href="dictionary_I.html#156325">setJobInstanceIfNecessary</a>(</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">                $<a href="dictionary_J.html#103656">job</a>, <a href="dictionary_U.html#183548">unserialize</a>($<a href="dictionary_D.html#57385">data</a>[</span><span class="string">'command'</span><span class="default">])</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">            );</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        } </span><span class="keyword">catch </span><span class="default">(<a href="dictionary_I.html#117564">ModelNotFoundException</a> $<a href="dictionary_E.html#63288">e</a>) {</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">            </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_I.html#91189">handleModelNotFound</a>($<a href="dictionary_J.html#103656">job</a>, $<a href="dictionary_E.html#63288">e</a>);</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">        }</span>
+<a name="58"><font size=-1>58     </font></a><span class="default"></span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        $this-&gt;<a href="dictionary_I.html#61465">dispatchThroughMiddleware</a>($<a href="dictionary_J.html#103656">job</a>, $<a href="dictionary_C.html#45587">command</a>);</span>
+<a name="60"><font size=-1>60     </font></a><span class="default"></span>
+<a name="61"><font size=-1>61     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(! $<a href="dictionary_J.html#103656">job</a>-&gt;<a href="dictionary_H.html#91746">hasFailed</a>() &amp;&amp; ! $<a href="dictionary_J.html#103656">job</a>-&gt;<a href="dictionary_I.html#102144">isReleased</a>()) {</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">            $this-&gt;<a href="dictionary_I.html#71009">ensureNextJobInChainIsDispatched</a>($<a href="dictionary_C.html#45587">command</a>);</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">        }</span>
+<a name="64"><font size=-1>64     </font></a><span class="default"></span>
+<a name="65"><font size=-1>65     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(! $<a href="dictionary_J.html#103656">job</a>-&gt;<a href="dictionary_I.html#101156">isDeletedOrReleased</a>()) {</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">            $<a href="dictionary_J.html#103656">job</a>-&gt;<a href="dictionary_D.html#59733">delete</a>();</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">        }</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">    }</span>
+<a name="69"><font size=-1>69     </font></a><span class="default"></span>
+<a name="70"><font size=-1>70     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="71"><font size=-1>71     </font></a><span class="comment">     * Dispatch the given job / command through its specified middleware.</span>
+<a name="72"><font size=-1>72     </font></a><span class="comment">     *</span>
+<a name="73"><font size=-1>73     </font></a><span class="comment">     * @param  \Illuminate\Contracts\Queue\Job  $job</span>
+<a name="74"><font size=-1>74     </font></a><span class="comment">     * @param  mixed  $command</span>
+<a name="75"><font size=-1>75     </font></a><span class="comment">     * @return mixed</span>
+<a name="76"><font size=-1>76     </font></a><span class="comment">     */</span>
+<a name="77"><font size=-1>77     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_I.html#61465">dispatchThroughMiddleware</a></span><span class="default">(<a href="dictionary_J.html#103655">Job</a> $job, $<a href="dictionary_C.html#45585">command</a>)</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">    {</span>
+<a name="79"><font size=-1>79     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">(</span><span class="keyword">new <a href="dictionary_I.html#136472">Pipeline</a></span><span class="default">($this-&gt;<a href="dictionary_I.html#48711">container</a>))-&gt;<a href="dictionary_S.html#153909">send</a>($<a href="dictionary_C.html#45585">command</a>)</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">                -&gt;<a href="dictionary_T.html#177823">through</a>(<a href="dictionary_A.html#29417">array_merge</a>(<a href="dictionary_M.html#115684">method_exists</a>($<a href="dictionary_C.html#45585">command</a>, </span><span class="string">'middleware'</span><span class="default">) ? $<a href="dictionary_C.html#45585">command</a>-&gt;<a href="dictionary_M.html#116189">middleware</a>() : [], $<a href="dictionary_C.html#45585">command</a>-&gt;<a href="dictionary_M.html#116195">middleware</a> ?? []))</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">                -&gt;<a href="dictionary_T.html#177726">then</a>(</span><span class="keyword">function </span><span class="default">($<a href="dictionary_C.html#45586">command</a>) </span><span class="keyword">use </span><span class="default">($<a href="dictionary_J.html#103655">job</a>) {</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">                    </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_I.html#61414">dispatcher</a>-&gt;<a href="dictionary_D.html#61461">dispatchNow</a>(</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">                        $<a href="dictionary_C.html#45586">command</a>, $this-&gt;<a href="dictionary_I.html#148248">resolveHandler</a>($<a href="dictionary_J.html#103655">job</a>, $<a href="dictionary_C.html#45586">command</a>)</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">                    );</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">                });</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">    }</span>
+<a name="87"><font size=-1>87     </font></a><span class="default"></span>
+<a name="88"><font size=-1>88     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="89"><font size=-1>89     </font></a><span class="comment">     * Resolve the handler for the given command.</span>
+<a name="90"><font size=-1>90     </font></a><span class="comment">     *</span>
+<a name="91"><font size=-1>91     </font></a><span class="comment">     * @param  \Illuminate\Contracts\Queue\Job  $job</span>
+<a name="92"><font size=-1>92     </font></a><span class="comment">     * @param  mixed  $command</span>
+<a name="93"><font size=-1>93     </font></a><span class="comment">     * @return mixed</span>
+<a name="94"><font size=-1>94     </font></a><span class="comment">     */</span>
+<a name="95"><font size=-1>95     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_I.html#148248">resolveHandler</a></span><span class="default">($<a href="dictionary_J.html#103653">job</a>, $<a href="dictionary_C.html#45582">command</a>)</span>
+<a name="96"><font size=-1>96     </font></a><span class="default">    {</span>
+<a name="97"><font size=-1>97     </font></a><span class="default">        $<a href="dictionary_H.html#91227">handler</a> = $this-&gt;<a href="dictionary_I.html#61414">dispatcher</a>-&gt;<a href="dictionary_G.html#84506">getCommandHandler</a>($<a href="dictionary_C.html#45582">command</a>) ?: <a href="dictionary_N.html#125929">null</a>;</span>
+<a name="98"><font size=-1>98     </font></a><span class="default"></span>
+<a name="99"><font size=-1>99     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_H.html#91227">handler</a>) {</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">            $this-&gt;<a href="dictionary_I.html#156325">setJobInstanceIfNecessary</a>($<a href="dictionary_J.html#103653">job</a>, $<a href="dictionary_H.html#91227">handler</a>);</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">        }</span>
+<a name="102"><font size=-1>102     </font></a><span class="default"></span>
+<a name="103"><font size=-1>103     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_H.html#91227">handler</a>;</span>
+<a name="104"><font size=-1>104     </font></a><span class="default">    }</span>
+<a name="105"><font size=-1>105     </font></a><span class="default"></span>
+<a name="106"><font size=-1>106     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="107"><font size=-1>107     </font></a><span class="comment">     * Set the job instance of the given class if necessary.</span>
+<a name="108"><font size=-1>108     </font></a><span class="comment">     *</span>
+<a name="109"><font size=-1>109     </font></a><span class="comment">     * @param  \Illuminate\Contracts\Queue\Job  $job</span>
+<a name="110"><font size=-1>110     </font></a><span class="comment">     * @param  mixed  $instance</span>
+<a name="111"><font size=-1>111     </font></a><span class="comment">     * @return mixed</span>
+<a name="112"><font size=-1>112     </font></a><span class="comment">     */</span>
+<a name="113"><font size=-1>113     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_I.html#156325">setJobInstanceIfNecessary</a></span><span class="default">(<a href="dictionary_J.html#103652">Job</a> $job, $<a href="dictionary_I.html#99421">instance</a>)</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">    {</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_I.html#97880">in_array</a>(<a href="dictionary_I.html#99824">InteractsWithQueue</a>::</span><span class="keyword">class</span><span class="default">, <a href="dictionary_C.html#42402">class_uses_recursive</a>($<a href="dictionary_I.html#99421">instance</a>))) {</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">            $<a href="dictionary_I.html#99421">instance</a>-&gt;<a href="dictionary_S.html#156324">setJob</a>($<a href="dictionary_J.html#103652">job</a>);</span>
+<a name="117"><font size=-1>117     </font></a><span class="default">        }</span>
+<a name="118"><font size=-1>118     </font></a><span class="default"></span>
+<a name="119"><font size=-1>119     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_I.html#99421">instance</a>;</span>
+<a name="120"><font size=-1>120     </font></a><span class="default">    }</span>
+<a name="121"><font size=-1>121     </font></a><span class="default"></span>
+<a name="122"><font size=-1>122     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="123"><font size=-1>123     </font></a><span class="comment">     * Ensure the next job in the chain is dispatched if applicable.</span>
+<a name="124"><font size=-1>124     </font></a><span class="comment">     *</span>
+<a name="125"><font size=-1>125     </font></a><span class="comment">     * @param  mixed  $command</span>
+<a name="126"><font size=-1>126     </font></a><span class="comment">     * @return void</span>
+<a name="127"><font size=-1>127     </font></a><span class="comment">     */</span>
+<a name="128"><font size=-1>128     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_I.html#71009">ensureNextJobInChainIsDispatched</a></span><span class="default">($<a href="dictionary_C.html#45584">command</a>)</span>
+<a name="129"><font size=-1>129     </font></a><span class="default">    {</span>
+<a name="130"><font size=-1>130     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_M.html#115684">method_exists</a>($<a href="dictionary_C.html#45584">command</a>, </span><span class="string">'dispatchNextJobInChain'</span><span class="default">)) {</span>
+<a name="131"><font size=-1>131     </font></a><span class="default">            $<a href="dictionary_C.html#45584">command</a>-&gt;<a href="dictionary_D.html#61456">dispatchNextJobInChain</a>();</span>
+<a name="132"><font size=-1>132     </font></a><span class="default">        }</span>
+<a name="133"><font size=-1>133     </font></a><span class="default">    }</span>
+<a name="134"><font size=-1>134     </font></a><span class="default"></span>
+<a name="135"><font size=-1>135     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="136"><font size=-1>136     </font></a><span class="comment">     * Handle a model not found exception.</span>
+<a name="137"><font size=-1>137     </font></a><span class="comment">     *</span>
+<a name="138"><font size=-1>138     </font></a><span class="comment">     * @param  \Illuminate\Contracts\Queue\Job  $job</span>
+<a name="139"><font size=-1>139     </font></a><span class="comment">     * @param  \Throwable  $e</span>
+<a name="140"><font size=-1>140     </font></a><span class="comment">     * @return void</span>
+<a name="141"><font size=-1>141     </font></a><span class="comment">     */</span>
+<a name="142"><font size=-1>142     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_I.html#91189">handleModelNotFound</a></span><span class="default">(<a href="dictionary_J.html#103654">Job</a> $job, $<a href="dictionary_E.html#63286">e</a>)</span>
+<a name="143"><font size=-1>143     </font></a><span class="default">    {</span>
+<a name="144"><font size=-1>144     </font></a><span class="default">        $</span><span class="keyword">class </span><span class="default">= $<a href="dictionary_J.html#103654">job</a>-&gt;<a href="dictionary_R.html#148265">resolveName</a>();</span>
+<a name="145"><font size=-1>145     </font></a><span class="default"></span>
+<a name="146"><font size=-1>146     </font></a><span class="default">        </span><span class="keyword">try </span><span class="default">{</span>
+<a name="147"><font size=-1>147     </font></a><span class="default">            $<a href="dictionary_S.html#157903">shouldDelete</a> = (</span><span class="keyword">new <a href="dictionary_R.html#145041">ReflectionClass</a></span><span class="default">($</span><span class="keyword">class</span><span class="default">))</span>
+<a name="148"><font size=-1>148     </font></a><span class="default">                    -&gt;<a href="dictionary_G.html#85036">getDefaultProperties</a>()[</span><span class="string">'deleteWhenMissingModels'</span><span class="default">] ?? <a href="dictionary_F.html#76452">false</a>;</span>
+<a name="149"><font size=-1>149     </font></a><span class="default">        } </span><span class="keyword">catch </span><span class="default">(<a href="dictionary_E.html#73138">Exception</a> $<a href="dictionary_E.html#63285">e</a>) {</span>
+<a name="150"><font size=-1>150     </font></a><span class="default">            $<a href="dictionary_S.html#157903">shouldDelete</a> = <a href="dictionary_F.html#76452">false</a>;</span>
+<a name="151"><font size=-1>151     </font></a><span class="default">        }</span>
+<a name="152"><font size=-1>152     </font></a><span class="default"></span>
+<a name="153"><font size=-1>153     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_S.html#157903">shouldDelete</a>) {</span>
+<a name="154"><font size=-1>154     </font></a><span class="default">            </span><span class="keyword">return </span><span class="default">$<a href="dictionary_J.html#103654">job</a>-&gt;<a href="dictionary_D.html#59733">delete</a>();</span>
+<a name="155"><font size=-1>155     </font></a><span class="default">        }</span>
+<a name="156"><font size=-1>156     </font></a><span class="default"></span>
+<a name="157"><font size=-1>157     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_J.html#103654">job</a>-&gt;<a href="dictionary_F.html#76096">fail</a>($<a href="dictionary_E.html#63286">e</a>);</span>
+<a name="158"><font size=-1>158     </font></a><span class="default">    }</span>
+<a name="159"><font size=-1>159     </font></a><span class="default"></span>
+<a name="160"><font size=-1>160     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="161"><font size=-1>161     </font></a><span class="comment">     * Call the failed method on the job instance.</span>
+<a name="162"><font size=-1>162     </font></a><span class="comment">     *</span>
+<a name="163"><font size=-1>163     </font></a><span class="comment">     * The exception that caused the failure will be passed.</span>
+<a name="164"><font size=-1>164     </font></a><span class="comment">     *</span>
+<a name="165"><font size=-1>165     </font></a><span class="comment">     * @param  array  $data</span>
+<a name="166"><font size=-1>166     </font></a><span class="comment">     * @param  \Throwable  $e</span>
+<a name="167"><font size=-1>167     </font></a><span class="comment">     * @return void</span>
+<a name="168"><font size=-1>168     </font></a><span class="comment">     */</span>
+<a name="169"><font size=-1>169     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_I.html#76101">failed</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_D.html#57384">data</a>, $<a href="dictionary_E.html#63287">e</a>)</span>
+<a name="170"><font size=-1>170     </font></a><span class="default">    {</span>
+<a name="171"><font size=-1>171     </font></a><span class="default">        $<a href="dictionary_C.html#45583">command</a> = <a href="dictionary_U.html#183548">unserialize</a>($<a href="dictionary_D.html#57384">data</a>[</span><span class="string">'command'</span><span class="default">]);</span>
+<a name="172"><font size=-1>172     </font></a><span class="default"></span>
+<a name="173"><font size=-1>173     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_M.html#115684">method_exists</a>($<a href="dictionary_C.html#45583">command</a>, </span><span class="string">'failed'</span><span class="default">)) {</span>
+<a name="174"><font size=-1>174     </font></a><span class="default">            $<a href="dictionary_C.html#45583">command</a>-&gt;<a href="dictionary_F.html#76108">failed</a>($<a href="dictionary_E.html#63287">e</a>);</span>
+<a name="175"><font size=-1>175     </font></a><span class="default">        }</span>
+<a name="176"><font size=-1>176     </font></a><span class="default">    }</span>
+<a name="177"><font size=-1>177     </font></a><span class="default">}</span>
+<a name="178"><font size=-1>178     </font></a><span class="default"></span>
+</pre></body></html>

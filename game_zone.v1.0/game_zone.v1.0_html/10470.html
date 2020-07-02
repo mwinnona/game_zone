@@ -1,0 +1,75 @@
+<html><head><title>Address.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\fzaninotto\faker\src\Faker\Provider\en_CA\Address.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\fzaninotto\\faker\\src\\Faker\\Provider\\en_CA\\Address.php";
+top.document.title  = "Address.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_F.html#76300">Faker</a></span><span class="default">\Provider\en_CA;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * Extend US class since most fields share the same format</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> */</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"></span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_F.html#26233">Address</a> extends </span><span class="default">\Faker\Provider\en_US\<a href="dictionary_F.html#26203">Address</a></span>
+<a name="10"><font size=-1>10     </font></a><span class="default">{</span>
+<a name="11"><font size=-1>11     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#137367">postcode</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">'?#? #?#'</span><span class="default">, </span><span class="string">'?#?-#?#'</span><span class="default">, </span><span class="string">'?#?#?#'</span><span class="default">);</span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span>
+<a name="13"><font size=-1>13     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#137399">postcodeLetters</a> = </span><span class="keyword">array</span><span class="default">(</span><span class="string">'A'</span><span class="default">,</span><span class="string">'B'</span><span class="default">,</span><span class="string">'C'</span><span class="default">,</span><span class="string">'E'</span><span class="default">,</span><span class="string">'G'</span><span class="default">,</span><span class="string">'H'</span><span class="default">,</span><span class="string">'J'</span><span class="default">,</span><span class="string">'K'</span><span class="default">,</span><span class="string">'L'</span><span class="default">,</span><span class="string">'M'</span><span class="default">,</span><span class="string">'N'</span><span class="default">,</span><span class="string">'P'</span><span class="default">,</span><span class="string">'R'</span><span class="default">,</span><span class="string">'S'</span><span class="default">,</span><span class="string">'T'</span><span class="default">,</span><span class="string">'V'</span><span class="default">,</span><span class="string">'X'</span><span class="default">,</span><span class="string">'Y'</span><span class="default">);</span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span>
+<a name="15"><font size=-1>15     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#139759">province</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="16"><font size=-1>16     </font></a><span class="default">        </span><span class="string">'Alberta'</span><span class="default">, </span><span class="string">'British Columbia'</span><span class="default">, </span><span class="string">'Manitoba'</span><span class="default">, </span><span class="string">'New Brunswick'</span><span class="default">, </span><span class="string">'Newfoundland and Labrador'</span><span class="default">, </span><span class="string">'Northwest Territories'</span><span class="default">, </span><span class="string">'Nova Scotia'</span><span class="default">, </span><span class="string">'Nunavut'</span><span class="default">, </span><span class="string">'Ontario'</span><span class="default">, </span><span class="string">'Prince Edward Island'</span><span class="default">, </span><span class="string">'Quebec'</span><span class="default">, </span><span class="string">'Saskatchewan'</span><span class="default">, </span><span class="string">'Yukon Territory'</span><span class="default">,</span>
+<a name="17"><font size=-1>17     </font></a><span class="default">    );</span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span>
+<a name="19"><font size=-1>19     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#139765">provinceAbbr</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="20"><font size=-1>20     </font></a><span class="default">        </span><span class="string">'AB'</span><span class="default">, </span><span class="string">'BC'</span><span class="default">, </span><span class="string">'MB'</span><span class="default">, </span><span class="string">'NB'</span><span class="default">, </span><span class="string">'NL'</span><span class="default">, </span><span class="string">'NT'</span><span class="default">, </span><span class="string">'NS'</span><span class="default">, </span><span class="string">'NU'</span><span class="default">, </span><span class="string">'ON'</span><span class="default">, </span><span class="string">'PE'</span><span class="default">, </span><span class="string">'QC'</span><span class="default">, </span><span class="string">'SK'</span><span class="default">, </span><span class="string">'YT'</span>
+<a name="21"><font size=-1>21     </font></a><span class="string">    </span><span class="default">);</span>
+<a name="22"><font size=-1>22     </font></a><span class="default"></span>
+<a name="23"><font size=-1>23     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#26355">addressFormats</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">        </span><span class="string">&quot;{{streetAddress}}\n{{city}}, {{provinceAbbr}}  {{postcode}}&quot;</span><span class="default">,</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">    );</span>
+<a name="26"><font size=-1>26     </font></a><span class="default"></span>
+<a name="27"><font size=-1>27     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment">     * @example 'Ontario'</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment">     */</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_F.html#139752">province</a></span><span class="default">()</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">    {</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_P.html#139762">province</a>);</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">    }</span>
+<a name="34"><font size=-1>34     </font></a><span class="default"></span>
+<a name="35"><font size=-1>35     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment">     * @example 'ON'</span>
+<a name="37"><font size=-1>37     </font></a><span class="comment">     */</span>
+<a name="38"><font size=-1>38     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_F.html#139763">provinceAbbr</a></span><span class="default">()</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">    {</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_P.html#139767">provinceAbbr</a>);</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">    }</span>
+<a name="42"><font size=-1>42     </font></a><span class="default"></span>
+<a name="43"><font size=-1>43     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">     * Returns a postalcode-safe letter</span>
+<a name="45"><font size=-1>45     </font></a><span class="comment">     * @example A1B 2C3</span>
+<a name="46"><font size=-1>46     </font></a><span class="comment">     */</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_F.html#143568">randomPostcodeLetter</a></span><span class="default">()</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    {</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_P.html#137400">postcodeLetters</a>);</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    }</span>
+<a name="51"><font size=-1>51     </font></a><span class="default"></span>
+<a name="52"><font size=-1>52     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="53"><font size=-1>53     </font></a><span class="comment">     * @example A1B 2C3</span>
+<a name="54"><font size=-1>54     </font></a><span class="comment">     */</span>
+<a name="55"><font size=-1>55     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_F.html#137324">postcode</a></span><span class="default">()</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">    {</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">        $<a href="dictionary_S.html#163720">string</a> = </span><span class="keyword">static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_P.html#137397">postcode</a>);</span>
+<a name="58"><font size=-1>58     </font></a><span class="default"></span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        $<a href="dictionary_S.html#163720">string</a> = <a href="dictionary_P.html#137985">preg_replace_callback</a>(</span><span class="string">'/\#/u'</span><span class="default">, </span><span class="string">'static::randomDigit'</span><span class="default">, $<a href="dictionary_S.html#163720">string</a>);</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">        $<a href="dictionary_S.html#163720">string</a> = <a href="dictionary_P.html#137985">preg_replace_callback</a>(</span><span class="string">'/\?/u'</span><span class="default">, </span><span class="string">'static::randomPostcodeLetter'</span><span class="default">, $<a href="dictionary_S.html#163720">string</a>);</span>
+<a name="61"><font size=-1>61     </font></a><span class="default"></span>
+<a name="62"><font size=-1>62     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::toUpper($<a href="dictionary_S.html#163720">string</a>);</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">    }</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">}</span>
+<a name="65"><font size=-1>65     </font></a><span class="default"></span>
+</pre></body></html>

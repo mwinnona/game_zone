@@ -1,0 +1,51 @@
+<html><head><title>ExecuteSolutionRequest.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\facade\ignition\src\Http\Requests\ExecuteSolutionRequest.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\facade\\ignition\\src\\Http\\Requests\\ExecuteSolutionRequest.php";
+top.document.title  = "ExecuteSolutionRequest.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_F.html#75785">Facade</a></span><span class="default">\Ignition\Http\Requests;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Facade\IgnitionContracts\<a href="dictionary_F.html#151220">RunnableSolution</a>;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Facade\IgnitionContracts\<a href="dictionary_F.html#159262">Solution</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Facade\IgnitionContracts\<a href="dictionary_F.html#159287">SolutionProviderRepository</a>;</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Illuminate\Foundation\Http\<a href="dictionary_I.html#80611">FormRequest</a>;</span>
+<a name="9"><font size=-1>9     </font></a><span class="default"></span>
+<a name="10"><font size=-1>10     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_F.html#73529">ExecuteSolutionRequest</a> extends <a href="dictionary_I.html#80610">FormRequest</a></span>
+<a name="11"><font size=-1>11     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="12"><font size=-1>12     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_F.html#151083">rules</a></span><span class="default">(): </span><span class="keyword">array</span>
+<a name="13"><font size=-1>13     </font></a><span class="keyword">    </span><span class="default">{</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">[</span>
+<a name="15"><font size=-1>15     </font></a><span class="default">            </span><span class="string">'solution' </span><span class="default">=&gt; </span><span class="string">'required'</span><span class="default">,</span>
+<a name="16"><font size=-1>16     </font></a><span class="default">            </span><span class="string">'parameters' </span><span class="default">=&gt; </span><span class="string">'array'</span><span class="default">,</span>
+<a name="17"><font size=-1>17     </font></a><span class="default">        ];</span>
+<a name="18"><font size=-1>18     </font></a><span class="default">    }</span>
+<a name="19"><font size=-1>19     </font></a><span class="default"></span>
+<a name="20"><font size=-1>20     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_F.html#88400">getSolution</a></span><span class="default">(): Solution</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">    {</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">        $<a href="dictionary_S.html#159245">solution</a> = <a href="dictionary_A.html#27959">app</a>(SolutionProviderRepository::</span><span class="keyword">class</span><span class="default">)</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">            -&gt;<a href="dictionary_G.html#88426">getSolutionForClass</a>($this-&gt;<a href="dictionary_I.html#83395">get</a>(</span><span class="string">'solution'</span><span class="default">));</span>
+<a name="24"><font size=-1>24     </font></a><span class="default"></span>
+<a name="25"><font size=-1>25     </font></a><span class="default">        <a href="dictionary_A.html#24318">abort_if</a>(<a href="dictionary_I.html#100745">is_null</a>($<a href="dictionary_S.html#159245">solution</a>), </span><span class="number">404</span><span class="default">, </span><span class="string">'Solution could not be found'</span><span class="default">);</span>
+<a name="26"><font size=-1>26     </font></a><span class="default"></span>
+<a name="27"><font size=-1>27     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_S.html#159245">solution</a>;</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">    }</span>
+<a name="29"><font size=-1>29     </font></a><span class="default"></span>
+<a name="30"><font size=-1>30     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_F.html#88184">getRunnableSolution</a></span><span class="default">(): RunnableSolution</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">    {</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">        $<a href="dictionary_S.html#159246">solution</a> = $this-&gt;<a href="dictionary_F.html#88400">getSolution</a>();</span>
+<a name="33"><font size=-1>33     </font></a><span class="default"></span>
+<a name="34"><font size=-1>34     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(! $<a href="dictionary_S.html#159246">solution</a> </span><span class="keyword">instanceof </span><span class="default">RunnableSolution) {</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">            <a href="dictionary_A.html#24315">abort</a>(</span><span class="number">404</span><span class="default">, </span><span class="string">'Runnable solution could not be found'</span><span class="default">);</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">        }</span>
+<a name="37"><font size=-1>37     </font></a><span class="default"></span>
+<a name="38"><font size=-1>38     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_S.html#159246">solution</a>;</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">    }</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">}</span>
+<a name="41"><font size=-1>41     </font></a><span class="default"></span>
+</pre></body></html>

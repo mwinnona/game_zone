@@ -1,0 +1,62 @@
+<html><head><title>BreakException.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\psy\psysh\src\Exception\BreakException.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\psy\\psysh\\src\\Exception\\BreakException.php";
+top.document.title  = "BreakException.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of Psy Shell.</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * (c) 2012-2020 Justin Hileman</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> */</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"></span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_P.html#139962">Psy</a></span><span class="default">\Exception;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment"> * A break exception, used for halting the Psy Shell.</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment"> */</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_P.html#35936">BreakException</a> extends </span><span class="default">\<a href="dictionary_E.html#73138">Exception</a> </span><span class="keyword">implements </span><span class="default">Exception</span>
+<a name="18"><font size=-1>18     </font></a><span class="default">{</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_P.html#143728">rawMessage</a>;</span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span>
+<a name="21"><font size=-1>21     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment">     * {@inheritdoc}</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment">     */</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_P.html#18126">__construct</a></span><span class="default">($<a href="dictionary_M.html#114410">message</a> = </span><span class="string">''</span><span class="default">, $<a href="dictionary_C.html#44183">code</a> = </span><span class="number">0</span><span class="default">, \<a href="dictionary_E.html#73138">Exception</a> $<a href="dictionary_P.html#138356">previous</a> = <a href="dictionary_N.html#125929">null</a>)</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">    {</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">        $this-&gt;<a href="dictionary_P.html#143728">rawMessage</a> = $<a href="dictionary_M.html#114410">message</a>;</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">        parent::<a href="dictionary_E.html#19144">__construct</a>(\<a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'Exit:  %s'</span><span class="default">, $<a href="dictionary_M.html#114410">message</a>), $<a href="dictionary_C.html#44183">code</a>, $<a href="dictionary_P.html#138356">previous</a>);</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">    }</span>
+<a name="29"><font size=-1>29     </font></a><span class="default"></span>
+<a name="30"><font size=-1>30     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment">     * Return a raw (unformatted) version of the error message.</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment">     *</span>
+<a name="33"><font size=-1>33     </font></a><span class="comment">     * @return string</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">     */</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">    </span><span class="keyword">public function <a href="dictionary_P.html#87847">getRawMessage</a></span><span class="default">()</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">    {</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_P.html#143728">rawMessage</a>;</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">    }</span>
+<a name="39"><font size=-1>39     </font></a><span class="default"></span>
+<a name="40"><font size=-1>40     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="41"><font size=-1>41     </font></a><span class="comment">     * Throws BreakException.</span>
+<a name="42"><font size=-1>42     </font></a><span class="comment">     *</span>
+<a name="43"><font size=-1>43     </font></a><span class="comment">     * Since `throw` can not be inserted into arbitrary expressions, it wraps with function call.</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">     *</span>
+<a name="45"><font size=-1>45     </font></a><span class="comment">     * @throws BreakException</span>
+<a name="46"><font size=-1>46     </font></a><span class="comment">     */</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_P.html#73613">exitShell</a></span><span class="default">()</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    {</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        </span><span class="keyword">throw new </span><span class="default">self(</span><span class="string">'Goodbye'</span><span class="default">);</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    }</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">}</span>
+<a name="52"><font size=-1>52     </font></a><span class="default"></span>
+</pre></body></html>

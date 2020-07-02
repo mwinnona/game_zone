@@ -1,0 +1,155 @@
+<html><head><title>BrickMathCalculator.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\ramsey\uuid\src\Math\BrickMathCalculator.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\ramsey\\uuid\\src\\Math\\BrickMathCalculator.php";
+top.document.title  = "BrickMathCalculator.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of the ramsey/uuid library</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> *</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> * @copyright Copyright (c) Ben Ramsey &lt;ben@benramsey.com&gt;</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> * @license http://opensource.org/licenses/MIT MIT</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"> */</span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"></span>
+<a name="13"><font size=-1>13     </font></a><span class="comment"></span><span class="keyword">declare</span><span class="default">(strict_types=</span><span class="number">1</span><span class="default">);</span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_R.html#143476">Ramsey</a></span><span class="default">\Uuid\Math;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Brick\Math\<a href="dictionary_B.html#34417">BigDecimal</a>;</span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Brick\Math\<a href="dictionary_B.html#34424">BigInteger</a>;</span>
+<a name="19"><font size=-1>19     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Brick\Math\Exception\<a href="dictionary_B.html#112995">MathException</a>;</span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Brick\Math\<a href="dictionary_B.html#150495">RoundingMode</a> </span><span class="keyword">as <a href="dictionary_B.html#35959">BrickMathRounding</a></span><span class="default">;</span>
+<a name="21"><font size=-1>21     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Ramsey\Uuid\Exception\<a href="dictionary_R.html#100181">InvalidArgumentException</a>;</span>
+<a name="22"><font size=-1>22     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Ramsey\Uuid\Type\<a href="dictionary_R.html#58761">Decimal</a>;</span>
+<a name="23"><font size=-1>23     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Ramsey\Uuid\Type\<a href="dictionary_R.html#93199">Hexadecimal</a>;</span>
+<a name="24"><font size=-1>24     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Ramsey\Uuid\Type\<a href="dictionary_R.html#99760">Integer</a> </span><span class="keyword">as <a href="dictionary_I.html#99780">IntegerObject</a></span><span class="default">;</span>
+<a name="25"><font size=-1>25     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Ramsey\Uuid\Type\<a href="dictionary_R.html#126225">NumberInterface</a>;</span>
+<a name="26"><font size=-1>26     </font></a><span class="default"></span>
+<a name="27"><font size=-1>27     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment"> * A calculator using the brick/math library for arbitrary-precision arithmetic</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment"> *</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment"> * @psalm-immutable</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment"> */</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment"></span><span class="keyword">final class <a href="dictionary_R.html#35957">BrickMathCalculator</a> implements </span><span class="default">CalculatorInterface</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">{</span>
+<a name="34"><font size=-1>34     </font></a><span class="default">    </span><span class="keyword">private const <a href="dictionary_R.html#150482">ROUNDING_MODE_MAP</a> </span><span class="default">= [</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#183497">UNNECESSARY</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#183498">UNNECESSARY</a>,</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#183668">UP</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#183669">UP</a>,</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#62451">DOWN</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#62452">DOWN</a>,</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#40349">CEILING</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#40350">CEILING</a>,</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#79122">FLOOR</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#79123">FLOOR</a>,</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#90877">HALF_UP</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#90878">HALF_UP</a>,</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#90870">HALF_DOWN</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#90871">HALF_DOWN</a>,</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#90868">HALF_CEILING</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#90869">HALF_CEILING</a>,</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#90874">HALF_FLOOR</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#90875">HALF_FLOOR</a>,</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">        <a href="dictionary_B.html#150494">RoundingMode</a>::<a href="dictionary_R.html#90872">HALF_EVEN</a> =&gt; <a href="dictionary_B.html#35959">BrickMathRounding</a>::<a href="dictionary_B.html#90873">HALF_EVEN</a>,</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">    ];</span>
+<a name="46"><font size=-1>46     </font></a><span class="default"></span>
+<a name="47"><font size=-1>47     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_R.html#25400">add</a></span><span class="default">(NumberInterface $<a href="dictionary_A.html#31212">augend</a>, NumberInterface ...$<a href="dictionary_A.html#25667">addends</a>): NumberInterface</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    {</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        $<a href="dictionary_S.html#165511">sum</a> = <a href="dictionary_B.html#34423">BigInteger</a>::<a href="dictionary_B.html#128674">of</a>($<a href="dictionary_A.html#31212">augend</a>-&gt;<a href="dictionary_T.html#180171">toString</a>());</span>
+<a name="50"><font size=-1>50     </font></a><span class="default"></span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_A.html#25667">addends</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_A.html#25665">addend</a>) {</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">            $<a href="dictionary_S.html#165511">sum</a> = $<a href="dictionary_S.html#165511">sum</a>-&gt;<a href="dictionary_P.html#136755">plus</a>($<a href="dictionary_A.html#25665">addend</a>-&gt;<a href="dictionary_T.html#180171">toString</a>());</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">        }</span>
+<a name="54"><font size=-1>54     </font></a><span class="default"></span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        </span><span class="keyword">return new <a href="dictionary_I.html#99780">IntegerObject</a></span><span class="default">((string) $<a href="dictionary_S.html#165511">sum</a>);</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">    }</span>
+<a name="57"><font size=-1>57     </font></a><span class="default"></span>
+<a name="58"><font size=-1>58     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_R.html#165222">subtract</a></span><span class="default">(NumberInterface $<a href="dictionary_M.html#116460">minuend</a>, NumberInterface ...$<a href="dictionary_S.html#165228">subtrahends</a>): NumberInterface</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">    {</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">        $<a href="dictionary_D.html#60774">difference</a> = <a href="dictionary_B.html#34423">BigInteger</a>::<a href="dictionary_B.html#128674">of</a>($<a href="dictionary_M.html#116460">minuend</a>-&gt;<a href="dictionary_T.html#180171">toString</a>());</span>
+<a name="61"><font size=-1>61     </font></a><span class="default"></span>
+<a name="62"><font size=-1>62     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_S.html#165228">subtrahends</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_S.html#165226">subtrahend</a>) {</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">            $<a href="dictionary_D.html#60774">difference</a> = $difference-&gt;<a href="dictionary_M.html#116464">minus</a>($<a href="dictionary_S.html#165226">subtrahend</a>-&gt;<a href="dictionary_T.html#180171">toString</a>());</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">        }</span>
+<a name="65"><font size=-1>65     </font></a><span class="default"></span>
+<a name="66"><font size=-1>66     </font></a><span class="default">        </span><span class="keyword">return new <a href="dictionary_I.html#99780">IntegerObject</a></span><span class="default">((string) $<a href="dictionary_D.html#60774">difference</a>);</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">    }</span>
+<a name="68"><font size=-1>68     </font></a><span class="default"></span>
+<a name="69"><font size=-1>69     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_R.html#118253">multiply</a></span><span class="default">(NumberInterface $<a href="dictionary_M.html#118237">multiplicand</a>, NumberInterface ...$<a href="dictionary_M.html#118249">multipliers</a>): NumberInterface</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">    {</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">        $<a href="dictionary_P.html#138900">product</a> = <a href="dictionary_B.html#34423">BigInteger</a>::<a href="dictionary_B.html#128674">of</a>($<a href="dictionary_M.html#118237">multiplicand</a>-&gt;<a href="dictionary_T.html#180171">toString</a>());</span>
+<a name="72"><font size=-1>72     </font></a><span class="default"></span>
+<a name="73"><font size=-1>73     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_M.html#118249">multipliers</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_M.html#118244">multiplier</a>) {</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">            $<a href="dictionary_P.html#138900">product</a> = $product-&gt;<a href="dictionary_M.html#118241">multipliedBy</a>($<a href="dictionary_M.html#118244">multiplier</a>-&gt;<a href="dictionary_T.html#180171">toString</a>());</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">        }</span>
+<a name="76"><font size=-1>76     </font></a><span class="default"></span>
+<a name="77"><font size=-1>77     </font></a><span class="default">        </span><span class="keyword">return new <a href="dictionary_I.html#99780">IntegerObject</a></span><span class="default">((string) $<a href="dictionary_P.html#138900">product</a>);</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">    }</span>
+<a name="79"><font size=-1>79     </font></a><span class="default"></span>
+<a name="80"><font size=-1>80     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_R.html#61629">divide</a></span><span class="default">(</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">        <a href="dictionary_R.html#99723">int</a> $<a href="dictionary_R.html#150491">roundingMode</a>,</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">        <a href="dictionary_R.html#99723">int</a> $<a href="dictionary_S.html#152659">scale</a>,</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">        NumberInterface $<a href="dictionary_D.html#61637">dividend</a>,</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">        NumberInterface ...$<a href="dictionary_D.html#61646">divisors</a></span>
+<a name="85"><font size=-1>85     </font></a><span class="default">    ): NumberInterface {</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">        $<a href="dictionary_B.html#35960">brickRounding</a> = $this-&gt;<a href="dictionary_R.html#84131">getBrickRoundingMode</a>($<a href="dictionary_R.html#150491">roundingMode</a>);</span>
+<a name="87"><font size=-1>87     </font></a><span class="default"></span>
+<a name="88"><font size=-1>88     </font></a><span class="default">        $<a href="dictionary_Q.html#141141">quotient</a> = <a href="dictionary_B.html#34416">BigDecimal</a>::<a href="dictionary_B.html#128675">of</a>($<a href="dictionary_D.html#61637">dividend</a>-&gt;<a href="dictionary_T.html#180171">toString</a>());</span>
+<a name="89"><font size=-1>89     </font></a><span class="default"></span>
+<a name="90"><font size=-1>90     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_D.html#61646">divisors</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_D.html#61644">divisor</a>) {</span>
+<a name="91"><font size=-1>91     </font></a><span class="default">            $<a href="dictionary_Q.html#141141">quotient</a> = $quotient-&gt;<a href="dictionary_D.html#61634">dividedBy</a>($<a href="dictionary_D.html#61644">divisor</a>-&gt;<a href="dictionary_T.html#180171">toString</a>(), $<a href="dictionary_S.html#152659">scale</a>, $<a href="dictionary_B.html#35960">brickRounding</a>);</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">        }</span>
+<a name="93"><font size=-1>93     </font></a><span class="default"></span>
+<a name="94"><font size=-1>94     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_S.html#152659">scale</a> === </span><span class="number">0</span><span class="default">) {</span>
+<a name="95"><font size=-1>95     </font></a><span class="default">            </span><span class="keyword">return new <a href="dictionary_I.html#99780">IntegerObject</a></span><span class="default">((string) $<a href="dictionary_Q.html#141141">quotient</a>-&gt;<a href="dictionary_T.html#179108">toBigInteger</a>());</span>
+<a name="96"><font size=-1>96     </font></a><span class="default">        }</span>
+<a name="97"><font size=-1>97     </font></a><span class="default"></span>
+<a name="98"><font size=-1>98     </font></a><span class="default">        </span><span class="keyword">return new <a href="dictionary_R.html#58760">Decimal</a></span><span class="default">((string) $<a href="dictionary_Q.html#141141">quotient</a>);</span>
+<a name="99"><font size=-1>99     </font></a><span class="default">    }</span>
+<a name="100"><font size=-1>100     </font></a><span class="default"></span>
+<a name="101"><font size=-1>101     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_R.html#81193">fromBase</a></span><span class="default">(<a href="dictionary_R.html#164122">string</a> $<a href="dictionary_V.html#187496">value</a>, <a href="dictionary_R.html#99723">int</a> $<a href="dictionary_B.html#33685">base</a>): <a href="dictionary_I.html#99780">IntegerObject</a></span>
+<a name="102"><font size=-1>102     </font></a><span class="default">    {</span>
+<a name="103"><font size=-1>103     </font></a><span class="default">        </span><span class="keyword">try </span><span class="default">{</span>
+<a name="104"><font size=-1>104     </font></a><span class="default">            </span><span class="keyword">return new <a href="dictionary_I.html#99780">IntegerObject</a></span><span class="default">((string) <a href="dictionary_B.html#34423">BigInteger</a>::<a href="dictionary_B.html#81191">fromBase</a>($<a href="dictionary_V.html#187496">value</a>, $<a href="dictionary_B.html#33685">base</a>));</span>
+<a name="105"><font size=-1>105     </font></a><span class="default">        } </span><span class="keyword">catch </span><span class="default">(<a href="dictionary_B.html#112994">MathException</a> | \<a href="dictionary_I.html#100179">InvalidArgumentException</a> $<a href="dictionary_E.html#73050">exception</a>) {</span>
+<a name="106"><font size=-1>106     </font></a><span class="default">            </span><span class="keyword">throw new <a href="dictionary_R.html#100162">InvalidArgumentException</a></span><span class="default">(</span>
+<a name="107"><font size=-1>107     </font></a><span class="default">                $<a href="dictionary_E.html#73050">exception</a>-&gt;<a href="dictionary_G.html#86606">getMessage</a>(),</span>
+<a name="108"><font size=-1>108     </font></a><span class="default">                (int) $<a href="dictionary_E.html#73050">exception</a>-&gt;<a href="dictionary_G.html#84433">getCode</a>(),</span>
+<a name="109"><font size=-1>109     </font></a><span class="default">                $<a href="dictionary_E.html#73050">exception</a></span>
+<a name="110"><font size=-1>110     </font></a><span class="default">            );</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">        }</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">    }</span>
+<a name="113"><font size=-1>113     </font></a><span class="default"></span>
+<a name="114"><font size=-1>114     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_R.html#179099">toBase</a></span><span class="default">(<a href="dictionary_I.html#99780">IntegerObject</a> $<a href="dictionary_V.html#187495">value</a>, <a href="dictionary_R.html#99723">int</a> $<a href="dictionary_B.html#33684">base</a>): <a href="dictionary_R.html#164122">string</a></span>
+<a name="115"><font size=-1>115     </font></a><span class="default">    {</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">        </span><span class="keyword">try </span><span class="default">{</span>
+<a name="117"><font size=-1>117     </font></a><span class="default">            </span><span class="keyword">return <a href="dictionary_B.html#34423">BigInteger</a></span><span class="default">::<a href="dictionary_B.html#128674">of</a>($<a href="dictionary_V.html#187495">value</a>-&gt;<a href="dictionary_T.html#180171">toString</a>())-&gt;<a href="dictionary_T.html#179100">toBase</a>($<a href="dictionary_B.html#33684">base</a>);</span>
+<a name="118"><font size=-1>118     </font></a><span class="default">        } </span><span class="keyword">catch </span><span class="default">(<a href="dictionary_B.html#112994">MathException</a> | \<a href="dictionary_I.html#100179">InvalidArgumentException</a> $<a href="dictionary_E.html#73049">exception</a>) {</span>
+<a name="119"><font size=-1>119     </font></a><span class="default">            </span><span class="keyword">throw new <a href="dictionary_R.html#100162">InvalidArgumentException</a></span><span class="default">(</span>
+<a name="120"><font size=-1>120     </font></a><span class="default">                $<a href="dictionary_E.html#73049">exception</a>-&gt;<a href="dictionary_G.html#86606">getMessage</a>(),</span>
+<a name="121"><font size=-1>121     </font></a><span class="default">                (int) $<a href="dictionary_E.html#73049">exception</a>-&gt;<a href="dictionary_G.html#84433">getCode</a>(),</span>
+<a name="122"><font size=-1>122     </font></a><span class="default">                $<a href="dictionary_E.html#73049">exception</a></span>
+<a name="123"><font size=-1>123     </font></a><span class="default">            );</span>
+<a name="124"><font size=-1>124     </font></a><span class="default">        }</span>
+<a name="125"><font size=-1>125     </font></a><span class="default">    }</span>
+<a name="126"><font size=-1>126     </font></a><span class="default"></span>
+<a name="127"><font size=-1>127     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_R.html#179228">toHexadecimal</a></span><span class="default">(<a href="dictionary_I.html#99780">IntegerObject</a> $<a href="dictionary_V.html#187494">value</a>): <a href="dictionary_R.html#93198">Hexadecimal</a></span>
+<a name="128"><font size=-1>128     </font></a><span class="default">    {</span>
+<a name="129"><font size=-1>129     </font></a><span class="default">        </span><span class="keyword">return new <a href="dictionary_R.html#93198">Hexadecimal</a></span><span class="default">($this-&gt;<a href="dictionary_R.html#179099">toBase</a>($<a href="dictionary_V.html#187494">value</a>, </span><span class="number">16</span><span class="default">));</span>
+<a name="130"><font size=-1>130     </font></a><span class="default">    }</span>
+<a name="131"><font size=-1>131     </font></a><span class="default"></span>
+<a name="132"><font size=-1>132     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_R.html#179246">toInteger</a></span><span class="default">(<a href="dictionary_R.html#93198">Hexadecimal</a> $<a href="dictionary_V.html#187493">value</a>): <a href="dictionary_I.html#99780">IntegerObject</a></span>
+<a name="133"><font size=-1>133     </font></a><span class="default">    {</span>
+<a name="134"><font size=-1>134     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_R.html#81193">fromBase</a>($<a href="dictionary_V.html#187493">value</a>-&gt;<a href="dictionary_T.html#180171">toString</a>(), </span><span class="number">16</span><span class="default">);</span>
+<a name="135"><font size=-1>135     </font></a><span class="default">    }</span>
+<a name="136"><font size=-1>136     </font></a><span class="default"></span>
+<a name="137"><font size=-1>137     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="138"><font size=-1>138     </font></a><span class="comment">     * Maps ramsey/uuid rounding modes to those used by brick/math</span>
+<a name="139"><font size=-1>139     </font></a><span class="comment">     */</span>
+<a name="140"><font size=-1>140     </font></a><span class="comment">    </span><span class="keyword">private function <a href="dictionary_R.html#84131">getBrickRoundingMode</a></span><span class="default">(<a href="dictionary_R.html#99723">int</a> $<a href="dictionary_R.html#150490">roundingMode</a>): <a href="dictionary_R.html#99723">int</a></span>
+<a name="141"><font size=-1>141     </font></a><span class="default">    {</span>
+<a name="142"><font size=-1>142     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">self::<a href="dictionary_R.html#150482">ROUNDING_MODE_MAP</a>[$<a href="dictionary_R.html#150490">roundingMode</a>] ?? </span><span class="number">0</span><span class="default">;</span>
+<a name="143"><font size=-1>143     </font></a><span class="default">    }</span>
+<a name="144"><font size=-1>144     </font></a><span class="default">}</span>
+<a name="145"><font size=-1>145     </font></a><span class="default"></span>
+</pre></body></html>

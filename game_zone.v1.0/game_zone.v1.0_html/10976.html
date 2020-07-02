@@ -1,0 +1,41 @@
+<html><head><title>EveryTest.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\hamcrest\hamcrest-php\tests\Hamcrest\Core\EveryTest.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\hamcrest\\hamcrest-php\\tests\\Hamcrest\\Core\\EveryTest.php";
+top.document.title  = "EveryTest.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_H.html#90886">Hamcrest</a></span><span class="default">\Core;</span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_H.html#72655">EveryTest</a> extends </span><span class="default">\Hamcrest\<a href="dictionary_H.html#24451">AbstractMatcherTest</a></span>
+<a name="5"><font size=-1>5     </font></a><span class="default">{</span>
+<a name="6"><font size=-1>6     </font></a><span class="default"></span>
+<a name="7"><font size=-1>7     </font></a><span class="default">    </span><span class="keyword">protected function <a href="dictionary_H.html#51125">createMatcher</a></span><span class="default">()</span>
+<a name="8"><font size=-1>8     </font></a><span class="default">    {</span>
+<a name="9"><font size=-1>9     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\Hamcrest\Core\<a href="dictionary_H.html#72651">Every</a>::<a href="dictionary_H.html#72653">everyItem</a>(<a href="dictionary_A.html#27709">anything</a>());</span>
+<a name="10"><font size=-1>10     </font></a><span class="default">    }</span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span>
+<a name="12"><font size=-1>12     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_H.html#175408">testIsTrueWhenEveryValueMatches</a></span><span class="default">()</span>
+<a name="13"><font size=-1>13     </font></a><span class="default">    {</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">        <a href="dictionary_A.html#30242">assertThat</a>(</span><span class="keyword">array</span><span class="default">(</span><span class="string">'AaA'</span><span class="default">, </span><span class="string">'BaB'</span><span class="default">, </span><span class="string">'CaC'</span><span class="default">), <a href="dictionary_E.html#72652">everyItem</a>(<a href="dictionary_C.html#48848">containsString</a>(</span><span class="string">'a'</span><span class="default">)));</span>
+<a name="15"><font size=-1>15     </font></a><span class="default">        <a href="dictionary_A.html#30242">assertThat</a>(</span><span class="keyword">array</span><span class="default">(</span><span class="string">'AbA'</span><span class="default">, </span><span class="string">'BbB'</span><span class="default">, </span><span class="string">'CbC'</span><span class="default">), <a href="dictionary_N.html#125469">not</a>(<a href="dictionary_E.html#72652">everyItem</a>(<a href="dictionary_C.html#48848">containsString</a>(</span><span class="string">'a'</span><span class="default">))));</span>
+<a name="16"><font size=-1>16     </font></a><span class="default">    }</span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span>
+<a name="18"><font size=-1>18     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_H.html#175364">testIsAlwaysTrueForEmptyLists</a></span><span class="default">()</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">    {</span>
+<a name="20"><font size=-1>20     </font></a><span class="default">        <a href="dictionary_A.html#30242">assertThat</a>(</span><span class="keyword">array</span><span class="default">(), <a href="dictionary_E.html#72652">everyItem</a>(<a href="dictionary_C.html#48848">containsString</a>(</span><span class="string">'a'</span><span class="default">)));</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">    }</span>
+<a name="22"><font size=-1>22     </font></a><span class="default"></span>
+<a name="23"><font size=-1>23     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_H.html#174370">testDescribesItself</a></span><span class="default">()</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">    {</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">        $<a href="dictionary_E.html#68985">each</a> = <a href="dictionary_E.html#72652">everyItem</a>(<a href="dictionary_C.html#48848">containsString</a>(</span><span class="string">'a'</span><span class="default">));</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">        $this-&gt;<a href="dictionary_A.html#29879">assertEquals</a>(</span><span class="string">'every item is a string containing &quot;a&quot;'</span><span class="default">, (string) $<a href="dictionary_E.html#68985">each</a>);</span>
+<a name="27"><font size=-1>27     </font></a><span class="default"></span>
+<a name="28"><font size=-1>28     </font></a><span class="default">        $this-&gt;<a href="dictionary_H.html#30056">assertMismatchDescription</a>(</span><span class="string">'an item was &quot;BbB&quot;'</span><span class="default">, $<a href="dictionary_E.html#68985">each</a>, </span><span class="keyword">array</span><span class="default">(</span><span class="string">'BbB'</span><span class="default">));</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">    }</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">}</span>
+<a name="31"><font size=-1>31     </font></a><span class="default"></span>
+</pre></body></html>

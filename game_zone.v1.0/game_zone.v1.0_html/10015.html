@@ -1,0 +1,134 @@
+<html><head><title>Data.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\dompdf\dompdf\lib\html5lib\Data.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\dompdf\\dompdf\\lib\\html5lib\\Data.php";
+top.document.title  = "Data.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">// warning: this file is encoded in UTF-8!</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"></span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_H.html#93877">HTML5_Data</a></span>
+<a name="6"><font size=-1>6     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span>
+<a name="8"><font size=-1>8     </font></a><span class="default">    </span><span class="comment">// at some point this should be moved to a .ser file. Another</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment">    // possible optimization is to give UTF-8 bytes, not Unicode</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment">    // codepoints</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment">    // XXX: Not quite sure why it's named this; this is</span>
+<a name="12"><font size=-1>12     </font></a><span class="comment">    // actually the numeric entity dereference table.</span>
+<a name="13"><font size=-1>13     </font></a><span class="comment">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_H.html#144149">realCodepointTable</a> = [</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">        </span><span class="number">0x00 </span><span class="default">=&gt; </span><span class="number">0xFFFD</span><span class="default">, </span><span class="comment">// REPLACEMENT CHARACTER</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment">        </span><span class="number">0x0D </span><span class="default">=&gt; </span><span class="number">0x000A</span><span class="default">, </span><span class="comment">// LINE FEED (LF)</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment">        </span><span class="number">0x80 </span><span class="default">=&gt; </span><span class="number">0x20AC</span><span class="default">, </span><span class="comment">// EURO SIGN ('â‚¬')</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment">        </span><span class="number">0x81 </span><span class="default">=&gt; </span><span class="number">0x0081</span><span class="default">, </span><span class="comment">// &lt;control&gt;</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment">        </span><span class="number">0x82 </span><span class="default">=&gt; </span><span class="number">0x201A</span><span class="default">, </span><span class="comment">// SINGLE LOW-9 QUOTATION MARK ('â€š')</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment">        </span><span class="number">0x83 </span><span class="default">=&gt; </span><span class="number">0x0192</span><span class="default">, </span><span class="comment">// LATIN SMALL LETTER F WITH HOOK ('Æ’')</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment">        </span><span class="number">0x84 </span><span class="default">=&gt; </span><span class="number">0x201E</span><span class="default">, </span><span class="comment">// DOUBLE LOW-9 QUOTATION MARK ('â€ž')</span>
+<a name="21"><font size=-1>21     </font></a><span class="comment">        </span><span class="number">0x85 </span><span class="default">=&gt; </span><span class="number">0x2026</span><span class="default">, </span><span class="comment">// HORIZONTAL ELLIPSIS ('â€¦')</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment">        </span><span class="number">0x86 </span><span class="default">=&gt; </span><span class="number">0x2020</span><span class="default">, </span><span class="comment">// DAGGER ('â€ ')</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment">        </span><span class="number">0x87 </span><span class="default">=&gt; </span><span class="number">0x2021</span><span class="default">, </span><span class="comment">// DOUBLE DAGGER ('â€¡')</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment">        </span><span class="number">0x88 </span><span class="default">=&gt; </span><span class="number">0x02C6</span><span class="default">, </span><span class="comment">// MODIFIER LETTER CIRCUMFLEX ACCENT ('Ë†')</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment">        </span><span class="number">0x89 </span><span class="default">=&gt; </span><span class="number">0x2030</span><span class="default">, </span><span class="comment">// PER MILLE SIGN ('â€°')</span>
+<a name="26"><font size=-1>26     </font></a><span class="comment">        </span><span class="number">0x8A </span><span class="default">=&gt; </span><span class="number">0x0160</span><span class="default">, </span><span class="comment">// LATIN CAPITAL LETTER S WITH CARON ('Å ')</span>
+<a name="27"><font size=-1>27     </font></a><span class="comment">        </span><span class="number">0x8B </span><span class="default">=&gt; </span><span class="number">0x2039</span><span class="default">, </span><span class="comment">// SINGLE LEFT-POINTING ANGLE QUOTATION MARK ('â€¹')</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment">        </span><span class="number">0x8C </span><span class="default">=&gt; </span><span class="number">0x0152</span><span class="default">, </span><span class="comment">// LATIN CAPITAL LIGATURE OE ('Å’')</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment">        </span><span class="number">0x8D </span><span class="default">=&gt; </span><span class="number">0x008D</span><span class="default">, </span><span class="comment">// &lt;control&gt;</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment">        </span><span class="number">0x8E </span><span class="default">=&gt; </span><span class="number">0x017D</span><span class="default">, </span><span class="comment">// LATIN CAPITAL LETTER Z WITH CARON ('Å½')</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment">        </span><span class="number">0x8F </span><span class="default">=&gt; </span><span class="number">0x008F</span><span class="default">, </span><span class="comment">// &lt;control&gt;</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment">        </span><span class="number">0x90 </span><span class="default">=&gt; </span><span class="number">0x0090</span><span class="default">, </span><span class="comment">// &lt;control&gt;</span>
+<a name="33"><font size=-1>33     </font></a><span class="comment">        </span><span class="number">0x91 </span><span class="default">=&gt; </span><span class="number">0x2018</span><span class="default">, </span><span class="comment">// LEFT SINGLE QUOTATION MARK ('â€˜')</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">        </span><span class="number">0x92 </span><span class="default">=&gt; </span><span class="number">0x2019</span><span class="default">, </span><span class="comment">// RIGHT SINGLE QUOTATION MARK ('â€™')</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">        </span><span class="number">0x93 </span><span class="default">=&gt; </span><span class="number">0x201C</span><span class="default">, </span><span class="comment">// LEFT DOUBLE QUOTATION MARK ('â€œ')</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment">        </span><span class="number">0x94 </span><span class="default">=&gt; </span><span class="number">0x201D</span><span class="default">, </span><span class="comment">// RIGHT DOUBLE QUOTATION MARK ('â€')</span>
+<a name="37"><font size=-1>37     </font></a><span class="comment">        </span><span class="number">0x95 </span><span class="default">=&gt; </span><span class="number">0x2022</span><span class="default">, </span><span class="comment">// BULLET ('â€¢')</span>
+<a name="38"><font size=-1>38     </font></a><span class="comment">        </span><span class="number">0x96 </span><span class="default">=&gt; </span><span class="number">0x2013</span><span class="default">, </span><span class="comment">// EN DASH ('â€“')</span>
+<a name="39"><font size=-1>39     </font></a><span class="comment">        </span><span class="number">0x97 </span><span class="default">=&gt; </span><span class="number">0x2014</span><span class="default">, </span><span class="comment">// EM DASH ('â€”')</span>
+<a name="40"><font size=-1>40     </font></a><span class="comment">        </span><span class="number">0x98 </span><span class="default">=&gt; </span><span class="number">0x02DC</span><span class="default">, </span><span class="comment">// SMALL TILDE ('Ëœ')</span>
+<a name="41"><font size=-1>41     </font></a><span class="comment">        </span><span class="number">0x99 </span><span class="default">=&gt; </span><span class="number">0x2122</span><span class="default">, </span><span class="comment">// TRADE MARK SIGN ('â„¢')</span>
+<a name="42"><font size=-1>42     </font></a><span class="comment">        </span><span class="number">0x9A </span><span class="default">=&gt; </span><span class="number">0x0161</span><span class="default">, </span><span class="comment">// LATIN SMALL LETTER S WITH CARON ('Å¡')</span>
+<a name="43"><font size=-1>43     </font></a><span class="comment">        </span><span class="number">0x9B </span><span class="default">=&gt; </span><span class="number">0x203A</span><span class="default">, </span><span class="comment">// SINGLE RIGHT-POINTING ANGLE QUOTATION MARK ('â€º')</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment">        </span><span class="number">0x9C </span><span class="default">=&gt; </span><span class="number">0x0153</span><span class="default">, </span><span class="comment">// LATIN SMALL LIGATURE OE ('Å“')</span>
+<a name="45"><font size=-1>45     </font></a><span class="comment">        </span><span class="number">0x9D </span><span class="default">=&gt; </span><span class="number">0x009D</span><span class="default">, </span><span class="comment">// &lt;control&gt;</span>
+<a name="46"><font size=-1>46     </font></a><span class="comment">        </span><span class="number">0x9E </span><span class="default">=&gt; </span><span class="number">0x017E</span><span class="default">, </span><span class="comment">// LATIN SMALL LETTER Z WITH CARON ('Å¾')</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment">        </span><span class="number">0x9F </span><span class="default">=&gt; </span><span class="number">0x0178</span><span class="default">, </span><span class="comment">// LATIN CAPITAL LETTER Y WITH DIAERESIS ('Å¸')</span>
+<a name="48"><font size=-1>48     </font></a><span class="comment">    </span><span class="default">];</span>
+<a name="49"><font size=-1>49     </font></a><span class="default"></span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_H.html#123397">namedCharacterReferences</a>;</span>
+<a name="51"><font size=-1>51     </font></a><span class="default"></span>
+<a name="52"><font size=-1>52     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_H.html#123396">namedCharacterReferenceMaxLength</a>;</span>
+<a name="53"><font size=-1>53     </font></a><span class="default"></span>
+<a name="54"><font size=-1>54     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="55"><font size=-1>55     </font></a><span class="comment">     * Returns the &quot;real&quot; Unicode codepoint of a malformed character</span>
+<a name="56"><font size=-1>56     </font></a><span class="comment">     * reference.</span>
+<a name="57"><font size=-1>57     </font></a><span class="comment">     */</span>
+<a name="58"><font size=-1>58     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_H.html#87879">getRealCodepoint</a></span><span class="default">($<a href="dictionary_R.html#144810">ref</a>) {</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">(self::$<a href="dictionary_H.html#144149">realCodepointTable</a>[$<a href="dictionary_R.html#144810">ref</a>])) {</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">            </span><span class="keyword">return <a href="dictionary_F.html#76452">false</a></span><span class="default">;</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">        } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">            </span><span class="keyword">return </span><span class="default">self::$<a href="dictionary_H.html#144149">realCodepointTable</a>[$<a href="dictionary_R.html#144810">ref</a>];</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">        }</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">    }</span>
+<a name="65"><font size=-1>65     </font></a><span class="default"></span>
+<a name="66"><font size=-1>66     </font></a><span class="default">    </span><span class="keyword">public static function <a href="dictionary_H.html#86989">getNamedCharacterReferences</a></span><span class="default">() {</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!self::$<a href="dictionary_H.html#123397">namedCharacterReferences</a>) {</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">            self::$<a href="dictionary_H.html#123397">namedCharacterReferences</a> = <a href="dictionary_U.html#183548">unserialize</a>(</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">                <a href="dictionary_F.html#77207">file_get_contents</a>(<a href="dictionary_D.html#61176">dirname</a>(__FILE__) . </span><span class="string">'/named-character-references.ser'</span><span class="default">));</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">        }</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">self::$<a href="dictionary_H.html#123397">namedCharacterReferences</a>;</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">    }</span>
+<a name="73"><font size=-1>73     </font></a><span class="default"></span>
+<a name="74"><font size=-1>74     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="75"><font size=-1>75     </font></a><span class="comment">     * Converts a Unicode codepoint to sequence of UTF-8 bytes.</span>
+<a name="76"><font size=-1>76     </font></a><span class="comment">     * @note Shamelessly stolen from HTML Purifier, which is also</span>
+<a name="77"><font size=-1>77     </font></a><span class="comment">     *       shamelessly stolen from Feyd (which is in public domain).</span>
+<a name="78"><font size=-1>78     </font></a><span class="comment">     */</span>
+<a name="79"><font size=-1>79     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_H.html#184798">utf8chr</a></span><span class="default">($<a href="dictionary_C.html#44306">code</a>) {</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">        </span><span class="comment">/* We don't care: we live dangerously</span>
+<a name="81"><font size=-1>81     </font></a><span class="comment">         * if($code &gt; 0x10FFFF or $code &lt; 0x0 or</span>
+<a name="82"><font size=-1>82     </font></a><span class="comment">          ($code &gt;= 0xD800 and $code &lt;= 0xDFFF) ) {</span>
+<a name="83"><font size=-1>83     </font></a><span class="comment">            // bits are set outside the &quot;valid&quot; range as defined</span>
+<a name="84"><font size=-1>84     </font></a><span class="comment">            // by UNICODE 4.1.0</span>
+<a name="85"><font size=-1>85     </font></a><span class="comment">            return &quot;\xEF\xBF\xBD&quot;;</span>
+<a name="86"><font size=-1>86     </font></a><span class="comment">          }*/</span>
+<a name="87"><font size=-1>87     </font></a><span class="comment"></span>
+<a name="88"><font size=-1>88     </font></a><span class="comment">        </span><span class="default">$<a href="dictionary_Y.html#192569">y</a> = $<a href="dictionary_Z.html#192988">z</a> = $<a href="dictionary_W.html#189600">w</a> = </span><span class="number">0</span><span class="default">;</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_C.html#44306">code</a> &lt; </span><span class="number">0x80</span><span class="default">) {</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">            </span><span class="comment">// regular ASCII character</span>
+<a name="91"><font size=-1>91     </font></a><span class="comment">            </span><span class="default">$<a href="dictionary_X.html#191594">x</a> = $<a href="dictionary_C.html#44306">code</a>;</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">        } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">            </span><span class="comment">// set up bits for UTF-8</span>
+<a name="94"><font size=-1>94     </font></a><span class="comment">            </span><span class="default">$<a href="dictionary_X.html#191594">x</a> = ($<a href="dictionary_C.html#44306">code</a> &amp; </span><span class="number">0x3F</span><span class="default">) | </span><span class="number">0x80</span><span class="default">;</span>
+<a name="95"><font size=-1>95     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_C.html#44306">code</a> &lt; </span><span class="number">0x800</span><span class="default">) {</span>
+<a name="96"><font size=-1>96     </font></a><span class="default">               $<a href="dictionary_Y.html#192569">y</a> = (($<a href="dictionary_C.html#44306">code</a> &amp; </span><span class="number">0x7FF</span><span class="default">) &gt;&gt; </span><span class="number">6</span><span class="default">) | </span><span class="number">0xC0</span><span class="default">;</span>
+<a name="97"><font size=-1>97     </font></a><span class="default">            } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="98"><font size=-1>98     </font></a><span class="default">                $<a href="dictionary_Y.html#192569">y</a> = (($<a href="dictionary_C.html#44306">code</a> &amp; </span><span class="number">0xFC0</span><span class="default">) &gt;&gt; </span><span class="number">6</span><span class="default">) | </span><span class="number">0x80</span><span class="default">;</span>
+<a name="99"><font size=-1>99     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($<a href="dictionary_C.html#44306">code</a> &lt; </span><span class="number">0x10000</span><span class="default">) {</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">                    $<a href="dictionary_Z.html#192988">z</a> = (($<a href="dictionary_C.html#44306">code</a> &gt;&gt; </span><span class="number">12</span><span class="default">) &amp; </span><span class="number">0x0F</span><span class="default">) | </span><span class="number">0xE0</span><span class="default">;</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">                } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="102"><font size=-1>102     </font></a><span class="default">                    $<a href="dictionary_Z.html#192988">z</a> = (($<a href="dictionary_C.html#44306">code</a> &gt;&gt; </span><span class="number">12</span><span class="default">) &amp; </span><span class="number">0x3F</span><span class="default">) | </span><span class="number">0x80</span><span class="default">;</span>
+<a name="103"><font size=-1>103     </font></a><span class="default">                    $<a href="dictionary_W.html#189600">w</a> = (($<a href="dictionary_C.html#44306">code</a> &gt;&gt; </span><span class="number">18</span><span class="default">) &amp; </span><span class="number">0x07</span><span class="default">) | </span><span class="number">0xF0</span><span class="default">;</span>
+<a name="104"><font size=-1>104     </font></a><span class="default">                }</span>
+<a name="105"><font size=-1>105     </font></a><span class="default">            }</span>
+<a name="106"><font size=-1>106     </font></a><span class="default">        }</span>
+<a name="107"><font size=-1>107     </font></a><span class="default">        </span><span class="comment">// set up the actual character</span>
+<a name="108"><font size=-1>108     </font></a><span class="comment">        </span><span class="default">$<a href="dictionary_R.html#149715">ret</a> = </span><span class="string">''</span><span class="default">;</span>
+<a name="109"><font size=-1>109     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_W.html#189600">w</a>) {</span>
+<a name="110"><font size=-1>110     </font></a><span class="default">            $<a href="dictionary_R.html#149715">ret</a> .= <a href="dictionary_C.html#41551">chr</a>($<a href="dictionary_W.html#189600">w</a>);</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">        }</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_Z.html#192988">z</a>) {</span>
+<a name="113"><font size=-1>113     </font></a><span class="default">            $<a href="dictionary_R.html#149715">ret</a> .= <a href="dictionary_C.html#41551">chr</a>($<a href="dictionary_Z.html#192988">z</a>);</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">        }</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_Y.html#192569">y</a>) {</span>
+<a name="116"><font size=-1>116     </font></a><span class="default">            $<a href="dictionary_R.html#149715">ret</a> .= <a href="dictionary_C.html#41551">chr</a>($<a href="dictionary_Y.html#192569">y</a>);</span>
+<a name="117"><font size=-1>117     </font></a><span class="default">        }</span>
+<a name="118"><font size=-1>118     </font></a><span class="default">        $<a href="dictionary_R.html#149715">ret</a> .= <a href="dictionary_C.html#41551">chr</a>($<a href="dictionary_X.html#191594">x</a>);</span>
+<a name="119"><font size=-1>119     </font></a><span class="default"></span>
+<a name="120"><font size=-1>120     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_R.html#149715">ret</a>;</span>
+<a name="121"><font size=-1>121     </font></a><span class="default">    }</span>
+<a name="122"><font size=-1>122     </font></a><span class="default"></span>
+<a name="123"><font size=-1>123     </font></a><span class="default">}</span>
+<a name="124"><font size=-1>124     </font></a><span class="default"></span>
+</pre></body></html>

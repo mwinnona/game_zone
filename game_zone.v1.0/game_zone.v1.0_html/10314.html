@@ -1,0 +1,84 @@
+<html><head><title>Formatter.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\filp\whoops\src\Whoops\Exception\Formatter.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\filp\\whoops\\src\\Whoops\\Exception\\Formatter.php";
+top.document.title  = "Formatter.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="3"><font size=-1>3     </font></a><span class="comment"> * Whoops - php errors for cool kids</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * @author Filipe Dobreira &lt;http://github.com/filp&gt;</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> */</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"></span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_W.html#190227">Whoops</a></span><span class="default">\Exception;</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span>
+<a name="9"><font size=-1>9     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_W.html#80552">Formatter</a></span>
+<a name="10"><font size=-1>10     </font></a><span class="keyword"></span><span class="default">{</span>
+<a name="11"><font size=-1>11     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="12"><font size=-1>12     </font></a><span class="comment">     * Returns all basic information about the exception in a simple array</span>
+<a name="13"><font size=-1>13     </font></a><span class="comment">     * for further convertion to other languages</span>
+<a name="14"><font size=-1>14     </font></a><span class="comment">     * @param  Inspector $inspector</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment">     * @param  bool      $shouldAddTrace</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment">     * @return array</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment">     */</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_W.html#80244">formatExceptionAsDataArray</a></span><span class="default">(<a href="dictionary_W.html#99389">Inspector</a> $inspector, $<a href="dictionary_S.html#157842">shouldAddTrace</a>)</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">    {</span>
+<a name="20"><font size=-1>20     </font></a><span class="default">        $<a href="dictionary_E.html#72958">exception</a> = $<a href="dictionary_I.html#99375">inspector</a>-&gt;<a href="dictionary_G.html#85395">getException</a>();</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">        $<a href="dictionary_R.html#148594">response</a> = [</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">            </span><span class="string">'type'    </span><span class="default">=&gt; <a href="dictionary_G.html#83491">get_class</a>($<a href="dictionary_E.html#72958">exception</a>),</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">            </span><span class="string">'message' </span><span class="default">=&gt; $<a href="dictionary_E.html#72958">exception</a>-&gt;<a href="dictionary_G.html#86606">getMessage</a>(),</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">            </span><span class="string">'file'    </span><span class="default">=&gt; $<a href="dictionary_E.html#72958">exception</a>-&gt;<a href="dictionary_G.html#85603">getFile</a>(),</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">            </span><span class="string">'line'    </span><span class="default">=&gt; $<a href="dictionary_E.html#72958">exception</a>-&gt;<a href="dictionary_G.html#86362">getLine</a>(),</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">        ];</span>
+<a name="27"><font size=-1>27     </font></a><span class="default"></span>
+<a name="28"><font size=-1>28     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_S.html#157842">shouldAddTrace</a>) {</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">            $<a href="dictionary_F.html#80950">frames</a>    = $<a href="dictionary_I.html#99375">inspector</a>-&gt;<a href="dictionary_G.html#85787">getFrames</a>();</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">            $<a href="dictionary_F.html#80929">frameData</a> = [];</span>
+<a name="31"><font size=-1>31     </font></a><span class="default"></span>
+<a name="32"><font size=-1>32     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_F.html#80950">frames</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_F.html#80796">frame</a>) {</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">                </span><span class="comment">/** @var Frame $frame */</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">                </span><span class="default">$<a href="dictionary_F.html#80929">frameData</a>[] = [</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">                    </span><span class="string">'file'     </span><span class="default">=&gt; $<a href="dictionary_F.html#80796">frame</a>-&gt;<a href="dictionary_G.html#85603">getFile</a>(),</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">                    </span><span class="string">'line'     </span><span class="default">=&gt; $<a href="dictionary_F.html#80796">frame</a>-&gt;<a href="dictionary_G.html#86362">getLine</a>(),</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">                    </span><span class="string">'function' </span><span class="default">=&gt; $<a href="dictionary_F.html#80796">frame</a>-&gt;<a href="dictionary_G.html#85814">getFunction</a>(),</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">                    </span><span class="string">'class'    </span><span class="default">=&gt; $<a href="dictionary_F.html#80796">frame</a>-&gt;<a href="dictionary_G.html#84333">getClass</a>(),</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">                    </span><span class="string">'args'     </span><span class="default">=&gt; $<a href="dictionary_F.html#80796">frame</a>-&gt;<a href="dictionary_G.html#83877">getArgs</a>(),</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">                ];</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">            }</span>
+<a name="42"><font size=-1>42     </font></a><span class="default"></span>
+<a name="43"><font size=-1>43     </font></a><span class="default">            $<a href="dictionary_R.html#148594">response</a>[</span><span class="string">'trace'</span><span class="default">] = $<a href="dictionary_F.html#80929">frameData</a>;</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">        }</span>
+<a name="45"><font size=-1>45     </font></a><span class="default"></span>
+<a name="46"><font size=-1>46     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_R.html#148594">response</a>;</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">    }</span>
+<a name="48"><font size=-1>48     </font></a><span class="default"></span>
+<a name="49"><font size=-1>49     </font></a><span class="default">    </span><span class="keyword">public static function <a href="dictionary_W.html#80245">formatExceptionPlain</a></span><span class="default">(<a href="dictionary_W.html#99389">Inspector</a> $inspector)</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    {</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">        $<a href="dictionary_M.html#114300">message</a> = $<a href="dictionary_I.html#99374">inspector</a>-&gt;<a href="dictionary_G.html#85395">getException</a>()-&gt;<a href="dictionary_G.html#86606">getMessage</a>();</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">        $<a href="dictionary_F.html#80949">frames</a> = $<a href="dictionary_I.html#99374">inspector</a>-&gt;<a href="dictionary_G.html#85787">getFrames</a>();</span>
+<a name="53"><font size=-1>53     </font></a><span class="default"></span>
+<a name="54"><font size=-1>54     </font></a><span class="default">        $<a href="dictionary_P.html#136627">plain</a> = $<a href="dictionary_I.html#99374">inspector</a>-&gt;<a href="dictionary_G.html#85409">getExceptionName</a>();</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        $<a href="dictionary_P.html#136627">plain</a> .= </span><span class="string">' thrown with message &quot;'</span><span class="default">;</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">        $<a href="dictionary_P.html#136627">plain</a> .= $<a href="dictionary_M.html#114300">message</a>;</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">        $<a href="dictionary_P.html#136627">plain</a> .= </span><span class="string">'&quot;'</span><span class="default">.</span><span class="string">&quot;\n\n&quot;</span><span class="default">;</span>
+<a name="58"><font size=-1>58     </font></a><span class="default"></span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        $<a href="dictionary_P.html#136627">plain</a> .= </span><span class="string">&quot;Stacktrace:\n&quot;</span><span class="default">;</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_F.html#80949">frames</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_I.html#94554">i</a> =&gt; $<a href="dictionary_F.html#80795">frame</a>) {</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">            $<a href="dictionary_P.html#136627">plain</a> .= </span><span class="string">&quot;#&quot;</span><span class="default">. (<a href="dictionary_C.html#50164">count</a>($<a href="dictionary_F.html#80949">frames</a>) - $<a href="dictionary_I.html#94554">i</a> - </span><span class="number">1</span><span class="default">). </span><span class="string">&quot; &quot;</span><span class="default">;</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">            $<a href="dictionary_P.html#136627">plain</a> .= $<a href="dictionary_F.html#80795">frame</a>-&gt;<a href="dictionary_G.html#84333">getClass</a>() ?: </span><span class="string">''</span><span class="default">;</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">            $<a href="dictionary_P.html#136627">plain</a> .= $<a href="dictionary_F.html#80795">frame</a>-&gt;<a href="dictionary_G.html#84333">getClass</a>() &amp;&amp; $<a href="dictionary_F.html#80795">frame</a>-&gt;<a href="dictionary_G.html#85814">getFunction</a>() ? </span><span class="string">&quot;:&quot; </span><span class="default">: </span><span class="string">&quot;&quot;</span><span class="default">;</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">            $<a href="dictionary_P.html#136627">plain</a> .= $<a href="dictionary_F.html#80795">frame</a>-&gt;<a href="dictionary_G.html#85814">getFunction</a>() ?: </span><span class="string">''</span><span class="default">;</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">            $<a href="dictionary_P.html#136627">plain</a> .= </span><span class="string">' in '</span><span class="default">;</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">            $<a href="dictionary_P.html#136627">plain</a> .= ($<a href="dictionary_F.html#80795">frame</a>-&gt;<a href="dictionary_G.html#85603">getFile</a>() ?: </span><span class="string">'&lt;#unknown&gt;'</span><span class="default">);</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">            $<a href="dictionary_P.html#136627">plain</a> .= </span><span class="string">':'</span><span class="default">;</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">            $<a href="dictionary_P.html#136627">plain</a> .= (int) $<a href="dictionary_F.html#80795">frame</a>-&gt;<a href="dictionary_G.html#86362">getLine</a>(). </span><span class="string">&quot;\n&quot;</span><span class="default">;</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">        }</span>
+<a name="70"><font size=-1>70     </font></a><span class="default"></span>
+<a name="71"><font size=-1>71     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_P.html#136627">plain</a>;</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">    }</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">}</span>
+<a name="74"><font size=-1>74     </font></a><span class="default"></span>
+</pre></body></html>

@@ -1,0 +1,331 @@
+<html><head><title>CodeFormatter.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\psy\psysh\src\Formatter\CodeFormatter.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\psy\\psysh\\src\\Formatter\\CodeFormatter.php";
+top.document.title  = "CodeFormatter.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of Psy Shell.</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * (c) 2012-2020 Justin Hileman</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> */</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"></span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_P.html#139962">Psy</a></span><span class="default">\Formatter;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Psy\Exception\<a href="dictionary_P.html#151320">RuntimeException</a>;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\Console\Formatter\<a href="dictionary_S.html#131666">OutputFormatter</a>;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment"> * A pretty-printer for code.</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment"> */</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_P.html#44532">CodeFormatter</a> implements </span><span class="default">ReflectorFormatter</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">{</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#109002">LINE_MARKER</a>    </span><span class="default">= </span><span class="string">'  &lt;urgent&gt;&gt;&lt;/urgent&gt; '</span><span class="default">;</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#124494">NO_LINE_MARKER</a> </span><span class="default">= </span><span class="string">'    '</span><span class="default">;</span>
+<a name="24"><font size=-1>24     </font></a><span class="default"></span>
+<a name="25"><font size=-1>25     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93356">HIGHLIGHT_DEFAULT</a>     </span><span class="default">= </span><span class="string">'default'</span><span class="default">;</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93360">HIGHLIGHT_KEYWORD</a>     </span><span class="default">= </span><span class="string">'keyword'</span><span class="default">;</span>
+<a name="27"><font size=-1>27     </font></a><span class="default"></span>
+<a name="28"><font size=-1>28     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93364">HIGHLIGHT_PUBLIC</a>      </span><span class="default">= </span><span class="string">'public'</span><span class="default">;</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93363">HIGHLIGHT_PROTECTED</a>   </span><span class="default">= </span><span class="string">'protected'</span><span class="default">;</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93362">HIGHLIGHT_PRIVATE</a>     </span><span class="default">= </span><span class="string">'private'</span><span class="default">;</span>
+<a name="31"><font size=-1>31     </font></a><span class="default"></span>
+<a name="32"><font size=-1>32     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>       </span><span class="default">= </span><span class="string">'const'</span><span class="default">;</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93361">HIGHLIGHT_NUMBER</a>      </span><span class="default">= </span><span class="string">'number'</span><span class="default">;</span>
+<a name="34"><font size=-1>34     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93365">HIGHLIGHT_STRING</a>      </span><span class="default">= </span><span class="string">'string'</span><span class="default">;</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93354">HIGHLIGHT_COMMENT</a>     </span><span class="default">= </span><span class="string">'comment'</span><span class="default">;</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">    </span><span class="keyword">const <a href="dictionary_P.html#93359">HIGHLIGHT_INLINE_HTML</a> </span><span class="default">= </span><span class="string">'inline_html'</span><span class="default">;</span>
+<a name="37"><font size=-1>37     </font></a><span class="default"></span>
+<a name="38"><font size=-1>38     </font></a><span class="default">    </span><span class="keyword">private static </span><span class="default">$<a href="dictionary_P.html#179573">tokenMap</a> = [</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        </span><span class="comment">// Not highlighted</span>
+<a name="40"><font size=-1>40     </font></a><span class="comment">        </span><span class="default">\<a href="dictionary_T.html#171578">T_OPEN_TAG</a>           =&gt; self::<a href="dictionary_P.html#93356">HIGHLIGHT_DEFAULT</a>,</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">        \<a href="dictionary_T.html#171582">T_OPEN_TAG_WITH_ECHO</a> =&gt; self::<a href="dictionary_P.html#93356">HIGHLIGHT_DEFAULT</a>,</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">        \<a href="dictionary_T.html#171405">T_CLOSE_TAG</a>          =&gt; self::<a href="dictionary_P.html#93356">HIGHLIGHT_DEFAULT</a>,</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        \<a href="dictionary_T.html#171623">T_STRING</a>             =&gt; self::<a href="dictionary_P.html#93356">HIGHLIGHT_DEFAULT</a>,</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">        \<a href="dictionary_T.html#171647">T_VARIABLE</a>           =&gt; self::<a href="dictionary_P.html#93356">HIGHLIGHT_DEFAULT</a>,</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">        \<a href="dictionary_T.html#171565">T_NS_SEPARATOR</a>       =&gt; self::<a href="dictionary_P.html#93356">HIGHLIGHT_DEFAULT</a>,</span>
+<a name="46"><font size=-1>46     </font></a><span class="default"></span>
+<a name="47"><font size=-1>47     </font></a><span class="default">        </span><span class="comment">// Visibility</span>
+<a name="48"><font size=-1>48     </font></a><span class="comment">        </span><span class="default">\<a href="dictionary_T.html#171600">T_PUBLIC</a>    =&gt; self::<a href="dictionary_P.html#93364">HIGHLIGHT_PUBLIC</a>,</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        \<a href="dictionary_T.html#171597">T_PROTECTED</a> =&gt; self::<a href="dictionary_P.html#93363">HIGHLIGHT_PROTECTED</a>,</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">        \<a href="dictionary_T.html#171594">T_PRIVATE</a>   =&gt; self::<a href="dictionary_P.html#93362">HIGHLIGHT_PRIVATE</a>,</span>
+<a name="51"><font size=-1>51     </font></a><span class="default"></span>
+<a name="52"><font size=-1>52     </font></a><span class="default">        </span><span class="comment">// Constants</span>
+<a name="53"><font size=-1>53     </font></a><span class="comment">        </span><span class="default">\<a href="dictionary_T.html#171433">T_DIR</a>      =&gt; self::<a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>,</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">        \<a href="dictionary_T.html#171484">T_FILE</a>     =&gt; self::<a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>,</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">        \<a href="dictionary_T.html#171550">T_METHOD_C</a> =&gt; self::<a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>,</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">        \<a href="dictionary_T.html#171563">T_NS_C</a>     =&gt; self::<a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>,</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">        \<a href="dictionary_T.html#171536">T_LINE</a>     =&gt; self::<a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>,</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">        \<a href="dictionary_T.html#171397">T_CLASS_C</a>  =&gt; self::<a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>,</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        \<a href="dictionary_T.html#171496">T_FUNC_C</a>   =&gt; self::<a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>,</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">        \<a href="dictionary_T.html#171636">T_TRAIT_C</a>  =&gt; self::<a href="dictionary_P.html#93355">HIGHLIGHT_CONST</a>,</span>
+<a name="61"><font size=-1>61     </font></a><span class="default"></span>
+<a name="62"><font size=-1>62     </font></a><span class="default">        </span><span class="comment">// Types</span>
+<a name="63"><font size=-1>63     </font></a><span class="comment">        </span><span class="default">\<a href="dictionary_T.html#171436">T_DNUMBER</a>                  =&gt; self::<a href="dictionary_P.html#93361">HIGHLIGHT_NUMBER</a>,</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">        \<a href="dictionary_T.html#171541">T_LNUMBER</a>                  =&gt; self::<a href="dictionary_P.html#93361">HIGHLIGHT_NUMBER</a>,</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">        \<a href="dictionary_T.html#171461">T_ENCAPSED_AND_WHITESPACE</a>  =&gt; self::<a href="dictionary_P.html#93365">HIGHLIGHT_STRING</a>,</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">        \<a href="dictionary_T.html#171421">T_CONSTANT_ENCAPSED_STRING</a> =&gt; self::<a href="dictionary_P.html#93365">HIGHLIGHT_STRING</a>,</span>
+<a name="67"><font size=-1>67     </font></a><span class="default"></span>
+<a name="68"><font size=-1>68     </font></a><span class="default">        </span><span class="comment">// Comments</span>
+<a name="69"><font size=-1>69     </font></a><span class="comment">        </span><span class="default">\<a href="dictionary_T.html#171413">T_COMMENT</a>     =&gt; self::<a href="dictionary_P.html#93354">HIGHLIGHT_COMMENT</a>,</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">        \<a href="dictionary_T.html#171439">T_DOC_COMMENT</a> =&gt; self::<a href="dictionary_P.html#93354">HIGHLIGHT_COMMENT</a>,</span>
+<a name="71"><font size=-1>71     </font></a><span class="default"></span>
+<a name="72"><font size=-1>72     </font></a><span class="default">        </span><span class="comment">// @todo something better here?</span>
+<a name="73"><font size=-1>73     </font></a><span class="comment">        </span><span class="default">\<a href="dictionary_T.html#171517">T_INLINE_HTML</a> =&gt; self::<a href="dictionary_P.html#93359">HIGHLIGHT_INLINE_HTML</a>,</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">    ];</span>
+<a name="75"><font size=-1>75     </font></a><span class="default"></span>
+<a name="76"><font size=-1>76     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="77"><font size=-1>77     </font></a><span class="comment">     * Format the code represented by $reflector for shell output.</span>
+<a name="78"><font size=-1>78     </font></a><span class="comment">     *</span>
+<a name="79"><font size=-1>79     </font></a><span class="comment">     * @param \Reflector  $reflector</span>
+<a name="80"><font size=-1>80     </font></a><span class="comment">     * @param string|null $colorMode (deprecated and ignored)</span>
+<a name="81"><font size=-1>81     </font></a><span class="comment">     *</span>
+<a name="82"><font size=-1>82     </font></a><span class="comment">     * @return string formatted code</span>
+<a name="83"><font size=-1>83     </font></a><span class="comment">     */</span>
+<a name="84"><font size=-1>84     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_P.html#80131">format</a></span><span class="default">(\<a href="dictionary_R.html#145137">Reflector</a> $reflector, $<a href="dictionary_C.html#44974">colorMode</a> = <a href="dictionary_N.html#125929">null</a>)</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">    {</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(self::<a href="dictionary_P.html#102125">isReflectable</a>($<a href="dictionary_R.html#145137">reflector</a>)) {</span>
+<a name="87"><font size=-1>87     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_C.html#44319">code</a> = @\<a href="dictionary_F.html#77207">file_get_contents</a>($<a href="dictionary_R.html#145137">reflector</a>-&gt;<a href="dictionary_G.html#85624">getFileName</a>())) {</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">                </span><span class="keyword">return </span><span class="default">self::<a href="dictionary_P.html#80226">formatCode</a>($<a href="dictionary_C.html#44319">code</a>, self::<a href="dictionary_P.html#88519">getStartLine</a>($<a href="dictionary_R.html#145137">reflector</a>), $reflector-&gt;<a href="dictionary_G.html#85308">getEndLine</a>());</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">            }</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">        }</span>
+<a name="91"><font size=-1>91     </font></a><span class="default"></span>
+<a name="92"><font size=-1>92     </font></a><span class="default">        </span><span class="keyword">throw new <a href="dictionary_P.html#151309">RuntimeException</a></span><span class="default">(</span><span class="string">'Source code unavailable'</span><span class="default">);</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">    }</span>
+<a name="94"><font size=-1>94     </font></a><span class="default"></span>
+<a name="95"><font size=-1>95     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="96"><font size=-1>96     </font></a><span class="comment">     * Format code for shell output.</span>
+<a name="97"><font size=-1>97     </font></a><span class="comment">     *</span>
+<a name="98"><font size=-1>98     </font></a><span class="comment">     * Optionally, restrict by $startLine and $endLine line numbers, or pass $markLine to add a line marker.</span>
+<a name="99"><font size=-1>99     </font></a><span class="comment">     *</span>
+<a name="100"><font size=-1>100     </font></a><span class="comment">     * @param string   $code</span>
+<a name="101"><font size=-1>101     </font></a><span class="comment">     * @param int      $startLine</span>
+<a name="102"><font size=-1>102     </font></a><span class="comment">     * @param int|null $endLine</span>
+<a name="103"><font size=-1>103     </font></a><span class="comment">     * @param int|null $markLine</span>
+<a name="104"><font size=-1>104     </font></a><span class="comment">     *</span>
+<a name="105"><font size=-1>105     </font></a><span class="comment">     * @return string formatted code</span>
+<a name="106"><font size=-1>106     </font></a><span class="comment">     */</span>
+<a name="107"><font size=-1>107     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_P.html#80226">formatCode</a></span><span class="default">($<a href="dictionary_C.html#44318">code</a>, $<a href="dictionary_S.html#161842">startLine</a> = </span><span class="number">1</span><span class="default">, $<a href="dictionary_E.html#70798">endLine</a> = <a href="dictionary_N.html#125929">null</a>, $<a href="dictionary_M.html#112178">markLine</a> = <a href="dictionary_N.html#125929">null</a>)</span>
+<a name="108"><font size=-1>108     </font></a><span class="default">    {</span>
+<a name="109"><font size=-1>109     </font></a><span class="default">        $<a href="dictionary_S.html#159720">spans</a> = self::<a href="dictionary_P.html#179563">tokenizeSpans</a>($<a href="dictionary_C.html#44318">code</a>);</span>
+<a name="110"><font size=-1>110     </font></a><span class="default">        $<a href="dictionary_L.html#109204">lines</a> = self::<a href="dictionary_P.html#159889">splitLines</a>($<a href="dictionary_S.html#159720">spans</a>, $<a href="dictionary_S.html#161842">startLine</a>, $<a href="dictionary_E.html#70798">endLine</a>);</span>
+<a name="111"><font size=-1>111     </font></a><span class="default">        $<a href="dictionary_L.html#109204">lines</a> = self::<a href="dictionary_P.html#80273">formatLines</a>($<a href="dictionary_L.html#109204">lines</a>);</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">        $<a href="dictionary_L.html#109204">lines</a> = self::<a href="dictionary_P.html#126226">numberLines</a>($<a href="dictionary_L.html#109204">lines</a>, $<a href="dictionary_M.html#112178">markLine</a>);</span>
+<a name="113"><font size=-1>113     </font></a><span class="default"></span>
+<a name="114"><font size=-1>114     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\<a href="dictionary_I.html#97806">implode</a>(</span><span class="string">''</span><span class="default">, \<a href="dictionary_I.html#103268">iterator_to_array</a>($<a href="dictionary_L.html#109204">lines</a>));</span>
+<a name="115"><font size=-1>115     </font></a><span class="default">    }</span>
+<a name="116"><font size=-1>116     </font></a><span class="default"></span>
+<a name="117"><font size=-1>117     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="118"><font size=-1>118     </font></a><span class="comment">     * Get the start line for a given Reflector.</span>
+<a name="119"><font size=-1>119     </font></a><span class="comment">     *</span>
+<a name="120"><font size=-1>120     </font></a><span class="comment">     * Tries to incorporate doc comments if possible.</span>
+<a name="121"><font size=-1>121     </font></a><span class="comment">     *</span>
+<a name="122"><font size=-1>122     </font></a><span class="comment">     * This is typehinted as \Reflector but we've narrowed the input via self::isReflectable already.</span>
+<a name="123"><font size=-1>123     </font></a><span class="comment">     *</span>
+<a name="124"><font size=-1>124     </font></a><span class="comment">     * @param \ReflectionClass|\ReflectionFunctionAbstract $reflector</span>
+<a name="125"><font size=-1>125     </font></a><span class="comment">     *</span>
+<a name="126"><font size=-1>126     </font></a><span class="comment">     * @return int</span>
+<a name="127"><font size=-1>127     </font></a><span class="comment">     */</span>
+<a name="128"><font size=-1>128     </font></a><span class="comment">    </span><span class="keyword">private static function <a href="dictionary_P.html#88519">getStartLine</a></span><span class="default">(\<a href="dictionary_R.html#145136">Reflector</a> $reflector)</span>
+<a name="129"><font size=-1>129     </font></a><span class="default">    {</span>
+<a name="130"><font size=-1>130     </font></a><span class="default">        $<a href="dictionary_S.html#161841">startLine</a> = $<a href="dictionary_R.html#145136">reflector</a>-&gt;<a href="dictionary_G.html#88521">getStartLine</a>();</span>
+<a name="131"><font size=-1>131     </font></a><span class="default"></span>
+<a name="132"><font size=-1>132     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($<a href="dictionary_D.html#61783">docComment</a> = $<a href="dictionary_R.html#145136">reflector</a>-&gt;<a href="dictionary_G.html#85154">getDocComment</a>()) {</span>
+<a name="133"><font size=-1>133     </font></a><span class="default">            $<a href="dictionary_S.html#161841">startLine</a> -= \<a href="dictionary_P.html#137977">preg_match_all</a>(</span><span class="string">'/(\r\n?|\n)/'</span><span class="default">, $<a href="dictionary_D.html#61783">docComment</a>) + </span><span class="number">1</span><span class="default">;</span>
+<a name="134"><font size=-1>134     </font></a><span class="default">        }</span>
+<a name="135"><font size=-1>135     </font></a><span class="default"></span>
+<a name="136"><font size=-1>136     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\<a href="dictionary_M.html#113095">max</a>($<a href="dictionary_S.html#161841">startLine</a>, </span><span class="number">1</span><span class="default">);</span>
+<a name="137"><font size=-1>137     </font></a><span class="default">    }</span>
+<a name="138"><font size=-1>138     </font></a><span class="default"></span>
+<a name="139"><font size=-1>139     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="140"><font size=-1>140     </font></a><span class="comment">     * Split code into highlight spans.</span>
+<a name="141"><font size=-1>141     </font></a><span class="comment">     *</span>
+<a name="142"><font size=-1>142     </font></a><span class="comment">     * Tokenize via \token_get_all, then map these tokens to internal highlight types, combining</span>
+<a name="143"><font size=-1>143     </font></a><span class="comment">     * adjacent spans of the same highlight type.</span>
+<a name="144"><font size=-1>144     </font></a><span class="comment">     *</span>
+<a name="145"><font size=-1>145     </font></a><span class="comment">     * @todo consider switching \token_get_all() out for PHP-Parser-based formatting at some point.</span>
+<a name="146"><font size=-1>146     </font></a><span class="comment">     *</span>
+<a name="147"><font size=-1>147     </font></a><span class="comment">     * @param string $code</span>
+<a name="148"><font size=-1>148     </font></a><span class="comment">     *</span>
+<a name="149"><font size=-1>149     </font></a><span class="comment">     * @return \Generator [$spanType, $spanText] highlight spans</span>
+<a name="150"><font size=-1>150     </font></a><span class="comment">     */</span>
+<a name="151"><font size=-1>151     </font></a><span class="comment">    </span><span class="keyword">private static function <a href="dictionary_P.html#179563">tokenizeSpans</a></span><span class="default">($<a href="dictionary_C.html#44317">code</a>)</span>
+<a name="152"><font size=-1>152     </font></a><span class="default">    {</span>
+<a name="153"><font size=-1>153     </font></a><span class="default">        $<a href="dictionary_S.html#159721">spanType</a> = <a href="dictionary_N.html#125929">null</a>;</span>
+<a name="154"><font size=-1>154     </font></a><span class="default">        $<a href="dictionary_B.html#36310">buffer</a>   = </span><span class="string">''</span><span class="default">;</span>
+<a name="155"><font size=-1>155     </font></a><span class="default"></span>
+<a name="156"><font size=-1>156     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">(\<a href="dictionary_T.html#179491">token_get_all</a>($<a href="dictionary_C.html#44317">code</a>) </span><span class="keyword">as </span><span class="default">$<a href="dictionary_T.html#179434">token</a>) {</span>
+<a name="157"><font size=-1>157     </font></a><span class="default">            $<a href="dictionary_N.html#124423">nextType</a> = self::<a href="dictionary_P.html#124376">nextHighlightType</a>($<a href="dictionary_T.html#179434">token</a>, $<a href="dictionary_S.html#159721">spanType</a>);</span>
+<a name="158"><font size=-1>158     </font></a><span class="default">            $<a href="dictionary_S.html#159721">spanType</a> = $spanType ?: $<a href="dictionary_N.html#124423">nextType</a>;</span>
+<a name="159"><font size=-1>159     </font></a><span class="default"></span>
+<a name="160"><font size=-1>160     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_S.html#159721">spanType</a> !== $<a href="dictionary_N.html#124423">nextType</a>) {</span>
+<a name="161"><font size=-1>161     </font></a><span class="default">                <a href="dictionary_Y.html#192836">yield</a> [$<a href="dictionary_S.html#159721">spanType</a>, $buffer];</span>
+<a name="162"><font size=-1>162     </font></a><span class="default">                $spanType = $nextType;</span>
+<a name="163"><font size=-1>163     </font></a><span class="default">                $buffer   = </span><span class="string">''</span><span class="default">;</span>
+<a name="164"><font size=-1>164     </font></a><span class="default">            }</span>
+<a name="165"><font size=-1>165     </font></a><span class="default"></span>
+<a name="166"><font size=-1>166     </font></a><span class="default">            $buffer .= \is_array($token) ? $token[</span><span class="number">1</span><span class="default">] : $token;</span>
+<a name="167"><font size=-1>167     </font></a><span class="default">        }</span>
+<a name="168"><font size=-1>168     </font></a><span class="default"></span>
+<a name="169"><font size=-1>169     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($spanType !== null &amp;&amp; $buffer !== </span><span class="string">''</span><span class="default">) {</span>
+<a name="170"><font size=-1>170     </font></a><span class="default">            yield [$spanType, $buffer];</span>
+<a name="171"><font size=-1>171     </font></a><span class="default">        }</span>
+<a name="172"><font size=-1>172     </font></a><span class="default">    }</span>
+<a name="173"><font size=-1>173     </font></a><span class="default"></span>
+<a name="174"><font size=-1>174     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="175"><font size=-1>175     </font></a><span class="comment">     * Given a token and the current highlight span type, compute the next type.</span>
+<a name="176"><font size=-1>176     </font></a><span class="comment">     *</span>
+<a name="177"><font size=-1>177     </font></a><span class="comment">     * @param array|string $token       \token_get_all token</span>
+<a name="178"><font size=-1>178     </font></a><span class="comment">     * @param string|null  $currentType</span>
+<a name="179"><font size=-1>179     </font></a><span class="comment">     *</span>
+<a name="180"><font size=-1>180     </font></a><span class="comment">     * @return string|null</span>
+<a name="181"><font size=-1>181     </font></a><span class="comment">     */</span>
+<a name="182"><font size=-1>182     </font></a><span class="comment">    </span><span class="keyword">private static function </span><span class="default">nextHighlightType($token, $currentType)</span>
+<a name="183"><font size=-1>183     </font></a><span class="default">    {</span>
+<a name="184"><font size=-1>184     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">($token === </span><span class="string">'&quot;'</span><span class="default">) {</span>
+<a name="185"><font size=-1>185     </font></a><span class="default">            </span><span class="keyword">return </span><span class="default">self::HIGHLIGHT_STRING;</span>
+<a name="186"><font size=-1>186     </font></a><span class="default">        }</span>
+<a name="187"><font size=-1>187     </font></a><span class="default"></span>
+<a name="188"><font size=-1>188     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(\is_array($token)) {</span>
+<a name="189"><font size=-1>189     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($token[</span><span class="number">0</span><span class="default">] === \T_WHITESPACE) {</span>
+<a name="190"><font size=-1>190     </font></a><span class="default">                </span><span class="keyword">return </span><span class="default">$currentType;</span>
+<a name="191"><font size=-1>191     </font></a><span class="default">            }</span>
+<a name="192"><font size=-1>192     </font></a><span class="default"></span>
+<a name="193"><font size=-1>193     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(\array_key_exists($token[</span><span class="number">0</span><span class="default">], self::$tokenMap)) {</span>
+<a name="194"><font size=-1>194     </font></a><span class="default">                </span><span class="keyword">return </span><span class="default">self::$tokenMap[$token[</span><span class="number">0</span><span class="default">]];</span>
+<a name="195"><font size=-1>195     </font></a><span class="default">            }</span>
+<a name="196"><font size=-1>196     </font></a><span class="default">        }</span>
+<a name="197"><font size=-1>197     </font></a><span class="default"></span>
+<a name="198"><font size=-1>198     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">self::HIGHLIGHT_KEYWORD;</span>
+<a name="199"><font size=-1>199     </font></a><span class="default">    }</span>
+<a name="200"><font size=-1>200     </font></a><span class="default"></span>
+<a name="201"><font size=-1>201     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="202"><font size=-1>202     </font></a><span class="comment">     * Group highlight spans into an array of lines.</span>
+<a name="203"><font size=-1>203     </font></a><span class="comment">     *</span>
+<a name="204"><font size=-1>204     </font></a><span class="comment">     * Optionally, restrict by start and end line numbers.</span>
+<a name="205"><font size=-1>205     </font></a><span class="comment">     *</span>
+<a name="206"><font size=-1>206     </font></a><span class="comment">     * @param \Generator $spans     as [$spanType, $spanText] pairs</span>
+<a name="207"><font size=-1>207     </font></a><span class="comment">     * @param int        $startLine</span>
+<a name="208"><font size=-1>208     </font></a><span class="comment">     * @param int|null   $endLine</span>
+<a name="209"><font size=-1>209     </font></a><span class="comment">     *</span>
+<a name="210"><font size=-1>210     </font></a><span class="comment">     * @return \Generator lines, each an array of [$spanType, $spanText] pairs</span>
+<a name="211"><font size=-1>211     </font></a><span class="comment">     */</span>
+<a name="212"><font size=-1>212     </font></a><span class="comment">    </span><span class="keyword">private static function </span><span class="default">splitLines(\Generator $spans, $startLine = </span><span class="number">1</span><span class="default">, $endLine = null)</span>
+<a name="213"><font size=-1>213     </font></a><span class="default">    {</span>
+<a name="214"><font size=-1>214     </font></a><span class="default">        $lineNum = </span><span class="number">1</span><span class="default">;</span>
+<a name="215"><font size=-1>215     </font></a><span class="default">        $buffer  = [];</span>
+<a name="216"><font size=-1>216     </font></a><span class="default"></span>
+<a name="217"><font size=-1>217     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($spans </span><span class="keyword">as list</span><span class="default">($spanType, $spanText)) {</span>
+<a name="218"><font size=-1>218     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">(\preg_split(</span><span class="string">'/(\r\n?|\n)/'</span><span class="default">, $spanText) </span><span class="keyword">as </span><span class="default">$index =&gt; $spanLine) {</span>
+<a name="219"><font size=-1>219     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($index &gt; </span><span class="number">0</span><span class="default">) {</span>
+<a name="220"><font size=-1>220     </font></a><span class="default">                    </span><span class="keyword">if </span><span class="default">($lineNum &gt;= $startLine) {</span>
+<a name="221"><font size=-1>221     </font></a><span class="default">                        yield $lineNum =&gt; $buffer;</span>
+<a name="222"><font size=-1>222     </font></a><span class="default">                    }</span>
+<a name="223"><font size=-1>223     </font></a><span class="default"></span>
+<a name="224"><font size=-1>224     </font></a><span class="default">                    $lineNum++;</span>
+<a name="225"><font size=-1>225     </font></a><span class="default">                    $buffer = [];</span>
+<a name="226"><font size=-1>226     </font></a><span class="default"></span>
+<a name="227"><font size=-1>227     </font></a><span class="default">                    </span><span class="keyword">if </span><span class="default">($endLine !== null &amp;&amp; $lineNum &gt; $endLine) {</span>
+<a name="228"><font size=-1>228     </font></a><span class="default">                        </span><span class="keyword">return</span><span class="default">;</span>
+<a name="229"><font size=-1>229     </font></a><span class="default">                    }</span>
+<a name="230"><font size=-1>230     </font></a><span class="default">                }</span>
+<a name="231"><font size=-1>231     </font></a><span class="default"></span>
+<a name="232"><font size=-1>232     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($spanLine !== </span><span class="string">''</span><span class="default">) {</span>
+<a name="233"><font size=-1>233     </font></a><span class="default">                    $buffer[] = [$spanType, $spanLine];</span>
+<a name="234"><font size=-1>234     </font></a><span class="default">                }</span>
+<a name="235"><font size=-1>235     </font></a><span class="default">            }</span>
+<a name="236"><font size=-1>236     </font></a><span class="default">        }</span>
+<a name="237"><font size=-1>237     </font></a><span class="default"></span>
+<a name="238"><font size=-1>238     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">empty</span><span class="default">($buffer)) {</span>
+<a name="239"><font size=-1>239     </font></a><span class="default">            yield $lineNum =&gt; $buffer;</span>
+<a name="240"><font size=-1>240     </font></a><span class="default">        }</span>
+<a name="241"><font size=-1>241     </font></a><span class="default">    }</span>
+<a name="242"><font size=-1>242     </font></a><span class="default"></span>
+<a name="243"><font size=-1>243     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="244"><font size=-1>244     </font></a><span class="comment">     * Format lines of highlight spans for shell output.</span>
+<a name="245"><font size=-1>245     </font></a><span class="comment">     *</span>
+<a name="246"><font size=-1>246     </font></a><span class="comment">     * @param \Generator $spanLines lines, each an array of [$spanType, $spanText] pairs</span>
+<a name="247"><font size=-1>247     </font></a><span class="comment">     *</span>
+<a name="248"><font size=-1>248     </font></a><span class="comment">     * @return \Generator Formatted lines</span>
+<a name="249"><font size=-1>249     </font></a><span class="comment">     */</span>
+<a name="250"><font size=-1>250     </font></a><span class="comment">    </span><span class="keyword">private static function </span><span class="default">formatLines(\Generator $spanLines)</span>
+<a name="251"><font size=-1>251     </font></a><span class="default">    {</span>
+<a name="252"><font size=-1>252     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($spanLines </span><span class="keyword">as </span><span class="default">$lineNum =&gt; $spanLine) {</span>
+<a name="253"><font size=-1>253     </font></a><span class="default">            $line = </span><span class="string">''</span><span class="default">;</span>
+<a name="254"><font size=-1>254     </font></a><span class="default"></span>
+<a name="255"><font size=-1>255     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">($spanLine </span><span class="keyword">as list</span><span class="default">($spanType, $spanText)) {</span>
+<a name="256"><font size=-1>256     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($spanType === self::HIGHLIGHT_DEFAULT) {</span>
+<a name="257"><font size=-1>257     </font></a><span class="default">                    $line .= OutputFormatter::escape($spanText);</span>
+<a name="258"><font size=-1>258     </font></a><span class="default">                } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="259"><font size=-1>259     </font></a><span class="default">                    $line .= \sprintf(</span><span class="string">'&lt;%s&gt;%s&lt;/%s&gt;'</span><span class="default">, $spanType, OutputFormatter::escape($spanText), $spanType);</span>
+<a name="260"><font size=-1>260     </font></a><span class="default">                }</span>
+<a name="261"><font size=-1>261     </font></a><span class="default">            }</span>
+<a name="262"><font size=-1>262     </font></a><span class="default"></span>
+<a name="263"><font size=-1>263     </font></a><span class="default">            yield $lineNum =&gt; $line . \PHP_EOL;</span>
+<a name="264"><font size=-1>264     </font></a><span class="default">        }</span>
+<a name="265"><font size=-1>265     </font></a><span class="default">    }</span>
+<a name="266"><font size=-1>266     </font></a><span class="default"></span>
+<a name="267"><font size=-1>267     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="268"><font size=-1>268     </font></a><span class="comment">     * Prepend line numbers to formatted lines.</span>
+<a name="269"><font size=-1>269     </font></a><span class="comment">     *</span>
+<a name="270"><font size=-1>270     </font></a><span class="comment">     * Lines must be in an associative array with the correct keys in order to be numbered properly.</span>
+<a name="271"><font size=-1>271     </font></a><span class="comment">     *</span>
+<a name="272"><font size=-1>272     </font></a><span class="comment">     * Optionally, pass $markLine to add a line marker.</span>
+<a name="273"><font size=-1>273     </font></a><span class="comment">     *</span>
+<a name="274"><font size=-1>274     </font></a><span class="comment">     * @param \Generator $lines    Formatted lines</span>
+<a name="275"><font size=-1>275     </font></a><span class="comment">     * @param int|null   $markLine</span>
+<a name="276"><font size=-1>276     </font></a><span class="comment">     *</span>
+<a name="277"><font size=-1>277     </font></a><span class="comment">     * @return \Generator Numbered, formatted lines</span>
+<a name="278"><font size=-1>278     </font></a><span class="comment">     */</span>
+<a name="279"><font size=-1>279     </font></a><span class="comment">    </span><span class="keyword">private static function </span><span class="default">numberLines(\Generator $lines, $markLine = null)</span>
+<a name="280"><font size=-1>280     </font></a><span class="default">    {</span>
+<a name="281"><font size=-1>281     </font></a><span class="default">        $lines = \iterator_to_array($lines);</span>
+<a name="282"><font size=-1>282     </font></a><span class="default"></span>
+<a name="283"><font size=-1>283     </font></a><span class="default">        </span><span class="comment">// Figure out how much space to reserve for line numbers.</span>
+<a name="284"><font size=-1>284     </font></a><span class="comment">        </span><span class="default">\end($lines);</span>
+<a name="285"><font size=-1>285     </font></a><span class="default">        $pad = \strlen(\key($lines));</span>
+<a name="286"><font size=-1>286     </font></a><span class="default"></span>
+<a name="287"><font size=-1>287     </font></a><span class="default">        </span><span class="comment">// If $markLine is before or after our line range, don't bother reserving space for the marker.</span>
+<a name="288"><font size=-1>288     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">($markLine !== null) {</span>
+<a name="289"><font size=-1>289     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($markLine &gt; \key($lines)) {</span>
+<a name="290"><font size=-1>290     </font></a><span class="default">                $markLine = null;</span>
+<a name="291"><font size=-1>291     </font></a><span class="default">            }</span>
+<a name="292"><font size=-1>292     </font></a><span class="default"></span>
+<a name="293"><font size=-1>293     </font></a><span class="default">            \reset($lines);</span>
+<a name="294"><font size=-1>294     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($markLine &lt; \key($lines)) {</span>
+<a name="295"><font size=-1>295     </font></a><span class="default">                $markLine = null;</span>
+<a name="296"><font size=-1>296     </font></a><span class="default">            }</span>
+<a name="297"><font size=-1>297     </font></a><span class="default">        }</span>
+<a name="298"><font size=-1>298     </font></a><span class="default"></span>
+<a name="299"><font size=-1>299     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($lines </span><span class="keyword">as </span><span class="default">$lineNum =&gt; $line) {</span>
+<a name="300"><font size=-1>300     </font></a><span class="default">            $mark = </span><span class="string">''</span><span class="default">;</span>
+<a name="301"><font size=-1>301     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($markLine !== null) {</span>
+<a name="302"><font size=-1>302     </font></a><span class="default">                $mark = ($markLine === $lineNum) ? self::LINE_MARKER : self::NO_LINE_MARKER;</span>
+<a name="303"><font size=-1>303     </font></a><span class="default">            }</span>
+<a name="304"><font size=-1>304     </font></a><span class="default"></span>
+<a name="305"><font size=-1>305     </font></a><span class="default">            yield \sprintf(</span><span class="string">&quot;%s&lt;aside&gt;%</span><span class="default">${pad}</span><span class="string">s&lt;/aside&gt;: %s&quot;</span><span class="default">, $mark, $lineNum, $line);</span>
+<a name="306"><font size=-1>306     </font></a><span class="default">        }</span>
+<a name="307"><font size=-1>307     </font></a><span class="default">    }</span>
+<a name="308"><font size=-1>308     </font></a><span class="default"></span>
+<a name="309"><font size=-1>309     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="310"><font size=-1>310     </font></a><span class="comment">     * Check whether a Reflector instance is reflectable by this formatter.</span>
+<a name="311"><font size=-1>311     </font></a><span class="comment">     *</span>
+<a name="312"><font size=-1>312     </font></a><span class="comment">     * @param \Reflector $reflector</span>
+<a name="313"><font size=-1>313     </font></a><span class="comment">     *</span>
+<a name="314"><font size=-1>314     </font></a><span class="comment">     * @return bool</span>
+<a name="315"><font size=-1>315     </font></a><span class="comment">     */</span>
+<a name="316"><font size=-1>316     </font></a><span class="comment">    </span><span class="keyword">private static function </span><span class="default">isReflectable(\Reflector $reflector)</span>
+<a name="317"><font size=-1>317     </font></a><span class="default">    {</span>
+<a name="318"><font size=-1>318     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">($reflector </span><span class="keyword">instanceof </span><span class="default">\ReflectionClass || $reflector </span><span class="keyword">instanceof </span><span class="default">\ReflectionFunctionAbstract) &amp;&amp; \is_file($reflector-&gt;getFileName());</span>
+<a name="319"><font size=-1>319     </font></a><span class="default">    }</span>
+<a name="320"><font size=-1>320     </font></a><span class="default">}</span>
+<a name="321"><font size=-1>321     </font></a><span class="default"></span>
+</pre></body></html>

@@ -1,0 +1,56 @@
+<html><head><title>Base64EncoderAcceptanceTest.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\swiftmailer\swiftmailer\tests\acceptance\Swift\Encoder\Base64EncoderAcceptanceTest.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\swiftmailer\\swiftmailer\\tests\\acceptance\\Swift\\Encoder\\Base64EncoderAcceptanceTest.php";
+top.document.title  = "Base64EncoderAcceptanceTest.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_S.html#165766">Swift_Encoder_Base64EncoderAcceptanceTest</a> extends </span><span class="default">\PHPUnit\Framework\<a href="dictionary_P.html#173889">TestCase</a></span>
+<a name="4"><font size=-1>4     </font></a><span class="default">{</span>
+<a name="5"><font size=-1>5     </font></a><span class="default">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_S.html#152480">samplesDir</a>;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_S.html#70431">encoder</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span>
+<a name="8"><font size=-1>8     </font></a><span class="default">    </span><span class="keyword">protected function <a href="dictionary_S.html#157301">setUp</a></span><span class="default">()</span>
+<a name="9"><font size=-1>9     </font></a><span class="default">    {</span>
+<a name="10"><font size=-1>10     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#152480">samplesDir</a> = <a href="dictionary_R.html#144158">realpath</a>(<a href="dictionary_&.html#19204">__DIR__</a>.</span><span class="string">'/../../../_samples/charsets'</span><span class="default">);</span>
+<a name="11"><font size=-1>11     </font></a><span class="default">        $this-&gt;<a href="dictionary_S.html#70431">encoder</a> = </span><span class="keyword">new <a href="dictionary_S.html#165765">Swift_Encoder_Base64Encoder</a></span><span class="default">();</span>
+<a name="12"><font size=-1>12     </font></a><span class="default">    }</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_S.html#174520">testEncodingAndDecodingSamples</a></span><span class="default">()</span>
+<a name="15"><font size=-1>15     </font></a><span class="default">    {</span>
+<a name="16"><font size=-1>16     </font></a><span class="default">        $<a href="dictionary_S.html#152473">sampleFp</a> = <a href="dictionary_O.html#129722">opendir</a>($this-&gt;<a href="dictionary_S.html#152480">samplesDir</a>);</span>
+<a name="17"><font size=-1>17     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">(<a href="dictionary_F.html#76452">false</a> !== $<a href="dictionary_E.html#70564">encodingDir</a> = <a href="dictionary_R.html#143970">readdir</a>($<a href="dictionary_S.html#152473">sampleFp</a>)) {</span>
+<a name="18"><font size=-1>18     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(</span><span class="string">'.' </span><span class="default">== <a href="dictionary_S.html#165161">substr</a>($<a href="dictionary_E.html#70564">encodingDir</a>, </span><span class="number">0</span><span class="default">, </span><span class="number">1</span><span class="default">)) {</span>
+<a name="19"><font size=-1>19     </font></a><span class="default">                </span><span class="keyword">continue</span><span class="default">;</span>
+<a name="20"><font size=-1>20     </font></a><span class="default">            }</span>
+<a name="21"><font size=-1>21     </font></a><span class="default"></span>
+<a name="22"><font size=-1>22     </font></a><span class="default">            $<a href="dictionary_S.html#152455">sampleDir</a> = $this-&gt;<a href="dictionary_S.html#152480">samplesDir</a>.</span><span class="string">'/'</span><span class="default">.$<a href="dictionary_E.html#70564">encodingDir</a>;</span>
+<a name="23"><font size=-1>23     </font></a><span class="default"></span>
+<a name="24"><font size=-1>24     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(<a href="dictionary_I.html#100714">is_dir</a>($<a href="dictionary_S.html#152455">sampleDir</a>)) {</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">                $<a href="dictionary_F.html#77265">fileFp</a> = <a href="dictionary_O.html#129722">opendir</a>($<a href="dictionary_S.html#152455">sampleDir</a>);</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">                </span><span class="keyword">while </span><span class="default">(<a href="dictionary_F.html#76452">false</a> !== $<a href="dictionary_S.html#152464">sampleFile</a> = <a href="dictionary_R.html#143970">readdir</a>($<a href="dictionary_F.html#77265">fileFp</a>)) {</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">                    </span><span class="keyword">if </span><span class="default">(</span><span class="string">'.' </span><span class="default">== <a href="dictionary_S.html#165161">substr</a>($<a href="dictionary_S.html#152464">sampleFile</a>, </span><span class="number">0</span><span class="default">, </span><span class="number">1</span><span class="default">)) {</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">                        </span><span class="keyword">continue</span><span class="default">;</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">                    }</span>
+<a name="30"><font size=-1>30     </font></a><span class="default"></span>
+<a name="31"><font size=-1>31     </font></a><span class="default">                    $<a href="dictionary_T.html#177363">text</a> = <a href="dictionary_F.html#77207">file_get_contents</a>($<a href="dictionary_S.html#152455">sampleDir</a>.</span><span class="string">'/'</span><span class="default">.$<a href="dictionary_S.html#152464">sampleFile</a>);</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">                    $<a href="dictionary_E.html#70295">encodedText</a> = $this-&gt;<a href="dictionary_S.html#70431">encoder</a>-&gt;<a href="dictionary_E.html#70468">encodeString</a>($<a href="dictionary_T.html#177363">text</a>);</span>
+<a name="33"><font size=-1>33     </font></a><span class="default"></span>
+<a name="34"><font size=-1>34     </font></a><span class="default">                    $this-&gt;<a href="dictionary_P.html#29864">assertEquals</a>(</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">                        <a href="dictionary_B.html#33689">base64_decode</a>($<a href="dictionary_E.html#70295">encodedText</a>), $<a href="dictionary_T.html#177363">text</a>,</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">                        </span><span class="string">'%s: Encoded string should decode back to original string for sample '</span><span class="default">.</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">                        $<a href="dictionary_S.html#152455">sampleDir</a>.</span><span class="string">'/'</span><span class="default">.$<a href="dictionary_S.html#152464">sampleFile</a></span>
+<a name="38"><font size=-1>38     </font></a><span class="default">                        );</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">                }</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">                <a href="dictionary_C.html#43536">closedir</a>($<a href="dictionary_F.html#77265">fileFp</a>);</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">            }</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">        }</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        <a href="dictionary_C.html#43536">closedir</a>($<a href="dictionary_S.html#152473">sampleFp</a>);</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">    }</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">}</span>
+<a name="46"><font size=-1>46     </font></a><span class="default"></span>
+</pre></body></html>

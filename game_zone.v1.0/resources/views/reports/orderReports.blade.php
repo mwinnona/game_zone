@@ -63,8 +63,8 @@
             <td class="text-center" >{{$orders[$i]->created_at}}</td>
             <td class="text-center" >S/. {{$orders[$i]->total_amount}}</td>
             <th class="text-center">
-                <a href="{{URL('/factura/'.$orders[$i]->token_order)}}"><span><i class="fa fa-eye" aria-hidden="true"></i></span></a>
-                <a href="#"><span><i class="fa fa-download" aria-hidden="true"></i></span></a>
+                <a href="{{URL('/report-order-view/'.$orders[$i]->token_order)}}"><span><i class="fa fa-eye" aria-hidden="true"></i></span></a>
+                <a href="{{URL('/factura/'.$orders[$i]->token_order)}}"><span><i class="fa fa-download" aria-hidden="true"></i></span></a>
             </th>
           </tr>
           @endfor

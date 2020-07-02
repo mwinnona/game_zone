@@ -1,0 +1,211 @@
+<html><head><title>functions.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\scrivo\highlight.php\HighlightUtilities\functions.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\scrivo\\highlight.php\\HighlightUtilities\\functions.php";
+top.document.title  = "functions.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/* Copyright (c) 2019 Geert Bergman (geert@scrivo.nl), highlight.php</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> *</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> * Redistribution and use in source and binary forms, with or without</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * modification, are permitted provided that the following conditions are met:</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * 1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> *    this list of conditions and the following disclaimer.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> * 2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"> *    this list of conditions and the following disclaimer in the documentation</span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"> *    and/or other materials provided with the distribution.</span>
+<a name="13"><font size=-1>13     </font></a><span class="comment"> * 3. Neither the name of &quot;highlight.js&quot;, &quot;highlight.php&quot;, nor the names of its</span>
+<a name="14"><font size=-1>14     </font></a><span class="comment"> *    contributors may be used to endorse or promote products derived from this</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment"> *    software without specific prior written permission.</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment"> *</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment"> * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment"> * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment"> * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment"> * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE</span>
+<a name="21"><font size=-1>21     </font></a><span class="comment"> * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR</span>
+<a name="22"><font size=-1>22     </font></a><span class="comment"> * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF</span>
+<a name="23"><font size=-1>23     </font></a><span class="comment"> * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS</span>
+<a name="24"><font size=-1>24     </font></a><span class="comment"> * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN</span>
+<a name="25"><font size=-1>25     </font></a><span class="comment"> * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)</span>
+<a name="26"><font size=-1>26     </font></a><span class="comment"> * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span>
+<a name="27"><font size=-1>27     </font></a><span class="comment"> * POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment"> */</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment"></span>
+<a name="30"><font size=-1>30     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_H.html#93397">HighlightUtilities</a></span><span class="default">;</span>
+<a name="31"><font size=-1>31     </font></a><span class="default"></span>
+<a name="32"><font size=-1>32     </font></a><span class="default"></span><span class="keyword">require_once <a href="dictionary_&.html#19204">__DIR__</a> </span><span class="default">. </span><span class="string">'/_internals.php'</span><span class="default">;</span>
+<a name="33"><font size=-1>33     </font></a><span class="default"></span><span class="keyword">require_once <a href="dictionary_&.html#19204">__DIR__</a> </span><span class="default">. </span><span class="string">'/_themeColors.php'</span><span class="default">;</span>
+<a name="34"><font size=-1>34     </font></a><span class="default"></span>
+<a name="35"><font size=-1>35     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="36"><font size=-1>36     </font></a><span class="comment"> * Get a list of available stylesheets.</span>
+<a name="37"><font size=-1>37     </font></a><span class="comment"> *</span>
+<a name="38"><font size=-1>38     </font></a><span class="comment"> * By default, a list of filenames without the `.css` extension will be returned.</span>
+<a name="39"><font size=-1>39     </font></a><span class="comment"> * This can be configured with the `$filePaths` argument.</span>
+<a name="40"><font size=-1>40     </font></a><span class="comment"> *</span>
+<a name="41"><font size=-1>41     </font></a><span class="comment"> * @api</span>
+<a name="42"><font size=-1>42     </font></a><span class="comment"> *</span>
+<a name="43"><font size=-1>43     </font></a><span class="comment"> * @since 9.15.8.1</span>
+<a name="44"><font size=-1>44     </font></a><span class="comment"> *</span>
+<a name="45"><font size=-1>45     </font></a><span class="comment"> * @param bool $filePaths Return absolute paths to stylesheets instead</span>
+<a name="46"><font size=-1>46     </font></a><span class="comment"> *</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment"> * @return string[]</span>
+<a name="48"><font size=-1>48     </font></a><span class="comment"> */</span>
+<a name="49"><font size=-1>49     </font></a><span class="comment"></span><span class="keyword">function <a href="dictionary_H.html#84010">getAvailableStyleSheets</a></span><span class="default">($<a href="dictionary_F.html#77544">filePaths</a> = <a href="dictionary_F.html#76452">false</a>)</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">{</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">    $<a href="dictionary_R.html#149578">results</a> = </span><span class="keyword">array</span><span class="default">();</span>
+<a name="52"><font size=-1>52     </font></a><span class="default"></span>
+<a name="53"><font size=-1>53     </font></a><span class="default">    $<a href="dictionary_F.html#79441">folder</a> = <a href="dictionary_H.html#88666">getStyleSheetFolder</a>();</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">    $<a href="dictionary_D.html#60632">dh</a> = @<a href="dictionary_D.html#60935">dir</a>($<a href="dictionary_F.html#79441">folder</a>);</span>
+<a name="55"><font size=-1>55     </font></a><span class="default"></span>
+<a name="56"><font size=-1>56     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">($<a href="dictionary_D.html#60632">dh</a>) {</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">        </span><span class="keyword">while </span><span class="default">(($<a href="dictionary_E.html#71241">entry</a> = $<a href="dictionary_D.html#60632">dh</a>-&gt;<a href="dictionary_R.html#143944">read</a>()) !== <a href="dictionary_F.html#76452">false</a>) {</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(<a href="dictionary_S.html#165161">substr</a>($<a href="dictionary_E.html#71241">entry</a>, -</span><span class="number">4</span><span class="default">, </span><span class="number">4</span><span class="default">) !== </span><span class="string">&quot;.css&quot;</span><span class="default">) {</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">                </span><span class="keyword">continue</span><span class="default">;</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">            }</span>
+<a name="61"><font size=-1>61     </font></a><span class="default"></span>
+<a name="62"><font size=-1>62     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">($<a href="dictionary_F.html#77544">filePaths</a>) {</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">                $<a href="dictionary_R.html#149578">results</a>[] = <a href="dictionary_I.html#97806">implode</a>(<a href="dictionary_D.html#61124">DIRECTORY_SEPARATOR</a>, </span><span class="keyword">array</span><span class="default">($<a href="dictionary_F.html#79441">folder</a>, $<a href="dictionary_E.html#71241">entry</a>));</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">            } </span><span class="keyword">else </span><span class="default">{</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">                $<a href="dictionary_R.html#149578">results</a>[] = <a href="dictionary_B.html#33860">basename</a>($<a href="dictionary_E.html#71241">entry</a>, </span><span class="string">&quot;.css&quot;</span><span class="default">);</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">            }</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">        }</span>
+<a name="68"><font size=-1>68     </font></a><span class="default"></span>
+<a name="69"><font size=-1>69     </font></a><span class="default">        $<a href="dictionary_D.html#60632">dh</a>-&gt;<a href="dictionary_C.html#43518">close</a>();</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">    }</span>
+<a name="71"><font size=-1>71     </font></a><span class="default"></span>
+<a name="72"><font size=-1>72     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$<a href="dictionary_R.html#149578">results</a>;</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">}</span>
+<a name="74"><font size=-1>74     </font></a><span class="default"></span>
+<a name="75"><font size=-1>75     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="76"><font size=-1>76     </font></a><span class="comment"> * Get the RGB representation used for the background of a given theme as an</span>
+<a name="77"><font size=-1>77     </font></a><span class="comment"> * array of three numbers.</span>
+<a name="78"><font size=-1>78     </font></a><span class="comment"> *</span>
+<a name="79"><font size=-1>79     </font></a><span class="comment"> * @api</span>
+<a name="80"><font size=-1>80     </font></a><span class="comment"> *</span>
+<a name="81"><font size=-1>81     </font></a><span class="comment"> * @since 9.18.1.1</span>
+<a name="82"><font size=-1>82     </font></a><span class="comment"> *</span>
+<a name="83"><font size=-1>83     </font></a><span class="comment"> * @param string $name The stylesheet name (with or without the extension)</span>
+<a name="84"><font size=-1>84     </font></a><span class="comment"> *</span>
+<a name="85"><font size=-1>85     </font></a><span class="comment"> * @throws \DomainException when no stylesheet with this name exists</span>
+<a name="86"><font size=-1>86     </font></a><span class="comment"> *</span>
+<a name="87"><font size=-1>87     </font></a><span class="comment"> * @return float[] An array representing RGB numerical values</span>
+<a name="88"><font size=-1>88     </font></a><span class="comment"> */</span>
+<a name="89"><font size=-1>89     </font></a><span class="comment"></span><span class="keyword">function <a href="dictionary_H.html#88989">getThemeBackgroundColor</a></span><span class="default">($<a href="dictionary_N.html#122227">name</a>)</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">{</span>
+<a name="91"><font size=-1>91     </font></a><span class="default">    </span><span class="keyword">return <a href="dictionary_&.html#20246">_getThemeBackgroundColor</a></span><span class="default">(<a href="dictionary_&.html#20194">_getNoCssExtension</a>($<a href="dictionary_N.html#122227">name</a>));</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">}</span>
+<a name="93"><font size=-1>93     </font></a><span class="default"></span>
+<a name="94"><font size=-1>94     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="95"><font size=-1>95     </font></a><span class="comment"> * Get the contents of the given stylesheet.</span>
+<a name="96"><font size=-1>96     </font></a><span class="comment"> *</span>
+<a name="97"><font size=-1>97     </font></a><span class="comment"> * @api</span>
+<a name="98"><font size=-1>98     </font></a><span class="comment"> *</span>
+<a name="99"><font size=-1>99     </font></a><span class="comment"> * @since 9.15.8.1</span>
+<a name="100"><font size=-1>100     </font></a><span class="comment"> *</span>
+<a name="101"><font size=-1>101     </font></a><span class="comment"> * @param string $name The stylesheet name (with or without the extension)</span>
+<a name="102"><font size=-1>102     </font></a><span class="comment"> *</span>
+<a name="103"><font size=-1>103     </font></a><span class="comment"> * @throws \DomainException when the no stylesheet with this name exists</span>
+<a name="104"><font size=-1>104     </font></a><span class="comment"> *</span>
+<a name="105"><font size=-1>105     </font></a><span class="comment"> * @return false|string The CSS content of the stylesheet or FALSE when</span>
+<a name="106"><font size=-1>106     </font></a><span class="comment"> *                      the stylesheet content could be read</span>
+<a name="107"><font size=-1>107     </font></a><span class="comment"> */</span>
+<a name="108"><font size=-1>108     </font></a><span class="comment"></span><span class="keyword">function <a href="dictionary_H.html#88664">getStyleSheet</a></span><span class="default">($<a href="dictionary_N.html#122229">name</a>)</span>
+<a name="109"><font size=-1>109     </font></a><span class="default">{</span>
+<a name="110"><font size=-1>110     </font></a><span class="default">    $<a href="dictionary_P.html#134403">path</a> = <a href="dictionary_H.html#88667">getStyleSheetPath</a>($<a href="dictionary_N.html#122229">name</a>);</span>
+<a name="111"><font size=-1>111     </font></a><span class="default"></span>
+<a name="112"><font size=-1>112     </font></a><span class="default">    </span><span class="keyword">return <a href="dictionary_F.html#77207">file_get_contents</a></span><span class="default">($<a href="dictionary_P.html#134403">path</a>);</span>
+<a name="113"><font size=-1>113     </font></a><span class="default">}</span>
+<a name="114"><font size=-1>114     </font></a><span class="default"></span>
+<a name="115"><font size=-1>115     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="116"><font size=-1>116     </font></a><span class="comment"> * Get the absolute path to the folder containing the stylesheets distributed in this package.</span>
+<a name="117"><font size=-1>117     </font></a><span class="comment"> *</span>
+<a name="118"><font size=-1>118     </font></a><span class="comment"> * @api</span>
+<a name="119"><font size=-1>119     </font></a><span class="comment"> *</span>
+<a name="120"><font size=-1>120     </font></a><span class="comment"> * @since 9.15.8.1</span>
+<a name="121"><font size=-1>121     </font></a><span class="comment"> *</span>
+<a name="122"><font size=-1>122     </font></a><span class="comment"> * @return string An absolute path to the folder</span>
+<a name="123"><font size=-1>123     </font></a><span class="comment"> */</span>
+<a name="124"><font size=-1>124     </font></a><span class="comment"></span><span class="keyword">function <a href="dictionary_H.html#88666">getStyleSheetFolder</a></span><span class="default">()</span>
+<a name="125"><font size=-1>125     </font></a><span class="default">{</span>
+<a name="126"><font size=-1>126     </font></a><span class="default">    $<a href="dictionary_P.html#134874">paths</a> = </span><span class="keyword">array</span><span class="default">(<a href="dictionary_&.html#19204">__DIR__</a>, </span><span class="string">'..'</span><span class="default">, </span><span class="string">'styles'</span><span class="default">);</span>
+<a name="127"><font size=-1>127     </font></a><span class="default"></span>
+<a name="128"><font size=-1>128     </font></a><span class="default">    </span><span class="keyword">return <a href="dictionary_I.html#97806">implode</a></span><span class="default">(<a href="dictionary_D.html#61124">DIRECTORY_SEPARATOR</a>, $<a href="dictionary_P.html#134874">paths</a>);</span>
+<a name="129"><font size=-1>129     </font></a><span class="default">}</span>
+<a name="130"><font size=-1>130     </font></a><span class="default"></span>
+<a name="131"><font size=-1>131     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="132"><font size=-1>132     </font></a><span class="comment"> * Get the absolute path to a given stylesheet distributed in this package.</span>
+<a name="133"><font size=-1>133     </font></a><span class="comment"> *</span>
+<a name="134"><font size=-1>134     </font></a><span class="comment"> * @api</span>
+<a name="135"><font size=-1>135     </font></a><span class="comment"> *</span>
+<a name="136"><font size=-1>136     </font></a><span class="comment"> * @since 9.15.8.1</span>
+<a name="137"><font size=-1>137     </font></a><span class="comment"> *</span>
+<a name="138"><font size=-1>138     </font></a><span class="comment"> * @param string $name The stylesheet name (with or without the extension)</span>
+<a name="139"><font size=-1>139     </font></a><span class="comment"> *</span>
+<a name="140"><font size=-1>140     </font></a><span class="comment"> * @throws \DomainException when the no stylesheet with this name exists</span>
+<a name="141"><font size=-1>141     </font></a><span class="comment"> *</span>
+<a name="142"><font size=-1>142     </font></a><span class="comment"> * @return string The absolute path to the stylesheet with the given name</span>
+<a name="143"><font size=-1>143     </font></a><span class="comment"> */</span>
+<a name="144"><font size=-1>144     </font></a><span class="comment"></span><span class="keyword">function <a href="dictionary_H.html#88667">getStyleSheetPath</a></span><span class="default">($<a href="dictionary_N.html#122228">name</a>)</span>
+<a name="145"><font size=-1>145     </font></a><span class="default">{</span>
+<a name="146"><font size=-1>146     </font></a><span class="default">    $<a href="dictionary_N.html#122228">name</a> = <a href="dictionary_&.html#20194">_getNoCssExtension</a>($<a href="dictionary_N.html#122228">name</a>);</span>
+<a name="147"><font size=-1>147     </font></a><span class="default">    $<a href="dictionary_P.html#134402">path</a> = <a href="dictionary_I.html#97806">implode</a>(<a href="dictionary_D.html#61124">DIRECTORY_SEPARATOR</a>, </span><span class="keyword">array</span><span class="default">(<a href="dictionary_H.html#88666">getStyleSheetFolder</a>(), $<a href="dictionary_N.html#122228">name</a>)) . </span><span class="string">&quot;.css&quot;</span><span class="default">;</span>
+<a name="148"><font size=-1>148     </font></a><span class="default"></span>
+<a name="149"><font size=-1>149     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_F.html#77203">file_exists</a>($<a href="dictionary_P.html#134402">path</a>)) {</span>
+<a name="150"><font size=-1>150     </font></a><span class="default">        </span><span class="keyword">throw new </span><span class="default">\<a href="dictionary_D.html#62169">DomainException</a>(</span><span class="string">&quot;There is no stylesheet with by the name of '</span><span class="default">$<a href="dictionary_N.html#122228">name</a></span><span class="string">'.&quot;</span><span class="default">);</span>
+<a name="151"><font size=-1>151     </font></a><span class="default">    }</span>
+<a name="152"><font size=-1>152     </font></a><span class="default"></span>
+<a name="153"><font size=-1>153     </font></a><span class="default">    </span><span class="keyword">return </span><span class="default">$<a href="dictionary_P.html#134402">path</a>;</span>
+<a name="154"><font size=-1>154     </font></a><span class="default">}</span>
+<a name="155"><font size=-1>155     </font></a><span class="default"></span>
+<a name="156"><font size=-1>156     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="157"><font size=-1>157     </font></a><span class="comment"> * Convert the HTML generated by Highlighter and split it up into an array of lines.</span>
+<a name="158"><font size=-1>158     </font></a><span class="comment"> *</span>
+<a name="159"><font size=-1>159     </font></a><span class="comment"> * @api</span>
+<a name="160"><font size=-1>160     </font></a><span class="comment"> *</span>
+<a name="161"><font size=-1>161     </font></a><span class="comment"> * @since 9.15.6.1</span>
+<a name="162"><font size=-1>162     </font></a><span class="comment"> *</span>
+<a name="163"><font size=-1>163     </font></a><span class="comment"> * @param string $html An HTML string generated by `Highlighter::highlight()`</span>
+<a name="164"><font size=-1>164     </font></a><span class="comment"> *</span>
+<a name="165"><font size=-1>165     </font></a><span class="comment"> * @throws \RuntimeException         when the DOM extension is not available</span>
+<a name="166"><font size=-1>166     </font></a><span class="comment"> * @throws \UnexpectedValueException when the given HTML could not be parsed</span>
+<a name="167"><font size=-1>167     </font></a><span class="comment"> *</span>
+<a name="168"><font size=-1>168     </font></a><span class="comment"> * @return string[]|false An array of lines of code as strings. False if an error occurred in splitting up by lines</span>
+<a name="169"><font size=-1>169     </font></a><span class="comment"> */</span>
+<a name="170"><font size=-1>170     </font></a><span class="comment"></span><span class="keyword">function <a href="dictionary_H.html#159883">splitCodeIntoArray</a></span><span class="default">($<a href="dictionary_H.html#93849">html</a>)</span>
+<a name="171"><font size=-1>171     </font></a><span class="default">{</span>
+<a name="172"><font size=-1>172     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_E.html#74940">extension_loaded</a>(</span><span class="string">&quot;dom&quot;</span><span class="default">)) {</span>
+<a name="173"><font size=-1>173     </font></a><span class="default">        </span><span class="keyword">throw new </span><span class="default">\<a href="dictionary_R.html#151318">RuntimeException</a>(</span><span class="string">&quot;The DOM extension is not loaded but is required.&quot;</span><span class="default">);</span>
+<a name="174"><font size=-1>174     </font></a><span class="default">    }</span>
+<a name="175"><font size=-1>175     </font></a><span class="default"></span>
+<a name="176"><font size=-1>176     </font></a><span class="default">    $<a href="dictionary_D.html#61948">dom</a> = </span><span class="keyword">new </span><span class="default">\<a href="dictionary_D.html#62210">DOMDocument</a>();</span>
+<a name="177"><font size=-1>177     </font></a><span class="default"></span>
+<a name="178"><font size=-1>178     </font></a><span class="default">    </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_D.html#61948">dom</a>-&gt;<a href="dictionary_L.html#109962">loadHTML</a>($<a href="dictionary_H.html#93849">html</a>)) {</span>
+<a name="179"><font size=-1>179     </font></a><span class="default">        </span><span class="keyword">throw new </span><span class="default">\<a href="dictionary_U.html#183319">UnexpectedValueException</a>(</span><span class="string">&quot;The given HTML could not be parsed correctly.&quot;</span><span class="default">);</span>
+<a name="180"><font size=-1>180     </font></a><span class="default">    }</span>
+<a name="181"><font size=-1>181     </font></a><span class="default"></span>
+<a name="182"><font size=-1>182     </font></a><span class="default">    $<a href="dictionary_S.html#159719">spans</a> = $<a href="dictionary_D.html#61948">dom</a>-&gt;<a href="dictionary_G.html#85255">getElementsByTagName</a>(</span><span class="string">&quot;span&quot;</span><span class="default">);</span>
+<a name="183"><font size=-1>183     </font></a><span class="default"></span>
+<a name="184"><font size=-1>184     </font></a><span class="default">    </span><span class="comment">/** @var \DOMElement $span */</span>
+<a name="185"><font size=-1>185     </font></a><span class="comment">    </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_S.html#159719">spans</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_S.html#159713">span</a>) {</span>
+<a name="186"><font size=-1>186     </font></a><span class="default">        $<a href="dictionary_C.html#42461">classes</a> = $<a href="dictionary_S.html#159713">span</a>-&gt;<a href="dictionary_G.html#83939">getAttribute</a>(</span><span class="string">&quot;class&quot;</span><span class="default">);</span>
+<a name="187"><font size=-1>187     </font></a><span class="default">        $<a href="dictionary_R.html#146625">renderedSpan</a> = $<a href="dictionary_D.html#61948">dom</a>-&gt;<a href="dictionary_S.html#152585">saveHTML</a>($<a href="dictionary_S.html#159713">span</a>);</span>
+<a name="188"><font size=-1>188     </font></a><span class="default"></span>
+<a name="189"><font size=-1>189     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_P.html#137976">preg_match</a>(</span><span class="string">'/\R/'</span><span class="default">, $<a href="dictionary_R.html#146625">renderedSpan</a>)) {</span>
+<a name="190"><font size=-1>190     </font></a><span class="default">            $<a href="dictionary_F.html#78310">finished</a> = <a href="dictionary_P.html#137982">preg_replace</a>(</span>
+<a name="191"><font size=-1>191     </font></a><span class="default">                </span><span class="string">'/\R/'</span><span class="default">,</span>
+<a name="192"><font size=-1>192     </font></a><span class="default">                <a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'&lt;/span&gt;%s&lt;span class=&quot;%s&quot;&gt;'</span><span class="default">, <a href="dictionary_P.html#135901">PHP_EOL</a>, $<a href="dictionary_C.html#42461">classes</a>),</span>
+<a name="193"><font size=-1>193     </font></a><span class="default">                $<a href="dictionary_R.html#146625">renderedSpan</a></span>
+<a name="194"><font size=-1>194     </font></a><span class="default">            );</span>
+<a name="195"><font size=-1>195     </font></a><span class="default">            $<a href="dictionary_H.html#93849">html</a> = <a href="dictionary_S.html#162992">str_replace</a>($<a href="dictionary_R.html#146625">renderedSpan</a>, $<a href="dictionary_F.html#78310">finished</a>, $<a href="dictionary_H.html#93849">html</a>);</span>
+<a name="196"><font size=-1>196     </font></a><span class="default">        }</span>
+<a name="197"><font size=-1>197     </font></a><span class="default">    }</span>
+<a name="198"><font size=-1>198     </font></a><span class="default"></span>
+<a name="199"><font size=-1>199     </font></a><span class="default">    </span><span class="keyword">return <a href="dictionary_P.html#137987">preg_split</a></span><span class="default">(</span><span class="string">'/\R/'</span><span class="default">, $<a href="dictionary_H.html#93849">html</a>);</span>
+<a name="200"><font size=-1>200     </font></a><span class="default">}</span>
+<a name="201"><font size=-1>201     </font></a><span class="default"></span>
+</pre></body></html>

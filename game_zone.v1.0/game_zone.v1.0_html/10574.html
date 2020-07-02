@@ -1,0 +1,36 @@
+<html><head><title>Company.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\fzaninotto\faker\src\Faker\Provider\hr_HR\Company.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\fzaninotto\\faker\\src\\Faker\\Provider\\hr_HR\\Company.php";
+top.document.title  = "Company.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_F.html#76300">Faker</a></span><span class="default">\Provider\hr_HR;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_F.html#46104">Company</a> extends </span><span class="default">\Faker\Provider\<a href="dictionary_F.html#46058">Company</a></span>
+<a name="6"><font size=-1>6     </font></a><span class="default">{</span>
+<a name="7"><font size=-1>7     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#80424">formats</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="8"><font size=-1>8     </font></a><span class="default">        </span><span class="string">'{{lastName}} {{companySuffix}}'</span><span class="default">,</span>
+<a name="9"><font size=-1>9     </font></a><span class="default">        </span><span class="string">'{{companyPrefix}} {{lastName}}'</span><span class="default">,</span>
+<a name="10"><font size=-1>10     </font></a><span class="default">        </span><span class="string">'{{companyPrefix}} {{firstName}}'</span><span class="default">,</span>
+<a name="11"><font size=-1>11     </font></a><span class="default">    );</span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span>
+<a name="13"><font size=-1>13     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#46231">companySuffix</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="14"><font size=-1>14     </font></a><span class="default">        </span><span class="string">'d.o.o.'</span><span class="default">, </span><span class="string">'j.d.o.o.'</span><span class="default">, </span><span class="string">'Security'</span>
+<a name="15"><font size=-1>15     </font></a><span class="string">    </span><span class="default">);</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span>
+<a name="17"><font size=-1>17     </font></a><span class="default">    </span><span class="keyword">protected static </span><span class="default">$<a href="dictionary_F.html#46181">companyPrefix</a> = </span><span class="keyword">array</span><span class="default">(</span>
+<a name="18"><font size=-1>18     </font></a><span class="default">        </span><span class="string">'AutoÅ¡kola'</span><span class="default">, </span><span class="string">'CvjeÄ‡arnica'</span><span class="default">, </span><span class="string">'InformatiÄki obrt'</span><span class="default">, </span><span class="string">'KamenorezaÄki obrt'</span><span class="default">, </span><span class="string">'Kladionice'</span><span class="default">, </span><span class="string">'Market'</span><span class="default">, </span><span class="string">'Mesnica'</span><span class="default">, </span><span class="string">'PrijevozniÄki obrt'</span><span class="default">, </span><span class="string">'Suvenirnica'</span><span class="default">, </span><span class="string">'TuristiÄka agencija'</span><span class="default">, </span><span class="string">'VoÄ‡arna'</span>
+<a name="19"><font size=-1>19     </font></a><span class="string">    </span><span class="default">);</span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span>
+<a name="21"><font size=-1>21     </font></a><span class="default">    </span><span class="keyword">public static function <a href="dictionary_F.html#46167">companyPrefix</a></span><span class="default">()</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    {</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">        </span><span class="keyword">return static</span><span class="default">::randomElement(</span><span class="keyword">static</span><span class="default">::$<a href="dictionary_C.html#46183">companyPrefix</a>);</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">    }</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">}</span>
+<a name="26"><font size=-1>26     </font></a><span class="default"></span>
+</pre></body></html>

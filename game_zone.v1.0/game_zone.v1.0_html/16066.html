@@ -1,0 +1,43 @@
+<html><head><title>CacheWarmer.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\symfony\http-kernel\CacheWarmer\CacheWarmer.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\symfony\\http-kernel\\CacheWarmer\\CacheWarmer.php";
+top.document.title  = "CacheWarmer.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of the Symfony package.</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * (c) Fabien Potencier &lt;fabien@symfony.com&gt;</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> */</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"></span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_S.html#166112">Symfony</a></span><span class="default">\Component\HttpKernel\CacheWarmer;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment"> * Abstract cache warmer that knows how to write a file to the cache.</span>
+<a name="16"><font size=-1>16     </font></a><span class="comment"> *</span>
+<a name="17"><font size=-1>17     </font></a><span class="comment"> * @author Fabien Potencier &lt;fabien@symfony.com&gt;</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment"> */</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment"></span><span class="keyword">abstract class <a href="dictionary_S.html#38714">CacheWarmer</a> implements </span><span class="default">CacheWarmerInterface</span>
+<a name="20"><font size=-1>20     </font></a><span class="default">{</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">    </span><span class="keyword">protected function <a href="dictionary_S.html#191136">writeCacheFile</a></span><span class="default">(<a href="dictionary_S.html#163991">string</a> $<a href="dictionary_F.html#76916">file</a>, $<a href="dictionary_C.html#48906">content</a>)</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    {</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">        $<a href="dictionary_T.html#178858">tmpFile</a> = @<a href="dictionary_T.html#172778">tempnam</a>(\<a href="dictionary_D.html#61176">dirname</a>($<a href="dictionary_F.html#76916">file</a>), <a href="dictionary_B.html#33860">basename</a>($<a href="dictionary_F.html#76916">file</a>));</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_F.html#76452">false</a> !== @<a href="dictionary_F.html#77216">file_put_contents</a>($<a href="dictionary_T.html#178858">tmpFile</a>, $<a href="dictionary_C.html#48906">content</a>) &amp;&amp; @<a href="dictionary_R.html#146438">rename</a>($<a href="dictionary_T.html#178858">tmpFile</a>, $<a href="dictionary_F.html#76916">file</a>)) {</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">            @<a href="dictionary_C.html#41509">chmod</a>($<a href="dictionary_F.html#76916">file</a>, </span><span class="number">0666 </span><span class="default">&amp; ~<a href="dictionary_U.html#183182">umask</a>());</span>
+<a name="26"><font size=-1>26     </font></a><span class="default"></span>
+<a name="27"><font size=-1>27     </font></a><span class="default">            </span><span class="keyword">return</span><span class="default">;</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">        }</span>
+<a name="29"><font size=-1>29     </font></a><span class="default"></span>
+<a name="30"><font size=-1>30     </font></a><span class="default">        </span><span class="keyword">throw new </span><span class="default">\<a href="dictionary_R.html#151318">RuntimeException</a>(<a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'Failed to write cache file &quot;%s&quot;.'</span><span class="default">, $<a href="dictionary_F.html#76916">file</a>));</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">    }</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">}</span>
+<a name="33"><font size=-1>33     </font></a><span class="default"></span>
+</pre></body></html>

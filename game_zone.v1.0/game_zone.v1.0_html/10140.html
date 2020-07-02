@@ -1,0 +1,88 @@
+<html><head><title>DNSCheckValidation.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\egulias\email-validator\EmailValidator\Validation\DNSCheckValidation.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\egulias\\email-validator\\EmailValidator\\Validation\\DNSCheckValidation.php";
+top.document.title  = "DNSCheckValidation.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">namespace <a href="dictionary_E.html#69188">Egulias</a></span><span class="default">\EmailValidator\Validation;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Egulias\EmailValidator\<a href="dictionary_E.html#69888">EmailLexer</a>;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Egulias\EmailValidator\Exception\<a href="dictionary_E.html#100229">InvalidEmail</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Egulias\EmailValidator\Warning\<a href="dictionary_E.html#125177">NoDNSMXRecord</a>;</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Egulias\EmailValidator\Exception\<a href="dictionary_E.html#125179">NoDNSRecord</a>;</span>
+<a name="9"><font size=-1>9     </font></a><span class="default"></span>
+<a name="10"><font size=-1>10     </font></a><span class="default"></span><span class="keyword">class <a href="dictionary_E.html#61692">DNSCheckValidation</a> implements </span><span class="default">EmailValidation</span>
+<a name="11"><font size=-1>11     </font></a><span class="default">{</span>
+<a name="12"><font size=-1>12     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="13"><font size=-1>13     </font></a><span class="comment">     * @var array</span>
+<a name="14"><font size=-1>14     </font></a><span class="comment">     */</span>
+<a name="15"><font size=-1>15     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_E.html#189810">warnings</a> = [];</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span>
+<a name="17"><font size=-1>17     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment">     * @var InvalidEmail|null</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment">     */</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment">    </span><span class="keyword">private </span><span class="default">$<a href="dictionary_E.html#71675">error</a>;</span>
+<a name="21"><font size=-1>21     </font></a><span class="default"></span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_E.html#18858">__construct</a></span><span class="default">()</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">    {</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!<a href="dictionary_F.html#81646">function_exists</a>(</span><span class="string">'idn_to_ascii'</span><span class="default">)) {</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">            </span><span class="keyword">throw new </span><span class="default">\<a href="dictionary_L.html#110637">LogicException</a>(<a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'The %s class requires the Intl extension.'</span><span class="default">, __CLASS__));</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">        }</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">    }</span>
+<a name="28"><font size=-1>28     </font></a><span class="default"></span>
+<a name="29"><font size=-1>29     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_E.html#102551">isValid</a></span><span class="default">($<a href="dictionary_E.html#69850">email</a>, <a href="dictionary_E.html#69887">EmailLexer</a> $emailLexer)</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">    {</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">        </span><span class="comment">// use the input to check DNS if we cannot extract something similar to a domain</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment">        </span><span class="default">$<a href="dictionary_H.html#93649">host</a> = $<a href="dictionary_E.html#69850">email</a>;</span>
+<a name="33"><font size=-1>33     </font></a><span class="default"></span>
+<a name="34"><font size=-1>34     </font></a><span class="default">        </span><span class="comment">// Arguable pattern to extract the domain. Not aiming to validate the domain nor the email</span>
+<a name="35"><font size=-1>35     </font></a><span class="comment">        </span><span class="keyword">if </span><span class="default">(<a href="dictionary_F.html#76452">false</a> !== $<a href="dictionary_L.html#107209">lastAtPos</a> = <a href="dictionary_S.html#164378">strrpos</a>($<a href="dictionary_E.html#69850">email</a>, </span><span class="string">'@'</span><span class="default">)) {</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">            $<a href="dictionary_H.html#93649">host</a> = <a href="dictionary_S.html#165161">substr</a>($<a href="dictionary_E.html#69850">email</a>, $<a href="dictionary_L.html#107209">lastAtPos</a> + </span><span class="number">1</span><span class="default">);</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">        }</span>
+<a name="38"><font size=-1>38     </font></a><span class="default"></span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_E.html#41081">checkDNS</a>($<a href="dictionary_H.html#93649">host</a>);</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">    }</span>
+<a name="41"><font size=-1>41     </font></a><span class="default"></span>
+<a name="42"><font size=-1>42     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_E.html#85345">getError</a></span><span class="default">()</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">    {</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_E.html#71675">error</a>;</span>
+<a name="45"><font size=-1>45     </font></a><span class="default">    }</span>
+<a name="46"><font size=-1>46     </font></a><span class="default"></span>
+<a name="47"><font size=-1>47     </font></a><span class="default">    </span><span class="keyword">public function <a href="dictionary_E.html#89610">getWarnings</a></span><span class="default">()</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    {</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$this-&gt;<a href="dictionary_E.html#189810">warnings</a>;</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    }</span>
+<a name="51"><font size=-1>51     </font></a><span class="default"></span>
+<a name="52"><font size=-1>52     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="53"><font size=-1>53     </font></a><span class="comment">     * @param string $host</span>
+<a name="54"><font size=-1>54     </font></a><span class="comment">     *</span>
+<a name="55"><font size=-1>55     </font></a><span class="comment">     * @return bool</span>
+<a name="56"><font size=-1>56     </font></a><span class="comment">     */</span>
+<a name="57"><font size=-1>57     </font></a><span class="comment">    </span><span class="keyword">protected function <a href="dictionary_E.html#41081">checkDNS</a></span><span class="default">($<a href="dictionary_H.html#93650">host</a>)</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">    {</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        $<a href="dictionary_V.html#188329">variant</a> = <a href="dictionary_I.html#100098">INTL_IDNA_VARIANT_2003</a>;</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">( <a href="dictionary_D.html#59499">defined</a>(</span><span class="string">'INTL_IDNA_VARIANT_UTS46'</span><span class="default">) ) {</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">            $<a href="dictionary_V.html#188329">variant</a> = <a href="dictionary_I.html#100101">INTL_IDNA_VARIANT_UTS46</a>;</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">        }</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">        $<a href="dictionary_H.html#93650">host</a> = <a href="dictionary_R.html#150965">rtrim</a>(<a href="dictionary_I.html#97031">idn_to_ascii</a>($<a href="dictionary_H.html#93650">host</a>, <a href="dictionary_I.html#97041">IDNA_DEFAULT</a>, $<a href="dictionary_V.html#188329">variant</a>), </span><span class="string">'.'</span><span class="default">) . </span><span class="string">'.'</span><span class="default">;</span>
+<a name="64"><font size=-1>64     </font></a><span class="default"></span>
+<a name="65"><font size=-1>65     </font></a><span class="default">        $<a href="dictionary_A.html#28403">Aresult</a> = <a href="dictionary_T.html#181186">true</a>;</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">        $<a href="dictionary_M.html#118315">MXresult</a> = <a href="dictionary_C.html#41082">checkdnsrr</a>($<a href="dictionary_H.html#93650">host</a>, </span><span class="string">'MX'</span><span class="default">);</span>
+<a name="67"><font size=-1>67     </font></a><span class="default"></span>
+<a name="68"><font size=-1>68     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_M.html#118315">MXresult</a>) {</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">            $this-&gt;<a href="dictionary_E.html#189810">warnings</a>[<a href="dictionary_E.html#125176">NoDNSMXRecord</a>::<a href="dictionary_E.html#44398">CODE</a>] = </span><span class="keyword">new <a href="dictionary_E.html#125176">NoDNSMXRecord</a></span><span class="default">();</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">            $<a href="dictionary_A.html#28403">Aresult</a> = <a href="dictionary_C.html#41082">checkdnsrr</a>($<a href="dictionary_H.html#93650">host</a>, </span><span class="string">'A'</span><span class="default">) || <a href="dictionary_C.html#41082">checkdnsrr</a>($<a href="dictionary_H.html#93650">host</a>, </span><span class="string">'AAAA'</span><span class="default">);</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!$<a href="dictionary_A.html#28403">Aresult</a>) {</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">                $this-&gt;<a href="dictionary_E.html#71675">error</a> = </span><span class="keyword">new <a href="dictionary_E.html#125178">NoDNSRecord</a></span><span class="default">();</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">            }</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">        }</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_M.html#118315">MXresult</a> || $<a href="dictionary_A.html#28403">Aresult</a>;</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">    }</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">}</span>
+<a name="78"><font size=-1>78     </font></a><span class="default"></span>
+</pre></body></html>

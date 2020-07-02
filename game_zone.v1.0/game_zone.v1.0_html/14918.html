@@ -1,0 +1,185 @@
+<html><head><title>DocblockFormatter.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: C:\xampp\htdocs\game_zone\game_zone.v1.0\vendor\psy\psysh\src\Formatter\DocblockFormatter.php</h3>
+<SCRIPT>
+defaultStatus = "File: C:\\xampp\\htdocs\\game_zone\\game_zone.v1.0\\vendor\\psy\\psysh\\src\\Formatter\\DocblockFormatter.php";
+top.document.title  = "DocblockFormatter.php";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default">&lt;?php</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="comment">/*</span>
+<a name="4"><font size=-1>4     </font></a><span class="comment"> * This file is part of Psy Shell.</span>
+<a name="5"><font size=-1>5     </font></a><span class="comment"> *</span>
+<a name="6"><font size=-1>6     </font></a><span class="comment"> * (c) 2012-2020 Justin Hileman</span>
+<a name="7"><font size=-1>7     </font></a><span class="comment"> *</span>
+<a name="8"><font size=-1>8     </font></a><span class="comment"> * For the full copyright and license information, please view the LICENSE</span>
+<a name="9"><font size=-1>9     </font></a><span class="comment"> * file that was distributed with this source code.</span>
+<a name="10"><font size=-1>10     </font></a><span class="comment"> */</span>
+<a name="11"><font size=-1>11     </font></a><span class="comment"></span>
+<a name="12"><font size=-1>12     </font></a><span class="comment"></span><span class="keyword">namespace <a href="dictionary_P.html#139962">Psy</a></span><span class="default">\Formatter;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Psy\Util\<a href="dictionary_P.html#61760">Docblock</a>;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span><span class="keyword">use </span><span class="default">Symfony\Component\Console\Formatter\<a href="dictionary_S.html#131669">OutputFormatter</a>;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span><span class="comment">/**</span>
+<a name="18"><font size=-1>18     </font></a><span class="comment"> * A pretty-printer for docblocks.</span>
+<a name="19"><font size=-1>19     </font></a><span class="comment"> */</span>
+<a name="20"><font size=-1>20     </font></a><span class="comment"></span><span class="keyword">class <a href="dictionary_P.html#61766">DocblockFormatter</a> implements </span><span class="default">ReflectorFormatter</span>
+<a name="21"><font size=-1>21     </font></a><span class="default">{</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    </span><span class="keyword">private static </span><span class="default">$<a href="dictionary_P.html#188435">vectorParamTemplates</a> = [</span>
+<a name="23"><font size=-1>23     </font></a><span class="default">        </span><span class="string">'type' </span><span class="default">=&gt; </span><span class="string">'info'</span><span class="default">,</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">        </span><span class="string">'var'  </span><span class="default">=&gt; </span><span class="string">'strong'</span><span class="default">,</span>
+<a name="25"><font size=-1>25     </font></a><span class="default">    ];</span>
+<a name="26"><font size=-1>26     </font></a><span class="default"></span>
+<a name="27"><font size=-1>27     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="28"><font size=-1>28     </font></a><span class="comment">     * Format a docblock.</span>
+<a name="29"><font size=-1>29     </font></a><span class="comment">     *</span>
+<a name="30"><font size=-1>30     </font></a><span class="comment">     * @param \Reflector $reflector</span>
+<a name="31"><font size=-1>31     </font></a><span class="comment">     *</span>
+<a name="32"><font size=-1>32     </font></a><span class="comment">     * @return string Formatted docblock</span>
+<a name="33"><font size=-1>33     </font></a><span class="comment">     */</span>
+<a name="34"><font size=-1>34     </font></a><span class="comment">    </span><span class="keyword">public static function <a href="dictionary_P.html#80127">format</a></span><span class="default">(\<a href="dictionary_R.html#145093">Reflector</a> $reflector)</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">    {</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">        $<a href="dictionary_D.html#61747">docblock</a> = </span><span class="keyword">new <a href="dictionary_P.html#61757">Docblock</a></span><span class="default">($<a href="dictionary_R.html#145093">reflector</a>);</span>
+<a name="37"><font size=-1>37     </font></a><span class="default">        $<a href="dictionary_C.html#41602">chunks</a>   = [];</span>
+<a name="38"><font size=-1>38     </font></a><span class="default"></span>
+<a name="39"><font size=-1>39     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">empty</span><span class="default">($<a href="dictionary_D.html#61747">docblock</a>-&gt;<a href="dictionary_D.html#60082">desc</a>)) {</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">            $<a href="dictionary_C.html#41602">chunks</a>[] = </span><span class="string">'&lt;comment&gt;Description:&lt;/comment&gt;'</span><span class="default">;</span>
+<a name="41"><font size=-1>41     </font></a><span class="default">            $<a href="dictionary_C.html#41602">chunks</a>[] = self::<a href="dictionary_P.html#98108">indent</a>(<a href="dictionary_S.html#131668">OutputFormatter</a>::<a href="dictionary_S.html#71968">escape</a>($<a href="dictionary_D.html#61747">docblock</a>-&gt;<a href="dictionary_D.html#60082">desc</a>), </span><span class="string">'  '</span><span class="default">);</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">            $<a href="dictionary_C.html#41602">chunks</a>[] = </span><span class="string">''</span><span class="default">;</span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        }</span>
+<a name="44"><font size=-1>44     </font></a><span class="default"></span>
+<a name="45"><font size=-1>45     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">empty</span><span class="default">($<a href="dictionary_D.html#61747">docblock</a>-&gt;<a href="dictionary_T.html#172238">tags</a>)) {</span>
+<a name="46"><font size=-1>46     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_D.html#61747">docblock</a>::$<a href="dictionary_V.html#188437">vectors</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_N.html#121890">name</a> =&gt; $<a href="dictionary_V.html#188434">vector</a>) {</span>
+<a name="47"><font size=-1>47     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">(</span><span class="keyword">isset</span><span class="default">($<a href="dictionary_D.html#61747">docblock</a>-&gt;<a href="dictionary_T.html#172238">tags</a>[$<a href="dictionary_N.html#121890">name</a>])) {</span>
+<a name="48"><font size=-1>48     </font></a><span class="default">                    $<a href="dictionary_C.html#41602">chunks</a>[] = \<a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'&lt;comment&gt;%s:&lt;/comment&gt;'</span><span class="default">, self::<a href="dictionary_P.html#98498">inflect</a>($<a href="dictionary_N.html#121890">name</a>));</span>
+<a name="49"><font size=-1>49     </font></a><span class="default">                    $<a href="dictionary_C.html#41602">chunks</a>[] = self::<a href="dictionary_P.html#80593">formatVector</a>($<a href="dictionary_V.html#188434">vector</a>, $<a href="dictionary_D.html#61747">docblock</a>-&gt;<a href="dictionary_T.html#172238">tags</a>[$<a href="dictionary_N.html#121890">name</a>]);</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">                    $<a href="dictionary_C.html#41602">chunks</a>[] = </span><span class="string">''</span><span class="default">;</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">                }</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">            }</span>
+<a name="53"><font size=-1>53     </font></a><span class="default"></span>
+<a name="54"><font size=-1>54     </font></a><span class="default">            $<a href="dictionary_T.html#172195">tags</a> = self::<a href="dictionary_P.html#80452">formatTags</a>(\<a href="dictionary_A.html#29415">array_keys</a>($<a href="dictionary_D.html#61747">docblock</a>::$<a href="dictionary_V.html#188437">vectors</a>), $<a href="dictionary_D.html#61747">docblock</a>-&gt;<a href="dictionary_T.html#172238">tags</a>);</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">empty</span><span class="default">($<a href="dictionary_T.html#172195">tags</a>)) {</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">                $<a href="dictionary_C.html#41602">chunks</a>[] = $<a href="dictionary_T.html#172195">tags</a>;</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">                $<a href="dictionary_C.html#41602">chunks</a>[] = </span><span class="string">''</span><span class="default">;</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">            }</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        }</span>
+<a name="60"><font size=-1>60     </font></a><span class="default"></span>
+<a name="61"><font size=-1>61     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\<a href="dictionary_R.html#150965">rtrim</a>(\<a href="dictionary_I.html#97806">implode</a>(</span><span class="string">&quot;\n&quot;</span><span class="default">, $<a href="dictionary_C.html#41602">chunks</a>));</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">    }</span>
+<a name="63"><font size=-1>63     </font></a><span class="default"></span>
+<a name="64"><font size=-1>64     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="65"><font size=-1>65     </font></a><span class="comment">     * Format a docblock vector, for example, `@throws`, `@param`, or `@return`.</span>
+<a name="66"><font size=-1>66     </font></a><span class="comment">     *</span>
+<a name="67"><font size=-1>67     </font></a><span class="comment">     * @see DocBlock::$vectors</span>
+<a name="68"><font size=-1>68     </font></a><span class="comment">     *</span>
+<a name="69"><font size=-1>69     </font></a><span class="comment">     * @param array $vector</span>
+<a name="70"><font size=-1>70     </font></a><span class="comment">     * @param array $lines</span>
+<a name="71"><font size=-1>71     </font></a><span class="comment">     *</span>
+<a name="72"><font size=-1>72     </font></a><span class="comment">     * @return string</span>
+<a name="73"><font size=-1>73     </font></a><span class="comment">     */</span>
+<a name="74"><font size=-1>74     </font></a><span class="comment">    </span><span class="keyword">private static function <a href="dictionary_P.html#80593">formatVector</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_V.html#188433">vector</a>, </span><span class="keyword">array </span><span class="default">$<a href="dictionary_L.html#109159">lines</a>)</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">    {</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">        $<a href="dictionary_T.html#172715">template</a> = [</span><span class="string">' '</span><span class="default">];</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_V.html#188433">vector</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_T.html#181366">type</a>) {</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">            $<a href="dictionary_M.html#113007">max</a> = </span><span class="number">0</span><span class="default">;</span>
+<a name="79"><font size=-1>79     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_L.html#109159">lines</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_L.html#108744">line</a>) {</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">                $<a href="dictionary_C.html#41562">chunk</a> = $<a href="dictionary_L.html#108744">line</a>[$<a href="dictionary_T.html#181366">type</a>];</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">                $<a href="dictionary_C.html#55891">cur</a> = </span><span class="keyword">empty</span><span class="default">($<a href="dictionary_C.html#41562">chunk</a>) ? </span><span class="number">0 </span><span class="default">: \<a href="dictionary_S.html#164301">strlen</a>($<a href="dictionary_C.html#41562">chunk</a>) + </span><span class="number">1</span><span class="default">;</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($<a href="dictionary_C.html#55891">cur</a> &gt; $<a href="dictionary_M.html#113007">max</a>) {</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">                    $<a href="dictionary_M.html#113007">max</a> = $<a href="dictionary_C.html#55891">cur</a>;</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">                }</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">            }</span>
+<a name="86"><font size=-1>86     </font></a><span class="default"></span>
+<a name="87"><font size=-1>87     </font></a><span class="default">            $<a href="dictionary_T.html#172715">template</a>[] = self::<a href="dictionary_P.html#89541">getVectorParamTemplate</a>($<a href="dictionary_T.html#181366">type</a>, $<a href="dictionary_M.html#113007">max</a>);</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">        }</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">        $<a href="dictionary_T.html#172715">template</a> = \<a href="dictionary_I.html#97806">implode</a>(</span><span class="string">' '</span><span class="default">, $<a href="dictionary_T.html#172715">template</a>);</span>
+<a name="90"><font size=-1>90     </font></a><span class="default"></span>
+<a name="91"><font size=-1>91     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\<a href="dictionary_I.html#97806">implode</a>(</span><span class="string">&quot;\n&quot;</span><span class="default">, \<a href="dictionary_A.html#29416">array_map</a>(</span><span class="keyword">function </span><span class="default">($<a href="dictionary_L.html#108745">line</a>) </span><span class="keyword">use </span><span class="default">($<a href="dictionary_T.html#172715">template</a>) {</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">            $<a href="dictionary_E.html#71984">escaped</a> = \<a href="dictionary_A.html#29416">array_map</a>(</span><span class="keyword">function </span><span class="default">($<a href="dictionary_L.html#106263">l</a>) {</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">                </span><span class="keyword">if </span><span class="default">($<a href="dictionary_L.html#106263">l</a> === <a href="dictionary_N.html#125929">null</a>) {</span>
+<a name="94"><font size=-1>94     </font></a><span class="default">                    </span><span class="keyword">return </span><span class="string">''</span><span class="default">;</span>
+<a name="95"><font size=-1>95     </font></a><span class="default">                }</span>
+<a name="96"><font size=-1>96     </font></a><span class="default"></span>
+<a name="97"><font size=-1>97     </font></a><span class="default">                </span><span class="keyword">return <a href="dictionary_S.html#131668">OutputFormatter</a></span><span class="default">::<a href="dictionary_S.html#71968">escape</a>($<a href="dictionary_L.html#106263">l</a>);</span>
+<a name="98"><font size=-1>98     </font></a><span class="default">            }, $<a href="dictionary_L.html#108745">line</a>);</span>
+<a name="99"><font size=-1>99     </font></a><span class="default"></span>
+<a name="100"><font size=-1>100     </font></a><span class="default">            </span><span class="keyword">return </span><span class="default">\<a href="dictionary_R.html#150965">rtrim</a>(\<a href="dictionary_V.html#189367">vsprintf</a>($<a href="dictionary_T.html#172715">template</a>, $<a href="dictionary_E.html#71984">escaped</a>));</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">        }, $<a href="dictionary_L.html#109159">lines</a>));</span>
+<a name="102"><font size=-1>102     </font></a><span class="default">    }</span>
+<a name="103"><font size=-1>103     </font></a><span class="default"></span>
+<a name="104"><font size=-1>104     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="105"><font size=-1>105     </font></a><span class="comment">     * Format docblock tags.</span>
+<a name="106"><font size=-1>106     </font></a><span class="comment">     *</span>
+<a name="107"><font size=-1>107     </font></a><span class="comment">     * @param array $skip Tags to exclude</span>
+<a name="108"><font size=-1>108     </font></a><span class="comment">     * @param array $tags Tags to format</span>
+<a name="109"><font size=-1>109     </font></a><span class="comment">     *</span>
+<a name="110"><font size=-1>110     </font></a><span class="comment">     * @return string formatted tags</span>
+<a name="111"><font size=-1>111     </font></a><span class="comment">     */</span>
+<a name="112"><font size=-1>112     </font></a><span class="comment">    </span><span class="keyword">private static function <a href="dictionary_P.html#80452">formatTags</a></span><span class="default">(</span><span class="keyword">array </span><span class="default">$<a href="dictionary_S.html#158703">skip</a>, </span><span class="keyword">array </span><span class="default">$<a href="dictionary_T.html#172194">tags</a>)</span>
+<a name="113"><font size=-1>113     </font></a><span class="default">    {</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">        $<a href="dictionary_C.html#41601">chunks</a> = [];</span>
+<a name="115"><font size=-1>115     </font></a><span class="default"></span>
+<a name="116"><font size=-1>116     </font></a><span class="default">        </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_T.html#172194">tags</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_N.html#121889">name</a> =&gt; $<a href="dictionary_V.html#187879">values</a>) {</span>
+<a name="117"><font size=-1>117     </font></a><span class="default">            </span><span class="keyword">if </span><span class="default">(\<a href="dictionary_I.html#97880">in_array</a>($<a href="dictionary_N.html#121889">name</a>, $<a href="dictionary_S.html#158703">skip</a>)) {</span>
+<a name="118"><font size=-1>118     </font></a><span class="default">                </span><span class="keyword">continue</span><span class="default">;</span>
+<a name="119"><font size=-1>119     </font></a><span class="default">            }</span>
+<a name="120"><font size=-1>120     </font></a><span class="default"></span>
+<a name="121"><font size=-1>121     </font></a><span class="default">            </span><span class="keyword">foreach </span><span class="default">($<a href="dictionary_V.html#187879">values</a> </span><span class="keyword">as </span><span class="default">$<a href="dictionary_V.html#185957">value</a>) {</span>
+<a name="122"><font size=-1>122     </font></a><span class="default">                $<a href="dictionary_C.html#41601">chunks</a>[] = \<a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'&lt;comment&gt;%s%s&lt;/comment&gt; %s'</span><span class="default">, self::<a href="dictionary_P.html#98498">inflect</a>($<a href="dictionary_N.html#121889">name</a>), </span><span class="keyword">empty</span><span class="default">($<a href="dictionary_V.html#185957">value</a>) ? </span><span class="string">'' </span><span class="default">: </span><span class="string">':'</span><span class="default">, <a href="dictionary_S.html#131668">OutputFormatter</a>::<a href="dictionary_S.html#71968">escape</a>($<a href="dictionary_V.html#185957">value</a>));</span>
+<a name="123"><font size=-1>123     </font></a><span class="default">            }</span>
+<a name="124"><font size=-1>124     </font></a><span class="default"></span>
+<a name="125"><font size=-1>125     </font></a><span class="default">            $<a href="dictionary_C.html#41601">chunks</a>[] = </span><span class="string">''</span><span class="default">;</span>
+<a name="126"><font size=-1>126     </font></a><span class="default">        }</span>
+<a name="127"><font size=-1>127     </font></a><span class="default"></span>
+<a name="128"><font size=-1>128     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\<a href="dictionary_I.html#97806">implode</a>(</span><span class="string">&quot;\n&quot;</span><span class="default">, $<a href="dictionary_C.html#41601">chunks</a>);</span>
+<a name="129"><font size=-1>129     </font></a><span class="default">    }</span>
+<a name="130"><font size=-1>130     </font></a><span class="default"></span>
+<a name="131"><font size=-1>131     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="132"><font size=-1>132     </font></a><span class="comment">     * Get a docblock vector template.</span>
+<a name="133"><font size=-1>133     </font></a><span class="comment">     *</span>
+<a name="134"><font size=-1>134     </font></a><span class="comment">     * @param string $type Vector type</span>
+<a name="135"><font size=-1>135     </font></a><span class="comment">     * @param int    $max  Pad width</span>
+<a name="136"><font size=-1>136     </font></a><span class="comment">     *</span>
+<a name="137"><font size=-1>137     </font></a><span class="comment">     * @return string</span>
+<a name="138"><font size=-1>138     </font></a><span class="comment">     */</span>
+<a name="139"><font size=-1>139     </font></a><span class="comment">    </span><span class="keyword">private static function <a href="dictionary_P.html#89541">getVectorParamTemplate</a></span><span class="default">($<a href="dictionary_T.html#181365">type</a>, $<a href="dictionary_M.html#113006">max</a>)</span>
+<a name="140"><font size=-1>140     </font></a><span class="default">    {</span>
+<a name="141"><font size=-1>141     </font></a><span class="default">        </span><span class="keyword">if </span><span class="default">(!</span><span class="keyword">isset</span><span class="default">(self::$<a href="dictionary_P.html#188435">vectorParamTemplates</a>[$<a href="dictionary_T.html#181365">type</a>])) {</span>
+<a name="142"><font size=-1>142     </font></a><span class="default">            </span><span class="keyword">return </span><span class="default">\<a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'%%-%ds'</span><span class="default">, $<a href="dictionary_M.html#113006">max</a>);</span>
+<a name="143"><font size=-1>143     </font></a><span class="default">        }</span>
+<a name="144"><font size=-1>144     </font></a><span class="default"></span>
+<a name="145"><font size=-1>145     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\<a href="dictionary_S.html#159932">sprintf</a>(</span><span class="string">'&lt;%s&gt;%%-%ds&lt;/%s&gt;'</span><span class="default">, self::$<a href="dictionary_P.html#188435">vectorParamTemplates</a>[$<a href="dictionary_T.html#181365">type</a>], $<a href="dictionary_M.html#113006">max</a>, self::$<a href="dictionary_P.html#188435">vectorParamTemplates</a>[$<a href="dictionary_T.html#181365">type</a>]);</span>
+<a name="146"><font size=-1>146     </font></a><span class="default">    }</span>
+<a name="147"><font size=-1>147     </font></a><span class="default"></span>
+<a name="148"><font size=-1>148     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="149"><font size=-1>149     </font></a><span class="comment">     * Indent a string.</span>
+<a name="150"><font size=-1>150     </font></a><span class="comment">     *</span>
+<a name="151"><font size=-1>151     </font></a><span class="comment">     * @param string $text   String to indent</span>
+<a name="152"><font size=-1>152     </font></a><span class="comment">     * @param string $indent (default: '  ')</span>
+<a name="153"><font size=-1>153     </font></a><span class="comment">     *</span>
+<a name="154"><font size=-1>154     </font></a><span class="comment">     * @return string</span>
+<a name="155"><font size=-1>155     </font></a><span class="comment">     */</span>
+<a name="156"><font size=-1>156     </font></a><span class="comment">    </span><span class="keyword">private static function <a href="dictionary_P.html#98108">indent</a></span><span class="default">($<a href="dictionary_T.html#177296">text</a>, $<a href="dictionary_I.html#98086">indent</a> = </span><span class="string">'  '</span><span class="default">)</span>
+<a name="157"><font size=-1>157     </font></a><span class="default">    {</span>
+<a name="158"><font size=-1>158     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">$<a href="dictionary_I.html#98086">indent</a> . \<a href="dictionary_S.html#162992">str_replace</a>(</span><span class="string">&quot;\n&quot;</span><span class="default">, </span><span class="string">&quot;\n&quot; </span><span class="default">. $<a href="dictionary_I.html#98086">indent</a>, $<a href="dictionary_T.html#177296">text</a>);</span>
+<a name="159"><font size=-1>159     </font></a><span class="default">    }</span>
+<a name="160"><font size=-1>160     </font></a><span class="default"></span>
+<a name="161"><font size=-1>161     </font></a><span class="default">    </span><span class="comment">/**</span>
+<a name="162"><font size=-1>162     </font></a><span class="comment">     * Convert underscored or whitespace separated words into sentence case.</span>
+<a name="163"><font size=-1>163     </font></a><span class="comment">     *</span>
+<a name="164"><font size=-1>164     </font></a><span class="comment">     * @param string $text</span>
+<a name="165"><font size=-1>165     </font></a><span class="comment">     *</span>
+<a name="166"><font size=-1>166     </font></a><span class="comment">     * @return string</span>
+<a name="167"><font size=-1>167     </font></a><span class="comment">     */</span>
+<a name="168"><font size=-1>168     </font></a><span class="comment">    </span><span class="keyword">private static function <a href="dictionary_P.html#98498">inflect</a></span><span class="default">($<a href="dictionary_T.html#177295">text</a>)</span>
+<a name="169"><font size=-1>169     </font></a><span class="default">    {</span>
+<a name="170"><font size=-1>170     </font></a><span class="default">        $<a href="dictionary_W.html#190800">words</a> = \<a href="dictionary_T.html#181138">trim</a>(\<a href="dictionary_P.html#137982">preg_replace</a>(</span><span class="string">'/[\s_-]+/'</span><span class="default">, </span><span class="string">' '</span><span class="default">, \<a href="dictionary_P.html#137982">preg_replace</a>(</span><span class="string">'/([a-z])([A-Z])/'</span><span class="default">, </span><span class="string">'$1 $2'</span><span class="default">, $<a href="dictionary_T.html#177295">text</a>)));</span>
+<a name="171"><font size=-1>171     </font></a><span class="default"></span>
+<a name="172"><font size=-1>172     </font></a><span class="default">        </span><span class="keyword">return </span><span class="default">\<a href="dictionary_I.html#97806">implode</a>(</span><span class="string">' '</span><span class="default">, \<a href="dictionary_A.html#29416">array_map</a>(</span><span class="string">'ucfirst'</span><span class="default">, \<a href="dictionary_E.html#74366">explode</a>(</span><span class="string">' '</span><span class="default">, $<a href="dictionary_W.html#190800">words</a>)));</span>
+<a name="173"><font size=-1>173     </font></a><span class="default">    }</span>
+<a name="174"><font size=-1>174     </font></a><span class="default">}</span>
+<a name="175"><font size=-1>175     </font></a><span class="default"></span>
+</pre></body></html>
