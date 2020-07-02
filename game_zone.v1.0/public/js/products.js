@@ -46,6 +46,8 @@ $(document).ready(function(){
     $('#brand-9').val(0);
 
     producto();
+
+    
  });
 
  $( "#editarCheckboxProduct" ).change(function() {
@@ -268,3 +270,4 @@ $(document).ready(function(){
     });
 
 }
+

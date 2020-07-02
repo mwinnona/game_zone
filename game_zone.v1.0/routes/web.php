@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Dompdf\Dompdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,7 @@ Route::get('/agregar_carrito/{token}', 'OrderController@addCart');
 Route::post('/realizar_pedido', 'OrderController@preOrder');
 Route::post('/confirmar_pedido', 'OrderController@order');
 Route::get('/pedidos', 'OrderController@showOrders');
+<<<<<<< HEAD
 Route::get('/ver-pedido/{token}', 'OrderController@viewOrder');
 Route::get('/updateStatus/{token}', 'OrderController@updateStatus');
 Route::get('/reclamo/{token}', 'OrderController@claim');
@@ -66,3 +68,10 @@ Route::get('/reporte-pedidos', 'ReportsController@showOrders');
 Route::get('/ranking', 'ReportsController@bestSales');
 Route::post('/filtro', 'ReportsController@filter');
 Route::get('/factura/{token}', 'ReportsController@bill');
+=======
+
+
+//pdf
+
+Route::get('/downloadproducts', 'PdfController@rankingProducts');
+>>>>>>> 62f674f6afbcbeb972a217e1e777d2b903580c7e

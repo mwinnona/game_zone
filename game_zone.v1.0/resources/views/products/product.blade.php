@@ -271,9 +271,30 @@
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                     </div>
                     @endif
                     @endif
+=======
+
+                        <form method ="GET" action ="{{url('/downloadproducts')}}" >
+                            @csrf
+                            <div class="container col-md-6 col-md-push-7">
+                                <div class="product-details">
+                                    <div class="add-to-cart">
+                                        <div class="centrar-interno">
+                                            <button type="submit" class="add-to-cart-btn" formtarget="blank">
+                                                <i class="fa fa-arrow-up">
+                                                </i>Descarga PDF
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        
+>>>>>>> 62f674f6afbcbeb972a217e1e777d2b903580c7e
                     <!-- /store top filter -->
 
                     <!-- store products -->
@@ -549,7 +570,7 @@
                     </div>
                 </div>
                 
-                <div class="modal-footer">-->
+                <div class="modal-footer">
                     <div class="product-details centrar-interno">
                         <div class="add-to-cart col-md-6">
                             <button data-target="#mensaje" type="button" class="add-to-cart-btn" data-dismiss="modal"><i class="fa fa-close"></i>Cerrar</button>
@@ -607,10 +628,13 @@
             window.location="{{URL::to('login')}}";
         }
     }
-    
-    @if($errors->first('status'))
-        $("#exampleModal").modal("show");
-    @endif
 </script>
+<script>  
+
+    @if($errors->first('status'))
+    $("#exampleModal").modal("show");
+    @endif
+</script>   
+
 
 @endsection
