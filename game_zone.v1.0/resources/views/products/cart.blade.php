@@ -70,11 +70,11 @@
                                         </div>
                                         <div class="col-md-7">
                                             <!--Aquí va la plataforma del Producto-->
-                                            @if($products[$j]->plataform=='0')
+                                            @if($products[$j]->plataform=='1' || $products[$j]->plataform==1)
                                             <h4 class="texto-playStation" id="platform" name="platform">PS4</h4>
-                                            @elseif($products[$j]->plataform=='1')
+                                            @elseif($products[$j]->plataform=='2' || $products[$j]->plataform==2)
                                             <h4 class="texto-xbox" id="platform" name="platform">XBOX</h4>
-                                            @elseif($products[$j]->plataform=='2')
+                                            @elseif($products[$j]->plataform=='3' || $products[$j]->plataform==3)
                                             <h4 class="texto-nintendo" id="platform" name="platform">NINTENDO SWITCH</h4>
                                             @endif
                                         </div>

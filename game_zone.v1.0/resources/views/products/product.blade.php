@@ -256,6 +256,8 @@
                 <!-- STORE -->
                 <div id="store" class="col-md-9">
                     <!-- store top filter -->
+                    @if (isset(Auth::user()->id))
+                    @if (Auth::user()->type_user==0)
                     <div class="row">
                         <div class="container col-md-6 col-md-push-7">
                             <div class="product-details">
@@ -270,6 +272,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @endif
                     <!-- /store top filter -->
 
                     <!-- store products -->
@@ -277,9 +281,63 @@
                         @if(count($products)==0)
                         <h2>No se encontro ningun producto</h2>-
                         @else
+                        @if (isset(Auth::user()->id) && Auth::user()->type_user==0)
                         @for ($i=0;$i<count($products);$i++)
                         <!-- product -->
-                        
+                        <div class="col-md-4 col-xs-6">
+                            <div class="product">
+                                <div class="product-img">
+                                    <img src={{URL::asset($products[$i]->image)}} alt="" width="100" height="350">
+                                    @if($products[$i]->stock==0)
+                                    <div class="product-label">
+                                        <!--<span class="sale">-30%</span>-->
+                                        <span class="new">AGOTADO</span>
+                                    </div>
+                                    @endif
+                                </div>
+                                <div class="product-body">
+                                    <p class="product-category">Plataforma</p>
+                                    @if ($products[$i]->plataform=='1')
+                                        <h3 class="product-name"><a href="#">Play Station 4</a></h3>
+                                    @elseif ($products[$i]->plataform=='2')
+                                        <h3 class="product-name"><a href="#">Xbox</a></h3>
+                                    @else 
+                                        <h3 class="product-name"><a href="#">Nintento Switch</a></h3>
+                                    @endif
+                                    <h4 class="product-price">S/. {{$products[$i]->price}} <del class="product-old-price">$990.00</del></h4>
+                                    <div class="product-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <h3 class="product-name">{{$products[$i]->name}}</h3>
+                                    <div class="product-btns">
+                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                        <a class="quick-view" href="{{URL('/ver_producto/'.$products[$i]->token_product)}}"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></a>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    @if(isset(Auth::user()->id))
+                                    <a onclick="add()" href="{{URL('/agregar_carrito/'.$products[$i]->token_product)}}">
+                                        <button type="submit"class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>add to cart</button>
+                                    </a>
+                                    @else
+                                    <a onclick="reLogin()">
+                                        <button type="submit"class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>add to cart</button>
+                                    </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        @endfor
+
+                        @else
+                        @for ($i=0;$i<count($products);$i++)
+                        @if($products[$i]->status==0 || $products[$i]->status=='0')
+                        <!-- product -->
                         <div class="col-md-4 col-xs-6">
                             <div class="product">
                                 <div class="product-img">
@@ -326,7 +384,10 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         @endfor
+
+                        @endif
                         @endif
 
                        <!--<h2>No se encontro ningun producto</h2>-->
@@ -535,13 +596,13 @@
 <script src={{ asset("js/products.js")}}></script>
 <script>
      function add(){
-        var a = confirm('Hemos añadido el Juego al carrito, ¿Quieres ir al carrito?')
+        var a = confirm('Hemos añadido el Juego al carrito, ¿Quieres ir al carrito?');
         if(a==true){
-            window.location="{{URL::to('cart')}}"
+            window.location="{{URL::to('cart')}}" 
         }
     }
     function reLogin(){
-        var r = confirm('No puedes añadir ningun juego al carrito sin antes iniciar sesión, ¿Quieres que te redirijamos al login?')
+        var r = confirm('No puedes añadir ningun juego al carrito sin antes iniciar sesión, ¿Quieres que te redirijamos al login?');
         if(r==true){
             window.location="{{URL::to('login')}}";
         }

@@ -81,9 +81,21 @@
 						</div>
 					</div>
 					<!-- /Order Details -->
-					<h3>Pago por Tarjeta de Crédito</h3>
-					<br>
-					<div class="col-md-6">
+					<div class="col-md-6 order-details">
+						<div clas="col-md-6">
+							<div class="row">
+								<div class="col"><h5>Tarjeta/Paypal</h5></div>
+								<div class="col-4">
+									<label class="switch" >
+										<input type="checkbox" id="slideTarjeta">
+										<span class="slider round" ></span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div id="tarjeta" style="display:inline">
+						<h3 class="text-center">Pago por Tarjeta de Crédito</h3>
+					    <br>
 						<div clas="form-group">
 							<label for="nameHolder">Nombre del Titular:</label>
 							<input class="form-control" type="text" id="nameHolder" name="nameHolder">
@@ -117,10 +129,33 @@
 							</div>
 						</div>
 					</div>
+					<div id="paypal" style="display:none">
+						<h3 class="text-center">Pago por Paypal</h3>
+						<br>
+						<div class="col-md-12">
+							<div class="row form-group">
+								<div class="col-md-6">
+									<i class="fa fa-credit-card-alt"></i>
+									<label for="cardNumber">Usuario:</label>
+									<input class="form-control" type="text" id="paypalUser" name="paypalUser">
+								</div>
+								<div class="col-md-6">
+									<label for="fecha">Contraseña:</label>
+									<input class="form-control" type="text" id="paypalPassword" name="paypalPassword">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8 col-md-offset-2 product-details">
+							<div class="add-to-cart">
+								<button  type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Finalizar Pedido</button>
+							</div>
+						</div>
+					</div>
+					</div>
 				</form>
-            <!-- Cart-->
+			<!-- Cart-->
         </div>
-        <!-- /row -->
+		<!-- /row -->
     </div>
     <!-- /container -->
 </div>
@@ -128,12 +163,14 @@
 @endsection
 
 @section('plugin')
-<script src={{ asset("js/products.js")}}></script>   
+<script src={{ asset("js/products.js")}}></script>
+<script src={{ asset("js/metodo.js")}}></script>  
 <script>
     var msg = '{{Session::get('alert')}}';
     var exist = '{{Session::has('alert')}}';
     if(exist){
-        alert(msg);
-    }
+		alert(msg);
+	}
 </script>
+
 @endsection

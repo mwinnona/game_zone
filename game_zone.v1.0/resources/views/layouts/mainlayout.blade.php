@@ -55,11 +55,16 @@
 						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
 					</ul>
 					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
 						@if (isset(Auth::user()->id))
+						@if (Auth::user()->type_user==0)
+							<li><a href="{{url('/reporte-pedidos')}}"><i class="fa fa-file-word-o"></i> Reportes</a></li>
+						@else
+						    <li><a href="{{url('/pedidos')}}"><i class="fa fa-opencart"></i> Pedidos</a></li>
+						@endif
 							<li><a href="{{url('/profile')}}"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
 							<li><a href="{{url('logout')}}"><i class="fa fa-user-o"></i> Logout</a></li>
-						@else 
+						@else
+						<li><a href="#"><i class="fa fa-opencart"></i> Pedidos</a></li>
 						<li><a href="{{ route('login') }}"><i class="fa fa-user-o"></i> Login</a></li>
 						<li><a href="{{ route('register') }}"><i class="fa fa-user-o"></i> Registrar</a></li>
 						@endif
@@ -206,7 +211,11 @@
 						<li><a href="{{URL('/buscar/'.'1')}}">PS4</a></li>
 						<li><a href="{{URL('/buscar/'.'2')}}">Xbox</a></li>
 						<li><a href="{{URL('/buscar/'.'3')}}">Nintento Switch</a></li>
-						<li><a href="#">Accessorios</a></li>
+						@if (isset(Auth::user()->id))
+                        @if (Auth::user()->type_user==0)
+					    <li><a href="{{URL('/reporte-pedidos')}}">Reportes</a></li>
+						@endif
+						@endif
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -331,7 +340,7 @@
 <script src={{ asset("js/popper.min.js")}}></script>
 <script>
     function log(){
-        var a = confirm('Necesitas iniciar sesión para accder al carrito, ¿Te redirijimos al login?');
+        var a = confirm('Necesitas iniciar sesión para acceder al carrito, ¿Te redirijimos al login?');
         if(a==true){
             window.location="{{URL::to('login')}}"
         }

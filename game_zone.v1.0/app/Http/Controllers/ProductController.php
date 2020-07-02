@@ -305,21 +305,27 @@ class ProductController extends Controller
             $request->type_product = $producto_bd->type_product;
         }
 
-        if(!$request->plataform == $producto_bd->plataform){
+        if($request->plataform != $producto_bd->plataform){
             $tmp['plataform'] = $request->plataform;
         }else{
             $request->plataform = $producto_bd->plataform;
         }
 
-        if(!$request->gender == $producto_bd->gender){
+        if($request->gender != $producto_bd->gender){
             $tmp['gender'] = $request->gender;
         }else{
             $request->gender = $producto_bd->gender;
         }
 
-        $status = $producto_bd->status;
+        if($request->stock <= 0){
+            $request->stock = 0;
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+        //$status = $producto_bd->status;
     
-        if(!$request->release_date == $producto_bd->release_date){
+        if($request->release_date != $producto_bd->release_date){
             $tmp['release_date'] = $request->release_date;
         }else{
             $request->release_date = $producto_bd->release_date;

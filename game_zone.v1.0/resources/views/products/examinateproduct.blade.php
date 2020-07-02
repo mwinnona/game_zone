@@ -168,6 +168,27 @@
                                     </div>
                                 </div>
                             </div>
+                            @if (isset(Auth::user()->id))
+                            @if (Auth::user()->type_user==0)
+                            <br>
+                            <div class="product-options text-center">
+                                <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label>Estado: </label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        @if($products['status']==0)
+                                        <h4 class="texto-normal-gray" id="status" name="status">En Stock</h4>
+                                        @else
+                                        <h4 class="texto-normal-gray" id="status" name="status">Agotado</h4>
+                                        @endif
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            @endif
+                            @endif
                             <br>
                             <div class="col-md-12">
                                 <br>
@@ -187,7 +208,7 @@
         <!-- /SECTION -->
 
         <!--Este es el modal para editar el producto, aqui tienen que ir los datos del producto-->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -195,7 +216,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                   <h2 class="modal-title" id="exampleModalLabel">Modificar Producto</h2>
-                </div>
+                </div>-->
                 <form method ="POST" action ="{{url('/modificar_producto')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -268,16 +289,16 @@
                                                 @endif
 
                                                 @if($products['gender']==2)
-                                                <option value="2" selected>Shooters</option>
+                                                <option value="2" selected>Estrategia</option>
                                                 @else 
-                                                <option value="2">Shooters</option>
+                                                <option value="2">Estrategia</option>
                                                 @endif
 
 
                                                 @if($products['gender']==3)
-                                                <option value="3" selected>Estrategia</option>
+                                                <option value="3" selected>Shooters</option>
                                                 @else 
-                                                <option value="3">Estrategia</option>
+                                                <option value="3">Shooters</option>
                                                 @endif
 
                                                 @if($products['gender']==4)
@@ -305,15 +326,15 @@
                                                 @endif
 
                                                 @if($products['gender']==8)
-                                                <option value="8" selected>Survival Horror</option>
+                                                <option value="8" selected>Simulación</option>
                                                 @else 
-                                                <option value="8">Survival Horror</option>
+                                                <option value="8">Simulación</option>
                                                 @endif
 
                                                 @if($products['gender']==9)
-                                                <option value="9" selected>Simulación</option>
+                                                <option value="9" selected>Survival Horror</option>
                                                 @else 
-                                                <option value="9">Simulación</option>
+                                                <option value="9">Survival Horror</option>
                                                 @endif
                                
                                             </select>
@@ -363,9 +384,9 @@
                         </div>
                     </div>
                 </form>
-              </div>
+              <!--</div>
             </div>
-        </div>
+        </div>-->
 
         <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -397,5 +418,4 @@
         $("#exampleModal").modal("show");
         @endif
     </script>
-   
 @endsection

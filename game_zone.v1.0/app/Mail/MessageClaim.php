@@ -13,14 +13,19 @@ class MessageClaim extends Mailable
 
     public $order;
     public $user_name;
+    public $user_mail;
+    public $subject= 'Game-Zone Reclamo';
+    public $body;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($order, $name){
+    public function __construct($order, $name, $mail, $body){
         $this->order = $order;
         $this->user_name = $name;
+        $this->user_mail = $mail;
+        $this->body = $body;
     }
 
     /**
@@ -30,6 +35,6 @@ class MessageClaim extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('mails.claimMail');
     }
 }

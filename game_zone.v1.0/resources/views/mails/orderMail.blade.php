@@ -14,13 +14,13 @@
     <p>Hola {{$user_name}}, tu pedido ah sido realizado de manera exitosa:</p>
     <div class="container">
         <div class="col-md-4">
-            <a href="{{URL('/producto')}}"><h2 class="text-white-50">Pedido: N°0000{{$order->id}}</h2></a>
+            <a href="{{URL('/producto')}}"><h2 class="text-white-50">Pedido: N°000{{$order->id}}</h2></a>
         </div>
         <div class="col-md-4">
             <h2 class="text-white-50">Fecha: {{$order->date_realization}}</h2>
         </div>
         <div class="col-md-4">
-            <h2 class="text-danger">Monto Total: S/. {{$order->id}}</h2>
+            <h2 class="text-danger">Monto Total: S/. {{$order->total_amount}}</h2>
         </div>
     </div>
     @for($i=0;$i<count($productsOrder);$i++)

@@ -56,3 +56,13 @@ Route::get('/agregar_carrito/{token}', 'OrderController@addCart');
 Route::post('/realizar_pedido', 'OrderController@preOrder');
 Route::post('/confirmar_pedido', 'OrderController@order');
 Route::get('/pedidos', 'OrderController@showOrders');
+Route::get('/ver-pedido/{token}', 'OrderController@viewOrder');
+Route::get('/updateStatus/{token}', 'OrderController@updateStatus');
+Route::get('/reclamo/{token}', 'OrderController@claim');
+Route::post('/reclamo-mail', 'OrderController@claimMail');
+
+//Reportes
+Route::get('/reporte-pedidos', 'ReportsController@showOrders');
+Route::get('/ranking', 'ReportsController@bestSales');
+Route::post('/filtro', 'ReportsController@filter');
+Route::get('/factura/{token}', 'ReportsController@bill');
