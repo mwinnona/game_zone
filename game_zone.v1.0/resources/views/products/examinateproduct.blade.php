@@ -21,8 +21,8 @@
 				<div class="row">
 					<div class="col-md-12">
 						<ul class="breadcrumb-tree">
-							<li><a href="#">Inicio</a></li>
-                            <li><a href="#">Productos</a></li>
+							<li><a href="{{url('/producto')}}">Inicio</a></li>
+                            <li><a href="{{url('/producto')}}">Productos</a></li>
                             <!--Aca va el nombre del Producto-->
 							<li class="active">{{$products['name']}}</li>
 						</ul>
@@ -130,16 +130,7 @@
                             </div>
                             <br>
                             <!--Aquí va la fecha de lanzamiento del producto-->
-							<div class="product-options text-center">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <label>Fecha de Lanzamiento: </label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <h4 class="texto-normal-gray" id="release_date" name="release_date">{{$products['release_date']}}</h4>
-                                    </div>
-                                </div>
-                            </div>
+							
                             <div class="product-options">
                                 <!--Aqui va la cantidad de unidades del producto-->
                                 <div class="col-md-6">
@@ -173,18 +164,28 @@
                             <br>
                             <div class="product-options text-center">
                                 <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <label>Estado: </label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        @if($products['status']==0)
-                                        <h4 class="texto-normal-gray" id="status" name="status">En Stock</h4>
-                                        @else
-                                        <h4 class="texto-normal-gray" id="status" name="status">Agotado</h4>
-                                        @endif
+                                    <div class="row text-left">
+                                        <div class="col-md-5">
+                                            <label>Fecha de Lanzamiento: </label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h4 class="texto-normal-gray" id="release_date" name="release_date">{{$products['release_date']}}</h4>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label>Estado: </label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            @if($products['status']==0)
+                                            <h4 class="texto-normal-gray" id="status" name="status">En Stock</h4>
+                                            @else
+                                            <h4 class="texto-normal-gray" id="status" name="status">Agotado</h4>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             @endif

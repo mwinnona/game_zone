@@ -206,7 +206,6 @@
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Hot Sale</a></li>
 						<li><a href="{{url('/producto')}}">Todos los Juegos</a></li>
 						<li><a href="{{URL('/buscar/'.'1')}}">PS4</a></li>
 						<li><a href="{{URL('/buscar/'.'2')}}">Xbox</a></li>

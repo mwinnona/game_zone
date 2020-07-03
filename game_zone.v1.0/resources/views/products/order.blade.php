@@ -95,12 +95,14 @@
 						</div>
 						<div id="tarjeta" style="display:inline">
 						<h3 class="text-center">Pago por Tarjeta de Crédito</h3>
-					    <br>
-						<div clas="form-group">
-							<label for="nameHolder">Nombre del Titular:</label>
-							<input class="form-control" type="text" id="nameHolder" name="nameHolder">
-						</div>
 						<br>
+						<div class="col-md-12">
+							<div clas="form-group">
+								<label for="nameHolder">Nombre del Titular:</label>
+								<input class="form-control" type="text" id="nameHolder" name="nameHolder">
+								<br>
+							</div>
+						</div>
 						<div class="col-md-12">
 							<div class="row form-group">
 								<div class="col-md-6">

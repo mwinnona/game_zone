@@ -20,14 +20,14 @@
             <input class="form-control" type="hidden" id="token" name="token" value="{{$users['token_user']}}">
             
             <div class="row">
-                <div class="col-lg-4">
-                    <img src={{URL::asset($users['photo'])}} alt="">
+                <div class="col-lg-4 col-md-6">
+                    <img src={{URL::asset($users['photo'])}} alt="" width="400" height="500">
                     <div class="form-group">
                         <label for="updatePhoto">Imagen:</label>
                         <input type="file" id="updatePhoto" name="updatePhoto" maxlength="1000000" accept="image/*" />
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-md-6">
                     <div class="row">
                        <div class="col-4">
                         <label class="switch" >

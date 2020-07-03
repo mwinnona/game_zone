@@ -180,7 +180,7 @@ class UserController extends Controller
                     $aux_file = new TokenController();
                     $file_name      = $aux_file->randomString(15);
                     $name_file= $file_name.'.'.$file_extension;
-                    $request->file('updatePhoto')->move('files/users/profiles/credits/', $name_file);
+                    $request->file('updatePhoto')->move('users/', $name_file);
                     $tmp['photo'] = $name_file;
 
                     /*User::where('id', Auth::id())
@@ -192,7 +192,7 @@ class UserController extends Controller
                 
                 //$users= DB::select('call Modify_User(?, ?, ?, ?, ?)', array($request->token, $request->updateName, $request->updateLastname, $request->email, $request->updatePhoto));
                 User::where('token_user', $request->token)
-                        ->update(['name'=>$request->updateName, 'lastname' =>$request->updateLastname, 'email'=>$request->email, 'photo' =>$request->updatePhoto]);
+                        ->update(['name'=>$request->updateName, 'lastname' =>$request->updateLastname, 'email'=>$request->email, 'photo' =>'users/'.$tmp['photo']]);
                 $users = User::where('token_user', $request->token)->first();  
                 return view('users.account', ['users' => $users]);
                     
