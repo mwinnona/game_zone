@@ -97,7 +97,7 @@
 									<select class="input-select">
 										<option value="0">Nombre</option>
 									</select>
-									<input class="input" name="gameName" placeholder="Escriba el nombre del juego">
+									<input class="input" name="gameName" placeholder="Escriba el juego">
 									<button type="submit" class="search-btn">Buscar</button>
 								</form>
 							</div>
@@ -108,19 +108,13 @@
 						<div class="col-md-3 clearfix">
 							<div class="header-ctn">
 								<!-- Wishlist -->
-								<div>
-									<a href="#">
-										<i class="fa fa-heart-o"></i>
-										<span>Mi lista de deseos</span>
-										<div class="qty">2</div>
-									</a>
-								</div>
+								
 								<div>
 									@if(isset(Auth::user()->id))
 									<a href="{{URL('/carrito')}}">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Carrito</span>
-									<div class="qty">3</div>
+									<div class="qty">+</div>
 									</a>
 									@else
 									<a onclick="log()" href="#">
