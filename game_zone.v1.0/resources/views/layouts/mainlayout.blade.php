@@ -206,7 +206,8 @@
 						<li><a href="{{URL('/buscar/'.'3')}}">Nintento Switch</a></li>
 						@if (isset(Auth::user()->id))
                         @if (Auth::user()->type_user==0)
-					    <li><a href="{{URL('/reporte-pedidos')}}">Reportes</a></li>
+						<li><a href="{{URL('/profiles')}}">Usuarios</a></li>
+						<li><a href="{{URL('/reporte-pedidos')}}">Reportes</a></li>
 						@endif
 						@endif
 					</ul>
