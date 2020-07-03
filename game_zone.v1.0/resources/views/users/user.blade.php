@@ -46,7 +46,7 @@
             <tbody>
                 @for($i=0;$i<count($users);$i++)
               <tr class="hover">
-                <th class="text-center" scope="row"></th>
+                <th class="text-center" scope="row">{{$i+1}}</th>
                 <td class="text-center" >{{$users[$i]->name}} {{$users[$i]->lastname}}</td>
                 <td class="text-center" >{{$users[$i]->email}}</td>
                 @if($users[$i]->type_user=='0')
