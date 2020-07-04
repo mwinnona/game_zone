@@ -25,6 +25,10 @@ class ProductController extends Controller
         return view('products.product', ['products' => $products]);       
     }
 
+    public function showProduct(){
+        return view('products.newproduct');
+    }
+
     public function showAjax(Request $request){
         
         if(isset($request->cat_1) && $request->cat_1==1 ){

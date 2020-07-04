@@ -263,10 +263,10 @@
                             <div class="product-details">
                                 <div class="add-to-cart">
                                     <div class="centrar-interno">
-                                        <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal">
+                                        <a type="button" class="btn add-to-cart-btn" href="/nuevo_producto">
                                             <i class="fa fa-arrow-up">
                                             </i>Agregar Producto
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

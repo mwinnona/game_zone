@@ -29,6 +29,10 @@ class UserController extends Controller
          
     }
 
+    public function showSeller(){
+        return view('users.seller');
+    }
+
     public function createUser(Request $request){
    
         $type_user=0;

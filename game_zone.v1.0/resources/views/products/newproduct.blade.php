@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-		<title>@yield('title')</title>
+		<title>GAMEZONE</title>
 
 		<!-- CSRF Token -->
 		<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,10 +38,7 @@
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href={{ asset("css/style.css")}}>
 		<link type="text/css" rel="stylesheet" href={{ asset("css/product.css")}}>
-		@yield('css')
-        @yield('style')
-        @yield('plugincss')
-
+		
     </head>
 	<body>
 		<!-- HEADER -->
@@ -221,7 +218,107 @@
         
         <!-- CONTAINER -->
         <div class="container">
-            @yield('content')
+            <br>
+            <h1><span class="text-danger">NUEVO</span> PRODUCTO</h1>
+            <form method ="POST" action ="{{url('/crear_producto')}}" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <!--Nuevo Producto-->
+                
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                            <div class="product-details">
+                                <div class="form-group ">
+                                    <label for="name">Nombre Completo del Producto:</label>
+                                    <input class="form-control" type="text" id="name" name="name" placeholder="Ejemplo: Final Fantasy XV Royal Edition 2018" value="{{ old('name') }}">
+                                    @if($errors->first('e_name'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_name')}}
+                                        </span>                                           
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción:</label>
+                                    <textarea class="form-control" type="text" id="description" name="description" placeholder="Describe el producto" value="{{ old('description') }}"></textarea>
+                                    @if($errors->first('e_decription'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_decription')}}
+                                        </span>                                           
+                                    @endif
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label for="price">Precio:</label>
+                                        <input class="form-control" type="number" id="price" name="price" placeholder="49.90" value="{{ old('price') }}">
+                                        @if($errors->first('e_price'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_price')}}
+                                        </span>                                           
+                                    @endif
+                                    </div>
+                                    <div class="col-md-6"><label for="release_Date">Lanzamiento:</label>
+                                        <input class="form-control" type="date" id="release_date" name="release_date" placeholder="" value="{{ old('release_date') }}">
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label for="platform">Plataforma:</label>
+                                        <select class="form-control" name="platform" id="platform">
+                                            <option value="1">Ps4</option>
+                                            <option value="2">Xbox</option>
+                                            <option value="3">Nint. Switch</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6"><label for="gender">Género:</label>
+                                        <select class="form-control" name="gender" id="gender">
+                                            <option value="1">Aventura</option>
+                                            <option value="2">Shooters</option>
+                                            <option value="3">Estrategia</option>
+                                            <option value="4">Lucha</option>
+                                            <option value="5">RPG</option>
+                                            <option value="6">ARPG</option>
+                                            <option value="7">Plataformas</option>
+                                            <option value="8">Survival Horror</option>
+                                            <option value="9">Simulación</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label for="stock">Stock:</label>
+                                        <input class="form-control" type="number" id="stock" name="stock" value="10">
+                                    </div>
+                                    <div class="col-md-6"><label for="type_product">Tipo:</label>
+                                        <select class="form-control" name="type_product" id="type_product">
+                                            <option value="1">Físico</option>
+                                            <option value="0">Digital</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                              
+                                <div class="form-group">
+                                    <label for="image">Imagen:</label>
+                                    <input type="file" id="image" name="image" maxlength="1000000" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="product-details centrar-interno">
+                        
+                        <div class="add-to-cart col-md-6">
+                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-cloud-upload" ></i>Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+                
+               
         </div>
         <!-- /CONTAINER -->
 
@@ -340,5 +437,10 @@
         }
     }
 </script>
-@yield('plugin')
+<script>
+    
+    @if($errors->first('status'))
+    $("#exampleModal").modal("show");
+    @endif
 
+</script>

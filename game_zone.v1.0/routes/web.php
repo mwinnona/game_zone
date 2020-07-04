@@ -24,6 +24,7 @@ Route::get('/main', function () {
     return view('home');
 });
 
+
 Route::get('/layout', function () {
     return view('layouts.mainlayout');
 });
@@ -35,6 +36,7 @@ Auth::routes();
 //My account
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/profiles', 'UserController@show');
+Route::get('/vendedor', 'UserController@showSeller');
 Route::get('/profile', 'UserController@showAccount');
 Route::post('/crear_usuario', 'UserController@createUser');
 Route::get('/eliminar_user/{token}', 'UserController@changeStatus');
@@ -43,6 +45,7 @@ Route::post('/actualizar_user', 'UserController@updateUser');
 
 //Product
 Route::get('/producto', 'ProductController@show');
+Route::get('/nuevo_producto', 'ProductController@showProduct');
 Route::post('/crear_producto', 'ProductController@createProduct');
 Route::get('/ver_producto/{token}', 'ProductController@examinateProduct');
 Route::post('/modificar_producto', 'ProductController@updateProduct');

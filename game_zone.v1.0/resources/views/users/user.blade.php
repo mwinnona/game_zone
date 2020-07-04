@@ -22,10 +22,11 @@
                     <div class="product-details">
                         <div class="add-to-cart">
                             <div class="centrar-interno ">
-                                <button type="button" class="add-to-cart-btn" data-toggle="modal" data-target="#exampleModal">
+                                <a type="button" class="btn add-to-cart-btn" href="/vendedor">
+                                    
                                     <i class="fa fa-user-plus">
                                     </i>Registrar Usuario
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -82,10 +83,11 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <a type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-              </button>
+              
               <h2 class="modal-title" id="exampleModalLabel">Registrar Usuario</h2>
+            </button>
         </div>
         <form method ="POST" action ="{{url('/crear_usuario')}}" enctype="multipart/form-data">
         @csrf
@@ -204,6 +206,11 @@
       </div>
     </div>
   </div>
+
+
+
+
+  
 
 <!--SECTION-->
 @endsection

@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-		<title>@yield('title')</title>
+		<title>GAMEZONE</title>
 
 		<!-- CSRF Token -->
 		<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,10 +38,7 @@
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href={{ asset("css/style.css")}}>
 		<link type="text/css" rel="stylesheet" href={{ asset("css/product.css")}}>
-		@yield('css')
-        @yield('style')
-        @yield('plugincss')
-
+		
     </head>
 	<body>
 		<!-- HEADER -->
@@ -221,7 +218,72 @@
         
         <!-- CONTAINER -->
         <div class="container">
-            @yield('content')
+            <br>
+            <h1><span class="text-danger">NUEVO</span> VENDEDOR</h1>
+            <form method ="POST" action ="{{url('/crear_usuario')}}" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                            <div class="product-details">
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label for="name">Nombres:</label>
+                                        <input class="form-control" type="hidden" id="type" name="type" placeholder="0" value="0">
+                                        <input class="form-control" type="text" id="name" name="name" placeholder="Nombres" value="{{ old('name') }}">
+                                        @if($errors->first('e_name'))
+                                            <span class="text-danger"  >
+                                                {{ $errors->first('e_name')}}
+                                            </span>                                           
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastname">Apellidos:</label>
+                                        <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Apellidos" value="{{ old('lastname') }}">
+                                        @if($errors->first('e_lastname'))
+                                            <span class="text-danger"  >
+                                                {{ $errors->first('e_lastname')}}
+                                            </span>                                           
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">E-mail:</label>
+                                    <input class="form-control" type="text" id="email" name="email" placeholder="Ingrese su E-mail" value="{{ old('email') }}">
+                                    <small id="emailHelp" class="form-text text-muted">No compartiremos su correo con nadie más.</small>
+                                    @if($errors->first('e_name'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_email')}}
+                                        </span>                                           
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Contraseña:</label>
+                                    <input class="form-control" type="password" id="password" name="password" placeholder="Digíte su contraseña">
+                                    <small id="emailHelp" class="form-text text-muted">Use una combinación alfanumérica para que tu clave sea más segura.</small>
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <label for="repeat_password">Repetir Contraseña:</label>
+                                    <input class="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita la contraseña">
+                                    @if($errors->first('e_password'))
+                                        <span class="text-danger"  >
+                                            {{ $errors->first('e_password')}}
+                                        </span>                                           
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="product-details centrar-interno">
+                        <div class="add-to-cart col-md-6">
+                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-user" ></i>Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+               </form>
         </div>
         <!-- /CONTAINER -->
 
@@ -340,5 +402,10 @@
         }
     }
 </script>
-@yield('plugin')
+<script>
+    
+    @if($errors->first('status'))
+    $("#exampleModal").modal("show");
+    @endif
 
+</script>
