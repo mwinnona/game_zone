@@ -29,6 +29,15 @@ class ProductController extends Controller
         return view('products.newproduct');
     }
 
+    public function showEditProduct($token){
+        $product = Product::where('token_product', $token)->first(); 
+
+        return view('products.editproduct', [
+            'products' => $product
+            ]);
+
+    }
+
     public function showAjax(Request $request){
         
         if(isset($request->cat_1) && $request->cat_1==1 ){
@@ -376,7 +385,7 @@ class ProductController extends Controller
                 
                 Product::where('token_product', $request->token)
                 ->update(['name'=>$request->name, 'description' =>$description, 'type_product'=>$request->type_product, 'image' =>$tmp_image,
-                'plataform' => $request->plataform, 'gender'=> $request->gender, 'price' =>  $request->price, 'release_date' =>$request->release_date,
+                'plataform' => $request->plataform, 'gender'=> $request->gender, 'price' =>  $request->price, 
                 'stock' => $request->stock, 'status' => $status]);
                 
                 // Mensaje de ofertas

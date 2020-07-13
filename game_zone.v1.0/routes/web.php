@@ -46,6 +46,7 @@ Route::post('/actualizar_user', 'UserController@updateUser');
 //Product
 Route::get('/producto', 'ProductController@show');
 Route::get('/nuevo_producto', 'ProductController@showProduct');
+Route::get('/editar_producto/{token}', 'ProductController@showEditProduct');
 Route::post('/crear_producto', 'ProductController@createProduct');
 Route::get('/ver_producto/{token}', 'ProductController@examinateProduct');
 Route::post('/modificar_producto', 'ProductController@updateProduct');
